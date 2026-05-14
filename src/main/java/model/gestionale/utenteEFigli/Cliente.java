@@ -1,6 +1,6 @@
-package model.utenteEFigli;
+package model.gestionale.utenteEFigli;
 
-import model.Ban;
+import model.gestionale.Ban;
 
 import java.sql.Time;
 import java.util.Date;

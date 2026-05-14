@@ -1,4 +1,4 @@
-package model;
+package model.gestionale;
 
 import java.util.Date;
 

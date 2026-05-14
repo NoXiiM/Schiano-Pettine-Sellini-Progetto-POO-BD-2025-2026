@@ -1,6 +1,6 @@
-package model.utenteEFigli;
+package model.gestionale.utenteEFigli;
 
-import model.Gioco;
+import model.gestionale.Gioco;
 
 import java.util.ArrayList;
 import java.util.Date;

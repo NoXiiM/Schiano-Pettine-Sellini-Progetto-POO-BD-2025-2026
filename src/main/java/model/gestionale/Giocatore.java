@@ -1,6 +1,6 @@
-package model;
+package model.gestionale;
 
-import model.utenteEFigli.Cliente;
+import model.gestionale.utenteEFigli.Cliente;
 
 public class Giocatore
 {

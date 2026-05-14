@@ -1,4 +1,4 @@
-package model.utenteEFigli;
+package model.gestionale.utenteEFigli;
 
 import java.util.Date;
 

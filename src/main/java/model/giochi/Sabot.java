@@ -14,6 +14,7 @@ public class Sabot
 
     public Sabot(int numeroDiMazzi)
     {
+        listaCarte = new ArrayList<>();
         this.numeroDiMazzi = numeroDiMazzi;
         numeroDiCarte = numeroDiMazzi*52;
         if(gioco == Gioco.BlackJack) cuttingCard = (int)(numeroDiCarte * (((Math.random() * 10) + 75)/100));

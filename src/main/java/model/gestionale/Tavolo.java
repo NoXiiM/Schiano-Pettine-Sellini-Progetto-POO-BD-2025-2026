@@ -1,6 +1,6 @@
-package model;
+package model.gestionale;
 
-import model.utenteEFigli.Dealer;
+import model.gestionale.utenteEFigli.Dealer;
 
 import java.util.ArrayList;
 

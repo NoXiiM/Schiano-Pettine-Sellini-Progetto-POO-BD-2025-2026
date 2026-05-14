@@ -1,4 +1,4 @@
-package model;
+package model.gestionale;
 
 public enum Gioco
 {

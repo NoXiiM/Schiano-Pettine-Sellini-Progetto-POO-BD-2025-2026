@@ -3,6 +3,8 @@ package model.giochi;
 import model.gestionale.Gioco;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 
 public class Sabot
 {
@@ -12,8 +14,9 @@ public class Sabot
     private Gioco gioco;
     private ArrayList<Carta> listaCarte;
 
-    public Sabot(int numeroDiMazzi)
+    public Sabot(int numeroDiMazzi, Gioco gioco)
     {
+        this.gioco = gioco;
         listaCarte = new ArrayList<>();
         this.numeroDiMazzi = numeroDiMazzi;
         numeroDiCarte = numeroDiMazzi*52;
@@ -22,16 +25,8 @@ public class Sabot
         inizializzaSabot(numeroDiMazzi);
     }
 
-    public ArrayList<Carta> getListaCarte() {
-        return listaCarte;
-    }
-
-    public void addListaCarte(Carta carta) {
-        listaCarte.add(carta);
-    }
-
-    public int getNumeroDiMazzi() {
-        return numeroDiMazzi;
+    public Integer getCuttingCard() {
+        return cuttingCard;
     }
 
     public void inizializzaSabot(int numeroMazzi)
@@ -58,6 +53,16 @@ public class Sabot
         for(Carta i : listaCarte)
         {
             System.out.println(i.getNumero() + " " + i.getSeme());
+        }
+    }
+
+    public void mischiaMazzo()
+    {
+        //algoritmo di mischiata fisher yates
+        Random random = new Random();
+        for(int i = listaCarte.size() - 1; i != 0; i--)
+        {
+            Collections.swap(listaCarte, i, random.nextInt(i+1));
         }
     }
 }

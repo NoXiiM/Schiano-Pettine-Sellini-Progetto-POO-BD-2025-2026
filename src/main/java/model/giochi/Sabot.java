@@ -65,4 +65,11 @@ public class Sabot
             Collections.swap(listaCarte, i, random.nextInt(i+1));
         }
     }
+
+    public Carta serviCarta()
+    {
+        Carta out = listaCarte.getLast();
+        listaCarte.removeLast();
+        return out;
+    }
 }

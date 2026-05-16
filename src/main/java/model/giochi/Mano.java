@@ -22,4 +22,26 @@ public class Mano
         this.gioco = gioco;
         listaMano = new ArrayList<>();
     }
+
+    public Carta getCarta(int indice)
+    {
+        return listaMano.get(indice);
+    }
+
+    public void riceviCarta(Carta nuova)
+    {
+        listaMano.add(nuova);
+    }
+
+    public Gioco getGioco() {
+        return gioco;
+    }
+
+    public Integer getLarghezzaMano() {
+        return larghezzaMano;
+    }
+
+    public ArrayList<Carta> getListaMano() {
+        return listaMano;
+    }
 }

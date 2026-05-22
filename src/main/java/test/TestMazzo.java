@@ -1,7 +1,7 @@
 //package test;
 //
 //import model.gestionale.Gioco;
-//import model.giochi.Sabot;
+//import model.giochi.carte.Sabot;
 //
 //public class TestMazzo
 //{

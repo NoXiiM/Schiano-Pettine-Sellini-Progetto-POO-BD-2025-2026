@@ -1,7 +1,7 @@
 package controller.mazzo;
 
-import model.giochi.Mano;
-import model.giochi.Sabot;
+import model.giochi.carte.Mano;
+import model.giochi.carte.Sabot;
 
 import java.util.ArrayList;
 

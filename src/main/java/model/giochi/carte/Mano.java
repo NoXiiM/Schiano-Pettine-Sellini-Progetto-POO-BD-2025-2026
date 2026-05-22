@@ -1,4 +1,4 @@
-package model.giochi;
+package model.giochi.carte;
 
 import model.gestionale.Gioco;
 

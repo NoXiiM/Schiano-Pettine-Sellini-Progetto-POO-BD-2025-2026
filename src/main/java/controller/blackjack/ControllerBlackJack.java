@@ -1,7 +1,7 @@
 package controller.blackjack;
 
 import controller.mazzo.ControllerMazzo;
-import model.giochi.*;
+import model.giochi.carte.*;
 
 public class ControllerBlackJack extends ControllerMazzo implements ValoreNumero
 {

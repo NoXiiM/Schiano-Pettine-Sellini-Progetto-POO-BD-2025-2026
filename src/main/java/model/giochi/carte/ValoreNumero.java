@@ -1,4 +1,4 @@
-package model.giochi;
+package model.giochi.carte;
 
 public interface ValoreNumero
 {

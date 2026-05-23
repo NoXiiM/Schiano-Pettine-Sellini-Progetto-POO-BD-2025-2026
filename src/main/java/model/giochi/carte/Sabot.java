@@ -22,21 +22,21 @@ public class Sabot
         numeroDiCarte = numeroDiMazzi*52;
         if(gioco == Gioco.BlackJack) cuttingCard = (int)(numeroDiCarte * (((Math.random() * 10) + 75)/100));
         else cuttingCard = null;
-        inizializzaSabot(numeroDiMazzi);
+        inizializzaSabot();
     }
 
     public Integer getCuttingCard() {
         return cuttingCard;
     }
 
-    public void inizializzaSabot(int numeroMazzi)
+    public void inizializzaSabot()
     {
         Numero[] numeri = {Numero.uno, Numero.due, Numero.tre, Numero.quattro, Numero.cinque,
                 Numero.sei, Numero.sette, Numero.otto, Numero.nove, Numero.dieci, Numero.jack, Numero.queen,
                 Numero.king};
         Seme[] semi = {Seme.cuore, Seme.quadro, Seme.fiore, Seme.picche};
 
-        for(int z = 0; z < numeroMazzi; z++)
+        for(int z = 0; z < numeroDiMazzi; z++)
         {
             for(int i = 0; i < numeri.length; i++)
             {

@@ -9,6 +9,7 @@ public class Mano
     private Gioco gioco;
     private Integer larghezzaMano;
     private ArrayList<Carta> listaMano;
+    private int puntata;
 
     public Mano(Gioco gioco) {
         if(gioco == Gioco.PokerItaliano)
@@ -20,6 +21,7 @@ public class Mano
             larghezzaMano = null;
         }
         this.gioco = gioco;
+        puntata = 0;
         listaMano = new ArrayList<>();
     }
 
@@ -43,5 +45,11 @@ public class Mano
 
     public ArrayList<Carta> getListaMano() {
         return listaMano;
+    }
+
+    public int getCarteInMano(){return listaMano.size();}
+
+    public void setPuntata(int puntata) {
+        this.puntata = puntata;
     }
 }

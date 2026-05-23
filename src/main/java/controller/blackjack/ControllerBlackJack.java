@@ -1,36 +1,17 @@
 package controller.blackjack;
 
+import controller.ValoreNumero;
 import controller.mazzo.ControllerMazzo;
-import model.giochi.carte.*;
+import model.gestionale.Gioco;
+import model.giochi.*;
 
 public class ControllerBlackJack extends ControllerMazzo implements ValoreNumero
 {
-    public ControllerBlackJack(Sabot mazzo) {
-        super(mazzo);
-    }
+    private Mano banco;
 
-    public boolean isBlackJack(Mano mano)
-    {
-        if((getValoreNumero(mano.getCarta(0).getNumero()) == 1
-        || getValoreNumero(mano.getCarta(1).getNumero()) == 1)
-        && (getValoreNumero(mano.getCarta(0).getNumero()) == 10
-        || (getValoreNumero(mano.getCarta(1).getNumero()) == 10))) return true;
-        return false;
-    }
-
-    public boolean insurance(Mano mano)
-    {
-        if(mano.getListaMano().size() == 1 &&
-                getValoreNumero(mano.getCarta(0).getNumero()) == 1)
-            return true;
-        return false;
-    }
-
-    public boolean isSplittable(Mano mano)
-    {
-        if(mano.getListaMano().size() == 2 &&
-        mano.getCarta(0).getNumero().equals(mano.getCarta(1).getNumero())) return true;
-        return false;
+    public ControllerBlackJack(int nmazzi, int nmani) {
+        super(nmazzi, nmani, Gioco.BlackJack);
+        banco = new Mano(Gioco.BlackJack);
     }
 
     public int getPoints(Mano mano)
@@ -39,8 +20,8 @@ public class ControllerBlackJack extends ControllerMazzo implements ValoreNumero
         int aceCounter = 0;
         for(Carta i : mano.getListaMano())
         {
-            if(getValoreNumero(i.getNumero()) == 1) aceCounter += 1;
-            else acc += getValoreNumero(i.getNumero());
+            if(getValoreNumero(i) == 1) aceCounter += 1;
+            else acc += getValoreNumero(i);
         }
 
         for(int i = 0; i < aceCounter; i++)
@@ -53,7 +34,8 @@ public class ControllerBlackJack extends ControllerMazzo implements ValoreNumero
     }
 
     @Override
-    public int getValoreNumero(Numero valCarta) {
+    public int getValoreNumero(Carta carta) {
+        Numero valCarta = carta.getNumero();
         //in blackjack l'1 può valere 1 o 11
         if(valCarta.equals(Numero.uno)) return 1;
         if(valCarta.equals(Numero.due)) return 2;
@@ -65,5 +47,86 @@ public class ControllerBlackJack extends ControllerMazzo implements ValoreNumero
         if(valCarta.equals(Numero.otto)) return 8;
         if(valCarta.equals(Numero.nove)) return 9;
         return 10;
+    }
+
+    public int serviCarte()
+    {
+        for(Mano i: listaMani)
+        {
+            serviCarta(i);
+            serviCarta(i);
+        }
+
+        serviCarta(banco);
+        serviCarta(banco);
+
+        return listaMani.size();
+    }
+
+    public int getNumMani()
+    {
+        return listaMani.size();
+    }
+
+    public int getManoSize(int index)
+    {
+        return listaMani.get(index).getCarteInMano();
+    }
+
+    public String displayCardDealer(int icarta)
+    {
+        String path = "/Carte2/";
+        int num = 0;
+
+        Carta carta = banco.getCarta(icarta);
+        Seme seme = banco.getCarta(icarta).getSeme();
+
+
+        switch(seme)
+        {
+            case Seme.cuore:
+                num = 0;
+                break;
+            case Seme.picche:
+                num = 14;
+                break;
+            case Seme.quadro:
+                num = 28;
+                break;
+            case Seme.fiore:
+                num = 42;
+                break;
+        }
+
+        num += getValoreNumero(carta);
+        String numString = String.format("%02d", num);
+
+        path += numString + "_kerenel_Cards.png";
+
+        return path;
+    }
+
+    public Mano getManoBanco()
+    {
+        return banco;
+    }
+
+    public StatiGioco statoPartitaIniziale(int iManoGiocatore)
+    {
+        Mano corrente = listaMani.get(iManoGiocatore);
+
+        if(getValoreNumero(banco.getCarta(0)) == 1 && getPoints(corrente) == 21) return StatiGioco.evenmoney;
+        if(getValoreNumero(banco.getCarta(0)) == 1) return StatiGioco.assicurabile;
+        if(getPoints(corrente) == 21) return StatiGioco.blackjack;
+
+        return StatiGioco.normale;
+    }
+
+    public boolean isSplittable(int i)
+    {
+        Mano mano = getMano(i);
+        if(mano.getListaMano().size() == 2 &&
+                mano.getCarta(0).getNumero().equals(mano.getCarta(1).getNumero())) return true;
+        return false;
     }
 }

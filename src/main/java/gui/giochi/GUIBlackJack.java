@@ -7,6 +7,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Scanner;
+import model.giochi.*;
+import model.gestionale.*;
 
 public class GUIBlackJack {
     private JLabel PlayerLabel;

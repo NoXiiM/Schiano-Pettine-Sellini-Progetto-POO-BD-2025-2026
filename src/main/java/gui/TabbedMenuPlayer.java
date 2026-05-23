@@ -5,10 +5,11 @@ import controller.WelcomeController;
 import javax.swing.*;
 
 public class TabbedMenuPlayer {
-    private JTabbedPane tabbedPane1;
-    private JPanel panel1;
+    private JTabbedPane tabbedMenuPlayer;
+    private JPanel mainMultiTabbedPanel;
     private JPanel gamePanelPlayer;
     private JButton pokerButton;
+    private JButton gestisciSaldoButton;
 
     private JFrame frameChiamante;
     private WelcomeController controller;

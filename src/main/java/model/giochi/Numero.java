@@ -1,4 +1,4 @@
-package model.giochi.carte;
+package model.giochi;
 
 public enum Numero
 {

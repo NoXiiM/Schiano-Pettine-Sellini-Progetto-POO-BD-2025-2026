@@ -6,15 +6,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Scanner;
-import model.giochi.*;
-import model.gestionale.*;
+
+import model.gestionale.utenteEFigli.Cliente;
 
 public class GUIBlackJack {
     private JLabel PlayerLabel;
     //deck
     private JLabel deck;
-    private JPanel mainPanel;
+    private JPanel pokerPanel;
     //inizio partita
     private JButton startButton;
     private JSpinner spinnernMazzi;
@@ -40,10 +39,24 @@ public class GUIBlackJack {
     private JButton immettiButton;
 
     private int currentHand = 0;
+    private Cliente current_client;
 
     private ControllerBlackJack controller;
+    private JFrame frameChiamante;
 
-    public GUIBlackJack() {
+
+    public GUIBlackJack(JFrame gameMenuChiamante, Cliente cliente) {
+
+        this.frameChiamante= gameMenuChiamante;
+        current_client= cliente;
+
+
+        JFrame frame = new JFrame("GUIBlackJack");
+        frame.setContentPane(pokerPanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
+
         //immagini
         int soldi = 1000;
         saldo.setText(String.valueOf(soldi));
@@ -197,12 +210,4 @@ public class GUIBlackJack {
     }
 
     public void nextHand(){currentHand += 1;}
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("GUIBlackJack");
-        frame.setContentPane(new GUIBlackJack().mainPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-    }
 }

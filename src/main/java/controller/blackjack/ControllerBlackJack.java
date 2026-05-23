@@ -53,12 +53,12 @@ public class ControllerBlackJack extends ControllerMazzo implements ValoreNumero
     {
         for(Mano i: listaMani)
         {
-            serviCarta(i);
-            serviCarta(i);
+            this.serviCarta(i);
+            this.serviCarta(i);
         }
 
-        serviCarta(banco);
-        serviCarta(banco);
+        this.serviCarta(banco);
+        this.serviCarta(banco);
 
         return listaMani.size();
     }
@@ -70,7 +70,7 @@ public class ControllerBlackJack extends ControllerMazzo implements ValoreNumero
 
     public int getManoSize(int index)
     {
-        return listaMani.get(index).getCarteInMano();
+        return listaMani.get(index).getDimensioneMano();
     }
 
     public String displayCardDealer(int icarta)

@@ -19,7 +19,7 @@ public abstract class ControllerMazzo implements ValoreNumero
 
         for(int i = 0; i < nmani; i++)
         {
-            addMano(new Mano(gioco));
+            this.addMano(new Mano(gioco));
         }
     }
 
@@ -30,7 +30,7 @@ public abstract class ControllerMazzo implements ValoreNumero
 
     public void serviCarta(Mano ricevitore)
     {
-        ricevitore.riceviCarta(mazzo.serviCarta());
+        ricevitore.riceviCarta(mazzo.serviCartaDaMazzo());
     }
 
     @Override

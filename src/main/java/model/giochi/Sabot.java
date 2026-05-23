@@ -66,7 +66,7 @@ public class Sabot
         }
     }
 
-    public Carta serviCarta()
+    public Carta serviCartaDaMazzo()
     {
         Carta out = listaCarte.getLast();
         listaCarte.removeLast();

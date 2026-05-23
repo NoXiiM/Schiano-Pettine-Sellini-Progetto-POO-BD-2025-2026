@@ -12,6 +12,8 @@ public class Mano
     private int puntata;
 
     public Mano(Gioco gioco) {
+
+        //considerare l eliminazione del codice sotto
         if(gioco == Gioco.PokerItaliano)
         {
             larghezzaMano = 5;
@@ -32,6 +34,8 @@ public class Mano
 
     public void riceviCarta(Carta nuova)
     {
+        //aggiungere controllo su dimensione mano
+        //controllo ogni pescata
         listaMano.add(nuova);
     }
 
@@ -47,7 +51,7 @@ public class Mano
         return listaMano;
     }
 
-    public int getCarteInMano(){return listaMano.size();}
+    public int getDimensioneMano(){return listaMano.size();}
 
     public void setPuntata(int puntata) {
         this.puntata = puntata;

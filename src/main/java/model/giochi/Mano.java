@@ -6,10 +6,10 @@ import java.util.ArrayList;
 
 public class Mano
 {
-    private Gioco gioco;
-    private Integer larghezzaMano;
-    private ArrayList<Carta> listaMano;
-    private int puntata;
+    protected Gioco gioco;
+    protected Integer larghezzaMano;
+    protected ArrayList<Carta> listaMano;
+    protected int puntata;
 
     public Mano(Gioco gioco) {
 
@@ -55,5 +55,9 @@ public class Mano
 
     public void setPuntata(int puntata) {
         this.puntata = puntata;
+    }
+
+    public int getPuntata() {
+        return puntata;
     }
 }

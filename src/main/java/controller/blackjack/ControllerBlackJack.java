@@ -1,17 +1,24 @@
 package controller.blackjack;
 
-import controller.ValoreNumero;
 import controller.mazzo.ControllerMazzo;
 import model.gestionale.Gioco;
 import model.giochi.*;
 
-public class ControllerBlackJack extends ControllerMazzo implements ValoreNumero
+import java.util.Map;
+
+public class ControllerBlackJack extends ControllerMazzo
 {
-    private Mano banco;
+    private ManoBlackJack banco;
 
     public ControllerBlackJack(int nmazzi, int nmani) {
         super(nmazzi, nmani, Gioco.BlackJack);
-        banco = new Mano(Gioco.BlackJack);
+
+        banco = new ManoBlackJack(Gioco.BlackJack);
+    }
+
+    @Override
+    public Mano creaMano(Gioco gioco) {
+        return new ManoBlackJack(gioco);
     }
 
     public int getPoints(Mano mano)
@@ -33,8 +40,7 @@ public class ControllerBlackJack extends ControllerMazzo implements ValoreNumero
         return acc;
     }
 
-    @Override
-    public int getValoreNumero(Carta carta) {
+    public static int getValoreNumero(Carta carta) {
         Numero valCarta = carta.getNumero();
         //in blackjack l'1 può valere 1 o 11
         if(valCarta.equals(Numero.uno)) return 1;
@@ -128,5 +134,53 @@ public class ControllerBlackJack extends ControllerMazzo implements ValoreNumero
         if(mano.getListaMano().size() == 2 &&
                 mano.getCarta(0).getNumero().equals(mano.getCarta(1).getNumero())) return true;
         return false;
+    }
+
+    public int getManoBancoSize()
+    {
+        return banco.getDimensioneMano();
+    }
+
+    public String displayCardBanco(int icarta)
+    {
+        String path = "/Carte2/";
+        int num = 0;
+
+        Carta carta = banco.getCarta(icarta);
+        Seme seme = banco.getCarta(icarta).getSeme();
+
+
+        switch(seme)
+        {
+            case Seme.cuore:
+                num = 0;
+                break;
+            case Seme.picche:
+                num = 14;
+                break;
+            case Seme.quadro:
+                num = 28;
+                break;
+            case Seme.fiore:
+                num = 42;
+                break;
+        }
+
+        num += getValoreNumero(carta);
+        String numString = String.format("%02d", num);
+
+        path += numString + "_kerenel_Cards.png";
+
+        return path;
+    }
+
+    public boolean algoritmoPescataBanco()
+    {
+        if(getPoints(banco) < 17)
+        {
+            serviCarta(banco);
+            return true;
+        }
+        else return false;
     }
 }

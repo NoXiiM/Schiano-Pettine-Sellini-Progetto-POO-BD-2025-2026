@@ -95,12 +95,12 @@ public class TabbedMenuPlayer {
         });
 
 
-        pokerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                GUIBlackJack blackJackFrame= new GUIBlackJack(frameChiamato, currentClient);
-            }
-        });
+//        pokerButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                GUIBlackJack blackJackFrame= new GUIBlackJack(frameChiamato, currentClient);
+//            }
+//        });
     }
 
 }

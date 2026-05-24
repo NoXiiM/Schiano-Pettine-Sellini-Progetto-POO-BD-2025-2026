@@ -1,12 +1,11 @@
 package controller.mazzo;
 
-import controller.ValoreNumero;
 import model.gestionale.Gioco;
 import model.giochi.*;
 
 import java.util.ArrayList;
 
-public abstract class ControllerMazzo implements ValoreNumero
+public abstract class ControllerMazzo
 {
     protected Sabot mazzo;
     protected ArrayList<Mano> listaMani = new ArrayList<>();
@@ -19,8 +18,12 @@ public abstract class ControllerMazzo implements ValoreNumero
 
         for(int i = 0; i < nmani; i++)
         {
-            this.addMano(new Mano(gioco));
+            this.addMano(creaMano(gioco));
         }
+    }
+
+    public Mano creaMano(Gioco gioco) {
+        return new Mano(gioco);
     }
 
     public void addMano(Mano nuova)
@@ -33,8 +36,7 @@ public abstract class ControllerMazzo implements ValoreNumero
         ricevitore.riceviCarta(mazzo.serviCartaDaMazzo());
     }
 
-    @Override
-    public int getValoreNumero(Carta carta) {
+    public static int getValoreNumero(Carta carta) {
         Numero valCarta = carta.getNumero();
 
         if(valCarta.equals(Numero.uno)) return 1;
@@ -78,7 +80,7 @@ public abstract class ControllerMazzo implements ValoreNumero
                 break;
         }
 
-        num += getValoreNumero(carta);
+        num += ControllerMazzo.getValoreNumero(carta);
         String numString = String.format("%02d", num);
 
         path += numString + "_kerenel_Cards.png";

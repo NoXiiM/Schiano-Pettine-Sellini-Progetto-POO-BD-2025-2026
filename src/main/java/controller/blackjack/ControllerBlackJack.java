@@ -4,6 +4,7 @@ import controller.mazzo.ControllerMazzo;
 import model.gestionale.Gioco;
 import model.giochi.*;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class ControllerBlackJack extends ControllerMazzo
@@ -182,5 +183,58 @@ public class ControllerBlackJack extends ControllerMazzo
             return true;
         }
         else return false;
+    }
+
+    public int calcolaVincita(int indexMano)
+    {
+        int punteggioBanco = getPoints(banco);
+        ManoBlackJack manoCorrente = (ManoBlackJack) listaMani.get(indexMano);
+        int punteggioGiocatore = getPoints(manoCorrente);
+
+        int vincita;
+
+        if(manoCorrente.getFlag() == HandStateBJ.bj && punteggioBanco != 21)
+            return (int)(((float)(manoCorrente.getPuntata())) * (5/2));
+        if(manoCorrente.getFlag() == HandStateBJ.assicurazione && punteggioBanco == 21)
+            return manoCorrente.getPuntata();
+        if(manoCorrente.getFlag() == HandStateBJ.evenmoney) return manoCorrente.getPuntata();
+        if(punteggioGiocatore > 21) return 0;
+        if(punteggioBanco > 21) return manoCorrente.getPuntata() * 2;
+
+        if(punteggioBanco > punteggioGiocatore) return 0;
+        else if(punteggioGiocatore > punteggioBanco) return manoCorrente.getPuntata() * 2;
+        else return manoCorrente.getPuntata();
+    }
+
+    public void resetAll(int nmani)
+    {
+        listaMani = new ArrayList<>();
+        for(int i = 0; i < nmani; i++)
+        {
+            this.addMano(creaMano(Gioco.BlackJack));
+        }
+
+        banco = new ManoBlackJack(Gioco.BlackJack);
+    }
+
+    public void divisione(int index)
+    {
+        ManoBlackJack manoCorrente = (ManoBlackJack) listaMani.get(index);
+
+        listaMani.add(new ManoBlackJack(Gioco.BlackJack));
+
+        ManoBlackJack nuovaMano = new ManoBlackJack(Gioco.BlackJack);
+
+        nuovaMano.setPuntata(manoCorrente.getPuntata());
+
+        Carta cartaTrasferita = manoCorrente.traslaCarta();
+        nuovaMano.addCarta(cartaTrasferita);
+
+        listaMani.add(index + 1, nuovaMano);
+    }
+
+    public boolean bancoHaAsso()
+    {
+        return (banco.getCarta(0).getNumero() == Numero.uno);
     }
 }

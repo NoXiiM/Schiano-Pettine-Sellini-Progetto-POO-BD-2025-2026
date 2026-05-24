@@ -40,11 +40,14 @@ public class GUIBlackJack {
     private JButton okButton;
     //comunicazione
     private JLabel risultati;
+    private JButton continuaButton;
+    private JButton indietroButton;
 
     private int currentHand = 0;
     //private Cliente current_client;
 
     private ControllerBlackJack controller;
+    private int mani;
     //private JFrame frameChiamante;
 
     //questo attributo va modificato e collegato col giocatore successivamente
@@ -95,14 +98,16 @@ public class GUIBlackJack {
         rifiutaButton.setVisible(false);
         pulsantiPuntVisibilita(false);
         okButton.setVisible(false);
+        indietroButton.setVisible(false);
+        continuaButton.setVisible(false);
 
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int nmazzi = (int) spinnernMazzi.getValue();
-                int nmani = (int) spinnernMani.getValue();
+                mani = (int) spinnernMani.getValue();
 
-                controller = new ControllerBlackJack(nmazzi, nmani);
+                controller = new ControllerBlackJack(nmazzi, mani);
 
                 //tolgo i pulsanti
                 spinnernMazzi.setVisible(false);
@@ -119,6 +124,8 @@ public class GUIBlackJack {
 
     public void puntare()
     {
+        rimuoviActionListener(immettiButton);
+
         pulsantiPuntVisibilita(true);
         int numeroPuntate = controller.getNumMani();
 
@@ -150,6 +157,14 @@ public class GUIBlackJack {
 
     public void iniziaPartita()
     {
+        rimuoviActionListener(assicuraButton);
+        rimuoviActionListener(evenMoneyButton);
+        rimuoviActionListener(rifiutaButton);
+        rimuoviActionListener(staiButton);
+        rimuoviActionListener(chiediButton);
+        rimuoviActionListener(raddoppiaButton);
+
+
         currentHand = 0;
         controller.serviCarte();
 
@@ -166,6 +181,8 @@ public class GUIBlackJack {
                 ManoBlackJack manoCorrente = (ManoBlackJack) controller.getMano(currentHand);
                 manoCorrente.setSideBet(manoCorrente.getPuntata() / 2);
                 manoCorrente.setFlag(HandStateBJ.assicurazione);
+                soldi -= (manoCorrente.getPuntata()/2);
+                saldo.setText(String.valueOf(soldi));
 
                 setVisibilityPulsantiSpeciali(false);
                 setVisibilityPulsantiNormali(true);
@@ -193,6 +210,10 @@ public class GUIBlackJack {
             @Override
             public void actionPerformed(ActionEvent e) {
                 manoGiocatorePanel.removeAll();
+                if(controller.bancoHaAsso()) setVisibilityPulsantiNormali(false);
+                ManoBlackJack manoCorrente = (ManoBlackJack) controller.getMano(currentHand);
+                if (manoCorrente.getFlag() == HandStateBJ.bj) setVisibilityPulsantiNormali(true);
+
                 nextHand();
                 if (currentHand >= controller.getNumMani())
                 {
@@ -206,7 +227,6 @@ public class GUIBlackJack {
                 else
                 {
                     paintCardsPlayer();
-                    pulsantiera();
                     refreshManoTag();
                 }
 
@@ -254,11 +274,23 @@ public class GUIBlackJack {
                 }
             }
         });
+        dividiButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.divisione(currentHand);
+
+                manoGiocatorePanel.removeAll();
+                paintCardsPlayer();
+                pulsantiera();
+                refreshManoTag();
+            }
+        });
     }
 
     public void turnoBanco()
     {
-        rimuoviActionListenerOk();
+        rimuoviActionListener(okButton);
+
         manoBancoPanel.removeAll();
 
         paintCardsDealer2();
@@ -283,13 +315,16 @@ public class GUIBlackJack {
 
     public void risultatiGioco()
     {
-        rimuoviActionListenerOk();
+        rimuoviActionListener(okButton);
+
         currentHand = 0;
 
         paintCardsPlayer();
 
         refreshPanel(manoGiocatorePanel);
         refreshManoTag();
+
+        gestionePremio();
 
         okButton.addActionListener(new ActionListener() {
             @Override
@@ -306,6 +341,8 @@ public class GUIBlackJack {
                     paintCardsPlayer();
                     refreshPanel(manoGiocatorePanel);
                     refreshManoTag();
+
+                    gestionePremio();
                 }
             }
         });
@@ -313,7 +350,39 @@ public class GUIBlackJack {
 
     public void reset()
     {
+        rimuoviActionListener(continuaButton);
 
+        indietroButton.setVisible(true);
+        continuaButton.setVisible(true);
+        okButton.setVisible(false);
+
+        manoGiocatorePanel.removeAll();
+        manoBancoPanel.removeAll();
+
+        refreshPanel(manoGiocatorePanel);
+        refreshPanel(manoBancoPanel);
+
+        currentHand = 0;
+        controller.resetAll(mani);
+
+        continuaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                indietroButton.setVisible(false);
+                continuaButton.setVisible(false);
+                puntare();
+            }
+        });
+    }
+
+    public void gestionePremio()
+    {
+        int vincita = controller.calcolaVincita(currentHand);
+        soldi += vincita;
+        if(vincita > 0) risultati.setText("hai vinto: " + vincita);
+        else risultati.setText("hai perso");
+
+        saldo.setText(String.valueOf(soldi));
     }
 
     public void setVisibilityPulsantiSpeciali(boolean stato)
@@ -328,13 +397,12 @@ public class GUIBlackJack {
         staiButton.setVisible(stato);
         chiediButton.setVisible(stato);
         raddoppiaButton.setVisible(stato);
-        dividiButton.setVisible(stato);
     }
 
-    public void rimuoviActionListenerOk()
+    public void rimuoviActionListener(JButton pulsante)
     {
-        for (ActionListener i : okButton.getActionListeners()) {
-            okButton.removeActionListener(i);
+        for (ActionListener i : pulsante.getActionListeners()) {
+            pulsante.removeActionListener(i);
         }
     }
 
@@ -363,6 +431,8 @@ public class GUIBlackJack {
             case evenmoney:
                 evenMoneyButton.setVisible(true);
                 rifiutaButton.setVisible(true);
+                chiediButton.setVisible(false);
+                raddoppiaButton.setVisible(false);
                 break;
             case assicurabile:
                 assicuraButton.setVisible(true);

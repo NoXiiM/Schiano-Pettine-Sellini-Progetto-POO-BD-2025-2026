@@ -2,7 +2,7 @@ package model.giochi;
 
 import model.gestionale.Gioco;
 
-public class ManoBlackJack extends Mano
+public class ManoBlackJack extends Mano implements Cloneable
 {
     private HandStateBJ flag;
     private int sideBet;
@@ -27,5 +27,14 @@ public class ManoBlackJack extends Mano
     public void raddoppio()
     {
         puntata *= 2;
+    }
+
+    public Carta traslaCarta()
+    {
+        Carta temp = listaMano.getLast();
+        listaMano.removeLast();
+        listaMano.trimToSize();
+
+        return temp;
     }
 }

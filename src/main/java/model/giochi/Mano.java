@@ -60,4 +60,9 @@ public class Mano
     public int getPuntata() {
         return puntata;
     }
+
+    public void addCarta(Carta carta)
+    {
+        listaMano.add(carta);
+    }
 }

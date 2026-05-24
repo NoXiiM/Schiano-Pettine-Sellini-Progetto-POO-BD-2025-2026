@@ -1,0 +1,138 @@
+package gui.giochi;
+
+import controller.slotMachine.slotMachineController;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class GUISlotMachine {
+    private JPanel slotMachinePanel;
+    private JLabel simbolo1;
+    private JLabel simbolo2;
+    private JLabel simbolo3;
+    private JButton spinButton;
+    private JRadioButton a10RadioButton;
+    private JRadioButton a20RadioButton;
+    private JRadioButton a50RadioButton;
+    private JRadioButton a100RadioButton;
+    private JRadioButton a200RadioButton;
+    private JRadioButton a500RadioButton;
+    private JRadioButton a1000RadioButton;
+    private JRadioButton a2500RadioButton;
+    private JRadioButton a5000RadioButton;
+    private JLabel saldotextgiocatore;
+    private JLabel saldoGiocatoreNumber;
+    private JLabel guadagnatoText;
+
+    private slotMachineController controller;
+    private float saldoGiocatore;
+
+    public GUISlotMachine() {
+        /// Settaggio delle box scelta
+        ButtonGroup puntate = new ButtonGroup();
+        puntate.add(a10RadioButton);
+        puntate.add(a20RadioButton);
+        puntate.add(a50RadioButton);
+        a10RadioButton.setActionCommand("10");
+        a20RadioButton.setActionCommand("20");
+        a50RadioButton.setActionCommand("50");
+
+        puntate.add(a100RadioButton);
+        puntate.add(a200RadioButton);
+        puntate.add(a500RadioButton);
+        a100RadioButton.setActionCommand("100");
+        a200RadioButton.setActionCommand("200");
+        a500RadioButton.setActionCommand("500");
+
+
+        puntate.add(a1000RadioButton);
+        puntate.add(a2500RadioButton);
+        puntate.add(a5000RadioButton);
+        a1000RadioButton.setActionCommand("1000");
+        a2500RadioButton.setActionCommand("2500");
+        a5000RadioButton.setActionCommand("5000");
+
+
+        a10RadioButton.setSelected(true);
+        /// istanziazione controller
+        controller = new slotMachineController();
+        /// settaggio foto
+        Image img = new ImageIcon(
+                getClass().getResource(controller.getPathSette())
+        ).getImage().getScaledInstance(75, 75, Image.SCALE_SMOOTH);
+        simbolo1.setIcon(new ImageIcon(img));
+        simbolo1.setText("");
+        simbolo2.setIcon(new ImageIcon(img));
+        simbolo2.setText("");
+        simbolo3.setIcon(new ImageIcon(img));
+        simbolo3.setText("");
+
+        // recupero saldo giocatore
+        saldoGiocatore=200;
+        saldoGiocatoreNumber.setText(String.format("%.2f",saldoGiocatore));
+
+        //default di guadagno
+        guadagnatoText.setText("");
+
+        spinButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                float creditoInserito = Float.parseFloat(puntate.getSelection().getActionCommand());
+                float creditoRisultato;
+                String colonna1, colonna2, colonna3;
+
+                //otteniamo i simboli della partita
+                colonna1=controller.getSimboloCasuale();
+                colonna2=controller.getSimboloCasuale();
+                colonna3=controller.getSimboloCasuale();
+
+                //calcoliamo il risultato della partita
+                creditoRisultato = controller.getsaldopartita(colonna1,colonna2,colonna3,creditoInserito);
+
+                //recuperiamo le foto per i simboli
+                Image img1 = new ImageIcon(
+                        getClass().getResource(controller.universalPathGetter(colonna1))
+                ).getImage().getScaledInstance(75, 75, Image.SCALE_SMOOTH);
+                Image img2 = new ImageIcon(
+                        getClass().getResource(controller.universalPathGetter(colonna2))
+                ).getImage().getScaledInstance(75, 75, Image.SCALE_SMOOTH);
+                Image img3 = new ImageIcon(
+                        getClass().getResource(controller.universalPathGetter(colonna3))
+                ).getImage().getScaledInstance(75, 75, Image.SCALE_SMOOTH);
+
+                //aggiorniamo i simboli
+                simbolo1.setIcon(new ImageIcon(img1));
+                simbolo1.setText("");
+                simbolo2.setIcon(new ImageIcon(img2));
+                simbolo2.setText("");
+                simbolo3.setIcon(new ImageIcon(img3));
+                simbolo3.setText("");
+
+                //Mostriamo a schermo l'esito della partita
+                //Aggiorniamo il saldo giocatore
+                if(creditoRisultato>0){
+                    saldoGiocatore=saldoGiocatore+creditoRisultato;
+                    guadagnatoText.setText("Hai guadagnato: "+creditoRisultato+"!");
+                    saldoGiocatoreNumber.setText(String.format("%.2f",saldoGiocatore));
+                }
+                else{
+                    saldoGiocatore = saldoGiocatore-creditoInserito;
+                    guadagnatoText.setText("oh no hai perso! ");
+                    saldoGiocatoreNumber.setText(String.format("%.2f",saldoGiocatore));
+                }
+
+            }
+        });
+    }
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("GUISlotMachine");
+        frame.setContentPane(new GUISlotMachine().slotMachinePanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
+    }
+}
+

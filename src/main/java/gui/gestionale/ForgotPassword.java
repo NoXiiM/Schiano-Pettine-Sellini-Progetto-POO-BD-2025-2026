@@ -37,6 +37,11 @@ public class ForgotPassword {
 
                 try {
                     controller.resetPass(nameTextField.getText(), surnameTextField.getText(), usernameTextField.getText());
+
+                    nameTextField.setText("");
+                    surnameTextField.setText("");
+                    usernameTextField.setText("");
+
                 } catch (RuntimeException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                 }

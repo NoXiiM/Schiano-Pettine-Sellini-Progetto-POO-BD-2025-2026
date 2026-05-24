@@ -12,7 +12,7 @@ import java.util.Date;
         convertiInFiches
 */
 
-public abstract class Cliente extends Utente
+public class Cliente extends Utente
 {
     protected int saldo;
     protected String codiceTesseraGiocatore;
@@ -22,11 +22,14 @@ public abstract class Cliente extends Utente
 
     //attributi da associazioni
     private Ban ban;
+    private boolean sospetto;
 
     public Cliente(String username, String nome, String cognome, String codiceFiscale,
                    LocalDate dataDiNascita, String password, String codiceTesseraGiocatore)
     {
         super(username, nome, cognome, codiceFiscale, dataDiNascita, password);
+
+        this.sospetto= false;
         this.codiceTesseraGiocatore = codiceTesseraGiocatore;
         tempoDiGioco = new Time(0, 0, 0);
         fichesGiocate = 0;

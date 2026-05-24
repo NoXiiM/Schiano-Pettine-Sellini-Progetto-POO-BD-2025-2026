@@ -1,9 +1,7 @@
 package gui.gestionale;
 
 import controller.WelcomeController;
-import model.gestionale.utenteEFigli.Cliente;
-import model.gestionale.utenteEFigli.Dipendente;
-import model.gestionale.utenteEFigli.Utente;
+import model.gestionale.utenteEFigli.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,8 +14,6 @@ public class WelcomePanel {
 
     private JPanel WelcomePanel;
     private JPanel LoginForm;
-    private JLabel WelcomeImageLabel;
-
     private JPasswordField passwordField;
     private JButton accediButton;
     private JTextField userField;
@@ -42,7 +38,7 @@ public class WelcomePanel {
                 String loginMode= (String) userType.getSelectedItem();
 
                 try{
-                    Utente user= welcomeController.login(username, password, loginMode);
+                    Utente user= welcomeController.login(username, password);
 
                     if(user instanceof Dipendente){
 
@@ -73,7 +69,11 @@ public class WelcomePanel {
 
             @Override
             public void mouseClicked(MouseEvent e) {                                //quando viene cliccato
-                    ForgotPassword forgotPasswordPanel= new ForgotPassword(welcomeController, mainframe);
+
+                userField.setText("");
+                passwordField.setText("");
+
+                ForgotPassword forgotPasswordPanel= new ForgotPassword(welcomeController, mainframe);
             }
         });
 
@@ -81,6 +81,11 @@ public class WelcomePanel {
         registratiButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+                userField.setText("");
+                passwordField.setText("");
+
+                RegistrationForm registrationForm= new RegistrationForm(welcomeController, mainframe);
 
             }
         });

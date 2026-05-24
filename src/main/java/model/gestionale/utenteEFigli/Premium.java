@@ -10,14 +10,6 @@ public class Premium extends Cliente
 
     public Premium(String username, String nome, String cognome, String codiceFiscale,
                    LocalDate dataDiNascita, String password,
-                   String codiceTesseraGiocatore, double scontoPokerPercentuale)
-    {
-        super(username, nome, cognome, codiceFiscale, dataDiNascita, password, codiceTesseraGiocatore);
-        this.scontoPokerPercentuale = scontoPokerPercentuale;
-    }
-
-    public Premium(String username, String nome, String cognome, String codiceFiscale,
-                   LocalDate dataDiNascita, String password,
                    String codiceTesseraGiocatore)
     {
         super(username, nome, cognome, codiceFiscale, dataDiNascita, password, codiceTesseraGiocatore);

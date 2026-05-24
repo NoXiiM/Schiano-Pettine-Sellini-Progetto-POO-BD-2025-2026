@@ -120,7 +120,7 @@
               </component>
             </children>
           </grid>
-          <grid id="30924" binding="saldoInSaldoPanel" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="30924" binding="saldoInGamePanel" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <tabbedpane title="Gestisci saldo"/>
@@ -184,6 +184,73 @@
                   <font style="1"/>
                   <foreground color="-659232"/>
                   <text value="Utente: "/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="f934b" binding="accountIn" layout-manager="GridLayoutManager" row-count="5" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="Gestisci account"/>
+            </constraints>
+            <properties>
+              <background color="-15923680"/>
+              <font name="Arial Black" size="28" style="1"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="6ced5" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font name="Arial Black" size="28" style="1"/>
+                  <foreground color="-659232"/>
+                  <text value="Gestisci account"/>
+                </properties>
+              </component>
+              <component id="72b51" class="javax.swing.JButton" binding="cambiaPasswordButton" default-binding="true">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-12772720"/>
+                  <font style="1"/>
+                  <foreground color="-10496"/>
+                  <text value="Cambia Password"/>
+                </properties>
+              </component>
+              <component id="45a63" class="javax.swing.JButton" binding="cambiaUsernameButton" default-binding="true">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-12772720"/>
+                  <font style="1"/>
+                  <foreground color="-10496"/>
+                  <text value="Cambia Username"/>
+                </properties>
+              </component>
+              <component id="2e070" class="javax.swing.JButton" binding="cancellaAccountButton" default-binding="true">
+                <constraints>
+                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-12053760"/>
+                  <font style="1"/>
+                  <foreground color="-2286080"/>
+                  <text value="Cancella Account"/>
+                </properties>
+              </component>
+              <component id="30d56" class="javax.swing.JButton" binding="resettaPasswordButton" default-binding="true">
+                <constraints>
+                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-12772720"/>
+                  <font style="1"/>
+                  <foreground color="-10496"/>
+                  <text value="Resetta password"/>
                 </properties>
               </component>
             </children>

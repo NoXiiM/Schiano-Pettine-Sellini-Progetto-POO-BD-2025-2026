@@ -35,4 +35,9 @@ public class Tavolo
 //        this(numero, gioco, numeroPosti, dealer);
 //        listaGiocatori.add(giocatore);
 //    }
+
+
+    public int getNumeroPosti() {
+        return numeroPosti;
+    }
 }

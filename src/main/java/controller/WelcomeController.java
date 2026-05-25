@@ -15,9 +15,10 @@ public class WelcomeController {
 
 //    private ArrayList<Cliente> lista_giocatori= new ArrayList<>();
 //    private ArrayList<Dipendente> lista_admin= new ArrayList<>();
-    private ArrayList<Utente> lista_utenti= new ArrayList<>();
+    private ArrayList<Utente> lista_utenti;
 
     public WelcomeController() {
+        this.lista_utenti = new ArrayList<>();
 //        inizializzaListaGiocatori(lista_giocatori);
 //        inizializzaListaAdmin(lista_admin);
         inizializzaListaUtenti(lista_utenti);
@@ -128,8 +129,9 @@ public class WelcomeController {
 
     private boolean codiceTesseraEsiste(String codice) {
         for (Utente i : lista_utenti) {
-            if (i instanceof Cliente) {
-                Cliente c = (Cliente) i;
+            //ho modificato qui perchè se nell'istanceof dopo l'espressione se scrivi un nome diventa variabile
+            //di i castato nella classe dopo istanceof -> Cliente c = (Cliente) i;
+            if (i instanceof Cliente c) {
                 if (c.getCodiceTesseraGiocatore().equals(codice)) return true;
             }
         }

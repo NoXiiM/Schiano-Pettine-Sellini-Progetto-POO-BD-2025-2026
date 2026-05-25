@@ -29,6 +29,8 @@ public class TabbedMenuPlayer {
     private JButton cambiaUsernameButton;
     private JButton cancellaAccountButton;
     private JButton resettaPasswordButton;
+    private JButton blackJack;
+    private static JFrame thisFrame;
 
     private JFrame frameChiamante;
     private WelcomeController controller;
@@ -39,11 +41,11 @@ public class TabbedMenuPlayer {
         this.currentClient= client;
         this.controller= controller;
 
-        JFrame frameChiamato = new JFrame("TabbedMenuPlayer");
-        frameChiamato.setContentPane(tabbedMenuPlayer);
-        frameChiamato.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frameChiamato.pack();
-        frameChiamato.setVisible(true);
+        thisFrame = new JFrame("TabbedMenuPlayer");
+        thisFrame.setContentPane(tabbedMenuPlayer);
+        thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        thisFrame.pack();
+        thisFrame.setVisible(true);
 
         frameChiamante.setVisible(false);
 
@@ -55,14 +57,14 @@ public class TabbedMenuPlayer {
         logoutButtonInSaldoPanel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                logout(frameChiamato);
+                logout(thisFrame);
             }
         });
 
         logoutButtonInGamePanel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                logout(frameChiamato);
+                logout(thisFrame);
             }
         });
 
@@ -70,7 +72,7 @@ public class TabbedMenuPlayer {
 //        pokerButton.addActionListener(new ActionListener() {
 //            @Override
 //            public void actionPerformed(ActionEvent e) {
-//                GUIBlackJack blackJackFrame= new GUIBlackJack(frameChiamato, currentClient);
+//                GUIBlackJack blackJackFrame= new GUIBlackJack(thisFrame, currentClient);
 //            }
 //        });
 
@@ -139,7 +141,7 @@ public class TabbedMenuPlayer {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                ChangePass changea_pass_frame= new ChangePass(currentClient, frameChiamato, controller);
+                ChangePass changea_pass_frame= new ChangePass(currentClient, thisFrame, controller);
 
             }
         });
@@ -148,7 +150,7 @@ public class TabbedMenuPlayer {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                ChangeUsername change_user_frame = new ChangeUsername(currentClient, frameChiamato, controller, TabbedMenuPlayer.this);
+                ChangeUsername change_user_frame = new ChangeUsername(currentClient, thisFrame, controller, TabbedMenuPlayer.this);
             }
         });
 
@@ -156,7 +158,7 @@ public class TabbedMenuPlayer {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                ForgotPassword forgotPasswordPanel= new ForgotPassword(controller, frameChiamato);
+                ForgotPassword forgotPasswordPanel= new ForgotPassword(controller, thisFrame);
 
             }
         });
@@ -168,6 +170,14 @@ public class TabbedMenuPlayer {
 
                 //da finire
 
+            }
+        });
+        //collegamento
+        blackJack.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                thisFrame.setVisible(false);
+                new SelezioneTavoloBlackJack(thisFrame, currentClient);
             }
         });
     }

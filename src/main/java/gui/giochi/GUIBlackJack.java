@@ -1,6 +1,7 @@
 package gui.giochi;
 
 import controller.blackjack.*;
+import model.gestionale.utenteEFigli.Cliente;
 import model.giochi.HandStateBJ;
 import model.giochi.ManoBlackJack;
 
@@ -45,35 +46,29 @@ public class GUIBlackJack {
 
     //conta qual è la mano corrente
     private int currentHand = 0;
-    //private Cliente current_client;
 
     private ControllerBlackJack controller;
     private int mani;
-    //private JFrame frameChiamante;
+
+    private static JFrame thisFrame;
+
+    private JFrame frameChiamante;
+    private Cliente current_client;
 
     //TODO: questo attributo va modificato e collegato col giocatore successivamente
     private int soldi = 1000;
 
+    public GUIBlackJack(JFrame frameChiamante, Cliente current_client) {
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("GUIBlackJack");
-        frame.setContentPane(new GUIBlackJack().blackjackPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-    }
-
-    public GUIBlackJack() {
-
-//        this.frameChiamante= gameMenuChiamante;
-//        current_client= cliente;
+        this.frameChiamante = frameChiamante;
+        this.current_client = current_client;
 
 
-//        JFrame frame = new JFrame("GUIBlackJack");
-//        frame.setContentPane(blackjackPanel);
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.pack();
-//        frame.setVisible(true);
+        thisFrame = new JFrame("GUIBlackJack");
+        thisFrame.setContentPane(blackjackPanel);
+        thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        thisFrame.pack();
+        thisFrame.setVisible(true);
 
         //immagini
         saldo.setText(String.valueOf(soldi));
@@ -101,7 +96,6 @@ public class GUIBlackJack {
         rifiutaButton.setVisible(false);
         pulsantiPuntVisibilita(false);
         okButton.setVisible(false);
-        indietroButton.setVisible(false);
         continuaButton.setVisible(false);
 
         startButton.addActionListener(new ActionListener() {
@@ -118,9 +112,17 @@ public class GUIBlackJack {
                 numeroMazzi.setVisible(false);
                 numeroMani.setVisible(false);
                 startButton.setVisible(false);
+                indietroButton.setVisible(false);
                 //startButton.setText("exit");
 
                 puntare();
+            }
+        });
+        indietroButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                thisFrame.dispose();
+                frameChiamante.setVisible(true);
             }
         });
     }

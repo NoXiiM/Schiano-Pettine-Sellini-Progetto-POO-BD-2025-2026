@@ -1,6 +1,7 @@
 package gui.giochi;
 
 import controller.slotMachine.slotMachineController;
+import model.giochi.NonCarte.Simboli;
 
 import javax.swing.*;
 import java.awt.*;
@@ -80,47 +81,51 @@ public class GUISlotMachine {
             @Override
             public void actionPerformed(ActionEvent e) {
                 float creditoInserito = Float.parseFloat(puntate.getSelection().getActionCommand());
-                float creditoRisultato;
-                String colonna1, colonna2, colonna3;
+                if(creditoInserito<=saldoGiocatore){
+                    float creditoRisultato;
+                    Simboli colonna1, colonna2, colonna3;
 
-                //otteniamo i simboli della partita
-                colonna1=controller.getSimboloCasuale();
-                colonna2=controller.getSimboloCasuale();
-                colonna3=controller.getSimboloCasuale();
+                    //otteniamo i simboli della partita
+                    colonna1=controller.getSimboloCasuale();
+                    colonna2=controller.getSimboloCasuale();
+                    colonna3=controller.getSimboloCasuale();
 
-                //calcoliamo il risultato della partita
-                creditoRisultato = controller.getsaldopartita(colonna1,colonna2,colonna3,creditoInserito);
+                    //calcoliamo il risultato della partita
+                    creditoRisultato = controller.getsaldopartita(colonna1,colonna2,colonna3,creditoInserito);
 
-                //recuperiamo le foto per i simboli
-                Image img1 = new ImageIcon(
-                        getClass().getResource(controller.universalPathGetter(colonna1))
-                ).getImage().getScaledInstance(75, 75, Image.SCALE_SMOOTH);
-                Image img2 = new ImageIcon(
-                        getClass().getResource(controller.universalPathGetter(colonna2))
-                ).getImage().getScaledInstance(75, 75, Image.SCALE_SMOOTH);
-                Image img3 = new ImageIcon(
-                        getClass().getResource(controller.universalPathGetter(colonna3))
-                ).getImage().getScaledInstance(75, 75, Image.SCALE_SMOOTH);
+                    //recuperiamo le foto per i simboli
+                    Image img1 = new ImageIcon(
+                            getClass().getResource(controller.getCollegamento(colonna1))
+                    ).getImage().getScaledInstance(75, 75, Image.SCALE_SMOOTH);
+                    Image img2 = new ImageIcon(
+                            getClass().getResource(controller.getCollegamento(colonna2))
+                    ).getImage().getScaledInstance(75, 75, Image.SCALE_SMOOTH);
+                    Image img3 = new ImageIcon(
+                            getClass().getResource(controller.getCollegamento(colonna3))
+                    ).getImage().getScaledInstance(75, 75, Image.SCALE_SMOOTH);
 
-                //aggiorniamo i simboli
-                simbolo1.setIcon(new ImageIcon(img1));
-                simbolo1.setText("");
-                simbolo2.setIcon(new ImageIcon(img2));
-                simbolo2.setText("");
-                simbolo3.setIcon(new ImageIcon(img3));
-                simbolo3.setText("");
+                    //aggiorniamo i simboli
+                    simbolo1.setIcon(new ImageIcon(img1));
+                    simbolo1.setText("");
+                    simbolo2.setIcon(new ImageIcon(img2));
+                    simbolo2.setText("");
+                    simbolo3.setIcon(new ImageIcon(img3));
+                    simbolo3.setText("");
 
-                //Mostriamo a schermo l'esito della partita
-                //Aggiorniamo il saldo giocatore
-                if(creditoRisultato>0){
-                    saldoGiocatore=saldoGiocatore+creditoRisultato;
-                    guadagnatoText.setText("Hai guadagnato: "+creditoRisultato+"!");
-                    saldoGiocatoreNumber.setText(String.format("%.2f",saldoGiocatore));
-                }
-                else{
-                    saldoGiocatore = saldoGiocatore-creditoInserito;
-                    guadagnatoText.setText("oh no hai perso! ");
-                    saldoGiocatoreNumber.setText(String.format("%.2f",saldoGiocatore));
+                    //Mostriamo a schermo l'esito della partita
+                    //Aggiorniamo il saldo giocatore
+                    if(creditoRisultato>0){
+                        saldoGiocatore=saldoGiocatore+creditoRisultato;
+                        guadagnatoText.setText("Hai guadagnato: "+creditoRisultato+"!");
+                        saldoGiocatoreNumber.setText(String.format("%.2f",saldoGiocatore));
+                    }
+                    else{
+                        saldoGiocatore = saldoGiocatore-creditoInserito;
+                        guadagnatoText.setText("oh no hai perso! ");
+                        saldoGiocatoreNumber.setText(String.format("%.2f",saldoGiocatore));
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null,"Saldo insufficiente per la puntata scelta");
                 }
 
             }

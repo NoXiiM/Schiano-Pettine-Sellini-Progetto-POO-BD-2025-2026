@@ -136,6 +136,12 @@ public class ControllerBlackJack extends ControllerMazzo
         return StatiGioco.normale;
     }
 
+    public void setStatoBanco()
+    {
+        if(getPoints(banco) == 21) banco.setFlag(HandStateBJ.bj);
+        else banco.setFlag(HandStateBJ.normale);
+    }
+
     //verifica se una mano è divisibile
     public boolean isSplittable(int i)
     {
@@ -170,11 +176,15 @@ public class ControllerBlackJack extends ControllerMazzo
 
         int vincita;
 
-        if(manoCorrente.getFlag() == HandStateBJ.bj && punteggioBanco != 21)
-            return (int)(((float)(manoCorrente.getPuntata())) * (5f/2f));
-        if(manoCorrente.getFlag() == HandStateBJ.assicurazione && punteggioBanco == 21)
+        if(manoCorrente.getFlag() == HandStateBJ.bj && banco.getFlag() == HandStateBJ.bj)
             return manoCorrente.getPuntata();
-        if(manoCorrente.getFlag() == HandStateBJ.evenmoney) return manoCorrente.getPuntata();
+        if(manoCorrente.getFlag() == HandStateBJ.bj && banco.getFlag() != HandStateBJ.bj)
+            return (int)(((float)(manoCorrente.getPuntata())) * (5f/2f));
+        if(manoCorrente.getFlag() != HandStateBJ.bj && banco.getFlag() == HandStateBJ.bj)
+            return 0;
+        if(manoCorrente.getFlag() == HandStateBJ.assicurazione && banco.getFlag() == HandStateBJ.bj)
+            return manoCorrente.getPuntata();
+        if(manoCorrente.getFlag() == HandStateBJ.evenmoney) return manoCorrente.getPuntata()*2;
         if(punteggioGiocatore > 21) return 0;
         if(punteggioBanco > 21) return manoCorrente.getPuntata() * 2;
 

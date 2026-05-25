@@ -170,6 +170,8 @@ public class GUIBlackJack {
         currentHand = 0;
         controller.serviCarte();
 
+        controller.setStatoBanco();
+
         paintCardsDealer1();
         paintCardsPlayer();
         pulsantiera();
@@ -289,8 +291,8 @@ public class GUIBlackJack {
                 soldi -= controller.getMano(currentHand).getPuntata();
                 saldo.setText(String.valueOf(soldi));
 
-                controller.serviCarta(controller.getMano(currentHand));
-                controller.serviCarta(controller.getMano(currentHand + 1));
+//                controller.serviCarta(controller.getMano(currentHand));
+//                controller.serviCarta(controller.getMano(currentHand + 1));
 
                 manoGiocatorePanel.removeAll();
                 paintCardsPlayer();
@@ -346,7 +348,7 @@ public class GUIBlackJack {
             public void actionPerformed(ActionEvent e) {
                 nextHand();
 
-                if(currentHand >= controller.getNumMani())
+                if(currentHand >= mani)
                 {
                     reset();
                 }

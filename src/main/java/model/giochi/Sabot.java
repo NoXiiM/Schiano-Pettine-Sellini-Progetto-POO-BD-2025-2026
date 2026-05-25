@@ -32,7 +32,7 @@ public class Sabot
     public boolean controlloRimischiaMazzo()
     {
         listaCarte.trimToSize();
-        return (cuttingCard - listaCarte.size()) < 0;
+        return (cuttingCard + listaCarte.size()) < numeroDiCarte;
     }
 
     public void inizializzaSabot()

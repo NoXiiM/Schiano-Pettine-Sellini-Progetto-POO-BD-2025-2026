@@ -22,6 +22,17 @@ public abstract class ControllerMazzo
         }
     }
 
+    public boolean controlloCuttingCard()
+    {
+        return mazzo.controlloRimischiaMazzo();
+    }
+
+    public void reinizializzaMazzo()
+    {
+        mazzo = new Sabot(mazzo.getNumeroDiMazzi(), mazzo.getGioco());
+        mazzo.mischiaMazzo();
+    }
+
     public Mano creaMano(Gioco gioco) {
         return new Mano(gioco);
     }
@@ -36,6 +47,7 @@ public abstract class ControllerMazzo
         ricevitore.riceviCarta(mazzo.serviCartaDaMazzo());
     }
 
+    //funzione di mapping delle carte generica
     public static int getValoreNumero(Carta carta) {
         Numero valCarta = carta.getNumero();
 
@@ -55,6 +67,7 @@ public abstract class ControllerMazzo
         return -1;
     }
 
+    //funzione display card per giocatori
     public String displayCard(int imano, int icarta)
     {
         String path = "/Carte2/";

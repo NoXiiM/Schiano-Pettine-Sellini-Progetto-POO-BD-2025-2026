@@ -20,13 +20,19 @@ public class Sabot
         listaCarte = new ArrayList<>();
         this.numeroDiMazzi = numeroDiMazzi;
         numeroDiCarte = numeroDiMazzi*52;
-        if(gioco == Gioco.BlackJack) cuttingCard = (int)(numeroDiCarte * (((Math.random() * 10) + 75)/100));
+        if(gioco == Gioco.BlackJack) cuttingCard = (int)(numeroDiCarte * (((Math.random() * 10) + 50)/100));
         else cuttingCard = null;
         inizializzaSabot();
     }
 
     public Integer getCuttingCard() {
         return cuttingCard;
+    }
+
+    public boolean controlloRimischiaMazzo()
+    {
+        listaCarte.trimToSize();
+        return (cuttingCard - listaCarte.size()) < 0;
     }
 
     public void inizializzaSabot()
@@ -71,5 +77,17 @@ public class Sabot
         Carta out = listaCarte.getLast();
         listaCarte.removeLast();
         return out;
+    }
+
+    public int getNumeroDiCarte() {
+        return numeroDiCarte;
+    }
+
+    public int getNumeroDiMazzi() {
+        return numeroDiMazzi;
+    }
+
+    public Gioco getGioco() {
+        return gioco;
     }
 }

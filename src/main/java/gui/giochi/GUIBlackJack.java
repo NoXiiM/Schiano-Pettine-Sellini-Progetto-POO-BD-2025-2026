@@ -189,9 +189,9 @@ public class GUIBlackJack {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ManoBlackJack manoCorrente = (ManoBlackJack) controller.getMano(currentHand);
+                if(!decrementa(manoCorrente.getPuntata()/2)) return;
                 manoCorrente.setSideBet(manoCorrente.getPuntata() / 2);
                 manoCorrente.setFlag(HandStateBJ.assicurazione);
-                if(!decrementa(manoCorrente.getPuntata()/2)) return;
                 saldo.setText(String.valueOf(sessioneCorrente.getSaldoGiocatore()));
 
                 setVisibilityPulsantiSpeciali(false);
@@ -269,13 +269,14 @@ public class GUIBlackJack {
         raddoppiaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                ManoBlackJack manoCorrente = (ManoBlackJack) controller.getMano(currentHand);
+                if(!decrementa(manoCorrente.getPuntata())) return;
+
                 raddoppiaButton.setVisible(false);
                 chiediButton.setVisible(false);
                 dividiButton.setVisible(false);
 
                 //TODO: da modificare col collegamento
-                ManoBlackJack manoCorrente = (ManoBlackJack) controller.getMano(currentHand);
-                if(!decrementa(manoCorrente.getPuntata())) return;
                 saldo.setText(String.valueOf(sessioneCorrente.getSaldoGiocatore()));
                 manoCorrente.raddoppio();
 
@@ -294,9 +295,10 @@ public class GUIBlackJack {
         dividiButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.divisione(currentHand);
                 if(!decrementa(controller.getMano(currentHand).getPuntata())) return;
                 saldo.setText(String.valueOf(sessioneCorrente.getSaldoGiocatore()));
+
+                controller.divisione(currentHand);
 
 //                controller.serviCarta(controller.getMano(currentHand));
 //                controller.serviCarta(controller.getMano(currentHand + 1));
@@ -418,7 +420,7 @@ public class GUIBlackJack {
 
             return true;
         } catch (RuntimeException ex) {
-            JOptionPane.showMessageDialog(null, "saldo insufficiente",
+            JOptionPane.showMessageDialog(null, ex.getMessage(),
                     "errore", JOptionPane.ERROR_MESSAGE);
             return false;
         }

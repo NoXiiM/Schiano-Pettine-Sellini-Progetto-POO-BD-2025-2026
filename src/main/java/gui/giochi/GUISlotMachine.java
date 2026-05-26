@@ -39,6 +39,7 @@ public class GUISlotMachine {
 
     public GUISlotMachine(JFrame frameChiamante, Sessione sessioneCorrente) {
         //settaggio frame
+        sessioneCorrente.startTimer();
         thisFrame = new JFrame("GUISlotMachine");
         thisFrame.setContentPane(slotMachinePanel);
         thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -71,7 +72,7 @@ public class GUISlotMachine {
 
         a10RadioButton.setSelected(true);
         /// istanziazione controller
-        controller = new slotMachineController();
+        controller = new slotMachineController(sessioneCorrente);
         /// settaggio foto
         Image img = new ImageIcon(
                 getClass().getResource(controller.getPathSette())
@@ -84,7 +85,7 @@ public class GUISlotMachine {
         simbolo3.setText("");
 
         // recupero saldo giocatore
-        saldoGiocatore=200;
+        saldoGiocatore=controller.getsaldoGiocatore();
         saldoGiocatoreNumber.setText("Il saldo del giocatore è: "+saldoGiocatore);
 
         //default di guadagno
@@ -93,9 +94,9 @@ public class GUISlotMachine {
         spinButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                float creditoInserito = Float.parseFloat(puntate.getSelection().getActionCommand());
-                if(creditoInserito<=saldoGiocatore){
-                    float creditoRisultato;
+                try{
+                    controller.decrementa(Integer.parseInt(puntate.getSelection().getActionCommand()));
+                    int creditoRisultato;
                     Simboli colonna1, colonna2, colonna3;
 
                     //otteniamo i simboli della partita
@@ -104,7 +105,7 @@ public class GUISlotMachine {
                     colonna3=controller.getSimboloCasuale();
 
                     //calcoliamo il risultato della partita
-                    creditoRisultato = controller.getsaldopartita(colonna1,colonna2,colonna3,creditoInserito);
+                    creditoRisultato = controller.getsaldopartita(colonna1,colonna2,colonna3,Integer.parseInt(puntate.getSelection().getActionCommand()));
 
                     //recuperiamo le foto per i simboli
                     Image img1 = new ImageIcon(
@@ -128,18 +129,19 @@ public class GUISlotMachine {
                     //Mostriamo a schermo l'esito della partita
                     //Aggiorniamo il saldo giocatore
                     if(creditoRisultato>0){
-                        saldoGiocatore=saldoGiocatore+creditoRisultato;
+                        controller.incrementa(creditoRisultato);
                         guadagnatoText.setText("Hai guadagnato: "+creditoRisultato+"!");
 
                     }
                     else{
-                        saldoGiocatore = saldoGiocatore-creditoInserito;
+                        saldoGiocatore = saldoGiocatore-Integer.parseInt(puntate.getSelection().getActionCommand());
                         guadagnatoText.setText("oh no hai perso! ");
 
                     }
                     saldoGiocatoreNumber.setText("Il saldo del giocatore è: "+saldoGiocatore);
-                }else{
-                    JOptionPane.showMessageDialog(null,"Saldo insufficiente per la puntata scelta","errore", JOptionPane.ERROR_MESSAGE);
+                }
+                catch(RuntimeException ex){
+                    JOptionPane.showMessageDialog(null,ex.getMessage(),"errore", JOptionPane.ERROR_MESSAGE);
 
                 }
 
@@ -148,6 +150,7 @@ public class GUISlotMachine {
         tornaIndietroButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                sessioneCorrente.stopTimer();
                 thisFrame.dispose();
                 frameChiamante.setVisible(true);
             }

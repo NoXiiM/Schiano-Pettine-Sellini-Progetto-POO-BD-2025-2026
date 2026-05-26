@@ -66,7 +66,7 @@ public class Sessione
 
     public void decrementaSaldoGiocatore(int val) throws RuntimeException
     {
-        if(val < giocatore.getFiches()) giocatore.incrementaFiches(-val);
+        if(val <= giocatore.getFiches()) giocatore.incrementaFiches(-val);
         else throw new RuntimeException("Saldo insufficiente");
     }
 

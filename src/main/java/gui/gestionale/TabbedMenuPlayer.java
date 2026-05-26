@@ -31,6 +31,7 @@ public class TabbedMenuPlayer {
     private JButton cancellaAccountButton;
     private JButton resettaPasswordButton;
     private JButton blackJack;
+    private JButton SlotMachine;
     private static JFrame thisFrame;
 
     private JFrame frameChiamante;
@@ -179,6 +180,13 @@ public class TabbedMenuPlayer {
             public void actionPerformed(ActionEvent e) {
                 thisFrame.setVisible(false);
                 new SelezioneTavoloBlackJack(thisFrame, currentClient);
+            }
+        });
+        SlotMachine.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                thisFrame.setVisible(false);
+                new SelezioneTavoloSlotMachine(thisFrame, currentClient);
             }
         });
     }

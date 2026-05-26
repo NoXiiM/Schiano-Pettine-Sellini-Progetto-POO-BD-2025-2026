@@ -7,27 +7,33 @@ import java.util.ArrayList;
 
 public class TavoloController
 {
-    ArrayList<Tavolo> listaTavoliBJ;
+    ArrayList<Tavolo> listaTavoli;
 
     public TavoloController()
     {
-        this.listaTavoliBJ = new ArrayList<>();
+        this.listaTavoli = new ArrayList<>();
     }
 
-    public void popolaLista()
+    public void popolaBlackJack()
     {
-        listaTavoliBJ.add(new Tavolo(1, Gioco.BlackJack, 5));
-        listaTavoliBJ.add(new Tavolo(2, Gioco.BlackJack, 4));
-        listaTavoliBJ.add(new Tavolo(3, Gioco.BlackJack, 4));
+        listaTavoli.add(new Tavolo(1, Gioco.BlackJack, 5));
+        listaTavoli.add(new Tavolo(2, Gioco.BlackJack, 4));
+        listaTavoli.add(new Tavolo(3, Gioco.BlackJack, 4));
+    }
+    public void popolaSlotMachine()
+    {
+        listaTavoli.add(new Tavolo(1, Gioco.SlotMachine, 1));
+        listaTavoli.add(new Tavolo(2, Gioco.SlotMachine, 0));
+        listaTavoli.add(new Tavolo(3, Gioco.SlotMachine, 1));
     }
 
     public int getNumeroPosti(int index)
     {
-        return listaTavoliBJ.get(index).getNumeroPosti();
+        return listaTavoli.get(index).getNumeroPosti();
     }
 
     public Tavolo getTavolo(int index)
     {
-        return listaTavoliBJ.get(index);
+        return listaTavoli.get(index);
     }
 }

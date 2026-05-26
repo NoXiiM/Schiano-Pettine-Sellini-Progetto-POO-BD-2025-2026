@@ -37,7 +37,7 @@ public class SelezioneTavoloBlackJack
         thisFrame.setVisible(true);
 
         controller = new TavoloController();
-        controller.popolaLista();
+        controller.popolaBlackJack();
 
         ButtonGroup selezionaTavolo = new ButtonGroup();
 

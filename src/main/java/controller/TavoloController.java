@@ -25,4 +25,9 @@ public class TavoloController
     {
         return listaTavoliBJ.get(index).getNumeroPosti();
     }
+
+    public Tavolo getTavolo(int index)
+    {
+        return listaTavoliBJ.get(index);
+    }
 }

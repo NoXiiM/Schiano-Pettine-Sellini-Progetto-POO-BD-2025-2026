@@ -1,6 +1,8 @@
 package gui.giochi;
 
+import controller.ClienteCorrente;
 import controller.blackjack.*;
+import model.gestionale.Sessione;
 import model.gestionale.utenteEFigli.Cliente;
 import model.giochi.HandStateBJ;
 import model.giochi.ManoBlackJack;
@@ -53,15 +55,15 @@ public class GUIBlackJack {
     private static JFrame thisFrame;
 
     private JFrame frameChiamante;
-    private Cliente current_client;
+    private Sessione sessioneCorrente;
 
     //TODO: questo attributo va modificato e collegato col giocatore successivamente
     private int soldi = 1000;
 
-    public GUIBlackJack(JFrame frameChiamante, Cliente current_client) {
+    public GUIBlackJack(JFrame frameChiamante, Sessione sessioneCorrente) {
 
         this.frameChiamante = frameChiamante;
-        this.current_client = current_client;
+        this.sessioneCorrente = sessioneCorrente;
 
 
         thisFrame = new JFrame("GUIBlackJack");
@@ -267,6 +269,7 @@ public class GUIBlackJack {
             public void actionPerformed(ActionEvent e) {
                 raddoppiaButton.setVisible(false);
                 chiediButton.setVisible(false);
+                dividiButton.setVisible(false);
 
                 //TODO: da modificare col collegamento
                 ManoBlackJack manoCorrente = (ManoBlackJack) controller.getMano(currentHand);

@@ -1,5 +1,6 @@
 package gui.gestionale;
 
+import controller.ClienteCorrente;
 import controller.WelcomeController;
 
 import javax.swing.*;
@@ -34,11 +35,11 @@ public class TabbedMenuPlayer {
 
     private JFrame frameChiamante;
     private WelcomeController controller;
-    private Cliente currentClient;
+    private ClienteCorrente currentClient;
 
-    public TabbedMenuPlayer(WelcomeController controller, JFrame mainframe, Cliente client) {
+    public TabbedMenuPlayer(WelcomeController controller, JFrame mainframe, ClienteCorrente currentClient) {
         this.frameChiamante = mainframe;
-        this.currentClient= client;
+        this.currentClient= currentClient;
         this.controller= controller;
 
         thisFrame = new JFrame("TabbedMenuPlayer");
@@ -51,8 +52,8 @@ public class TabbedMenuPlayer {
 
         aggiornaUsername();
 
-        saldoInGameText.setText("Saldo disponibile: " + currentClient.getSaldo());
-        saldoInSaldoText.setText("Saldo disponibile: " + currentClient.getSaldo());
+        saldoInGameText.setText("Saldo disponibile: " + currentClient.getSaldoCorrente());
+        saldoInSaldoText.setText("Saldo disponibile: " + currentClient.getSaldoCorrente());
 
         logoutButtonInSaldoPanel.addActionListener(new ActionListener() {
             @Override
@@ -87,10 +88,10 @@ public class TabbedMenuPlayer {
 
                     try {
                         int valore_deposito = Integer.parseInt(input);
-                        controller.depositaSaldoCliente(valore_deposito, currentClient);
+                        controller.depositaSaldoCliente(valore_deposito, currentClient.getClienteCorrente());
 
-                        saldoInGameText.setText("Saldo disponibile: " + currentClient.getSaldo());
-                        saldoInSaldoText.setText("Saldo disponibile: " + currentClient.getSaldo());
+                        saldoInGameText.setText("Saldo disponibile: " + currentClient.getSaldoCorrente());
+                        saldoInSaldoText.setText("Saldo disponibile: " + currentClient.getSaldoCorrente());
 
                     } catch (NumberFormatException ex_val_depo) {
                         JOptionPane.showMessageDialog(null, "Inserisci un numero intero valido.", "Errore", JOptionPane.ERROR_MESSAGE);
@@ -109,12 +110,12 @@ public class TabbedMenuPlayer {
 
                     try {
                         int valore_prelievo = Integer.parseInt(input);
-                        if(!controller.prelevaSaldoCliente(valore_prelievo, currentClient)){
+                        if(!controller.prelevaSaldoCliente(valore_prelievo, currentClient.getClienteCorrente())){
                             JOptionPane.showMessageDialog(null, "Saldo insufficiente !", "Errore", JOptionPane.ERROR_MESSAGE);
                         }
 
-                        saldoInGameText.setText("Saldo disponibile: " + currentClient.getSaldo());
-                        saldoInSaldoText.setText("Saldo disponibile: " + currentClient.getSaldo());
+                        saldoInGameText.setText("Saldo disponibile: " + currentClient.getSaldoCorrente());
+                        saldoInSaldoText.setText("Saldo disponibile: " + currentClient.getSaldoCorrente());
 
                     } catch (NumberFormatException ex_val_depo) {
                         JOptionPane.showMessageDialog(null, "Inserisci un numero intero valido.", "Errore", JOptionPane.ERROR_MESSAGE);
@@ -141,7 +142,7 @@ public class TabbedMenuPlayer {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                ChangePass changea_pass_frame= new ChangePass(currentClient, thisFrame, controller);
+                ChangePass changea_pass_frame= new ChangePass(currentClient.getClienteCorrente(), thisFrame, controller);
 
             }
         });
@@ -150,7 +151,7 @@ public class TabbedMenuPlayer {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                ChangeUsername change_user_frame = new ChangeUsername(currentClient, thisFrame, controller, TabbedMenuPlayer.this);
+                ChangeUsername change_user_frame = new ChangeUsername(currentClient.getClienteCorrente(), thisFrame, controller, TabbedMenuPlayer.this);
             }
         });
 
@@ -198,7 +199,7 @@ public class TabbedMenuPlayer {
     }
 
     public void aggiornaUsername(){
-        userFieldGamePanel.setText(currentClient.getUsername() + "\t");
-        userFieldSaldoPanel.setText(currentClient.getUsername() + "\t");
+        userFieldGamePanel.setText(currentClient.getCurrentUsername() + "\t");
+        userFieldSaldoPanel.setText(currentClient.getCurrentUsername() + "\t");
     }
 }

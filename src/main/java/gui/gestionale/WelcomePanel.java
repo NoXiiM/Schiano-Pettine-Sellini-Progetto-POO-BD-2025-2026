@@ -1,5 +1,6 @@
 package gui.gestionale;
 
+import controller.ClienteCorrente;
 import controller.WelcomeController;
 import model.gestionale.utenteEFigli.*;
 
@@ -45,7 +46,7 @@ public class WelcomePanel {
                     } else {
                         userField.setText("");
                         passwordField.setText("");
-                        TabbedMenuPlayer menuPlayerFrame= new TabbedMenuPlayer(welcomeController, mainframe, (Cliente) user);
+                        TabbedMenuPlayer menuPlayerFrame= new TabbedMenuPlayer(welcomeController, mainframe, new ClienteCorrente((Cliente) user));
                     }
 
                 } catch (RuntimeException empty_field_ex){

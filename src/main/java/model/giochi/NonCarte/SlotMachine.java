@@ -38,8 +38,8 @@ public class SlotMachine {
         Random random = new Random();
         return (simboli.get(random.nextInt(numeroSimboli)));
     }
-    public float getsaldopartita(Simboli s1, Simboli s2, Simboli s3, float saldo){
-        float creditoUscente = 0;
+    public int getsaldopartita(Simboli s1, Simboli s2, Simboli s3, int saldo){
+        int creditoUscente = 0;
         if(s1==s2 && s2==s3){// la proprietà transitiva dell'uguale garantisce in questo modo cche siano tutti e 3 uguali
             if(s1==triplodiamante){// Ultimo simbolo di cui index corrisponde la grandezza, il triplodiamante
                 creditoUscente = saldo * 10;

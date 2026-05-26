@@ -2,14 +2,16 @@ package controller.slotMachine;
 
 import model.giochi.NonCarte.Simboli;
 import model.giochi.NonCarte.SlotMachine;
-
+import model.gestionale.Sessione;
 import static model.giochi.NonCarte.Simboli.*;
 
 public class slotMachineController {
     private SlotMachine slotMachine;
+    private Sessione sessioneCorrente;
 
-    public slotMachineController(){
+    public slotMachineController(Sessione s){
         slotMachine = new SlotMachine();
+        sessioneCorrente = s;
     }
     //Ordine elementi nella slot Diamante->Ciliegia->Cocomero->Sette->TriploDiamante
 
@@ -21,12 +23,14 @@ public class slotMachineController {
     public  Simboli getSimboloCasuale(){
         return slotMachine.getSimboloCasuale();
     }
-    public float getsaldopartita(Simboli s1, Simboli s2, Simboli s3, float saldo){
+    public int getsaldopartita(Simboli s1, Simboli s2, Simboli s3, int saldo){
 
         return slotMachine.getsaldopartita(s1,s2,s3,saldo);
     }
     public String getPathSette(){
         return getCollegamento(sette);
     }
-
+    public int getsaldoGiocatore(){return sessioneCorrente.getSaldoGiocatore();}
+    public void decrementa(int creditoInserito){sessioneCorrente.decrementaSaldoGiocatore(creditoInserito);}
+    public void incrementa(int creditoInserito){sessioneCorrente.incrementaSaldoGiocatore(creditoInserito);}
 }

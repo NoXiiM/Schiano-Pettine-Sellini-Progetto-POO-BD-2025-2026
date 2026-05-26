@@ -1,6 +1,7 @@
 package gui.giochi;
 
 import controller.slotMachine.slotMachineController;
+import model.gestionale.Sessione;
 import model.giochi.NonCarte.Simboli;
 
 import javax.swing.*;
@@ -23,15 +24,27 @@ public class GUISlotMachine {
     private JRadioButton a1000RadioButton;
     private JRadioButton a2500RadioButton;
     private JRadioButton a5000RadioButton;
-    private JLabel saldotextgiocatore;
     private JLabel saldoGiocatoreNumber;
     private JLabel guadagnatoText;
+    private JButton tornaIndietroButton;
 
     private slotMachineController controller;
     private float saldoGiocatore;
 
-    public GUISlotMachine() {
-        /// Settaggio delle box scelta
+    //comunicazione tra frame
+    private static JFrame thisFrame;
+
+    private JFrame frameChiamante;
+    private Sessione sessioneCorrente;
+
+    public GUISlotMachine(JFrame frameChiamante, Sessione sessioneCorrente) {
+        //settaggio frame
+        thisFrame = new JFrame("GUISlotMachine");
+        thisFrame.setContentPane(slotMachinePanel);
+        thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        thisFrame.pack();
+        thisFrame.setVisible(true);
+        // Settaggio delle box scelta
         ButtonGroup puntate = new ButtonGroup();
         puntate.add(a10RadioButton);
         puntate.add(a20RadioButton);
@@ -72,7 +85,7 @@ public class GUISlotMachine {
 
         // recupero saldo giocatore
         saldoGiocatore=200;
-        saldoGiocatoreNumber.setText(String.format("%.2f",saldoGiocatore));
+        saldoGiocatoreNumber.setText("Il saldo del giocatore è: "+saldoGiocatore);
 
         //default di guadagno
         guadagnatoText.setText("");
@@ -117,27 +130,29 @@ public class GUISlotMachine {
                     if(creditoRisultato>0){
                         saldoGiocatore=saldoGiocatore+creditoRisultato;
                         guadagnatoText.setText("Hai guadagnato: "+creditoRisultato+"!");
-                        saldoGiocatoreNumber.setText(String.format("%.2f",saldoGiocatore));
+
                     }
                     else{
                         saldoGiocatore = saldoGiocatore-creditoInserito;
                         guadagnatoText.setText("oh no hai perso! ");
-                        saldoGiocatoreNumber.setText(String.format("%.2f",saldoGiocatore));
+
                     }
+                    saldoGiocatoreNumber.setText("Il saldo del giocatore è: "+saldoGiocatore);
                 }else{
-                    JOptionPane.showMessageDialog(null,"Saldo insufficiente per la puntata scelta");
+                    JOptionPane.showMessageDialog(null,"Saldo insufficiente per la puntata scelta","errore", JOptionPane.ERROR_MESSAGE);
+
                 }
 
             }
         });
+        tornaIndietroButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                thisFrame.dispose();
+                frameChiamante.setVisible(true);
+            }
+        });
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("GUISlotMachine");
-        frame.setContentPane(new GUISlotMachine().slotMachinePanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-    }
 }
 

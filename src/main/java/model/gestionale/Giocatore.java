@@ -15,4 +15,17 @@ public class Giocatore
         fiches = soldi;
         this.clienteAssociato = clienteAssociato;
     }
+
+    public int getFiches() {
+        return fiches;
+    }
+
+    public void setFiches(int fiches) {
+        this.fiches = fiches;
+    }
+
+    public void incrementaFiches(int fiches)
+    {
+        this.fiches += fiches;
+    }
 }

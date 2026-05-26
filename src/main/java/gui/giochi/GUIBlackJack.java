@@ -45,6 +45,7 @@ public class GUIBlackJack {
     private JLabel risultati;
     private JButton continuaButton;
     private JButton indietroButton;
+    //relativo a sessione
 
     //conta qual è la mano corrente
     private int currentHand = 0;
@@ -57,10 +58,8 @@ public class GUIBlackJack {
     private JFrame frameChiamante;
     private Sessione sessioneCorrente;
 
-    //TODO: questo attributo va modificato e collegato col giocatore successivamente
-    private int soldi = 1000;
-
     public GUIBlackJack(JFrame frameChiamante, Sessione sessioneCorrente) {
+        sessioneCorrente.startTimer();
 
         this.frameChiamante = frameChiamante;
         this.sessioneCorrente = sessioneCorrente;
@@ -73,7 +72,7 @@ public class GUIBlackJack {
         thisFrame.setVisible(true);
 
         //immagini
-        saldo.setText(String.valueOf(soldi));
+        saldo.setText(String.valueOf(sessioneCorrente.getSaldoGiocatore()));
 
         Image img = new ImageIcon(
                 getClass().getResource("/carte2/42_kerenel_Cards.png")
@@ -123,6 +122,11 @@ public class GUIBlackJack {
         indietroButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                sessioneCorrente.stopTimer();
+                //per vedere se funziona, i dati della sessione poi andranno salvati nel DB
+                System.out.println("secondi: " + sessioneCorrente.getTimeSecondi());
+                System.out.println(sessioneCorrente.getTime());
+
                 thisFrame.dispose();
                 frameChiamante.setVisible(true);
             }
@@ -141,9 +145,7 @@ public class GUIBlackJack {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int input = Integer.parseInt(textFieldPuntata.getText());
-                //TODO: modifica soldi
-                soldi -= input;
-                saldo.setText((String.valueOf(soldi)));
+                if(!decrementa(input)) return;
 
                 controller.getMano(currentHand).setPuntata(input);
                 currentHand ++;
@@ -189,8 +191,8 @@ public class GUIBlackJack {
                 ManoBlackJack manoCorrente = (ManoBlackJack) controller.getMano(currentHand);
                 manoCorrente.setSideBet(manoCorrente.getPuntata() / 2);
                 manoCorrente.setFlag(HandStateBJ.assicurazione);
-                soldi -= (manoCorrente.getPuntata()/2);
-                saldo.setText(String.valueOf(soldi));
+                if(!decrementa(manoCorrente.getPuntata()/2)) return;
+                saldo.setText(String.valueOf(sessioneCorrente.getSaldoGiocatore()));
 
                 setVisibilityPulsantiSpeciali(false);
                 setVisibilityPulsantiNormali(true);
@@ -273,8 +275,8 @@ public class GUIBlackJack {
 
                 //TODO: da modificare col collegamento
                 ManoBlackJack manoCorrente = (ManoBlackJack) controller.getMano(currentHand);
-                soldi -= manoCorrente.getPuntata();
-                saldo.setText(String.valueOf(soldi));
+                if(!decrementa(manoCorrente.getPuntata())) return;
+                saldo.setText(String.valueOf(sessioneCorrente.getSaldoGiocatore()));
                 manoCorrente.raddoppio();
 
                 controller.serviCarta(controller.getMano(currentHand));
@@ -293,8 +295,8 @@ public class GUIBlackJack {
             @Override
             public void actionPerformed(ActionEvent e) {
                 controller.divisione(currentHand);
-                soldi -= controller.getMano(currentHand).getPuntata();
-                saldo.setText(String.valueOf(soldi));
+                if(!decrementa(controller.getMano(currentHand).getPuntata())) return;
+                saldo.setText(String.valueOf(sessioneCorrente.getSaldoGiocatore()));
 
 //                controller.serviCarta(controller.getMano(currentHand));
 //                controller.serviCarta(controller.getMano(currentHand + 1));
@@ -407,17 +409,32 @@ public class GUIBlackJack {
         });
     }
 
+    //gestione saldo insufficiente
+    public boolean decrementa(int input)
+    {
+        try {
+            sessioneCorrente.decrementaSaldoGiocatore(input);
+            saldo.setText((String.valueOf(sessioneCorrente.getSaldoGiocatore())));
+
+            return true;
+        } catch (RuntimeException ex) {
+            JOptionPane.showMessageDialog(null, "saldo insufficiente",
+                    "errore", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
+
     //gestione del messaggio nella fase 4 risultatiGioco
     public void gestionePremio()
     {
         int vincita = controller.calcolaVincita(currentHand);
-        soldi += vincita;
+        sessioneCorrente.incrementaSaldoGiocatore(vincita);
         //TODO: forse non è la soluzione migliore
         if(vincita == controller.getMano(currentHand).getPuntata()) risultati.setText("push " + vincita);
         else if(vincita > 0) risultati.setText("hai vinto: " + vincita);
         else risultati.setText("hai perso");
 
-        saldo.setText(String.valueOf(soldi));
+        saldo.setText(String.valueOf(sessioneCorrente.getSaldoGiocatore()));
     }
 
     //funzioni visibilità pulsanti

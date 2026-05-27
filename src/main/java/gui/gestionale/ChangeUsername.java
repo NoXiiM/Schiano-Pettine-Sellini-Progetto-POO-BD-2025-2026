@@ -40,7 +40,7 @@ public class ChangeUsername {
                 String pass2= new String(passwordField2.getPassword());   //getPassword restituisce char[]
 
                 try {
-                    if(controller.changeUsername(currentClient.getClienteCorrente(), newUser, pass1, pass2)){
+                    if(controller.changeUsername(newUser, pass1, pass2)){
                         JOptionPane.showMessageDialog(null, "Username modificato con successo !");
 
                         parentMenu.aggiornaUsername();

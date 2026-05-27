@@ -42,7 +42,7 @@ public class ChangePass {
 
 
                 try {
-                    if(controller.changePass(currentUser.getClienteCorrente(),oldPass, newPass1, newPass2)){
+                    if(controller.changePass(oldPass, newPass1, newPass2)){
                         JOptionPane.showMessageDialog(null, "Password modificata con successo !");
 
                         frameChiamato.setVisible(false);

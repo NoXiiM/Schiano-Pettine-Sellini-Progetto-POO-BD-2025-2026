@@ -8,6 +8,7 @@ import gui.giochi.GUISlotMachine;
 import model.gestionale.Sessione;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -37,6 +38,8 @@ public class SelezioneTavoloSlotMachine {
         thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         thisFrame.pack();
         thisFrame.setVisible(true);
+        Dimension dimensioniMinime = new Dimension(700,200);
+        thisFrame.setMinimumSize(dimensioniMinime);
 
 
 

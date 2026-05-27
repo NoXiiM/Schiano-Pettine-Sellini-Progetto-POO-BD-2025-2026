@@ -46,6 +46,9 @@ public class GUISlotMachine {
         thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         thisFrame.pack();
         thisFrame.setVisible(true);
+        Dimension dimensioniMinime = new Dimension(600,300);
+        thisFrame.setMinimumSize(dimensioniMinime);
+
         //Setto una immagine icona della finestra
         ImageIcon iconaSlotMachine = new ImageIcon(getClass().getResource("/IconeSlotmachin/SfondoSlotMachine.png"));
         thisFrame.setIconImage(iconaSlotMachine.getImage().getScaledInstance(75, 75, Image.SCALE_SMOOTH));

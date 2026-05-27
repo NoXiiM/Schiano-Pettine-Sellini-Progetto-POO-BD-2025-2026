@@ -5,7 +5,9 @@
     <constraints>
       <xy x="20" y="20" width="500" height="400"/>
     </constraints>
-    <properties/>
+    <properties>
+      <background color="-15923680"/>
+    </properties>
     <border type="none"/>
     <children>
       <component id="e5ab0" class="javax.swing.JLabel" binding="simbolo1">
@@ -37,6 +39,8 @@
           <grid row="2" column="3" row-span="3" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <background color="-12772720"/>
+          <foreground color="-10496"/>
           <text value="Spin"/>
         </properties>
       </component>
@@ -45,6 +49,9 @@
           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <background color="-12772720"/>
+          <foreground color="-10496"/>
+          <hideActionText value="true"/>
           <text value="10"/>
         </properties>
       </component>
@@ -53,6 +60,8 @@
           <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <background color="-12772720"/>
+          <foreground color="-10496"/>
           <text value="20"/>
         </properties>
       </component>
@@ -61,6 +70,8 @@
           <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <background color="-12772720"/>
+          <foreground color="-10496"/>
           <text value="50"/>
         </properties>
       </component>
@@ -69,6 +80,8 @@
           <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <background color="-12772720"/>
+          <foreground color="-10496"/>
           <text value="100"/>
         </properties>
       </component>
@@ -77,6 +90,8 @@
           <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <background color="-12772720"/>
+          <foreground color="-10496"/>
           <text value="200"/>
         </properties>
       </component>
@@ -85,6 +100,8 @@
           <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <background color="-12772720"/>
+          <foreground color="-10496"/>
           <text value="500"/>
         </properties>
       </component>
@@ -93,6 +110,8 @@
           <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <background color="-12772720"/>
+          <foreground color="-10496"/>
           <text value="1000"/>
         </properties>
       </component>
@@ -101,6 +120,8 @@
           <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <background color="-12772720"/>
+          <foreground color="-10496"/>
           <text value="2500"/>
         </properties>
       </component>
@@ -109,6 +130,8 @@
           <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <background color="-12772720"/>
+          <foreground color="-10496"/>
           <text value="5000"/>
         </properties>
       </component>
@@ -117,6 +140,8 @@
           <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <background color="-10496"/>
+          <foreground color="-10496"/>
           <text value="Saldo Giocatore:"/>
         </properties>
       </component>
@@ -125,6 +150,8 @@
           <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <background color="-10496"/>
+          <foreground color="-10496"/>
           <text value="Guadagnato"/>
         </properties>
       </component>
@@ -133,6 +160,8 @@
           <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <background color="-12772720"/>
+          <foreground color="-10496"/>
           <text value="Torna Indietro"/>
         </properties>
       </component>

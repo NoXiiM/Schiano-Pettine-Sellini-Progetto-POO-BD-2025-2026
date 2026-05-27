@@ -1,12 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="gui.gestionale.MainMenuAdmin">
-  <grid id="27dc6" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="27dc6" binding="AdminPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
       <xy x="20" y="20" width="1011" height="603"/>
     </constraints>
-    <properties/>
+    <properties>
+      <background color="-15923680"/>
+    </properties>
     <border type="none"/>
-    <children/>
+    <children>
+      <tabbedpane id="e645" binding="tabbedPane1" default-binding="true">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="200" height="200"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-15923680"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <grid id="476f9" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="Gestione Utenti"/>
+            </constraints>
+            <properties>
+              <background color="-15923680"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="8219f" class="javax.swing.JList" binding="listaClienti">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="50"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <background color="-15923680"/>
+                  <font style="1"/>
+                  <foreground color="-10496"/>
+                  <model/>
+                </properties>
+              </component>
+              <component id="60e73" class="javax.swing.JButton" binding="bannaButton" default-binding="true">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-12772720"/>
+                  <foreground color="-10496"/>
+                  <text value="Banna"/>
+                </properties>
+              </component>
+              <component id="bbbef" class="javax.swing.JTextArea" binding="infoField">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="50"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <background color="-15923680"/>
+                  <font style="1"/>
+                  <foreground color="-10496"/>
+                </properties>
+              </component>
+              <component id="64276" class="javax.swing.JButton" binding="logoutButton" default-binding="true">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-12772720"/>
+                  <font style="1"/>
+                  <foreground color="-10496"/>
+                  <text value="Logout"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="ca9d6" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="Gestione Admin"/>
+            </constraints>
+            <properties>
+              <background color="-15923680"/>
+            </properties>
+            <border type="none"/>
+            <children/>
+          </grid>
+        </children>
+      </tabbedpane>
+    </children>
   </grid>
 </form>

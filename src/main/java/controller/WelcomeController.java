@@ -194,4 +194,15 @@ public class WelcomeController {
         }
         return false;
     }
+
+    public ArrayList<Cliente> getLista_clienti() {
+        ArrayList<Cliente> onlyClients= new ArrayList<>();
+
+        for(Utente i : lista_utenti){
+            if(i instanceof Cliente temp){
+                onlyClients.add(temp);
+            }
+        }
+        return onlyClients;
+    }
 }

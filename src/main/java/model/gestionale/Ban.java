@@ -12,4 +12,12 @@ public class Ban
         dataDiBan = new Date();
         this.motivi = motivi;
     }
+
+    public String getMotivi() {
+        return motivi;
+    }
+
+    public Date getDataDiBan() {
+        return dataDiBan;
+    }
 }

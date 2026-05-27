@@ -31,7 +31,7 @@ public class SelezioneTavoloSlotMachine {
     private ClienteCorrente currentClient;
     private TavoloController controller;
 
-    public SelezioneTavoloSlotMachine(JFrame frameChiamante, ClienteCorrente currentClient)
+    public SelezioneTavoloSlotMachine(JFrame frameChiamante, ClienteCorrente currentClient, TabbedMenuPlayer mainMenu)
     {
         thisFrame= new JFrame("SelezioneTavoloSlotMachine");
         thisFrame.setContentPane(selezioneTavoloPanel);
@@ -67,6 +67,7 @@ public class SelezioneTavoloSlotMachine {
             @Override
             public void actionPerformed(ActionEvent e) {
                 thisFrame.dispose();
+                mainMenu.aggiornaSaldo();
                 frameChiamante.setVisible(true);
 
             }

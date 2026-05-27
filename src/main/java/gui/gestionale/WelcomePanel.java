@@ -46,8 +46,7 @@ public class WelcomePanel {
                     passwordField.setText("");
 
                     if(user instanceof Dipendente){
-                        //TODO
-                       // MainMenuAdmin menuAdminFrame = new MainMenuAdmin(welcomeController, mainframe, new DipendenteCorrente((Dipendente) user));
+                        MainMenuAdmin menuAdminFrame = new MainMenuAdmin(welcomeController, mainframe, new DipendenteCorrente((Dipendente) user));
                     } else {
                         TabbedMenuPlayer menuPlayerFrame= new TabbedMenuPlayer(welcomeController, mainframe, new ClienteCorrente((Cliente) user));
                     }

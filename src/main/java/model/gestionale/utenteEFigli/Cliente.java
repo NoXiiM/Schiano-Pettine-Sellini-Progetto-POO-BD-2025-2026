@@ -75,10 +75,6 @@ public class Cliente extends Utente
         return vincitaPercentualeTot;
     }
 
-    public void setVincitaPercentualeTot(double vincitaPercentualeTot) {
-        this.vincitaPercentualeTot = vincitaPercentualeTot;
-    }
-
     public Ban getBan() {
         return ban;
     }
@@ -137,15 +133,15 @@ public class Cliente extends Utente
 
     @Override
     public String toString() {
-        return "Cliente{" +
-                "saldo=" + saldo +
-                ", codiceTesseraGiocatore='" + codiceTesseraGiocatore + '\'' +
-                ", tempoDiGioco=" + tempoDiGioco +
-                ", fichesGiocate=" + fichesGiocate +
-                ", vincitaPercentualeTot=" + vincitaPercentualeTot +
-                ", partiteGiocate=" + partiteGiocate +
-                ", ban=" + ban +
-                ", sospetto=" + sospetto +
-                '}';
+        return username + " " + nome + " " + cognome + " " + "sospetto: " + sospetto;
+    }
+
+    public void creaBan(String motivo){
+        this.ban= new Ban(motivo);
+    }
+
+    public String getMotivoBan(){
+        if (ban == null) return null;
+        return ban.getMotivi();
     }
 }

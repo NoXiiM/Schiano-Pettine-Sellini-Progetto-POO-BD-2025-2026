@@ -176,16 +176,24 @@ public class TabbedMenuPlayer {
         blackJack.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                thisFrame.setVisible(false);
-                new SelezioneTavoloBlackJack(thisFrame, currentClient, TabbedMenuPlayer.this);
+                if(!currentClient.isBanned()) {
+                    thisFrame.setVisible(false);
+                    new SelezioneTavoloBlackJack(thisFrame, currentClient, TabbedMenuPlayer.this);
+                } else{
+                    JOptionPane.showMessageDialog(null, "Sei stato bannato !", "Errore", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
 
         SlotMachine.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                thisFrame.setVisible(false);
-                new SelezioneTavoloSlotMachine(thisFrame, currentClient);
+                if(!currentClient.isBanned()) {
+                    thisFrame.setVisible(false);
+                    new SelezioneTavoloSlotMachine(thisFrame, currentClient, TabbedMenuPlayer.this);
+                } else{
+                    JOptionPane.showMessageDialog(null, "Sei stato bannato !", "Errore", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
     }

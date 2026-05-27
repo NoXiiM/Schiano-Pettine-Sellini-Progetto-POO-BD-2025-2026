@@ -42,4 +42,4 @@ public class ClienteCorrente
     public int getTimeSecondi(){return sessioneCorrente.getTimeSecondi();}
     public Time getTime(){return sessioneCorrente.getTime();}
     public String stringaPercentuale(){return sessioneCorrente.stringaPercentuale();}
-}
+    public boolean isBanned(){return clienteCorrente.getBan() != null;}}

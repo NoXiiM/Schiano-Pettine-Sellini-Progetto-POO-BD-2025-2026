@@ -32,8 +32,7 @@ public class TabbedMenuPlayer {
     private JButton resettaPasswordButton;
     private JButton blackJack;
     private JButton SlotMachine;
-    private JButton aggiornaSaldo;
-    private static JFrame thisFrame;
+    private JFrame thisFrame;
 
     private JFrame frameChiamante;
     private WelcomeController controller;
@@ -53,9 +52,7 @@ public class TabbedMenuPlayer {
         frameChiamante.setVisible(false);
 
         aggiornaUsername();
-
-        saldoInGameText.setText("Saldo disponibile: " + currentClient.getSaldoCorrente());
-        saldoInSaldoText.setText("Saldo disponibile: " + currentClient.getSaldoCorrente());
+        aggiornaSaldo();
 
         logoutButtonInSaldoPanel.addActionListener(new ActionListener() {
             @Override
@@ -180,20 +177,15 @@ public class TabbedMenuPlayer {
             @Override
             public void actionPerformed(ActionEvent e) {
                 thisFrame.setVisible(false);
-                new SelezioneTavoloBlackJack(thisFrame, currentClient);
+                new SelezioneTavoloBlackJack(thisFrame, currentClient, TabbedMenuPlayer.this);
             }
         });
+
         SlotMachine.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 thisFrame.setVisible(false);
                 new SelezioneTavoloSlotMachine(thisFrame, currentClient);
-            }
-        });
-        aggiornaSaldo.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                aggiornaSaldo(currentClient.getSaldoCorrente());
             }
         });
     }
@@ -214,13 +206,13 @@ public class TabbedMenuPlayer {
     }
 
     public void aggiornaUsername(){
-        userFieldGamePanel.setText(currentClient.getCurrentUsername() + "\t");
-        userFieldSaldoPanel.setText(currentClient.getCurrentUsername() + "\t");
+        userFieldGamePanel.setText(controller.getUserUtente() + "\t");
+        userFieldSaldoPanel.setText(controller.getUserUtente() + "\t");
     }
 
-    public void aggiornaSaldo(int val)
+    public void aggiornaSaldo()
     {
-        saldoInGameText.setText("Saldo disponibile: " + val);
-        saldoInSaldoText.setText("Saldo disponibile: " + val);
+        saldoInGameText.setText("Saldo disponibile: " + controller.getSaldoUtente());
+        saldoInSaldoText.setText("Saldo disponibile: " + controller.getSaldoUtente());
     }
 }

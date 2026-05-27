@@ -59,6 +59,7 @@ public class WelcomeController {
 
         for(Utente i : lista_utenti){
             if (i.getUsername().equals(username) && i.getPassword().equals(password)) {
+                currentUser= i;
                 return i;
             }
         }
@@ -142,13 +143,13 @@ public class WelcomeController {
         return Period.between(dataNascita, LocalDate.now()).getYears() >= 18;
     }
 
-    public boolean changePass(Cliente user, String oldPass, String newPass1, String newPass2) throws RuntimeException{
+    public boolean changePass(String oldPass, String newPass1, String newPass2) throws RuntimeException{
         if(oldPass.isBlank() || newPass1.isBlank() || newPass2.isBlank()) throw new RuntimeException("Compila tutti i campi!");
 
         if(!newPass1.equals(newPass2)) throw new RuntimeException("Le password non coincidono");
 
         for(Utente i : lista_utenti){
-            if (i.getPassword().equals(oldPass) && i.getUsername().equals(user.getUsername())) {
+            if (i.getPassword().equals(oldPass) && i.getUsername().equals(currentUser.getUsername())) {
                 i.setPassword(newPass1);
                 return true;
             }
@@ -156,7 +157,7 @@ public class WelcomeController {
         return false;
     }
 
-    public boolean changeUsername(Cliente user, String newUser, String pass1, String pass2) throws RuntimeException{
+    public boolean changeUsername(String newUser, String pass1, String pass2) throws RuntimeException{
         if(newUser.isBlank() || pass1.isBlank() || pass2.isBlank()) throw new RuntimeException("Compila tutti i campi!");
 
         if(!pass1.equals(pass2)) throw new RuntimeException("Le password non coincidono");
@@ -166,12 +167,20 @@ public class WelcomeController {
         }
 
         for(Utente i : lista_utenti){
-            if (i.getPassword().equals(pass1) && i.getUsername().equals(user.getUsername())) {
+            if (i.getPassword().equals(pass1) && i.getUsername().equals(currentUser.getUsername())) {
                 i.setUsername(newUser);
                 return true;
             }
         }
         return false;
+    }
 
+    public int getSaldoUtente(){
+        Cliente temp= (Cliente) currentUser;
+        return temp.getSaldo();
+    }
+
+    public String getUserUtente(){
+        return currentUser.getUsername();
     }
 }

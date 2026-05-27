@@ -27,7 +27,7 @@ public class SelezioneTavoloBlackJack
 
     private static JFrame thisFrame;
 
-    public SelezioneTavoloBlackJack(JFrame frameChiamante, ClienteCorrente currentClient)
+    public SelezioneTavoloBlackJack(JFrame frameChiamante, ClienteCorrente currentClient, TabbedMenuPlayer mainMenu)
     {
         thisFrame= new JFrame("SelezioneTavoloBlackJack");
         thisFrame.setContentPane(selezioneTavoloPanel);
@@ -75,6 +75,7 @@ public class SelezioneTavoloBlackJack
             @Override
             public void actionPerformed(ActionEvent e) {
                 thisFrame.dispose();
+                mainMenu.aggiornaSaldo();
                 frameChiamante.setVisible(true);
             }
         });

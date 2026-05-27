@@ -39,36 +39,36 @@ public class SlotMachine {
         return (simboli.get(random.nextInt(numeroSimboli)));
     }
     public int getsaldopartita(Simboli s1, Simboli s2, Simboli s3, int saldo){
-        int creditoUscente = 0;
         if(s1==s2 && s2==s3){// la proprietà transitiva dell'uguale garantisce in questo modo cche siano tutti e 3 uguali
             if(s1==triplodiamante){// Ultimo simbolo di cui index corrisponde la grandezza, il triplodiamante
-                creditoUscente = saldo * 10;
+                return saldo * 10;
             }
             if(s1==sette){// posizione sette
-                creditoUscente = saldo * 7;
+                return saldo * 7;
             }
             if(s1==cocomero){// posizione cocomero
-                creditoUscente = saldo * 5;
+                return saldo * 5;
             }
             if(s1==ciliegia){// posizione ciliegia
-                creditoUscente = saldo * 3;
+                return saldo * 3;
             }
             if(s1==diamante){// posizione diamante
-                creditoUscente = saldo * 8;
+                return saldo * 8;
             }
         }
         // Il prossimo controllo permette di capire se uno dei 3 simboli è un diamante
         if(s1==diamante || s2==diamante || s3==diamante) {
-            // il prossimo controllo è vero solo se tutti i simboli sono diversi ma almeno uno è un diamante
-            if(!(s1==s2) && !(s2==s3) && !(s1==s3)) {
+            int contatoreDiamanti = 0;
 
-                //creditoUscente = saldo * 1; rimosso dato che la probabilità di vincita diverrebbe del 40%
-            }
-            else {// qui ci si finesce se solo 2 simboli sono diamante
-                creditoUscente = saldo * 2;
+            if(s1 == diamante) contatoreDiamanti++;
+            if(s2 == diamante) contatoreDiamanti++;
+            if(s3 == diamante) contatoreDiamanti++;
+
+            if(contatoreDiamanti == 2) {
+                return saldo * 2;
             }
         }
-        return creditoUscente;
+        return 0;
     }
 
 

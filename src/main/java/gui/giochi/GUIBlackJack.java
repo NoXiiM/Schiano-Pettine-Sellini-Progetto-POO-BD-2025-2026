@@ -64,12 +64,13 @@ public class GUIBlackJack {
         this.frameChiamante = frameChiamante;
         this.sessioneCorrente = sessioneCorrente;
 
-
         thisFrame = new JFrame("GUIBlackJack");
         thisFrame.setContentPane(blackjackPanel);
         thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         thisFrame.pack();
         thisFrame.setVisible(true);
+        Dimension minDim = new Dimension(900, 500);
+        thisFrame.setMinimumSize(minDim);
 
         //immagini
         saldo.setText("saldo: " + sessioneCorrente.getSaldoGiocatore());

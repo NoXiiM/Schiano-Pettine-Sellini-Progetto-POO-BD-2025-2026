@@ -6,6 +6,7 @@ import gui.giochi.GUIBlackJack;
 import model.gestionale.utenteEFigli.Cliente;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -34,6 +35,8 @@ public class SelezioneTavoloBlackJack
         thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         thisFrame.pack();
         thisFrame.setVisible(true);
+        Dimension minDim = new Dimension(700, 200);
+        thisFrame.setMinimumSize(minDim);
 
         controller = new TavoloController();
         controller.popolaBlackJack();

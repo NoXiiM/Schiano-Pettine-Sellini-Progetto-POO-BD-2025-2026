@@ -1,7 +1,8 @@
 package gui.giochi;
 
+import controller.ClienteCorrente;
 import controller.slotMachine.slotMachineController;
-import model.gestionale.Sessione;
+
 import model.giochi.NonCarte.Simboli;
 
 import javax.swing.*;
@@ -35,11 +36,11 @@ public class GUISlotMachine {
     private static JFrame thisFrame;
 
     private JFrame frameChiamante;
-    private Sessione sessioneCorrente;
+    private ClienteCorrente clienteCorrente;
 
-    public GUISlotMachine(JFrame frameChiamante, Sessione sessioneCorrente) {
+    public GUISlotMachine(JFrame frameChiamante, ClienteCorrente clienteCorrente) {
         //settaggio frame
-        sessioneCorrente.startTimer();
+
         thisFrame = new JFrame("GUISlotMachine");
         thisFrame.setContentPane(slotMachinePanel);
         thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -72,7 +73,8 @@ public class GUISlotMachine {
 
         a10RadioButton.setSelected(true);
         /// istanziazione controller
-        controller = new slotMachineController(sessioneCorrente);
+        this.clienteCorrente = clienteCorrente;
+        controller = new slotMachineController(clienteCorrente);
         /// settaggio foto
         Image img = new ImageIcon(
                 getClass().getResource(controller.getPathSette())
@@ -90,6 +92,9 @@ public class GUISlotMachine {
 
         //default di guadagno
         guadagnatoText.setText("");
+
+        //Avvio timer
+        controller.startTimer();
 
         spinButton.addActionListener(new ActionListener() {
             @Override
@@ -157,7 +162,7 @@ public class GUISlotMachine {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                sessioneCorrente.stopTimer();
+                controller.stopTimer();
                 controller.aggiornaCliente();
                 thisFrame.dispose();
                 frameChiamante.setVisible(true);

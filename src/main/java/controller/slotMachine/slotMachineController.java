@@ -1,17 +1,18 @@
 package controller.slotMachine;
 
+import controller.ClienteCorrente;
 import model.giochi.NonCarte.Simboli;
 import model.giochi.NonCarte.SlotMachine;
-import model.gestionale.Sessione;
+
 import static model.giochi.NonCarte.Simboli.*;
 
 public class slotMachineController {
     private SlotMachine slotMachine;
-    private Sessione sessioneCorrente;
+    private ClienteCorrente clienteCorrente;
 
-    public slotMachineController(Sessione s){
+    public slotMachineController(ClienteCorrente s){
         slotMachine = new SlotMachine();
-        sessioneCorrente = s;
+        clienteCorrente = s;
     }
     //Ordine elementi nella slot Diamante->Ciliegia->Cocomero->Sette->TriploDiamante
 
@@ -30,9 +31,12 @@ public class slotMachineController {
     public String getPathSette(){
         return getCollegamento(sette);
     }
-    public int getsaldoGiocatore(){return sessioneCorrente.getSaldoGiocatore();}
-    public void decrementa(int creditoInserito){sessioneCorrente.decrementaSaldoGiocatore(creditoInserito);}
-    public void incrementa(int creditoInserito){sessioneCorrente.incrementaSaldoGiocatore(creditoInserito);}
-    public void aggiornaCliente(){sessioneCorrente.aggiornaDatiCliente(); sessioneCorrente.terminaSessione();}
-    public void aggiornaVincitaPercentuale(boolean v){sessioneCorrente.aggiornaVincitaPercentuale(v);}
+    public int getsaldoGiocatore(){return clienteCorrente.getSaldoGiocatore();}
+    public void decrementa(int creditoInserito){clienteCorrente.decrementaSaldoGiocatore(creditoInserito);}
+    public void incrementa(int creditoInserito){clienteCorrente.incrementaSaldoGiocatore(creditoInserito);}
+    public void aggiornaCliente(){clienteCorrente.aggiornaDatiCliente(); clienteCorrente.terminaSessione();}
+    public void aggiornaVincitaPercentuale(boolean v){clienteCorrente.aggiornaVincitaPercentuale(v);}
+    public void startTimer(){clienteCorrente.startTimer();}
+    public void stopTimer(){clienteCorrente.stopTimer();}
+
 }

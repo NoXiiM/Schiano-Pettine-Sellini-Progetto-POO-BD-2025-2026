@@ -8,7 +8,7 @@ import model.gestionale.utenteEFigli.Cliente;
 public class ClienteCorrente
 {
     Cliente clienteCorrente;
-
+    Sessione sessioneCorrente;
     public ClienteCorrente(Cliente clienteCorrente) {
         this.clienteCorrente = clienteCorrente;
     }
@@ -31,10 +31,19 @@ public class ClienteCorrente
         return clienteCorrente.getUsername();
     }
 
-    public Sessione creaNuovaSessioneDiGioco(Tavolo tavoloSelezionato)
+    public void creaNuovaSessioneDiGioco(Tavolo tavoloSelezionato)
     {
         Giocatore giocatoreCorrente = new Giocatore(clienteCorrente, clienteCorrente.getSaldo());
-
-        return new Sessione(giocatoreCorrente, tavoloSelezionato);
+        sessioneCorrente = new Sessione(giocatoreCorrente, tavoloSelezionato);
     }
+
+    public int getSaldoGiocatore(){ return sessioneCorrente.getSaldoGiocatore();}
+    public void decrementaSaldoGiocatore(int creditoInserito){sessioneCorrente.decrementaSaldoGiocatore(creditoInserito);}
+    public void incrementaSaldoGiocatore(int creditoInserito){sessioneCorrente.incrementaSaldoGiocatore(creditoInserito);}
+    public void aggiornaDatiCliente(){sessioneCorrente.aggiornaDatiCliente();}
+    public void terminaSessione(){terminaSessione();}
+    public void aggiornaVincitaPercentuale(boolean v){ sessioneCorrente.aggiornaVincitaPercentuale(v);}
+    public void startTimer(){sessioneCorrente.startTimer();}
+    public void stopTimer(){sessioneCorrente.stopTimer();}
+
 }

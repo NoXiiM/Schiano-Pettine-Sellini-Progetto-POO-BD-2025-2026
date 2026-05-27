@@ -33,4 +33,6 @@ public class slotMachineController {
     public int getsaldoGiocatore(){return sessioneCorrente.getSaldoGiocatore();}
     public void decrementa(int creditoInserito){sessioneCorrente.decrementaSaldoGiocatore(creditoInserito);}
     public void incrementa(int creditoInserito){sessioneCorrente.incrementaSaldoGiocatore(creditoInserito);}
+    public void aggiornaCliente(){sessioneCorrente.aggiornaDatiCliente(); sessioneCorrente.terminaSessione();}
+    public void aggiornaVincitaPercentuale(boolean v){sessioneCorrente.aggiornaVincitaPercentuale(v);}
 }

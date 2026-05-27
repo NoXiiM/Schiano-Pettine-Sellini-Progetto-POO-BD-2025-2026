@@ -77,11 +77,11 @@ public class SelezioneTavoloSlotMachine {
                         thisFrame.setVisible(false);
                         Sessione nuovaSessione;
                         try {
-                            if (slotMachine1.isEnabled())
+                            if (tavolo1RadioButton.isSelected())
                                 nuovaSessione = currentClient.creaNuovaSessioneDiGioco(controller.getTavolo(0));
-                            if (slotMachine2.isEnabled())
+                            if (tavolo2RadioButton.isSelected())
                                 nuovaSessione = currentClient.creaNuovaSessioneDiGioco(controller.getTavolo(1));
-                            if (slotMachine3.isEnabled())
+                            if (tavolo3RadioButton.isSelected())
                                 nuovaSessione = currentClient.creaNuovaSessioneDiGioco(controller.getTavolo(2));
                             else throw new RuntimeException("è successo qualcosa di brutto coi tavoli");
                             new GUISlotMachine(thisFrame, nuovaSessione);

@@ -79,9 +79,9 @@ public class SelezioneTavoloSlotMachine {
                         try {
                             if (tavolo1RadioButton.isSelected())
                                 nuovaSessione = currentClient.creaNuovaSessioneDiGioco(controller.getTavolo(0));
-                            if (tavolo2RadioButton.isSelected())
+                            else if (tavolo2RadioButton.isSelected())
                                 nuovaSessione = currentClient.creaNuovaSessioneDiGioco(controller.getTavolo(1));
-                            if (tavolo3RadioButton.isSelected())
+                            else if (tavolo3RadioButton.isSelected())
                                 nuovaSessione = currentClient.creaNuovaSessioneDiGioco(controller.getTavolo(2));
                             else throw new RuntimeException("è successo qualcosa di brutto coi tavoli");
                             new GUISlotMachine(thisFrame, nuovaSessione);

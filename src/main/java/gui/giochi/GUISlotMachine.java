@@ -133,6 +133,7 @@ public class GUISlotMachine {
 
                     //Mostriamo a schermo l'esito della partita
                     //Aggiorniamo il saldo giocatore
+                    saldoGiocatore = saldoGiocatore - Integer.parseInt(puntate.getSelection().getActionCommand());
                     if(creditoRisultato>0){
                         saldoGiocatore = saldoGiocatore+creditoRisultato;
                         controller.incrementa(creditoRisultato);

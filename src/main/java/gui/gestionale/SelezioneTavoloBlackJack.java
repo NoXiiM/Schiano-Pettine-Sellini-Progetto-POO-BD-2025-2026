@@ -3,7 +3,6 @@ package gui.gestionale;
 import controller.ClienteCorrente;
 import controller.TavoloController;
 import gui.giochi.GUIBlackJack;
-import model.gestionale.Sessione;
 import model.gestionale.utenteEFigli.Cliente;
 
 import javax.swing.*;
@@ -55,13 +54,12 @@ public class SelezioneTavoloBlackJack
                 if(selezionaTavolo.getSelection() != null)
                 {
                 thisFrame.setVisible(false);
-                Sessione nuovaSessione;
                     try {
-                        if(radioButtonBJ1.isSelected()) nuovaSessione = currentClient.creaNuovaSessioneDiGioco(controller.getTavolo(0));
-                        else if(radioButtonBJ2.isSelected()) nuovaSessione = currentClient.creaNuovaSessioneDiGioco(controller.getTavolo(1));
-                        else if(radioButtonBJ3.isSelected()) nuovaSessione = currentClient.creaNuovaSessioneDiGioco(controller.getTavolo(2));
+                        if(radioButtonBJ1.isSelected()) currentClient.creaNuovaSessioneDiGioco(controller.getTavolo(0));
+                        else if(radioButtonBJ2.isSelected()) currentClient.creaNuovaSessioneDiGioco(controller.getTavolo(1));
+                        else if(radioButtonBJ3.isSelected()) currentClient.creaNuovaSessioneDiGioco(controller.getTavolo(2));
                         else throw new RuntimeException("è successo qualcosa di brutto coi tavoli");
-                        new GUIBlackJack(thisFrame, nuovaSessione);
+                        new GUIBlackJack(thisFrame, currentClient);
                     } catch (RuntimeException ex) {
                         ex.getMessage();
                     }

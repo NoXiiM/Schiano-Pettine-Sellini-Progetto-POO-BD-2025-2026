@@ -5,6 +5,8 @@ import model.gestionale.Sessione;
 import model.gestionale.Tavolo;
 import model.gestionale.utenteEFigli.Cliente;
 
+import java.sql.Time;
+
 public class ClienteCorrente
 {
     Cliente clienteCorrente;
@@ -41,9 +43,12 @@ public class ClienteCorrente
     public void decrementaSaldoGiocatore(int creditoInserito){sessioneCorrente.decrementaSaldoGiocatore(creditoInserito);}
     public void incrementaSaldoGiocatore(int creditoInserito){sessioneCorrente.incrementaSaldoGiocatore(creditoInserito);}
     public void aggiornaDatiCliente(){sessioneCorrente.aggiornaDatiCliente();}
-    public void terminaSessione(){terminaSessione();}
+    public void terminaSessione(){sessioneCorrente.terminaSessione();}
     public void aggiornaVincitaPercentuale(boolean v){ sessioneCorrente.aggiornaVincitaPercentuale(v);}
     public void startTimer(){sessioneCorrente.startTimer();}
     public void stopTimer(){sessioneCorrente.stopTimer();}
-
+    public int getPostiTavolo(){return sessioneCorrente.getPostiTavolo();}
+    public int getTimeSecondi(){return sessioneCorrente.getTimeSecondi();}
+    public Time getTime(){return sessioneCorrente.getTime();}
+    public String stringaPercentuale(){return sessioneCorrente.stringaPercentuale();}
 }

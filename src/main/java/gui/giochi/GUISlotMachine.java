@@ -131,6 +131,7 @@ public class GUISlotMachine {
                     if(creditoRisultato>0){
                         saldoGiocatore = saldoGiocatore+creditoRisultato;
                         controller.incrementa(creditoRisultato);
+                        controller.aggiornaVincitaPercentuale(true);
                         guadagnatoText.setText("Hai vinto: "+creditoRisultato+"!");
                         saldoGiocatoreNumber.setText("Il saldo del giocatore è: "+saldoGiocatore);
 
@@ -138,9 +139,11 @@ public class GUISlotMachine {
                     else{
                         saldoGiocatore = saldoGiocatore-Integer.parseInt(puntate.getSelection().getActionCommand());
                         guadagnatoText.setText("oh no hai perso! ");
+                        controller.aggiornaVincitaPercentuale(false);
                         saldoGiocatoreNumber.setText("Il saldo del giocatore è: "+saldoGiocatore);
 
                     }
+
 
                 }
                 catch(RuntimeException ex){
@@ -153,7 +156,9 @@ public class GUISlotMachine {
         tornaIndietroButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 sessioneCorrente.stopTimer();
+                controller.aggiornaCliente();
                 thisFrame.dispose();
                 frameChiamante.setVisible(true);
             }

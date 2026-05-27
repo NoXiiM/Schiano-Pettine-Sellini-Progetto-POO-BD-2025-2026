@@ -80,7 +80,7 @@ public class Sessione
         giocatore.incrementaFiches(val);
     }
 
-    public void terminaSessione()
+    public void terminaSessione()//Aggiorna il saldo del giocatore in utente
     {
         giocatore.chiudiSessione();
     }

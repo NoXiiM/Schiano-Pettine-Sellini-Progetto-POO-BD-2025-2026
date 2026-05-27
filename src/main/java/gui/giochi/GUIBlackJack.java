@@ -83,7 +83,8 @@ public class GUIBlackJack {
         SpinnerNumberModel modelloSpinnerMazzi = new SpinnerNumberModel(1, 1, 16, 1);
         spinnernMazzi.setModel(modelloSpinnerMazzi);
 
-        SpinnerNumberModel modelloSpinnerMani = new SpinnerNumberModel(1, 1, 5, 1);
+        SpinnerNumberModel modelloSpinnerMani = new SpinnerNumberModel(1, 1,
+                sessioneCorrente.getPostiTavolo(), 1);
         spinnernMani.setModel(modelloSpinnerMani);
 
         //pulsanti azioni inizialmente invisibili, solo start rimane visibile
@@ -126,6 +127,9 @@ public class GUIBlackJack {
                 //per vedere se funziona, i dati della sessione poi andranno salvati nel DB
                 System.out.println("secondi: " + sessioneCorrente.getTimeSecondi());
                 System.out.println(sessioneCorrente.getTime());
+                System.out.println(sessioneCorrente.stringaPercentuale());
+                sessioneCorrente.aggiornaDatiCliente();
+                sessioneCorrente.terminaSessione();
 
                 thisFrame.dispose();
                 frameChiamante.setVisible(true);
@@ -144,7 +148,14 @@ public class GUIBlackJack {
         immettiButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int input = Integer.parseInt(textFieldPuntata.getText());
+                int input;
+                try {
+                    input = Integer.parseInt(textFieldPuntata.getText());
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "la puntata deve essere composta solo di numeri",
+                            "errore di input", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 if(!decrementa(input)) return;
 
                 controller.getMano(currentHand).setPuntata(input);
@@ -433,8 +444,16 @@ public class GUIBlackJack {
         sessioneCorrente.incrementaSaldoGiocatore(vincita);
         //TODO: forse non è la soluzione migliore
         if(vincita == controller.getMano(currentHand).getPuntata()) risultati.setText("push " + vincita);
-        else if(vincita > 0) risultati.setText("hai vinto: " + vincita);
-        else risultati.setText("hai perso");
+        else if(vincita > 0)
+        {
+            risultati.setText("hai vinto: " + vincita);
+            sessioneCorrente.aggiornaVincitaPercentuale(true);
+        }
+        else
+        {
+            risultati.setText("hai perso");
+            sessioneCorrente.aggiornaVincitaPercentuale(false);
+        }
 
         saldo.setText(String.valueOf(sessioneCorrente.getSaldoGiocatore()));
     }

@@ -8,12 +8,14 @@ public class Giocatore
 
     //attributi da associazioni
     private Cliente clienteAssociato;
+    private int fichesGiocate;
 
     public Giocatore(Cliente clienteAssociato, int soldi)
     {
         //magari stesso nel costruttore possiamo applicare il tasso di conversione
         fiches = soldi;
         this.clienteAssociato = clienteAssociato;
+        fichesGiocate = 0;
     }
 
     public int getFiches() {
@@ -27,5 +29,19 @@ public class Giocatore
     public void incrementaFiches(int fiches)
     {
         this.fiches += fiches;
+    }
+
+    public void chiudiSessione()
+    {
+        clienteAssociato.setSaldo(fiches);
+    }
+
+    public Cliente getClienteAssociato() {
+        return clienteAssociato;
+    }
+
+    public void incrementaFichesGiocate(int val)
+    {
+        fichesGiocate += val;
     }
 }

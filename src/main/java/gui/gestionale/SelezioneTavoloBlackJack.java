@@ -57,9 +57,9 @@ public class SelezioneTavoloBlackJack
                 thisFrame.setVisible(false);
                 Sessione nuovaSessione;
                     try {
-                        if(infoTavolo1.isEnabled()) nuovaSessione = currentClient.creaNuovaSessioneDiGioco(controller.getTavolo(0));
-                        if(infoTavolo2.isEnabled()) nuovaSessione = currentClient.creaNuovaSessioneDiGioco(controller.getTavolo(1));
-                        if(infoTavolo3.isEnabled()) nuovaSessione = currentClient.creaNuovaSessioneDiGioco(controller.getTavolo(2));
+                        if(radioButtonBJ1.isSelected()) nuovaSessione = currentClient.creaNuovaSessioneDiGioco(controller.getTavolo(0));
+                        else if(radioButtonBJ2.isSelected()) nuovaSessione = currentClient.creaNuovaSessioneDiGioco(controller.getTavolo(1));
+                        else if(radioButtonBJ3.isSelected()) nuovaSessione = currentClient.creaNuovaSessioneDiGioco(controller.getTavolo(2));
                         else throw new RuntimeException("è successo qualcosa di brutto coi tavoli");
                         new GUIBlackJack(thisFrame, nuovaSessione);
                     } catch (RuntimeException ex) {

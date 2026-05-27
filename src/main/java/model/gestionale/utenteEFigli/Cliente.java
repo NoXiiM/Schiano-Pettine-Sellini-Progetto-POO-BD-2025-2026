@@ -19,6 +19,7 @@ public class Cliente extends Utente
     protected Time tempoDiGioco;
     protected int fichesGiocate;
     protected double vincitaPercentualeTot;
+    protected int partiteGiocate;
 
     //attributi da associazioni
     private Ban ban;
@@ -34,8 +35,8 @@ public class Cliente extends Utente
         tempoDiGioco = new Time(0, 0, 0);
         fichesGiocate = 0;
         saldo= 0;
-        vincitaPercentualeTot = 0;
         ban = null;
+        partiteGiocate = 0;
     }
 
     public String getUsername() {
@@ -105,5 +106,30 @@ public class Cliente extends Utente
 
     public void setBan(Ban ban) {
         this.ban = ban;
+    }
+
+    public void aggiornaPercentualeVittoria(double vittoriaPercentualeSessione, int partiteGiocate)
+    {
+        if(partiteGiocate == 0)
+        {
+            vincitaPercentualeTot = vittoriaPercentualeSessione;
+            this.partiteGiocate = partiteGiocate;
+        }
+        else
+        {
+            vincitaPercentualeTot = (vincitaPercentualeTot*this.partiteGiocate);
+            this.partiteGiocate += partiteGiocate;
+            vincitaPercentualeTot = (vincitaPercentualeTot + vittoriaPercentualeSessione*partiteGiocate)/this.partiteGiocate;
+        }
+
+        if(partiteGiocate > 50 && vincitaPercentualeTot > 50)
+        {
+            sospetto = true;
+        }
+    }
+
+    public void aggiornaTempoDiGioco(Time tempo)
+    {
+        tempoDiGioco.after(tempo);
     }
 }

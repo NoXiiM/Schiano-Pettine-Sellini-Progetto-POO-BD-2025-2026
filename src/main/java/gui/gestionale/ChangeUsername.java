@@ -20,7 +20,7 @@ public class ChangeUsername {
     WelcomeController controller;
     ClienteCorrente currentClient;
 
-    public ChangeUsername(ClienteCorrente currentClient, JFrame frameChiamante, WelcomeController controller, TabbedMenuPlayer parentMenu) {
+    public ChangeUsername(JFrame frameChiamante, WelcomeController controller, TabbedMenuPlayer parentMenu) {
         this.currentClient = currentClient;
         this.frameChiamante= frameChiamante;
         this.controller= controller;

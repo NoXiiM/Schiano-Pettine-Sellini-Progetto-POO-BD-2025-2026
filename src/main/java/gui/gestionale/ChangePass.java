@@ -20,7 +20,7 @@ public class ChangePass {
     WelcomeController controller;
     ClienteCorrente currentUser;
 
-    public ChangePass(ClienteCorrente currentUser, JFrame frameChiamante, WelcomeController controller) {
+    public ChangePass(JFrame frameChiamante, WelcomeController controller) {
 
         this.currentUser = currentUser;
         this.frameChiamante= frameChiamante;

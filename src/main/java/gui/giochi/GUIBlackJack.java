@@ -156,12 +156,12 @@ public class GUIBlackJack {
                     input = Integer.parseInt(textFieldPuntata.getText());
                     if(input <= 0)
                     {
-                        JOptionPane.showMessageDialog(null, "non puoi puntare 0 o meno",
+                        JOptionPane.showMessageDialog(null, "Non puoi puntare 0 o meno",
                                 "errore di input", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "la puntata deve essere composta solo di numeri",
+                    JOptionPane.showMessageDialog(null, "La puntata deve essere composta da soli numeri",
                             "errore di input", JOptionPane.ERROR_MESSAGE);
                     return;
                 }

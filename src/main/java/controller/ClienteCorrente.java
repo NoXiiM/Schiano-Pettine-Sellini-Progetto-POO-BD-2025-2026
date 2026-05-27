@@ -19,18 +19,9 @@ public class ClienteCorrente
         return clienteCorrente;
     }
 
-    public void setClienteCorrente(Cliente clienteCorrente) {
-        this.clienteCorrente = clienteCorrente;
-    }
-
     public int getSaldoCorrente()
     {
         return clienteCorrente.getSaldo();
-    }
-
-    public String getCurrentUsername()
-    {
-        return clienteCorrente.getUsername();
     }
 
     public void creaNuovaSessioneDiGioco(Tavolo tavoloSelezionato)

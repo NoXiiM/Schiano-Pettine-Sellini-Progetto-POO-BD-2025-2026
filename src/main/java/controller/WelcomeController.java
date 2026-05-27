@@ -183,4 +183,15 @@ public class WelcomeController {
     public String getUserUtente(){
         return currentUser.getUsername();
     }
+
+    public boolean deleteUser(String username, String pass, String conferma) throws RuntimeException{
+        if(username.isBlank() || pass.isBlank() || conferma.isBlank()) throw new RuntimeException("Compila tutti i campi!");
+
+        if(currentUser.getUsername().equals(username) && currentUser.getPassword().equals(pass) && conferma.equals("CONFERMA")){
+            lista_utenti.remove(currentUser);
+            currentUser= null;
+            return true;
+        }
+        return false;
+    }
 }

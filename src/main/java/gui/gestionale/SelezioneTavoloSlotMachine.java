@@ -40,6 +40,7 @@ public class SelezioneTavoloSlotMachine {
         thisFrame.setVisible(true);
         Dimension dimensioniMinime = new Dimension(700,200);
         thisFrame.setMinimumSize(dimensioniMinime);
+        thisFrame.setLocationRelativeTo(null);
 
 
 

@@ -74,6 +74,7 @@ public class SelezioneTavoloBlackJack
         indietroButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 thisFrame.dispose();
                 mainMenu.aggiornaSaldo();
                 frameChiamante.setVisible(true);

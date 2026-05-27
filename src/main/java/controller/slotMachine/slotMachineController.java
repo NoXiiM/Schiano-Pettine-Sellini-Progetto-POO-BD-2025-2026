@@ -38,5 +38,6 @@ public class slotMachineController {
     public void aggiornaVincitaPercentuale(boolean v){clienteCorrente.aggiornaVincitaPercentuale(v);}
     public void startTimer(){clienteCorrente.startTimer();}
     public void stopTimer(){clienteCorrente.stopTimer();}
+    public String getCheckPercentualeVittoria(){return " "+clienteCorrente.getTime()+" "+clienteCorrente.stringaPercentuale()+"";}
 
 }

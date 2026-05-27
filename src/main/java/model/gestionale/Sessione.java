@@ -57,7 +57,8 @@ public class Sessione
         tempoDiGioco.stop();
 
         durata.setTime(secondiPassati*1000);
-    }
+        durata.setHours(durata.getHours()-1); //Questa maniera un po' primitiva per cambiare ora serve
+    }                                         //per non avere il fuso orario inglese
 
     //giocatore
     public int getSaldoGiocatore()

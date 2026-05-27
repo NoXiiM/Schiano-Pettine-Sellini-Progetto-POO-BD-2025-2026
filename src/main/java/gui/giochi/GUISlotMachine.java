@@ -100,7 +100,10 @@ public class GUISlotMachine {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try{
+                    //Cancella dal cliente e a schermo quanto puntato
                     controller.decrementa(Integer.parseInt(puntate.getSelection().getActionCommand()));
+                    saldoGiocatore = saldoGiocatore - Integer.parseInt(puntate.getSelection().getActionCommand());
+
                     int creditoRisultato;
                     Simboli colonna1, colonna2, colonna3;
 
@@ -133,7 +136,7 @@ public class GUISlotMachine {
 
                     //Mostriamo a schermo l'esito della partita
                     //Aggiorniamo il saldo giocatore
-                    saldoGiocatore = saldoGiocatore - Integer.parseInt(puntate.getSelection().getActionCommand());
+
                     if(creditoRisultato>0){
                         saldoGiocatore = saldoGiocatore+creditoRisultato;
                         controller.incrementa(creditoRisultato);
@@ -141,12 +144,14 @@ public class GUISlotMachine {
                         guadagnatoText.setText("Hai vinto: "+creditoRisultato+"!");
                         saldoGiocatoreNumber.setText("Il saldo del giocatore è: "+saldoGiocatore);
 
+
+
                     }
                     else{
-                        saldoGiocatore = saldoGiocatore-Integer.parseInt(puntate.getSelection().getActionCommand());
                         guadagnatoText.setText("oh no hai perso! ");
                         controller.aggiornaVincitaPercentuale(false);
                         saldoGiocatoreNumber.setText("Il saldo del giocatore è: "+saldoGiocatore);
+
 
                     }
 
@@ -165,6 +170,9 @@ public class GUISlotMachine {
 
                 controller.stopTimer();
                 controller.aggiornaCliente();
+                //Check della percentuale di vittoria o perdita
+                System.out.println(controller.getCheckPercentualeVittoria());
+
                 thisFrame.dispose();
                 frameChiamante.setVisible(true);
             }

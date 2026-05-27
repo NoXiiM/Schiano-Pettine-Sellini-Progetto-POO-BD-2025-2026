@@ -78,13 +78,13 @@ public class SelezioneTavoloSlotMachine {
                         Sessione nuovaSessione;
                         try {
                             if (tavolo1RadioButton.isSelected())
-                                nuovaSessione = currentClient.creaNuovaSessioneDiGioco(controller.getTavolo(0));
+                                 currentClient.creaNuovaSessioneDiGioco(controller.getTavolo(0));
                             else if (tavolo2RadioButton.isSelected())
-                                nuovaSessione = currentClient.creaNuovaSessioneDiGioco(controller.getTavolo(1));
+                                 currentClient.creaNuovaSessioneDiGioco(controller.getTavolo(1));
                             else if (tavolo3RadioButton.isSelected())
-                                nuovaSessione = currentClient.creaNuovaSessioneDiGioco(controller.getTavolo(2));
+                                 currentClient.creaNuovaSessioneDiGioco(controller.getTavolo(2));
                             else throw new RuntimeException("è successo qualcosa di brutto coi tavoli");
-                            new GUISlotMachine(thisFrame, nuovaSessione);
+                            new GUISlotMachine(thisFrame, currentClient);
                         } catch (RuntimeException ex) {
                             ex.getMessage();
                         }

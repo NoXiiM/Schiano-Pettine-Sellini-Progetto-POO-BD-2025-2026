@@ -32,6 +32,7 @@ public class TabbedMenuPlayer {
     private JButton resettaPasswordButton;
     private JButton blackJack;
     private JButton SlotMachine;
+    private JButton aggiornaSaldo;
     private static JFrame thisFrame;
 
     private JFrame frameChiamante;
@@ -136,10 +137,6 @@ public class TabbedMenuPlayer {
                         break;
                     }
                 }
-
-                //TODO: non è una buona soluzione, è solo momentanea, si potrebbe o creare un pulsante di aggiornamento
-                // oppure fare in maniera tale che una volta chiusa la finestra il saldo si aggiorni, ma non so come si fa
-                aggiornaSaldo(currentClient.getSaldoCorrente());
             }
         });
 
@@ -191,6 +188,12 @@ public class TabbedMenuPlayer {
             public void actionPerformed(ActionEvent e) {
                 thisFrame.setVisible(false);
                 new SelezioneTavoloSlotMachine(thisFrame, currentClient);
+            }
+        });
+        aggiornaSaldo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                aggiornaSaldo(currentClient.getSaldoCorrente());
             }
         });
     }

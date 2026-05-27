@@ -72,7 +72,7 @@ public class GUIBlackJack {
         thisFrame.setVisible(true);
 
         //immagini
-        saldo.setText(String.valueOf(sessioneCorrente.getSaldoGiocatore()));
+        saldo.setText("saldo: " + sessioneCorrente.getSaldoGiocatore());
 
         Image img = new ImageIcon(
                 getClass().getResource("/carte2/42_kerenel_Cards.png")
@@ -231,7 +231,7 @@ public class GUIBlackJack {
                 if(!decrementa(manoCorrente.getPuntata()/2)) return;
                 manoCorrente.setSideBet(manoCorrente.getPuntata() / 2);
                 manoCorrente.setFlag(HandStateBJ.assicurazione);
-                saldo.setText(String.valueOf(sessioneCorrente.getSaldoGiocatore()));
+                saldo.setText("saldo: " + sessioneCorrente.getSaldoGiocatore());
 
                 setVisibilityPulsantiSpeciali(false);
                 setVisibilityPulsantiNormali(true);
@@ -316,7 +316,7 @@ public class GUIBlackJack {
                 dividiButton.setVisible(false);
 
                 //TODO: da modificare col collegamento
-                saldo.setText(String.valueOf(sessioneCorrente.getSaldoGiocatore()));
+                saldo.setText("saldo: " + sessioneCorrente.getSaldoGiocatore());
                 manoCorrente.raddoppio();
 
                 controller.serviCarta(controller.getMano(currentHand));
@@ -335,7 +335,7 @@ public class GUIBlackJack {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(!decrementa(controller.getMano(currentHand).getPuntata())) return;
-                saldo.setText(String.valueOf(sessioneCorrente.getSaldoGiocatore()));
+                saldo.setText("saldo: " + sessioneCorrente.getSaldoGiocatore());
 
                 controller.divisione(currentHand);
 
@@ -455,7 +455,7 @@ public class GUIBlackJack {
     {
         try {
             sessioneCorrente.decrementaSaldoGiocatore(input);
-            saldo.setText((String.valueOf(sessioneCorrente.getSaldoGiocatore())));
+            saldo.setText("saldo: " + sessioneCorrente.getSaldoGiocatore());
 
             return true;
         } catch (RuntimeException ex) {
@@ -483,7 +483,7 @@ public class GUIBlackJack {
             sessioneCorrente.aggiornaVincitaPercentuale(false);
         }
 
-        saldo.setText(String.valueOf(sessioneCorrente.getSaldoGiocatore()));
+        saldo.setText("saldo: " + sessioneCorrente.getSaldoGiocatore());
     }
 
     //funzioni visibilità pulsanti

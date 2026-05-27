@@ -1,5 +1,6 @@
 package gui.gestionale;
 
+import controller.ClienteCorrente;
 import controller.WelcomeController;
 import model.gestionale.utenteEFigli.Cliente;
 
@@ -17,10 +18,10 @@ public class ChangeUsername {
 
     JFrame frameChiamante;
     WelcomeController controller;
-    Cliente user;
+    ClienteCorrente currentClient;
 
-    public ChangeUsername(Cliente user, JFrame frameChiamante, WelcomeController controller, TabbedMenuPlayer parentMenu) {
-        this.user= user;
+    public ChangeUsername(ClienteCorrente currentClient, JFrame frameChiamante, WelcomeController controller, TabbedMenuPlayer parentMenu) {
+        this.currentClient = currentClient;
         this.frameChiamante= frameChiamante;
         this.controller= controller;
 
@@ -39,7 +40,7 @@ public class ChangeUsername {
                 String pass2= new String(passwordField2.getPassword());   //getPassword restituisce char[]
 
                 try {
-                    if(controller.changeUsername(user, newUser, pass1, pass2)){
+                    if(controller.changeUsername(currentClient.getClienteCorrente(), newUser, pass1, pass2)){
                         JOptionPane.showMessageDialog(null, "Username modificato con successo !");
 
                         parentMenu.aggiornaUsername();

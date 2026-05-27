@@ -1,5 +1,6 @@
 package gui.gestionale;
 
+import controller.ClienteCorrente;
 import controller.WelcomeController;
 import model.gestionale.utenteEFigli.Cliente;
 
@@ -17,11 +18,11 @@ public class ChangePass {
 
     JFrame frameChiamante;
     WelcomeController controller;
-    Cliente user;
+    ClienteCorrente currentUser;
 
-    public ChangePass(Cliente user, JFrame frameChiamante, WelcomeController controller) {
+    public ChangePass(ClienteCorrente currentUser, JFrame frameChiamante, WelcomeController controller) {
 
-        this.user= user;
+        this.currentUser = currentUser;
         this.frameChiamante= frameChiamante;
         this.controller= controller;
 
@@ -41,7 +42,7 @@ public class ChangePass {
 
 
                 try {
-                    if(controller.changePass(user,oldPass, newPass1, newPass2)){
+                    if(controller.changePass(currentUser.getClienteCorrente(),oldPass, newPass1, newPass2)){
                         JOptionPane.showMessageDialog(null, "Password modificata con successo !");
 
                         frameChiamato.setVisible(false);

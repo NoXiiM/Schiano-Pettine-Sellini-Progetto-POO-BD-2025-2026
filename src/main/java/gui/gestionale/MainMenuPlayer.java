@@ -4,24 +4,22 @@ import controller.WelcomeController;
 
 import javax.swing.*;
 
-public class mainMenuAdmin {
-    private JPanel AdminMainMenu;
+public class MainMenuPlayer {
+    private JPanel PlayerMainMenu;
     private JLabel usernameInMainMenu;
-    private JButton gestisciUtenti;
+    private JButton iniziaPartitaButton;
     private JButton gestisciFondiButton;
-    private JButton controllaUtenti;
-    private JButton controllaPartite;
 
     private JFrame frameChiamante;
     private WelcomeController controller;
 
 
-    public mainMenuAdmin(WelcomeController welcomeController, JFrame mainframe, String username) {
+    public MainMenuPlayer(WelcomeController welcomeController, JFrame mainframe, String username) {
         this.controller = welcomeController;
         this.frameChiamante = mainframe;
 
-        JFrame frameChiamato= new JFrame("mainMenuAdmin");
-        frameChiamato.setContentPane(AdminMainMenu);
+        JFrame frameChiamato= new JFrame("mainMenuPlayer");
+        frameChiamato.setContentPane(PlayerMainMenu);
         frameChiamato.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frameChiamato.setVisible(true);
         frameChiamato.pack();

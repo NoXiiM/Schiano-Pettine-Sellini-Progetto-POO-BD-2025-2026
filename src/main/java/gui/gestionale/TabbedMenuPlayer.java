@@ -147,7 +147,7 @@ public class TabbedMenuPlayer {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                ChangePass changea_pass_frame= new ChangePass(currentClient.getClienteCorrente(), thisFrame, controller);
+                ChangePass changea_pass_frame= new ChangePass(currentClient, thisFrame, controller);
 
             }
         });
@@ -156,7 +156,7 @@ public class TabbedMenuPlayer {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                ChangeUsername change_user_frame = new ChangeUsername(currentClient.getClienteCorrente(), thisFrame, controller, TabbedMenuPlayer.this);
+                ChangeUsername change_user_frame = new ChangeUsername(currentClient, thisFrame, controller, TabbedMenuPlayer.this);
             }
         });
 

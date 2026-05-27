@@ -1,6 +1,7 @@
 package gui.gestionale;
 
 import controller.ClienteCorrente;
+import controller.DipendenteCorrente;
 import controller.WelcomeController;
 import model.gestionale.utenteEFigli.*;
 
@@ -41,11 +42,13 @@ public class WelcomePanel {
                 try{
                     Utente user= welcomeController.login(username, password);
 
-                    if(user instanceof Dipendente){
+                    userField.setText("");
+                    passwordField.setText("");
 
+                    if(user instanceof Dipendente){
+                        //TODO
+                        MainMenuAdmin menuAdminFrame = new MainMenuAdmin(welcomeController, mainframe, new DipendenteCorrente((Dipendente) user));
                     } else {
-                        userField.setText("");
-                        passwordField.setText("");
                         TabbedMenuPlayer menuPlayerFrame= new TabbedMenuPlayer(welcomeController, mainframe, new ClienteCorrente((Cliente) user));
                     }
 

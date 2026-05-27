@@ -34,6 +34,7 @@ public class Giocatore
     public void chiudiSessione()
     {
         clienteAssociato.setSaldo(fiches);
+        clienteAssociato.setFichesGiocate(fichesGiocate);
     }
 
     public Cliente getClienteAssociato() {

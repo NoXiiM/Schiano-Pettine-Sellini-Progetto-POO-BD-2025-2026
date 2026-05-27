@@ -39,5 +39,7 @@ public class slotMachineController {
     public void startTimer(){clienteCorrente.startTimer();}
     public void stopTimer(){clienteCorrente.stopTimer();}
     public String getCheckPercentualeVittoria(){return " "+clienteCorrente.getTime()+" "+clienteCorrente.stringaPercentuale()+"";}
-
+    public ClienteCorrente getClienteCorrente() {
+        return clienteCorrente;
+    }
 }

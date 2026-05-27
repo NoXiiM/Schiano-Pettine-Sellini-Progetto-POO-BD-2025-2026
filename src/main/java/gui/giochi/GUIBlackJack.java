@@ -125,11 +125,12 @@ public class GUIBlackJack {
             public void actionPerformed(ActionEvent e) {
                 sessioneCorrente.stopTimer();
                 //per vedere se funziona, i dati della sessione poi andranno salvati nel DB
+                sessioneCorrente.aggiornaDatiCliente();
+                sessioneCorrente.terminaSessione();
                 System.out.println("secondi: " + sessioneCorrente.getTimeSecondi());
                 System.out.println(sessioneCorrente.getTime());
                 System.out.println(sessioneCorrente.stringaPercentuale());
-                sessioneCorrente.aggiornaDatiCliente();
-                sessioneCorrente.terminaSessione();
+                System.out.println(sessioneCorrente.getClienteCorrente());
 
                 thisFrame.dispose();
                 frameChiamante.setVisible(true);
@@ -185,12 +186,13 @@ public class GUIBlackJack {
             public void actionPerformed(ActionEvent e) {
                 sessioneCorrente.stopTimer();
                 //per vedere se funziona, i dati della sessione poi andranno salvati nel DB
-                System.out.println("secondi: " + sessioneCorrente.getTimeSecondi());
-                System.out.println(sessioneCorrente.getTime());
-                System.out.println(sessioneCorrente.stringaPercentuale());
                 sessioneCorrente.incrementaSaldoGiocatore(controller.restituisciPuntate());
                 sessioneCorrente.aggiornaDatiCliente();
                 sessioneCorrente.terminaSessione();
+                System.out.println("secondi: " + sessioneCorrente.getTimeSecondi());
+                System.out.println(sessioneCorrente.getTime());
+                System.out.println(sessioneCorrente.stringaPercentuale());
+                System.out.println(sessioneCorrente.getClienteCorrente());
 
                 thisFrame.dispose();
                 frameChiamante.setVisible(true);

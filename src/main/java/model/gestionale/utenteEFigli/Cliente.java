@@ -130,6 +130,22 @@ public class Cliente extends Utente
 
     public void aggiornaTempoDiGioco(Time tempo)
     {
-        tempoDiGioco.after(tempo);
+        tempoDiGioco.setHours(tempoDiGioco.getHours() + tempo.getHours());
+        tempoDiGioco.setMinutes(tempoDiGioco.getMinutes() + tempo.getMinutes());
+        tempoDiGioco.setSeconds(tempoDiGioco.getSeconds() + tempo.getSeconds());
+    }
+
+    @Override
+    public String toString() {
+        return "Cliente{" +
+                "saldo=" + saldo +
+                ", codiceTesseraGiocatore='" + codiceTesseraGiocatore + '\'' +
+                ", tempoDiGioco=" + tempoDiGioco +
+                ", fichesGiocate=" + fichesGiocate +
+                ", vincitaPercentualeTot=" + vincitaPercentualeTot +
+                ", partiteGiocate=" + partiteGiocate +
+                ", ban=" + ban +
+                ", sospetto=" + sospetto +
+                '}';
     }
 }

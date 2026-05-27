@@ -46,6 +46,9 @@ public class GUISlotMachine {
         thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         thisFrame.pack();
         thisFrame.setVisible(true);
+        //Setto una immagine icona della finestra
+        ImageIcon iconaSlotMachine = new ImageIcon(getClass().getResource("/IconeSlotmachin/SfondoSlotMachine.png"));
+        thisFrame.setIconImage(iconaSlotMachine.getImage().getScaledInstance(75, 75, Image.SCALE_SMOOTH));
         // Settaggio delle box scelta
         ButtonGroup puntate = new ButtonGroup();
         puntate.add(a10RadioButton);

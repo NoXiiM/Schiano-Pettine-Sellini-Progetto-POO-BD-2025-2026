@@ -24,6 +24,10 @@ public class ManoBlackJack extends Mano implements Cloneable
         this.sideBet = sideBet;
     }
 
+    public int getSideBet() {
+        return sideBet;
+    }
+
     public void raddoppio()
     {
         puntata *= 2;

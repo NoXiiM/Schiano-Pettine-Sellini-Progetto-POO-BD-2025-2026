@@ -234,4 +234,18 @@ public class ControllerBlackJack extends ControllerMazzo
     public void setIndiceRiduzioneMano(int indiceRiduzioneMano) {
         this.indiceRiduzioneMano = indiceRiduzioneMano;
     }
+
+    public int restituisciPuntate()
+    {
+        int soldi = 0;
+
+        for(Mano i: listaMani)
+        {
+            ManoBlackJack manoCorrente = (ManoBlackJack) i;
+
+            soldi += manoCorrente.getPuntata() + manoCorrente.getSideBet();
+        }
+
+        return soldi;
+    }
 }

@@ -140,8 +140,10 @@ public class GUIBlackJack {
     public void puntare()
     {
         rimuoviActionListener(immettiButton);
+        rimuoviActionListener(indietroButton);
 
         pulsantiPuntVisibilita(true);
+        indietroButton.setVisible(true);
 
         puntata.setText("puntata per la mano " + (currentHand + 1));
 
@@ -151,6 +153,12 @@ public class GUIBlackJack {
                 int input;
                 try {
                     input = Integer.parseInt(textFieldPuntata.getText());
+                    if(input <= 0)
+                    {
+                        JOptionPane.showMessageDialog(null, "non puoi puntare 0 o meno",
+                                "errore di input", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "la puntata deve essere composta solo di numeri",
                             "errore di input", JOptionPane.ERROR_MESSAGE);
@@ -172,6 +180,22 @@ public class GUIBlackJack {
                 }
             }
         });
+        indietroButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sessioneCorrente.stopTimer();
+                //per vedere se funziona, i dati della sessione poi andranno salvati nel DB
+                System.out.println("secondi: " + sessioneCorrente.getTimeSecondi());
+                System.out.println(sessioneCorrente.getTime());
+                System.out.println(sessioneCorrente.stringaPercentuale());
+                sessioneCorrente.incrementaSaldoGiocatore(controller.restituisciPuntate());
+                sessioneCorrente.aggiornaDatiCliente();
+                sessioneCorrente.terminaSessione();
+
+                thisFrame.dispose();
+                frameChiamante.setVisible(true);
+            }
+        });
     }
 
     public void iniziaPartita()
@@ -183,6 +207,8 @@ public class GUIBlackJack {
         rimuoviActionListener(chiediButton);
         rimuoviActionListener(raddoppiaButton);
         rimuoviActionListener(dividiButton);
+
+        indietroButton.setVisible(false);
 
         currentHand = 0;
         controller.serviCarte();

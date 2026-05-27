@@ -129,16 +129,19 @@ public class GUISlotMachine {
                     //Mostriamo a schermo l'esito della partita
                     //Aggiorniamo il saldo giocatore
                     if(creditoRisultato>0){
+                        saldoGiocatore = saldoGiocatore+creditoRisultato;
                         controller.incrementa(creditoRisultato);
-                        guadagnatoText.setText("Hai guadagnato: "+creditoRisultato+"!");
+                        guadagnatoText.setText("Hai vinto: "+creditoRisultato+"!");
+                        saldoGiocatoreNumber.setText("Il saldo del giocatore è: "+saldoGiocatore);
 
                     }
                     else{
                         saldoGiocatore = saldoGiocatore-Integer.parseInt(puntate.getSelection().getActionCommand());
                         guadagnatoText.setText("oh no hai perso! ");
+                        saldoGiocatoreNumber.setText("Il saldo del giocatore è: "+saldoGiocatore);
 
                     }
-                    saldoGiocatoreNumber.setText("Il saldo del giocatore è: "+saldoGiocatore);
+
                 }
                 catch(RuntimeException ex){
                     JOptionPane.showMessageDialog(null,ex.getMessage(),"errore", JOptionPane.ERROR_MESSAGE);

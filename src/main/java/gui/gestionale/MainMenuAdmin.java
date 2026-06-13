@@ -25,14 +25,14 @@ public class MainMenuAdmin {
     private static DefaultListModel<Cliente> modelloListaClienti;
 
     public MainMenuAdmin(WelcomeController controller, JFrame frameChiamante, DipendenteCorrente dipendenteCorrente) {
-
+        this.controller = controller;
         this.frameChiamante= frameChiamante;
 
         modelloListaClienti= new DefaultListModel<>();
         modelloListaClienti.addAll(controller.getLista_clienti());
         listaClienti.setModel(modelloListaClienti);
 
-        JFrame thisFrame = new JFrame("MainMenuAdmin");
+        thisFrame = new JFrame("MainMenuAdmin");
         thisFrame.setContentPane(AdminPanel);
         thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         thisFrame.pack();

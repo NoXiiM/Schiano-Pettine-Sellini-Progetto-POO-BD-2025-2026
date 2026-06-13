@@ -12,8 +12,8 @@ public abstract class ControllerMazzo
 
     public ControllerMazzo(int nmazzi, int nmani, Gioco gioco)
     {
+        //System.out.println(nmazzi);
         mazzo = new Sabot(nmazzi, gioco);
-        mazzo.inizializzaSabot();
         mazzo.mischiaMazzo();
 
         for(int i = 0; i < nmani; i++)
@@ -104,5 +104,11 @@ public abstract class ControllerMazzo
     public Mano getMano(int index)
     {
         return listaMani.get(index);
+    }
+
+    //per debug
+    public void stampaCarte()
+    {
+        mazzo.stampaCarte();
     }
 }

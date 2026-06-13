@@ -12,6 +12,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * The type Gui black jack.
+ */
 public class GUIBlackJack {
     //deck
     private JLabel deck;
@@ -58,6 +61,12 @@ public class GUIBlackJack {
     private JFrame frameChiamante;
     private ClienteCorrente sessioneCorrente;
 
+    /**
+     * Instantiates a new Gui black jack.
+     *
+     * @param frameChiamante   the frame chiamante
+     * @param sessioneCorrente the sessione corrente
+     */
     public GUIBlackJack(JFrame frameChiamante, ClienteCorrente sessioneCorrente) {
         sessioneCorrente.startTimer();
 
@@ -106,8 +115,10 @@ public class GUIBlackJack {
             public void actionPerformed(ActionEvent e) {
                 int nmazzi = (int) spinnernMazzi.getValue();
                 mani = (int) spinnernMani.getValue();
+                //System.out.println(nmazzi);
 
                 controller = new ControllerBlackJack(nmazzi, mani);
+                //controller.stampaCarte();
 
                 //tolgo i pulsanti di inizializzazione
                 spinnernMazzi.setVisible(false);
@@ -139,6 +150,9 @@ public class GUIBlackJack {
         });
     }
 
+    /**
+     * Puntare.
+     */
     public void puntare()
     {
         rimuoviActionListener(immettiButton);
@@ -201,6 +215,9 @@ public class GUIBlackJack {
         });
     }
 
+    /**
+     * Inizia partita.
+     */
     public void iniziaPartita()
     {
         rimuoviActionListener(assicuraButton);
@@ -293,6 +310,7 @@ public class GUIBlackJack {
             @Override
             public void actionPerformed(ActionEvent e) {
                 raddoppiaButton.setVisible(false);
+                dividiButton.setVisible(false);
 
                 controller.serviCarta(controller.getMano(currentHand));
                 manoGiocatorePanel.removeAll();
@@ -352,6 +370,9 @@ public class GUIBlackJack {
         });
     }
 
+    /**
+     * Turno banco.
+     */
     public void turnoBanco()
     {
         rimuoviActionListener(okButton);
@@ -378,6 +399,9 @@ public class GUIBlackJack {
         });
     }
 
+    /**
+     * Risultati gioco.
+     */
     public void risultatiGioco()
     {
         rimuoviActionListener(okButton);
@@ -414,6 +438,9 @@ public class GUIBlackJack {
         });
     }
 
+    /**
+     * Reset.
+     */
     public void reset()
     {
         rimuoviActionListener(continuaButton);
@@ -451,7 +478,13 @@ public class GUIBlackJack {
         });
     }
 
-    //gestione saldo insufficiente
+    /**
+     * Decrementa boolean.
+     *
+     * @param input the input
+     * @return the boolean
+     */
+//gestione saldo insufficiente
     public boolean decrementa(int input)
     {
         try {
@@ -466,7 +499,10 @@ public class GUIBlackJack {
         }
     }
 
-    //gestione del messaggio nella fase 4 risultatiGioco
+    /**
+     * Gestione premio.
+     */
+//gestione del messaggio nella fase 4 risultatiGioco
     public void gestionePremio()
     {
         int vincita = controller.calcolaVincita(currentHand);
@@ -487,7 +523,12 @@ public class GUIBlackJack {
         saldo.setText("saldo: " + sessioneCorrente.getSaldoGiocatore());
     }
 
-    //funzioni visibilità pulsanti
+    /**
+     * Sets visibility pulsanti speciali.
+     *
+     * @param stato the stato
+     */
+//funzioni visibilità pulsanti
     public void setVisibilityPulsantiSpeciali(boolean stato)
     {
         evenMoneyButton.setVisible(stato);
@@ -495,6 +536,11 @@ public class GUIBlackJack {
         rifiutaButton.setVisible(stato);
     }
 
+    /**
+     * Sets visibility pulsanti normali.
+     *
+     * @param stato the stato
+     */
     public void setVisibilityPulsantiNormali(boolean stato)
     {
         staiButton.setVisible(stato);
@@ -503,6 +549,11 @@ public class GUIBlackJack {
         if(controller.isSplittable(currentHand)) dividiButton.setVisible(stato);
     }
 
+    /**
+     * Pulsanti punt visibilita.
+     *
+     * @param val the val
+     */
     public void pulsantiPuntVisibilita(boolean val)
     {
         puntata.setVisible(val);
@@ -510,26 +561,43 @@ public class GUIBlackJack {
         immettiButton.setVisible(val);
     }
 
-    //funzione per pulire tutti gli action listener di un jbutton
+    /**
+     * Rimuovi action listener.
+     *
+     * @param pulsante the pulsante
+     */
+//funzione per pulire tutti gli action listener di un jbutton
     public void rimuoviActionListener(JButton pulsante)
     {
         for (ActionListener i : pulsante.getActionListeners()) {
             pulsante.removeActionListener(i);
         }
     }
-    //funzioni di aggiornamento
+
+    /**
+     * Refresh panel.
+     *
+     * @param pannello the pannello
+     */
+//funzioni di aggiornamento
     public void refreshPanel(JPanel pannello)
     {
         pannello.revalidate();
         pannello.repaint();
     }
 
+    /**
+     * Refresh mano tag.
+     */
     public void refreshManoTag()
     {
         manoTag.setText("Mano " + (currentHand + 1));
     }
 
-    //sacrosantissima funzione che gestisce in base allo stato della mano corrente i pulsanti da mostrare all'inizio
+    /**
+     * Pulsantiera.
+     */
+//sacrosantissima funzione che gestisce in base allo stato della mano corrente i pulsanti da mostrare all'inizio
     public void pulsantiera()
     {
         switch(controller.statoPartitaIniziale(currentHand))
@@ -554,7 +622,10 @@ public class GUIBlackJack {
         }
     }
 
-    //funzioni che "disegnano" le carte
+    /**
+     * Paint cards dealer 1.
+     */
+//funzioni che "disegnano" le carte
     public void paintCardsDealer1()
     {
         JLabel temp;
@@ -565,6 +636,9 @@ public class GUIBlackJack {
         manoBancoPanel.add(temp);
     }
 
+    /**
+     * Paint cards dealer 2.
+     */
     public void paintCardsDealer2()
     {
         String pathIm;
@@ -579,6 +653,9 @@ public class GUIBlackJack {
         }
     }
 
+    /**
+     * Paint cards player.
+     */
     public void paintCardsPlayer()
     {
         String pathIm;
@@ -595,7 +672,10 @@ public class GUIBlackJack {
         }
     }
 
-    //funzione per passare alla mano successiva
+    /**
+     * Next hand.
+     */
+//funzione per passare alla mano successiva
     public void nextHand()
     {
         risultati.setText("");

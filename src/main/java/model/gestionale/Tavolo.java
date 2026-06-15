@@ -40,4 +40,15 @@ public class Tavolo
     public int getNumeroPosti() {
         return numeroPosti;
     }
+
+    //Necessari alla selezione del tavolo
+    @Override
+    public String toString() {
+        return "Il tavolo " + numero +
+                " ha " + numeroPosti +
+                " posti";
+    }
+
+    public int getNumero(){ return numero;}
 }
+

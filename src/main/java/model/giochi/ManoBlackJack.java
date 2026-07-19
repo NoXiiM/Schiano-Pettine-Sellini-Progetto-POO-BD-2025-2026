@@ -2,7 +2,7 @@ package model.giochi;
 
 import model.gestionale.Gioco;
 
-public class ManoBlackJack extends Mano implements Cloneable
+public class ManoBlackJack extends Mano
 {
     private HandStateBJ flag;
     private int sideBet;
@@ -37,7 +37,6 @@ public class ManoBlackJack extends Mano implements Cloneable
     {
         Carta temp = listaMano.getLast();
         listaMano.removeLast();
-        listaMano.trimToSize();
 
         return temp;
     }

@@ -1,7 +1,6 @@
 package model.gestionale.utenteEFigli;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public abstract class Dipendente extends Utente
 {

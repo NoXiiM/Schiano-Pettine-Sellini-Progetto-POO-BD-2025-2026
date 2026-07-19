@@ -1,6 +1,8 @@
 package model.giochi.NonCarte;
 
 public abstract class Macchina {
+    //da completare?
+
     protected float creditoOriginario;
     /// Credito iniziale presente nella macchina all'inserimento da parte dello staff
     protected float creditoInterno;
@@ -30,7 +32,4 @@ public abstract class Macchina {
             }
         }
     }
-
-
-
 }

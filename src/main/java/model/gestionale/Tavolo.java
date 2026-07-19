@@ -14,7 +14,7 @@ public class Tavolo
     private Dealer dealer;
     //probabilmente non serve
     //private ArrayList<Giocatore> listaGiocatori;
-    private ArrayList<Sessione> sessioniAperteSulTavolo = new ArrayList<>();
+    //private ArrayList<Sessione> sessioniAperteSulTavolo = new ArrayList<>();
 
     public Tavolo(int numero, Gioco gioco, int numeroPosti)
     {
@@ -29,13 +29,6 @@ public class Tavolo
         this(numero, gioco, numeroPosti);
         this.dealer = dealer;
     }
-
-//    public Tavolo(int numero, Gioco gioco, int numeroPosti, Dealer dealer, Giocatore giocatore)
-//    {
-//        this(numero, gioco, numeroPosti, dealer);
-//        listaGiocatori.add(giocatore);
-//    }
-
 
     public int getNumeroPosti() {
         return numeroPosti;

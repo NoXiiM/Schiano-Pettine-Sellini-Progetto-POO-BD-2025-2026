@@ -6,12 +6,6 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.util.Date;
 
-/*
-    da fare:
-        metodi:
-        convertiInFiches
-*/
-
 public class Cliente extends Utente
 {
     protected int saldo;
@@ -19,11 +13,13 @@ public class Cliente extends Utente
     protected Time tempoDiGioco;
     protected int fichesGiocate;
     protected double vincitaPercentualeTot;
+    //in più rispetto a uml
     protected int partiteGiocate;
+    //TODO: creare cliente base?
+    private boolean sospetto;
 
     //attributi da associazioni
     private Ban ban;
-    private boolean sospetto;
 
     public Cliente(String username, String nome, String cognome, String codiceFiscale,
                    LocalDate dataDiNascita, String password, String codiceTesseraGiocatore)
@@ -67,8 +63,8 @@ public class Cliente extends Utente
         return fichesGiocate;
     }
 
-    public void setFichesGiocate(int fichesGiocate) {
-        this.fichesGiocate = fichesGiocate;
+    public void incrementaFichesGiocate(int fichesGiocate) {
+        this.fichesGiocate += fichesGiocate;
     }
 
     public double getVincitaPercentualeTot() {
@@ -106,7 +102,7 @@ public class Cliente extends Utente
 
     public void aggiornaPercentualeVittoria(double vittoriaPercentualeSessione, int partiteGiocate)
     {
-        if(partiteGiocate == 0)
+        if(this.partiteGiocate == 0)
         {
             vincitaPercentualeTot = vittoriaPercentualeSessione;
             this.partiteGiocate = partiteGiocate;
@@ -137,7 +133,7 @@ public class Cliente extends Utente
     }
 
     public void creaBan(String motivo){
-        this.ban= new Ban(motivo);
+        this.ban = new Ban(motivo);
     }
 
     public String getMotivoBan(){

@@ -20,12 +20,12 @@ public class ControllerBlackJack extends ControllerMazzo
     }
 
     @Override
-    public Mano creaMano(Gioco gioco) {
+    protected ManoBlackJack creaMano(Gioco gioco) {
         return new ManoBlackJack(gioco);
     }
 
     //funzione che calcola punteggio di una mano
-    public int getPoints(Mano mano)
+    public int getPoints(ManoBlackJack mano)
     {
         int acc = 0;
         int aceCounter = 0;
@@ -124,16 +124,21 @@ public class ControllerBlackJack extends ControllerMazzo
         return banco;
     }
 
+    @Override
+    public ManoBlackJack getMano(int index) {
+        return (ManoBlackJack) super.getMano(index);
+    }
+
     //setta la mano nello stato di gioco corretto
-    public StatiGioco statoPartitaIniziale(int iManoGiocatore)
+    public HandStateBJ statoPartitaIniziale(int iManoGiocatore)
     {
-        Mano corrente = listaMani.get(iManoGiocatore);
+        ManoBlackJack corrente = (ManoBlackJack) listaMani.get(iManoGiocatore);
 
-        if(getValoreNumero(banco.getCarta(0)) == 1 && getPoints(corrente) == 21) return StatiGioco.evenmoney;
-        if(getValoreNumero(banco.getCarta(0)) == 1) return StatiGioco.assicurabile;
-        if(getPoints(corrente) == 21) return StatiGioco.blackjack;
+        if(getValoreNumero(banco.getCarta(0)) == 1 && getPoints(corrente) == 21) return HandStateBJ.evenmoney;
+        if(getValoreNumero(banco.getCarta(0)) == 1) return HandStateBJ.assicurazione;
+        if(getPoints(corrente) == 21) return HandStateBJ.bj;
 
-        return StatiGioco.normale;
+        return HandStateBJ.normale;
     }
 
     public void setStatoBanco()
@@ -235,6 +240,7 @@ public class ControllerBlackJack extends ControllerMazzo
         this.indiceRiduzioneMano = indiceRiduzioneMano;
     }
 
+    //funzione per quando il giocatore sceglie di uscire dal gioco pur avendo messo qualche puntata
     public int restituisciPuntate()
     {
         int soldi = 0;

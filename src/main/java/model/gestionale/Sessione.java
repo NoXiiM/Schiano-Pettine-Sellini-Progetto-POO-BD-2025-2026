@@ -9,14 +9,16 @@ public class Sessione
 {
     private Time durata;
     private double vincitaPercentuale;
+    //in più rispetto a uml
     private int partiteSvolte;
+    //in più rispetto a uml
+    private Timer tempoDiGioco;
+    private int secondiPassati;
 
     //attributi da associazioni
     private Giocatore giocatore;
     private Tavolo tavolo;
 
-    private Timer tempoDiGioco;
-    private int secondiPassati;
 
     public Sessione(Giocatore giocatore, Tavolo tavolo)
     {

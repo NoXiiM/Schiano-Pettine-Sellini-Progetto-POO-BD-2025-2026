@@ -606,11 +606,11 @@ public class GUIBlackJack {
                 evenMoneyButton.setVisible(true);
                 rifiutaButton.setVisible(true);
                 break;
-            case assicurabile:
+            case assicurazione:
                 assicuraButton.setVisible(true);
                 rifiutaButton.setVisible(true);
                 break;
-            case blackjack:
+            case bj:
                 JOptionPane.showMessageDialog(null, "Black Jack!");
                 ManoBlackJack manoCorrente = (ManoBlackJack) controller.getMano(currentHand);
                 manoCorrente.setFlag(HandStateBJ.bj);

@@ -15,6 +15,7 @@ public class WelcomeController {
 
 //    private ArrayList<Cliente> lista_giocatori= new ArrayList<>();
 //    private ArrayList<Dipendente> lista_admin= new ArrayList<>();
+    //TODO: molte cose in questo file andranno cambiate con l'implementazione del database
     private ArrayList<Utente> lista_utenti;
 
     public WelcomeController() {
@@ -148,13 +149,8 @@ public class WelcomeController {
 
         if(!newPass1.equals(newPass2)) throw new RuntimeException("Le password non coincidono");
 
-        for(Utente i : lista_utenti){
-            if (i.getPassword().equals(oldPass) && i.getUsername().equals(currentUser.getUsername())) {
-                i.setPassword(newPass1);
-                return true;
-            }
-        }
-        return false;
+        if(currentUser.getPassword().equals(oldPass)) return true;
+        else return false;
     }
 
     public boolean changeUsername(String newUser, String pass1, String pass2) throws RuntimeException{
@@ -166,13 +162,12 @@ public class WelcomeController {
             if (i.getUsername().equals(newUser)) throw new RuntimeException("Username non disponibile");
         }
 
-        for(Utente i : lista_utenti){
-            if (i.getPassword().equals(pass1) && i.getUsername().equals(currentUser.getUsername())) {
-                i.setUsername(newUser);
-                return true;
-            }
+        if(currentUser.getPassword().equals(pass1))
+        {
+            currentUser.setUsername(newUser);
+            return true;
         }
-        return false;
+        else return false;
     }
 
     public int getSaldoUtente(){

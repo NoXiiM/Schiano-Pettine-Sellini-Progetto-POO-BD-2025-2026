@@ -1,12 +1,12 @@
 package model.gestionale.utenteEFigli;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public abstract class Utente
     {
-        protected String nome;
+        //in più rispetto a uml
         protected String username;
+        protected String nome;
         protected String cognome;
         protected String codiceFiscale;
         protected LocalDate dataDiNascita;

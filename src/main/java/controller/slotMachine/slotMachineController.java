@@ -25,7 +25,6 @@ public class slotMachineController {
         return slotMachine.getSimboloCasuale();
     }
     public int getsaldopartita(Simboli s1, Simboli s2, Simboli s3, int saldo){
-
         return slotMachine.getsaldopartita(s1,s2,s3,saldo);
     }
     public String getPathSette(){

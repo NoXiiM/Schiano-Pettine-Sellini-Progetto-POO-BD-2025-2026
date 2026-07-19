@@ -12,7 +12,6 @@ public class Giocatore
 
     public Giocatore(Cliente clienteAssociato, int saldo)
     {
-        //magari stesso nel costruttore possiamo applicare il tasso di conversione
         this.saldo = saldo;
         this.clienteAssociato = clienteAssociato;
         fichesGiocate = 0;
@@ -34,7 +33,7 @@ public class Giocatore
     public void chiudiSessione()
     {
         clienteAssociato.setSaldo(saldo);
-        clienteAssociato.setFichesGiocate(fichesGiocate);
+        clienteAssociato.incrementaFichesGiocate(fichesGiocate);
     }
 
     public Cliente getClienteAssociato() {

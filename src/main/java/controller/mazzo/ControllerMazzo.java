@@ -33,11 +33,11 @@ public abstract class ControllerMazzo
         mazzo.mischiaMazzo();
     }
 
-    public Mano creaMano(Gioco gioco) {
+    protected Mano creaMano(Gioco gioco) {
         return new Mano(gioco);
     }
 
-    public void addMano(Mano nuova)
+    protected void addMano(Mano nuova)
     {
         listaMani.add(nuova);
     }
@@ -48,7 +48,7 @@ public abstract class ControllerMazzo
     }
 
     //funzione di mapping delle carte generica
-    public static int getValoreNumero(Carta carta) {
+    protected static int getValoreNumero(Carta carta) {
         Numero valCarta = carta.getNumero();
 
         if(valCarta.equals(Numero.uno)) return 1;

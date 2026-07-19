@@ -39,7 +39,7 @@ public class SlotMachine {
         return (simboli.get(random.nextInt(numeroSimboli)));
     }
     public int getsaldopartita(Simboli s1, Simboli s2, Simboli s3, int saldo){
-        if(s1==s2 && s2==s3){// la proprietà transitiva dell'uguale garantisce in questo modo cche siano tutti e 3 uguali
+        if(s1==s2 && s2==s3){// la proprietà transitiva dell'uguale garantisce in questo modo che siano tutti e 3 uguali
             if(s1==triplodiamante){// Ultimo simbolo di cui index corrisponde la grandezza, il triplodiamante
                 return saldo * 10;
             }
@@ -75,5 +75,4 @@ public class SlotMachine {
     public HashMap<Simboli,String> getCollegamentoSimboli() {
         return collegamentoSimboli;
     }
-
 }

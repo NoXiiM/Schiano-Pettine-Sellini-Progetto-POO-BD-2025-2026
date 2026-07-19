@@ -31,7 +31,6 @@ public class Sabot
 
     public boolean controlloRimischiaMazzo()
     {
-        listaCarte.trimToSize();
         return (cuttingCard + listaCarte.size()) < numeroDiCarte;
     }
 
@@ -54,6 +53,7 @@ public class Sabot
         }
     }
 
+    //per debug
     public void stampaCarte()
     {
         for(Carta i : listaCarte)

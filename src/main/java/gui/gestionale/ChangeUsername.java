@@ -1,8 +1,6 @@
 package gui.gestionale;
 
-import controller.ClienteCorrente;
 import controller.WelcomeController;
-import model.gestionale.utenteEFigli.Cliente;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -18,10 +16,8 @@ public class ChangeUsername {
 
     JFrame frameChiamante;
     WelcomeController controller;
-    ClienteCorrente currentClient;
 
     public ChangeUsername(JFrame frameChiamante, WelcomeController controller, TabbedMenuPlayer parentMenu) {
-        this.currentClient = currentClient;
         this.frameChiamante= frameChiamante;
         this.controller= controller;
 

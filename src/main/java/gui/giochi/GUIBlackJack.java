@@ -2,8 +2,6 @@ package gui.giochi;
 
 import controller.ClienteCorrente;
 import controller.blackjack.*;
-import model.gestionale.Sessione;
-import model.gestionale.utenteEFigli.Cliente;
 import model.giochi.HandStateBJ;
 import model.giochi.ManoBlackJack;
 
@@ -56,9 +54,9 @@ public class GUIBlackJack {
     private ControllerBlackJack controller;
     private int mani;
 
-    private static JFrame thisFrame;
+    private final JFrame thisFrame;
 
-    private JFrame frameChiamante;
+    private final JFrame frameChiamante;
     private ClienteCorrente sessioneCorrente;
 
     /**
@@ -67,6 +65,7 @@ public class GUIBlackJack {
      * @param frameChiamante   the frame chiamante
      * @param sessioneCorrente the sessione corrente
      */
+    //[0]
     public GUIBlackJack(JFrame frameChiamante, ClienteCorrente sessioneCorrente) {
         sessioneCorrente.startTimer();
 
@@ -82,33 +81,34 @@ public class GUIBlackJack {
         thisFrame.setMinimumSize(minDim);
 
         //immagini
+        //saldo
         saldo.setText("saldo: " + sessioneCorrente.getSaldoGiocatore());
 
+        //deck
         Image img = new ImageIcon(
                 getClass().getResource("/carte2/42_kerenel_Cards.png")
         ).getImage();
         deck.setIcon(new ImageIcon(img));
 
         //spinner
+        //spinner per numero di mazzi
         SpinnerNumberModel modelloSpinnerMazzi = new SpinnerNumberModel(1, 1, 16, 1);
         spinnernMazzi.setModel(modelloSpinnerMazzi);
 
+        //spinner per numero di mani
         SpinnerNumberModel modelloSpinnerMani = new SpinnerNumberModel(1, 1,
                 sessioneCorrente.getPostiTavolo(), 1);
         spinnernMani.setModel(modelloSpinnerMani);
 
         //pulsanti azioni inizialmente invisibili, solo start rimane visibile
-        //TODO: usa funzioni ad hoc
+        setVisibilityPulsantiSpeciali(false);
+        pulsantiPuntVisibilita(false);
+        okButton.setVisible(false);
+        continuaButton.setVisible(false);
         staiButton.setVisible(false);
         chiediButton.setVisible(false);
         raddoppiaButton.setVisible(false);
         dividiButton.setVisible(false);
-        assicuraButton.setVisible(false);
-        evenMoneyButton.setVisible(false);
-        rifiutaButton.setVisible(false);
-        pulsantiPuntVisibilita(false);
-        okButton.setVisible(false);
-        continuaButton.setVisible(false);
 
         startButton.addActionListener(new ActionListener() {
             @Override
@@ -153,8 +153,10 @@ public class GUIBlackJack {
     /**
      * Puntare.
      */
+    //[1]
     public void puntare()
     {
+        rimuoviActionListener(startButton);
         rimuoviActionListener(immettiButton);
         rimuoviActionListener(indietroButton);
 
@@ -180,6 +182,7 @@ public class GUIBlackJack {
                             "errore di input", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
+
                 if(!decrementa(input)) return;
 
                 controller.getMano(currentHand).setPuntata(input);
@@ -218,6 +221,7 @@ public class GUIBlackJack {
     /**
      * Inizia partita.
      */
+    //[2]
     public void iniziaPartita()
     {
         rimuoviActionListener(assicuraButton);
@@ -233,6 +237,7 @@ public class GUIBlackJack {
         currentHand = 0;
         controller.serviCarte();
 
+        //se banco ha bj o normale
         controller.setStatoBanco();
 
         paintCardsDealer1();
@@ -245,7 +250,7 @@ public class GUIBlackJack {
         assicuraButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ManoBlackJack manoCorrente = (ManoBlackJack) controller.getMano(currentHand);
+                ManoBlackJack manoCorrente = controller.getMano(currentHand);
                 if(!decrementa(manoCorrente.getPuntata()/2)) return;
                 manoCorrente.setSideBet(manoCorrente.getPuntata() / 2);
                 manoCorrente.setFlag(HandStateBJ.assicurazione);
@@ -258,7 +263,7 @@ public class GUIBlackJack {
         evenMoneyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ManoBlackJack manoCorrente = (ManoBlackJack) controller.getMano(currentHand);
+                ManoBlackJack manoCorrente = controller.getMano(currentHand);
                 manoCorrente.setFlag(HandStateBJ.evenmoney);
 
                 setVisibilityPulsantiSpeciali(false);
@@ -271,7 +276,8 @@ public class GUIBlackJack {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setVisibilityPulsantiSpeciali(false);
-                setVisibilityPulsantiNormali(true);
+                if(controller.getMano(currentHand).getFlag().equals(HandStateBJ.bj)) staiButton.setVisible(true);
+                else setVisibilityPulsantiNormali(true);
             }
         });
         //pulsanti in condizioni di gioco normali
@@ -279,9 +285,6 @@ public class GUIBlackJack {
             @Override
             public void actionPerformed(ActionEvent e) {
                 manoGiocatorePanel.removeAll();
-//                if(controller.bancoHaAsso()) setVisibilityPulsantiNormali(false);
-//                ManoBlackJack manoCorrente = (ManoBlackJack) controller.getMano(currentHand);
-//                if (manoCorrente.getFlag() == HandStateBJ.bj) setVisibilityPulsantiNormali(true);
                 setVisibilityPulsantiNormali(false);
 
                 nextHand();
@@ -327,29 +330,28 @@ public class GUIBlackJack {
         raddoppiaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ManoBlackJack manoCorrente = (ManoBlackJack) controller.getMano(currentHand);
+                ManoBlackJack manoCorrente = controller.getMano(currentHand);
                 if(!decrementa(manoCorrente.getPuntata())) return;
 
                 raddoppiaButton.setVisible(false);
                 chiediButton.setVisible(false);
                 dividiButton.setVisible(false);
 
-                //TODO: da modificare col collegamento
                 saldo.setText("saldo: " + sessioneCorrente.getSaldoGiocatore());
                 manoCorrente.raddoppio();
 
-                controller.serviCarta(controller.getMano(currentHand));
+                controller.serviCarta(manoCorrente);
                 manoGiocatorePanel.removeAll();
                 paintCardsPlayer();
                 refreshPanel(manoGiocatorePanel);
 
-                if(controller.getPoints(controller.getMano(currentHand)) > 21)
+                if(controller.getPoints(manoCorrente) > 21)
                 {
                     risultati.setText("hai sballato");
                 }
             }
         });
-        //TODO: sistema questa funzionalità
+        //TODO: sistema questa funzionalità, subito dopo split devi ricevere seconda carta in entrambe le mani
         dividiButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -373,6 +375,7 @@ public class GUIBlackJack {
     /**
      * Turno banco.
      */
+    //[3]
     public void turnoBanco()
     {
         rimuoviActionListener(okButton);
@@ -402,6 +405,7 @@ public class GUIBlackJack {
     /**
      * Risultati gioco.
      */
+    //[4]
     public void risultatiGioco()
     {
         rimuoviActionListener(okButton);
@@ -441,9 +445,11 @@ public class GUIBlackJack {
     /**
      * Reset.
      */
+    //[5]
     public void reset()
     {
         rimuoviActionListener(continuaButton);
+        rimuoviActionListener(indietroButton);
 
         indietroButton.setVisible(true);
         continuaButton.setVisible(true);
@@ -468,12 +474,29 @@ public class GUIBlackJack {
 
                 if(controller.controlloCuttingCard())
                 {
+                    //TODO: controlla che matematicamente sia impossibile fare index out of bound con anche solo un mazzo
                     controller.reinizializzaMazzo();
                     JOptionPane.showMessageDialog(null,
                             "cut card raggiunta, il mazzo è stato rimischiato");
                 }
 
                 puntare();
+            }
+        });
+        indietroButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sessioneCorrente.stopTimer();
+                //per vedere se funziona, i dati della sessione poi andranno salvati nel DB
+                sessioneCorrente.aggiornaDatiCliente();
+                sessioneCorrente.terminaSessione();
+                System.out.println("secondi: " + sessioneCorrente.getTimeSecondi());
+                System.out.println(sessioneCorrente.getTime());
+                System.out.println(sessioneCorrente.stringaPercentuale());
+                System.out.println(sessioneCorrente.getClienteCorrente());
+
+                thisFrame.dispose();
+                frameChiamante.setVisible(true);
             }
         });
     }
@@ -484,7 +507,7 @@ public class GUIBlackJack {
      * @param input the input
      * @return the boolean
      */
-//gestione saldo insufficiente
+//puntata con gestione saldo insufficiente
     public boolean decrementa(int input)
     {
         try {
@@ -505,18 +528,30 @@ public class GUIBlackJack {
 //gestione del messaggio nella fase 4 risultatiGioco
     public void gestionePremio()
     {
+        String testoAssicurazione = "";
+
         int vincita = controller.calcolaVincita(currentHand);
+        if(controller.getMano(currentHand).getFlag().equals(HandStateBJ.assicurazione))
+        {
+            if(controller.insuranceVinta(currentHand))
+            {
+                vincita += controller.getMano(currentHand).getSideBet() * 3;
+                testoAssicurazione = "assicurazione vinta";
+            }
+            else testoAssicurazione = "assicurazione persa";
+        }
         sessioneCorrente.incrementaSaldoGiocatore(vincita);
-        //TODO: forse non è la soluzione migliore
-        if(vincita == controller.getMano(currentHand).getPuntata()) risultati.setText("push " + vincita);
+
+        if(vincita == controller.getMano(currentHand).getPuntata())
+            risultati.setText("push " + vincita + " " + testoAssicurazione);
         else if(vincita > 0)
         {
-            risultati.setText("hai vinto: " + vincita);
+            risultati.setText("hai vinto: " + vincita + " " + testoAssicurazione);
             sessioneCorrente.aggiornaVincitaPercentuale(true);
         }
         else
         {
-            risultati.setText("hai perso");
+            risultati.setText("hai perso" + " " + testoAssicurazione);
             sessioneCorrente.aggiornaVincitaPercentuale(false);
         }
 
@@ -582,7 +617,9 @@ public class GUIBlackJack {
 //funzioni di aggiornamento
     public void refreshPanel(JPanel pannello)
     {
+        //ricalcola la posizione delle componenti nel pannello
         pannello.revalidate();
+        //renderizza i nuovi widget in maniera che possono essere visti
         pannello.repaint();
     }
 
@@ -612,7 +649,7 @@ public class GUIBlackJack {
                 break;
             case bj:
                 JOptionPane.showMessageDialog(null, "Black Jack!");
-                ManoBlackJack manoCorrente = (ManoBlackJack) controller.getMano(currentHand);
+                ManoBlackJack manoCorrente = controller.getMano(currentHand);
                 manoCorrente.setFlag(HandStateBJ.bj);
                 staiButton.setVisible(true);
                 break;
@@ -626,6 +663,7 @@ public class GUIBlackJack {
      * Paint cards dealer 1.
      */
 //funzioni che "disegnano" le carte
+    //dealer con seconda carta coperta
     public void paintCardsDealer1()
     {
         JLabel temp;
@@ -639,6 +677,7 @@ public class GUIBlackJack {
     /**
      * Paint cards dealer 2.
      */
+    //dealer con carte scoperte
     public void paintCardsDealer2()
     {
         String pathIm;

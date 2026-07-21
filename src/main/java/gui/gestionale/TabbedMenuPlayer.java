@@ -5,6 +5,7 @@ import controller.WelcomeController;
 
 import javax.swing.*;
 
+import model.gestionale.Sessione;
 import model.gestionale.utenteEFigli.*;
 
 import java.awt.event.ActionEvent;
@@ -36,11 +37,11 @@ public class TabbedMenuPlayer {
 
     private JFrame frameChiamante;
     private WelcomeController controller;
-    private ClienteCorrente currentClient;
+
+    //TODO scrivere meccanismo per trasformare base in premium
 
     public TabbedMenuPlayer(WelcomeController controller, JFrame mainframe, ClienteCorrente currentClient) {
         this.frameChiamante = mainframe;
-        this.currentClient= currentClient;
         this.controller= controller;
 
         thisFrame = new JFrame("TabbedMenuPlayer");
@@ -50,7 +51,6 @@ public class TabbedMenuPlayer {
         thisFrame.setVisible(true);
 
         frameChiamante.setVisible(false);
-
         aggiornaUsername();
         aggiornaSaldo();
 

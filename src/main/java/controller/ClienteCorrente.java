@@ -9,6 +9,8 @@ import java.sql.Time;
 
 public class ClienteCorrente
 {
+    //TODO cliente corrente usato troppe volte, aggiusta, welcome controller va bene fino alla selezione del gioco
+    //TODO timer che starta quando viene creata nuova sessione
     Cliente clienteCorrente;
     Sessione sessioneCorrente;
     public ClienteCorrente(Cliente clienteCorrente) {
@@ -31,7 +33,7 @@ public class ClienteCorrente
     }
 
     public int getSaldoGiocatore(){ return sessioneCorrente.getSaldoGiocatore();}
-    public void decrementaSaldoGiocatore(int creditoInserito){sessioneCorrente.decrementaSaldoGiocatore(creditoInserito);}
+    public void decrementaSaldoGiocatore(int creditoInserito) throws RuntimeException{sessioneCorrente.decrementaSaldoGiocatore(creditoInserito);}
     public void incrementaSaldoGiocatore(int creditoInserito){sessioneCorrente.incrementaSaldoGiocatore(creditoInserito);}
     public void aggiornaDatiCliente(){sessioneCorrente.aggiornaDatiCliente();}
     public void terminaSessione(){sessioneCorrente.terminaSessione();}

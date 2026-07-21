@@ -140,4 +140,10 @@ public class Cliente extends Utente
         if (ban == null) return null;
         return ban.getMotivi();
     }
+
+    public boolean convertiPremium()
+    {
+        int quarantottoh = 172800000;
+        return fichesGiocate >= 10000 && tempoDiGioco.getTime() >= quarantottoh;
+    }
 }

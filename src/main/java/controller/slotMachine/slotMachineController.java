@@ -31,7 +31,7 @@ public class slotMachineController {
         return getCollegamento(sette);
     }
     public int getsaldoGiocatore(){return clienteCorrente.getSaldoGiocatore();}
-    public void decrementa(int creditoInserito){clienteCorrente.decrementaSaldoGiocatore(creditoInserito);}
+    public void decrementa(int creditoInserito) throws RuntimeException{clienteCorrente.decrementaSaldoGiocatore(creditoInserito);}
     public void incrementa(int creditoInserito){clienteCorrente.incrementaSaldoGiocatore(creditoInserito);}
     public void aggiornaCliente(){clienteCorrente.aggiornaDatiCliente(); clienteCorrente.terminaSessione();}
     public void aggiornaVincitaPercentuale(boolean v){clienteCorrente.aggiornaVincitaPercentuale(v);}

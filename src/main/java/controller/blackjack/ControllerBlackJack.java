@@ -179,23 +179,27 @@ public class ControllerBlackJack extends ControllerMazzo
         ManoBlackJack manoCorrente = (ManoBlackJack) listaMani.get(indexMano);
         int punteggioGiocatore = getPoints(manoCorrente);
 
-        int vincita;
-
+        if(manoCorrente.getFlag() == HandStateBJ.evenmoney) return manoCorrente.getPuntata()*2;
         if(manoCorrente.getFlag() == HandStateBJ.bj && banco.getFlag() == HandStateBJ.bj)
             return manoCorrente.getPuntata();
         if(manoCorrente.getFlag() == HandStateBJ.bj && banco.getFlag() != HandStateBJ.bj)
             return (int)(((float)(manoCorrente.getPuntata())) * (5f/2f));
         if(manoCorrente.getFlag() != HandStateBJ.bj && banco.getFlag() == HandStateBJ.bj)
             return 0;
-        if(manoCorrente.getFlag() == HandStateBJ.assicurazione && banco.getFlag() == HandStateBJ.bj)
-            return manoCorrente.getPuntata();
-        if(manoCorrente.getFlag() == HandStateBJ.evenmoney) return manoCorrente.getPuntata()*2;
         if(punteggioGiocatore > 21) return 0;
         if(punteggioBanco > 21) return manoCorrente.getPuntata() * 2;
 
         if(punteggioBanco > punteggioGiocatore) return 0;
         else if(punteggioGiocatore > punteggioBanco) return manoCorrente.getPuntata() * 2;
         else return manoCorrente.getPuntata();
+    }
+
+    public boolean insuranceVinta(int index)
+    {
+        if(getFlagMano(index).equals(HandStateBJ.assicurazione) && getFlagBanco().equals(HandStateBJ.bj)) {
+            return true;
+        }
+        else return false;
     }
 
     //pulisce mani giocatore e banco
@@ -253,5 +257,17 @@ public class ControllerBlackJack extends ControllerMazzo
         }
 
         return soldi;
+    }
+
+    public HandStateBJ getFlagMano(int index)
+    {
+        ManoBlackJack mano = (ManoBlackJack) listaMani.get(index);
+
+        return mano.getFlag();
+    }
+
+    public HandStateBJ getFlagBanco()
+    {
+        return banco.getFlag();
     }
 }

@@ -20,7 +20,7 @@ public class ControllerBlackJack extends ControllerMazzo
     }
 
     @Override
-    protected ManoBlackJack creaMano(Gioco gioco) {
+    public ManoBlackJack creaMano(Gioco gioco) {
         return new ManoBlackJack(gioco);
     }
 

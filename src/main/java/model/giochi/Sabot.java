@@ -2,6 +2,7 @@ package model.giochi;
 
 import model.gestionale.Gioco;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;

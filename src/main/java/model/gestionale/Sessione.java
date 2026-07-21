@@ -87,6 +87,8 @@ public class Sessione
     public void terminaSessione()//Aggiorna il saldo del giocatore in utente
     {
         giocatore.chiudiSessione();
+        stopTimer();
+        aggiornaDatiCliente();
     }
 
     //true = win, false = loss

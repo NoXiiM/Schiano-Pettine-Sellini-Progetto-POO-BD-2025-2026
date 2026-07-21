@@ -10,7 +10,6 @@ import java.sql.Time;
 public class ClienteCorrente
 {
     //TODO cliente corrente usato troppe volte, aggiusta, welcome controller va bene fino alla selezione del gioco
-    //TODO timer che starta quando viene creata nuova sessione
     Cliente clienteCorrente;
     Sessione sessioneCorrente;
     public ClienteCorrente(Cliente clienteCorrente) {

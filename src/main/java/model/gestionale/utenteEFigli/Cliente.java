@@ -15,7 +15,6 @@ public class Cliente extends Utente
     protected double vincitaPercentualeTot;
     //in più rispetto a uml
     protected int partiteGiocate;
-    //TODO: creare cliente base?
     private boolean sospetto;
 
     //attributi da associazioni

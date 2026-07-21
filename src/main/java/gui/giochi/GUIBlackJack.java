@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 /**
  * The type Gui black jack.
@@ -135,9 +136,7 @@ public class GUIBlackJack {
         indietroButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                sessioneCorrente.stopTimer();
                 //per vedere se funziona, i dati della sessione poi andranno salvati nel DB
-                sessioneCorrente.aggiornaDatiCliente();
                 sessioneCorrente.terminaSessione();
                 System.out.println("secondi: " + sessioneCorrente.getTimeSecondi());
                 System.out.println(sessioneCorrente.getTime());
@@ -202,10 +201,8 @@ public class GUIBlackJack {
         indietroButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                sessioneCorrente.stopTimer();
                 //per vedere se funziona, i dati della sessione poi andranno salvati nel DB
                 sessioneCorrente.incrementaSaldoGiocatore(controller.restituisciPuntate());
-                sessioneCorrente.aggiornaDatiCliente();
                 sessioneCorrente.terminaSessione();
                 System.out.println("secondi: " + sessioneCorrente.getTimeSecondi());
                 System.out.println(sessioneCorrente.getTime());
@@ -486,9 +483,7 @@ public class GUIBlackJack {
         indietroButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                sessioneCorrente.stopTimer();
                 //per vedere se funziona, i dati della sessione poi andranno salvati nel DB
-                sessioneCorrente.aggiornaDatiCliente();
                 sessioneCorrente.terminaSessione();
                 System.out.println("secondi: " + sessioneCorrente.getTimeSecondi());
                 System.out.println(sessioneCorrente.getTime());
@@ -668,9 +663,10 @@ public class GUIBlackJack {
     {
         JLabel temp;
 
-        temp = new JLabel(new ImageIcon(getClass().getResource(controller.displayCardDealer(0))));
+        //Objects.requireNonNull suggerito da quick fixes per warning di intellij
+        temp = new JLabel(new ImageIcon(Objects.requireNonNull(getClass().getResource(controller.displayCardDealer(0)))));
         manoBancoPanel.add(temp);
-        temp = new JLabel(new ImageIcon(getClass().getResource("/carte2/42_kerenel_Cards.png")));
+        temp = new JLabel(new ImageIcon(Objects.requireNonNull(getClass().getResource("/carte2/42_kerenel_Cards.png"))));
         manoBancoPanel.add(temp);
     }
 
@@ -687,7 +683,7 @@ public class GUIBlackJack {
         {
             pathIm = controller.displayCardDealer(j);
 
-            temp = new JLabel(new ImageIcon(getClass().getResource(pathIm)));
+            temp = new JLabel(new ImageIcon(Objects.requireNonNull(getClass().getResource(pathIm))));
             manoBancoPanel.add(temp);
         }
     }
@@ -706,7 +702,7 @@ public class GUIBlackJack {
         {
             pathIm = controller.displayCard(currentHand, j);
 
-            temp = new JLabel(new ImageIcon(getClass().getResource(pathIm)));
+            temp = new JLabel(new ImageIcon(Objects.requireNonNull(getClass().getResource(pathIm))));
             manoGiocatorePanel.add(temp);
         }
     }

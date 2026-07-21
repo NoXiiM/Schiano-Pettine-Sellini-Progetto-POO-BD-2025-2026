@@ -8,9 +8,12 @@ import gui.giochi.GUISlotMachine;
 import model.gestionale.Sessione;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class SelezioneTavoloSlotMachine {
 
@@ -18,18 +21,16 @@ public class SelezioneTavoloSlotMachine {
 
     private static JFrame thisFrame;
     private JPanel selezioneTavoloPanel;
-    private JRadioButton tavolo1RadioButton;
-    private JRadioButton tavolo2RadioButton;
-    private JRadioButton tavolo3RadioButton;
-    private JLabel slotMachine1;
-    private JLabel slotMachine2;
-    private JLabel slotMachine3;
     private JButton tornaIndietroButton;
     private JButton entraTavoloButton;
+    private JList listaTavoli;
+    private JLabel selezioneListaLabel;
 
     private JFrame frameChiamante;
     private ClienteCorrente currentClient;
     private TavoloController controller;
+
+    public static DefaultListModel<String> modellolistaTavoli;
 
     public SelezioneTavoloSlotMachine(JFrame frameChiamante, ClienteCorrente currentClient, TabbedMenuPlayer mainMenu)
     {
@@ -44,24 +45,19 @@ public class SelezioneTavoloSlotMachine {
 
 
 
+
         controller = new TavoloController();
         controller.popolaSlotMachine();
 
-        ButtonGroup selezionaTavolo = new ButtonGroup();
+        modellolistaTavoli = new DefaultListModel<String>();
 
-        selezionaTavolo.add(tavolo1RadioButton);
-        selezionaTavolo.add(tavolo2RadioButton);
-        selezionaTavolo.add(tavolo3RadioButton);
-        tavolo1RadioButton.setActionCommand("0");
-        tavolo2RadioButton.setActionCommand("1");
-        tavolo3RadioButton.setActionCommand("2");
+        ArrayList<String> tavoliDaMostrare = controller.getTavoliNumber();
 
-        if(controller.getNumeroPosti(0)==1){slotMachine1.setText("la slotmachine 1 è libera ");}
-        else{slotMachine2.setText("la slotmachine 1 è occupata ");}
-        if(controller.getNumeroPosti(1)==1){slotMachine2.setText("la slotmachine 2 è libera ");}
-        else{slotMachine2.setText("la slotmachine 2 è occupata ");}
-        if(controller.getNumeroPosti(2)==1){slotMachine3.setText("la slotmachine 3 è libera ");}
-        else{slotMachine3.setText("la slotmachine 3 è occupata ");}
+        modellolistaTavoli.addAll(tavoliDaMostrare);
+
+        listaTavoli.setModel(modellolistaTavoli);
+
+        selezioneListaLabel.setVisible(false);
 
         tornaIndietroButton.addActionListener(new ActionListener() {
             @Override
@@ -75,20 +71,15 @@ public class SelezioneTavoloSlotMachine {
         entraTavoloButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(selezionaTavolo.getSelection() != null)
+                String selezione;
+                if(listaTavoli.getSelectedValue() != null)
                 {
-
-                    if(controller.getNumeroPosti(Integer.parseInt(selezionaTavolo.getSelection().getActionCommand()))==1) {
+                    selezione = (String)listaTavoli.getSelectedValue();
+                    if(controller.getNumeroPosti(Integer.parseInt(selezione.replaceAll("\\D+", ""))-1) ==1) {
                         thisFrame.setVisible(false);
-                        Sessione nuovaSessione;
                         try {
-                            if (tavolo1RadioButton.isSelected())
-                                 currentClient.creaNuovaSessioneDiGioco(controller.getTavolo(0));
-                            else if (tavolo2RadioButton.isSelected())
-                                 currentClient.creaNuovaSessioneDiGioco(controller.getTavolo(1));
-                            else if (tavolo3RadioButton.isSelected())
-                                 currentClient.creaNuovaSessioneDiGioco(controller.getTavolo(2));
-                            else throw new RuntimeException("è successo qualcosa di brutto coi tavoli");
+
+                            currentClient.creaNuovaSessioneDiGioco(controller.getTavolo(Integer.parseInt(selezione.replaceAll("\\D+", ""))-1));
                             new GUISlotMachine(thisFrame, currentClient);
                         } catch (RuntimeException ex) {
                             ex.getMessage();
@@ -104,6 +95,14 @@ public class SelezioneTavoloSlotMachine {
                     JOptionPane.showMessageDialog(null, "nessun tavolo è stato selezionato",
                             "errore", JOptionPane.ERROR_MESSAGE);
                 }
+            }
+        });
+        listaTavoli.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                String tavoloSelezionato = (String)listaTavoli.getSelectedValue();
+                selezioneListaLabel.setText(controller.geTavoloCorrispondente(tavoloSelezionato));
+                selezioneListaLabel.setVisible(true);
             }
         });
     }

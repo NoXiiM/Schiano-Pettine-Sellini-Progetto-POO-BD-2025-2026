@@ -68,7 +68,7 @@ public class GUIBlackJack {
      */
     //[0]
     public GUIBlackJack(JFrame frameChiamante, ClienteCorrente sessioneCorrente) {
-        sessioneCorrente.startTimer();
+        //sessioneCorrente.startTimer();
 
         this.frameChiamante = frameChiamante;
         this.sessioneCorrente = sessioneCorrente;

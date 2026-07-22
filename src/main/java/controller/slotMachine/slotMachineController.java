@@ -35,8 +35,8 @@ public class slotMachineController {
     public void incrementa(int creditoInserito){clienteCorrente.incrementaSaldoGiocatore(creditoInserito);}
     public void aggiornaCliente(){clienteCorrente.aggiornaDatiCliente(); clienteCorrente.terminaSessione();}
     public void aggiornaVincitaPercentuale(boolean v){clienteCorrente.aggiornaVincitaPercentuale(v);}
-    public void startTimer(){clienteCorrente.startTimer();}
-    public void stopTimer(){clienteCorrente.stopTimer();}
+    //public void startTimer(){clienteCorrente.startTimer();}
+    //public void stopTimer(){clienteCorrente.stopTimer();}
     public String getCheckPercentualeVittoria(){return " "+clienteCorrente.getTime()+" "+clienteCorrente.stringaPercentuale()+"";}
     public ClienteCorrente getClienteCorrente() {
         return clienteCorrente;

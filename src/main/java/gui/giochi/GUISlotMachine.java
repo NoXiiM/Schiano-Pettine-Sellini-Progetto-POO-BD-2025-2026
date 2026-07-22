@@ -102,7 +102,7 @@ public class GUISlotMachine {
         guadagnatoText.setText("");
 
         //Avvio timer
-        controller.startTimer();
+        //controller.startTimer();
 
         spinButton.addActionListener(new ActionListener() {
             @Override

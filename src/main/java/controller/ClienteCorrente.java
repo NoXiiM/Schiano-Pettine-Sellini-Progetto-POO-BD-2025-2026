@@ -29,6 +29,7 @@ public class ClienteCorrente
     {
         Giocatore giocatoreCorrente = new Giocatore(clienteCorrente, clienteCorrente.getSaldo());
         sessioneCorrente = new Sessione(giocatoreCorrente, tavoloSelezionato);
+        sessioneCorrente.startTimer();
     }
 
     public int getSaldoGiocatore(){ return sessioneCorrente.getSaldoGiocatore();}
@@ -37,7 +38,7 @@ public class ClienteCorrente
     public void aggiornaDatiCliente(){sessioneCorrente.aggiornaDatiCliente();}
     public void terminaSessione(){sessioneCorrente.terminaSessione();}
     public void aggiornaVincitaPercentuale(boolean v){ sessioneCorrente.aggiornaVincitaPercentuale(v);}
-    public void startTimer(){sessioneCorrente.startTimer();}
+    //public void startTimer(){sessioneCorrente.startTimer();}
     public void stopTimer(){sessioneCorrente.stopTimer();}
     public int getPostiTavolo(){return sessioneCorrente.getPostiTavolo();}
     public int getTimeSecondi(){return sessioneCorrente.getTimeSecondi();}

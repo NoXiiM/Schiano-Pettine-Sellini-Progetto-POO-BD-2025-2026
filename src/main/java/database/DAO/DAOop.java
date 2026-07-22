@@ -12,19 +12,18 @@ public interface DAOop
     //OP2
     //se username e codicefiscale sono nuovi ritorna true sennò false
     void registrazione(String id, String username, String nome, String cognome, String codiceFiscale, Date data,
-                       String password) throws SQLException;
+                       String password, int saldo) throws SQLException;
 
     //OP3
     //restituisce Cliente o Dipendente o null,
     String trovaTabella(String username, String password) throws SQLException;
+
     //carica tutti i dati del cliente che effettivamente servono, gli array come parametri servono per effettuare
     //passaggio per riferimento, in questo caso di un singolo valore (nota: per valori multipli userò arraylist)
+    void loginCliente(int[] saldo, String[] tipo, double[] scontoPokerPercentuale, Date[] dataDiBan,
+                      String[] nome, String[] cognome, String[] codiceFiscale, Date[] dataDiNascita, String username,
+                      String password) throws SQLException;
 
-    void loginCliente(int[] saldo, String[] tipo, String[] scontoPokerPercentuale, String[] dataDiBan,
-                      String[] nome, String[] cognome, String[] codiceFiscale, String[] dataDiNascita, String[] username,
-                      String[] password) throws SQLException;
-
-    void loginDipendente(String[] identificativo, String[] nome, String[] cognome, String[] codiceFiscale,
-                         String[] dataDiNascita, String[] username,
-                      String[] password, String[] ruolo) throws SQLException;
+    void loginDipendente(String[] identificativo, String[] nome, String[] cognome, String[] codiceFiscale, Date[] dataDiNascita,
+                                String[] ruolo, String username, String password) throws SQLException;
 }

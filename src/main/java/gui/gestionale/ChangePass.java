@@ -1,8 +1,7 @@
 package gui.gestionale;
 
 import controller.ClienteCorrente;
-import controller.WelcomeController;
-import model.gestionale.utenteEFigli.Cliente;
+import controller.gestionale.ClientWelcomeController;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -17,10 +16,10 @@ public class ChangePass {
     private JButton backButton;
 
     JFrame frameChiamante;
-    WelcomeController controller;
+    ClientWelcomeController controller;
     ClienteCorrente currentUser;
 
-    public ChangePass(JFrame frameChiamante, WelcomeController controller) {
+    public ChangePass(JFrame frameChiamante, ClientWelcomeController controller) {
 
         this.currentUser = currentUser;
         this.frameChiamante= frameChiamante;

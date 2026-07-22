@@ -1,6 +1,6 @@
 package gui.gestionale;
 
-import controller.WelcomeController;
+import controller.gestionale.ClientWelcomeController;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -22,9 +22,9 @@ public class RegistrationForm {
     private JComboBox comboBoxYear;
 
     private JFrame frameChiamante;
-    private WelcomeController controller;
+    private ClientWelcomeController controller;
 
-    public RegistrationForm(WelcomeController controller, JFrame mainframe) {
+    public RegistrationForm(ClientWelcomeController controller, JFrame mainframe) {
         this.controller= controller;
         this.frameChiamante= mainframe;
 

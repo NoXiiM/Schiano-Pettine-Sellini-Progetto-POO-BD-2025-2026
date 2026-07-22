@@ -1,7 +1,7 @@
 package gui.gestionale;
 
 import controller.ClienteCorrente;
-import controller.WelcomeController;
+import controller.gestionale.ClientWelcomeController;
 
 import javax.swing.*;
 
@@ -36,11 +36,11 @@ public class TabbedMenuPlayer {
     private JFrame thisFrame;
 
     private JFrame frameChiamante;
-    private WelcomeController controller;
+    private ClientWelcomeController controller;
 
     //TODO scrivere meccanismo per trasformare base in premium
 
-    public TabbedMenuPlayer(WelcomeController controller, JFrame mainframe, ClienteCorrente currentClient) {
+    public TabbedMenuPlayer(ClientWelcomeController controller, JFrame mainframe, ClienteCorrente currentClient) {
         this.frameChiamante = mainframe;
         this.controller= controller;
 
@@ -207,6 +207,7 @@ public class TabbedMenuPlayer {
         );
 
         if (risposta == JOptionPane.YES_OPTION) {
+            controller.setCurrentUserNull();
             frameChiamato.setVisible(false);
             frameChiamante.setVisible(true);
             frameChiamato.dispose();

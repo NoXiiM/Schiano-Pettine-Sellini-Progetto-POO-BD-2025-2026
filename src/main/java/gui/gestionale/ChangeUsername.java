@@ -1,6 +1,6 @@
 package gui.gestionale;
 
-import controller.WelcomeController;
+import controller.gestionale.WelcomeController;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

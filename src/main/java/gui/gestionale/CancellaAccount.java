@@ -1,6 +1,6 @@
 package gui.gestionale;
 
-import controller.WelcomeController;
+import controller.gestionale.ClientWelcomeController;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -14,11 +14,11 @@ public class CancellaAccount {
     private JButton cancellaAccountButton;
     private JButton backButton;
 
-    WelcomeController controller;
+    ClientWelcomeController controller;
     JFrame frameChiamante;
     JFrame frameLogin;
 
-    public CancellaAccount(WelcomeController controller, JFrame frameChiamante, JFrame loginFrame) {
+    public CancellaAccount(ClientWelcomeController controller, JFrame frameChiamante, JFrame loginFrame) {
 
         this.controller= controller;
         this.frameLogin= loginFrame;

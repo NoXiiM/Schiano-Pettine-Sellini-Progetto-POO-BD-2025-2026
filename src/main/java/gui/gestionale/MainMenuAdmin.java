@@ -1,7 +1,7 @@
 package gui.gestionale;
 
 import controller.DipendenteCorrente;
-import controller.WelcomeController;
+import controller.gestionale.WelcomeController;
 import model.gestionale.utenteEFigli.Cliente;
 
 import javax.swing.*;
@@ -17,6 +17,7 @@ public class MainMenuAdmin {
     private JButton bannaButton;
     private JTextArea infoField;
     private JButton logoutButton;
+    private JLabel userFieldAdmin;
 
     JFrame thisFrame;
     JFrame frameChiamante;
@@ -37,6 +38,8 @@ public class MainMenuAdmin {
         thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         thisFrame.pack();
         thisFrame.setVisible(true);
+
+        frameChiamante.setVisible(false);
 
 
         bannaButton.addActionListener(new ActionListener() {
@@ -86,7 +89,12 @@ public class MainMenuAdmin {
 
             }
         });
+
     }
 
+    public void aggiornaUsername(){
+        userFieldAdmin.setText(controller.getUserUtente() + "\t");
+        userFieldAdmin.setText(controller.getUserUtente() + "\t");
+    }
 
 }

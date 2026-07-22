@@ -2,7 +2,8 @@ package gui.gestionale;
 
 import controller.ClienteCorrente;
 import controller.DipendenteCorrente;
-import controller.WelcomeController;
+import controller.gestionale.ClientWelcomeController;
+import controller.gestionale.WelcomeController;
 import model.gestionale.utenteEFigli.*;
 
 import javax.swing.*;
@@ -37,7 +38,7 @@ public class WelcomePanel {
 
                 String password= passwordField.getText();
                 String username= userField.getText();
-                String loginMode= (String) userType.getSelectedItem();
+                //String loginMode= (String) userType.getSelectedItem();
 
                 try{
                     Utente user= welcomeController.login(username, password);
@@ -48,7 +49,7 @@ public class WelcomePanel {
                     if(user instanceof Dipendente){
                         MainMenuAdmin menuAdminFrame = new MainMenuAdmin(welcomeController, mainframe, new DipendenteCorrente((Dipendente) user));
                     } else {
-                        TabbedMenuPlayer menuPlayerFrame= new TabbedMenuPlayer(welcomeController, mainframe, new ClienteCorrente((Cliente) user));
+                        TabbedMenuPlayer menuPlayerFrame= new TabbedMenuPlayer(new ClientWelcomeController(welcomeController), mainframe, new ClienteCorrente((Cliente) user));
                     }
 
                 } catch (RuntimeException empty_field_ex){
@@ -76,7 +77,7 @@ public class WelcomePanel {
                 userField.setText("");
                 passwordField.setText("");
 
-                ForgotPassword forgotPasswordPanel= new ForgotPassword(welcomeController, mainframe);
+                ForgotPassword forgotPasswordPanel= new ForgotPassword((ClientWelcomeController) welcomeController, mainframe);
             }
         });
 
@@ -88,7 +89,7 @@ public class WelcomePanel {
                 userField.setText("");
                 passwordField.setText("");
 
-                RegistrationForm registrationForm= new RegistrationForm(welcomeController, mainframe);
+                RegistrationForm registrationForm= new RegistrationForm((ClientWelcomeController) welcomeController, mainframe);
 
             }
         });

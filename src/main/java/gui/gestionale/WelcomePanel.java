@@ -77,7 +77,7 @@ public class WelcomePanel {
                 userField.setText("");
                 passwordField.setText("");
 
-                ForgotPassword forgotPasswordPanel= new ForgotPassword((ClientWelcomeController) welcomeController, mainframe);
+                ForgotPassword forgotPasswordPanel= new ForgotPassword(new ClientWelcomeController(welcomeController), mainframe);
             }
         });
 
@@ -89,7 +89,7 @@ public class WelcomePanel {
                 userField.setText("");
                 passwordField.setText("");
 
-                RegistrationForm registrationForm= new RegistrationForm((ClientWelcomeController) welcomeController, mainframe);
+                RegistrationForm registrationForm= new RegistrationForm(new ClientWelcomeController(welcomeController), mainframe);
 
             }
         });

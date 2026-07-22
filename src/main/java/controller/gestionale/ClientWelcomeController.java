@@ -34,11 +34,13 @@ public class ClientWelcomeController extends WelcomeController {
     }
 
     //client
+    //da fare cast Cliente utente
     public void depositaSaldoCliente(int deposito, Cliente utente){
         utente.deposita(deposito);
     }
 
     //client
+    //da fare cast Cliente utente
     public boolean prelevaSaldoCliente(int prelievo, Cliente utente){
         if(!utente.preleva(prelievo)){
             return false;

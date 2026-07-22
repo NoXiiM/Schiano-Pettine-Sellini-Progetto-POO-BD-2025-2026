@@ -20,6 +20,7 @@ public class RegistrationForm {
     private JComboBox comboBoxDay;
     private JComboBox comboBoxMonth;
     private JComboBox comboBoxYear;
+    private JTextField textField1;
 
     private JFrame frameChiamante;
     private ClientWelcomeController controller;

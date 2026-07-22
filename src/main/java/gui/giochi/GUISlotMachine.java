@@ -175,7 +175,8 @@ public class GUISlotMachine {
         tornaIndietroButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.aggiornaCliente();
+                //modificato controller.aggiornadaticliente
+                clienteCorrente.terminaSessione();
                 //Check della percentuale di vittoria o perdita
                 System.out.println(controller.getCheckPercentualeVittoria());
                 System.out.println(controller.getClienteCorrente().getClienteCorrente());

@@ -3,6 +3,7 @@ package gui.gestionale;
 import controller.ClienteCorrente;
 import controller.DipendenteCorrente;
 import controller.gestionale.ClientWelcomeController;
+import controller.gestionale.DipendenteWelcomeController;
 import controller.gestionale.WelcomeController;
 import model.gestionale.utenteEFigli.*;
 
@@ -47,7 +48,7 @@ public class WelcomePanel {
                     passwordField.setText("");
 
                     if(user instanceof Dipendente){
-                        MainMenuAdmin menuAdminFrame = new MainMenuAdmin(welcomeController, mainframe, new DipendenteCorrente((Dipendente) user));
+                        MainMenuAdmin menuAdminFrame = new MainMenuAdmin(new DipendenteWelcomeController(welcomeController), mainframe, new DipendenteCorrente((Dipendente) user));
                     } else {
                         TabbedMenuPlayer menuPlayerFrame= new TabbedMenuPlayer(new ClientWelcomeController(welcomeController), mainframe, new ClienteCorrente((Cliente) user));
                     }

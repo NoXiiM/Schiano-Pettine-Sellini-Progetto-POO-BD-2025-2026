@@ -7,7 +7,6 @@ import java.sql.Time;
 
 public class Sessione
 {
-    public static boolean premium = false;
     private Time durata;
     private double vincitaPercentuale;
     //in più rispetto a uml
@@ -119,7 +118,7 @@ public class Sessione
         giocatore.getClienteAssociato().aggiornaTempoDiGioco(durata);
         if(giocatore.getClienteAssociato().convertiPremium())
         {
-            premium = true;
+            giocatore.getClienteAssociato().setPremium(true);
         }
     }
 

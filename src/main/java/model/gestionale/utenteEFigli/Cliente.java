@@ -8,6 +8,8 @@ import java.util.Date;
 
 public class Cliente extends Utente
 {
+    private boolean premium;
+    private double sconto_premium;
     protected int saldo;
     protected String codiceTesseraGiocatore;
     protected Time tempoDiGioco;
@@ -25,7 +27,9 @@ public class Cliente extends Utente
     {
         super(username, nome, cognome, codiceFiscale, dataDiNascita, password);
 
+        this.sconto_premium= 0;
         this.sospetto= false;
+        this.premium= false;
         this.codiceTesseraGiocatore = codiceTesseraGiocatore;
         tempoDiGioco = new Time(0, 0, 0);
         fichesGiocate = 0;
@@ -46,9 +50,6 @@ public class Cliente extends Utente
         return codiceTesseraGiocatore;
     }
 
-    public void setCodiceTesseraGiocatore(String codiceTesseraGiocatore) {
-        this.codiceTesseraGiocatore = codiceTesseraGiocatore;
-    }
 
     public Time getTempoDiGioco() {
         return tempoDiGioco;
@@ -95,9 +96,6 @@ public class Cliente extends Utente
         }
     }
 
-    public void setBan(Ban ban) {
-        this.ban = ban;
-    }
 
     public void aggiornaPercentualeVittoria(double vittoriaPercentualeSessione, int partiteGiocate)
     {
@@ -145,4 +143,18 @@ public class Cliente extends Utente
         int quarantottoh = 172800000;
         return fichesGiocate >= 10000 && tempoDiGioco.getTime() >= quarantottoh;
     }
+
+    public boolean isPremium() {
+        return premium;
+    }
+
+    public void setPremium(boolean premium) {
+        this.premium = premium;
+        this.sconto_premium= 0.5;
+    }
+
+    public double getSconto_premium() {
+        return sconto_premium;
+    }
+
 }

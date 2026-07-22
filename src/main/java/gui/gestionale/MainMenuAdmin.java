@@ -1,6 +1,7 @@
 package gui.gestionale;
 
 import controller.DipendenteCorrente;
+import controller.gestionale.DipendenteWelcomeController;
 import controller.gestionale.WelcomeController;
 import model.gestionale.utenteEFigli.Cliente;
 
@@ -25,7 +26,7 @@ public class MainMenuAdmin {
 
     private static DefaultListModel<Cliente> modelloListaClienti;
 
-    public MainMenuAdmin(WelcomeController controller, JFrame frameChiamante, DipendenteCorrente dipendenteCorrente) {
+    public MainMenuAdmin(DipendenteWelcomeController controller, JFrame frameChiamante, DipendenteCorrente dipendenteCorrente) {
         this.controller = controller;
         this.frameChiamante= frameChiamante;
 

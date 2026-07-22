@@ -21,10 +21,6 @@ public class Giocatore
         return saldo;
     }
 
-    public void setFiches(int fiches) {
-        this.saldo = fiches;
-    }
-
     public void incrementaFiches(int fiches)
     {
         this.saldo += fiches;

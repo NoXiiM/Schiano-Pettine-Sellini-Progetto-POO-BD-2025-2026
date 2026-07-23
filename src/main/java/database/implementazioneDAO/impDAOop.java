@@ -6,7 +6,6 @@ import database.DAO.DAOop;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class impDAOop implements DAOop {
     @Override
@@ -65,17 +64,24 @@ public class impDAOop implements DAOop {
     //o username sia nella tabella cliente che in quella dipendente
 
     @Override
-    public void usernameTessereUtenti(ArrayList<String> usernames, ArrayList<String> codiciTessere) throws SQLException{
+    public void usernameTessereUtenti(ArrayList<String> usernames) throws SQLException{
 
         Connection connection = ConnessioneDatabase.getInstance().connection;
 
-        try (PreparedStatement query = connection.prepareStatement("select username, idCliente " +
+        try (PreparedStatement query = connection.prepareStatement("select username " +
                 "from cliente ")) {
-
             try (ResultSet rs = query.executeQuery()) {
                 while(rs.next()) {
                     usernames.add(rs.getString("username"));
-                    codiciTessere.add(rs.getString("idCliente"));
+                }
+            }
+        }
+
+        try (PreparedStatement query = connection.prepareStatement("select username " +
+                "from dipendente ")) {
+            try (ResultSet rs = query.executeQuery()) {
+                while(rs.next()) {
+                    usernames.add(rs.getString("username"));
                 }
             }
         }

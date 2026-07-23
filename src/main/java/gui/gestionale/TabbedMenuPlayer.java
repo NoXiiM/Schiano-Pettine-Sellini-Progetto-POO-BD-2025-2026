@@ -178,7 +178,7 @@ public class TabbedMenuPlayer {
             public void actionPerformed(ActionEvent e) {
                 if(!controller.isBanned()) {
                     thisFrame.setVisible(false);
-                    new SelezioneTavoloBlackJack(thisFrame, currentClient, TabbedMenuPlayer.this);
+                    //new SelezioneTavoloBlackJack(thisFrame, currentClient, TabbedMenuPlayer.this);
                 } else{
                     JOptionPane.showMessageDialog(null, "Sei stato bannato !", "Errore", JOptionPane.ERROR_MESSAGE);
                 }
@@ -190,7 +190,7 @@ public class TabbedMenuPlayer {
             public void actionPerformed(ActionEvent e) {
                 if(!controller.isBanned()) {
                     thisFrame.setVisible(false);
-                    new SelezioneTavoloSlotMachine(thisFrame, currentClient, TabbedMenuPlayer.this);
+                    //new SelezioneTavoloSlotMachine(thisFrame, currentClient, TabbedMenuPlayer.this);
                 } else{
                     JOptionPane.showMessageDialog(null, "Sei stato bannato !", "Errore", JOptionPane.ERROR_MESSAGE);
                 }

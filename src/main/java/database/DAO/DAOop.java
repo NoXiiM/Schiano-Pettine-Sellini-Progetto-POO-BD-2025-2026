@@ -29,6 +29,7 @@ public interface DAOop
     void loginDipendente(String[] identificativo, String[] nome, String[] cognome, String[] codiceFiscale, LocalDate[] dataDiNascita,
                                 String[] ruolo, String username, String password) throws SQLException;
 
-    void usernameTessereUtenti(ArrayList<String> usernames, ArrayList<String> codiciTessere) throws SQLException;
+    //operazione batch su username
+    void usernameTessereUtenti(ArrayList<String> usernames) throws SQLException;
 
 }

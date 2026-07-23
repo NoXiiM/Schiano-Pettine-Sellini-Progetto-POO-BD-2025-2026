@@ -1,6 +1,6 @@
 -- Crea tabella Cliente
 CREATE TABLE Cliente (
-    idCliente VARCHAR(5) PRIMARY KEY,
+    idCliente VARCHAR(20) PRIMARY KEY,
     --Attributi del giocatore
     saldo INT NOT NULL CHECK(saldo >= 0) DEFAULT 50,
     tempoDiGioco TIME NOT NULL DEFAULT '00:00:00',
@@ -21,15 +21,12 @@ CREATE TABLE Cliente (
     dataDiNascita DATE NOT NULL,
     --Dati d'accesso
     username VARCHAR(20) NOT NULL UNIQUE,
-    password VARCHAR(20) NOT NULL,
-
-	CHECK((tipo = 'Base' and scontoPokerPercentuale is null)
-	or (tipo = 'Premium' and scontoPokerPercentuale is not null))
+    password VARCHAR(20) NOT NULL
 );
 
 -- Crea Dipendente
 CREATE TABLE Dipendente (
-    idDipendente VARCHAR(5) PRIMARY KEY, 
+    idDipendente VARCHAR(20) PRIMARY KEY, 
     --Attributi del dipendente anagrafico
     nome VARCHAR(20) NOT NULL,
     cognome VARCHAR(20) NOT NULL,

@@ -5,6 +5,7 @@ import database.DAO.DAOop;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class impDAOop implements DAOop {
@@ -138,14 +139,14 @@ public class impDAOop implements DAOop {
     }
 
     @Override
-    public void loginCliente(int[] saldo, String[] tipo, double[] scontoPokerPercentuale, LocalDate[] dataDiBan,
-                             String[] nome, String[] cognome, String[] codiceFiscale, LocalDate[] dataDiNascita,
-                             String username, String password, String[] codiceTessera) throws SQLException {
+    public void loginCliente(String[] codiceTessera, int[] saldo, LocalTime[] tempoDiGioco, int[] fichesGiocate,
+                      double[] vincitaPercentualeTot, int[] partiteGiocate, String[] tipo, double[] scontoPokerPercentuale,
+                      boolean[] sospetto, LocalDate[] dataDiBan, String[] motiviBan, String[] nome, String[] cognome,
+                      String[] codiceFiscale, LocalDate[] dataDiNascita, String username, String password) throws SQLException {
 
         Connection connection = ConnessioneDatabase.getInstance().connection;
 
-        try (PreparedStatement query = connection.prepareStatement("select saldo, tipo, scontoPokerPercentuale," +
-                "dataDiBan, nome, cognome, codiceFiscale, dataDiNascita, username, password, idCliente " +
+        try (PreparedStatement query = connection.prepareStatement("select *" +
                 "from cliente " +
                 "where username = ? AND password = ?")) {
 
@@ -155,20 +156,27 @@ public class impDAOop implements DAOop {
             try (ResultSet rs = query.executeQuery()) {
 
                 if (rs.next()) {
-                    saldo[0] = rs.getInt(1);
-                    tipo[0] = rs.getString(2);
-                    scontoPokerPercentuale[0] = rs.getDouble(3);
+                    codiceTessera[0] = rs.getString("idCliente");
+                    saldo[0] = rs.getInt("saldo");
 
-                    java.sql.Date ddb = rs.getDate(4);
+                    tempoDiGioco[0] = rs.getTime("tempoDiGioco").toLocalTime();
+
+                    fichesGiocate[0] = rs.getInt("fichesGiocate");
+                    vincitaPercentualeTot[0] = rs.getDouble("vincitaPercentualeTot");
+                    partiteGiocate[0] = rs.getInt("partiteGiocate");
+                    tipo[0] = rs.getString("tipo");
+                    scontoPokerPercentuale[0] = rs.getDouble("scontoPokerPercentuale");
+                    sospetto[0] = rs.getBoolean("sospetto");
+
+                    java.sql.Date ddb = rs.getDate("dataDiBan");
                     dataDiBan[0] = (ddb != null) ? ddb.toLocalDate() : null;
 
-                    nome[0] = rs.getString(5);
-                    cognome[0] = rs.getString(6);
-                    codiceFiscale[0] = rs.getString(7);
+                    motiviBan[0] = rs.getString("motiviBan");
+                    nome[0] = rs.getString("nome");
+                    cognome[0] = rs.getString("cognome");
+                    codiceFiscale[0] = rs.getString("codiceFiscale");
 
-                    dataDiNascita[0] = rs.getDate(8).toLocalDate();
-
-                    codiceTessera[0]= rs.getString(9);
+                    dataDiNascita[0] = rs.getDate("dataDiNascita").toLocalDate();
                 }
             }
         }

@@ -2,9 +2,10 @@ package model.gestionale.utenteEFigli;
 
 import model.gestionale.Ban;
 
+import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalTime;
 
 public class Cliente extends Utente
 {
@@ -39,12 +40,19 @@ public class Cliente extends Utente
     }
 
     public Cliente(String username, String nome, String cognome, String codiceFiscale,
-                   LocalDate dataDiNascita, String password, String codiceTesseraGiocatore, boolean premium, int saldo){
+                   LocalDate dataDiNascita, String password, String codiceTesseraGiocatore, boolean premium,
+                   double sconto_premium, boolean sospetto, LocalTime tempoDiGioco, int fichesGiocate, int saldo,
+                   int partiteGiocate, LocalDate dataBan, String motiviBan){
 
         this(username, nome, cognome, codiceFiscale, dataDiNascita, password, codiceTesseraGiocatore);
-        setPremium(premium);
+        setPremium(premium, sconto_premium);
+        this.sospetto = sospetto;
+        //TODO soluzione temporanea, potrebbe servire portare tutto a localTime
+        this.tempoDiGioco = new Time(tempoDiGioco.getSecond()*1000);
+        this.fichesGiocate = fichesGiocate;
         setSaldo(saldo);
-
+        this.partiteGiocate = partiteGiocate;
+        ban = new Ban(dataBan, motiviBan);
     }
 
     public String getUsername() {
@@ -159,6 +167,11 @@ public class Cliente extends Utente
     public void setPremium(boolean premium) {
         this.premium = premium;
         this.sconto_premium= 0.5;
+    }
+
+    public void setPremium(boolean premium, double sconto_premium) {
+        this.premium = premium;
+        this.sconto_premium= sconto_premium;
     }
 
     public double getSconto_premium() {

@@ -1,14 +1,12 @@
 package controller.gestionale;
 import model.gestionale.utenteEFigli.*;
-import javax.swing.*;
+
 import java.sql.SQLException;
 import java.time.LocalDate;
-import database.implementazioneDAO.*;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 import database.implementazioneDAO.impDAOop;
-
-import model.gestionale.*;
 
 
 public class WelcomeController {
@@ -59,12 +57,21 @@ public class WelcomeController {
             int[] saldo= new int[1];
             double[] scontoPercentuale= new double[1];
             LocalDate[] dataDiBan= new LocalDate[1];
+            String[] motiviBan = new String[1];
+            LocalTime[] tempoDiGioco = new LocalTime[1];
+            int[] fichesGiocate = new int[1];
+            double[] vincitaPercentualeTot = new double[1];
+            int[] partiteGiocate = new int[1];
+            boolean[] sospetto = new boolean[1];
 
             try{
-                db.loginCliente(saldo, tipologia, scontoPercentuale, dataDiBan,
-                        nome, cognome, codiceFiscale, dataDiNascita, username, password, identificativo);
+                db.loginCliente(identificativo, saldo, tempoDiGioco, fichesGiocate, vincitaPercentualeTot,
+                        partiteGiocate, tipologia, scontoPercentuale, sospetto, dataDiBan,
+                        motiviBan, nome, cognome, codiceFiscale, dataDiNascita, username, password);
                 boolean flag = tipologia[0].equals("Premium");
-                currentUser= new Cliente(username, nome[0], cognome[0], codiceFiscale[0], dataDiNascita[0], password, identificativo[0]);
+                currentUser= new Cliente(username, nome[0], cognome[0], codiceFiscale[0], dataDiNascita[0], password,
+                        identificativo[0], flag, scontoPercentuale[0], sospetto[0], tempoDiGioco[0], fichesGiocate[0],
+                        saldo[0], partiteGiocate[0], dataDiBan[0], motiviBan[0]);
                 return;
 
             } catch (SQLException e) {

@@ -1,23 +1,29 @@
 package model.gestionale;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Ban
 {
-    private Date dataDiBan;
+    private LocalDate dataDiBan;
     private String motivi;
 
     public Ban(String motivi)
     {
-        dataDiBan = new Date();
+        dataDiBan = null;
         this.motivi = motivi;
+    }
+
+    public Ban(LocalDate dataDiBan, String motivi)
+    {
+        this(motivi);
+        this.dataDiBan = dataDiBan;
     }
 
     public String getMotivi() {
         return motivi;
     }
 
-    public Date getDataDiBan() {
+    public LocalDate getDataDiBan() {
         return dataDiBan;
     }
 }

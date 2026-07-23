@@ -5,7 +5,6 @@ import controller.TavoloController;
 
 import controller.gestionale.ClientWelcomeController;
 import gui.giochi.GUISlotMachine;
-import model.gestionale.Sessione;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;

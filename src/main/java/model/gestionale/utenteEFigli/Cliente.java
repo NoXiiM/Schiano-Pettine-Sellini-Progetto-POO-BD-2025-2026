@@ -38,6 +38,15 @@ public class Cliente extends Utente
         partiteGiocate = 0;
     }
 
+    public Cliente(String username, String nome, String cognome, String codiceFiscale,
+                   LocalDate dataDiNascita, String password, String codiceTesseraGiocatore, boolean premium, int saldo){
+
+        this(username, nome, cognome, codiceFiscale, dataDiNascita, password, codiceTesseraGiocatore);
+        setPremium(premium);
+        setSaldo(saldo);
+
+    }
+
     public String getUsername() {
         return username;
     }
@@ -49,7 +58,6 @@ public class Cliente extends Utente
     public String getCodiceTesseraGiocatore() {
         return codiceTesseraGiocatore;
     }
-
 
     public Time getTempoDiGioco() {
         return tempoDiGioco;

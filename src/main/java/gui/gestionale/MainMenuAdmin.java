@@ -1,6 +1,5 @@
 package gui.gestionale;
 
-import controller.DipendenteCorrente;
 import controller.gestionale.DipendenteWelcomeController;
 import controller.gestionale.WelcomeController;
 import model.gestionale.utenteEFigli.Cliente;

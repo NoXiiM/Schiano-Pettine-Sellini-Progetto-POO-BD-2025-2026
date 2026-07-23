@@ -1,9 +1,8 @@
 package gui.gestionale;
 
-import controller.ClienteCorrente;
 import controller.TavoloController;
+import controller.gestionale.ClientWelcomeController;
 import gui.giochi.GUIBlackJack;
-import model.gestionale.utenteEFigli.Cliente;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,13 +21,11 @@ public class SelezioneTavoloBlackJack
     private JLabel infoTavolo3;
     private JButton indietroButton;
 
-    private JFrame frameChiamante;
-    private ClienteCorrente currentClient;
     private TavoloController controller;
 
     private static JFrame thisFrame;
 
-    public SelezioneTavoloBlackJack(JFrame frameChiamante, ClienteCorrente currentClient, TabbedMenuPlayer mainMenu)
+    public SelezioneTavoloBlackJack(JFrame frameChiamante, ClientWelcomeController clienteController, TabbedMenuPlayer mainMenu)
     {
         thisFrame= new JFrame("SelezioneTavoloBlackJack");
         thisFrame.setContentPane(selezioneTavoloPanel);
@@ -58,11 +55,11 @@ public class SelezioneTavoloBlackJack
                 {
                 thisFrame.setVisible(false);
                     try {
-                        if(radioButtonBJ1.isSelected()) currentClient.creaNuovaSessioneDiGioco(controller.getTavolo(0));
-                        else if(radioButtonBJ2.isSelected()) currentClient.creaNuovaSessioneDiGioco(controller.getTavolo(1));
-                        else if(radioButtonBJ3.isSelected()) currentClient.creaNuovaSessioneDiGioco(controller.getTavolo(2));
+                        if(radioButtonBJ1.isSelected()) clienteController.creaNuovaSessioneDiGioco(controller.getTavolo(0));
+                        else if(radioButtonBJ2.isSelected()) clienteController.creaNuovaSessioneDiGioco(controller.getTavolo(1));
+                        else if(radioButtonBJ3.isSelected()) clienteController.creaNuovaSessioneDiGioco(controller.getTavolo(2));
                         else throw new RuntimeException("è successo qualcosa di brutto coi tavoli");
-                        new GUIBlackJack(thisFrame, currentClient);
+                        new GUIBlackJack(thisFrame, clienteController);
                     } catch (RuntimeException ex) {
                         ex.getMessage();
                     }

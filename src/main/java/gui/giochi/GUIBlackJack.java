@@ -1,7 +1,7 @@
 package gui.giochi;
 
-import controller.ClienteCorrente;
 import controller.blackjack.*;
+import controller.gestionale.ClientWelcomeController;
 import model.giochi.HandStateBJ;
 import model.giochi.ManoBlackJack;
 
@@ -58,7 +58,7 @@ public class GUIBlackJack {
     private final JFrame thisFrame;
 
     private final JFrame frameChiamante;
-    private ClienteCorrente sessioneCorrente;
+    private ClientWelcomeController sessioneCorrente;
 
     /**
      * Instantiates a new Gui black jack.
@@ -67,9 +67,7 @@ public class GUIBlackJack {
      * @param sessioneCorrente the sessione corrente
      */
     //[0]
-    public GUIBlackJack(JFrame frameChiamante, ClienteCorrente sessioneCorrente) {
-        //sessioneCorrente.startTimer();
-
+    public GUIBlackJack(JFrame frameChiamante, ClientWelcomeController sessioneCorrente) {
         this.frameChiamante = frameChiamante;
         this.sessioneCorrente = sessioneCorrente;
 

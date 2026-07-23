@@ -20,7 +20,7 @@ public class WelcomeController {
     public WelcomeController() {
         this.lista_utenti = new ArrayList<>();
 
-        inizializzaListaUtenti(lista_utenti);
+        //inizializzaListaUtenti(lista_utenti);
     }
 
     protected WelcomeController(ArrayList<Utente> lista_utenti, Utente currentUser) {
@@ -28,11 +28,11 @@ public class WelcomeController {
         this.currentUser = currentUser;
     }
 
-    private void inizializzaListaUtenti(ArrayList<Utente> lista_utenti){
-        lista_utenti.add(new Cliente("mirkos", "Mirko", "Pettine", "PIRLONE", LocalDate.of(2025, 12, 25), "Mii", "A104"));
-        lista_utenti.add(new Premium("matteos", "Matteo", "Sellini", "PIRLINO", LocalDate.of(2000, 5, 25), "Maa", "B104"));
-        lista_utenti.add(new Supervisore("noxiim", "Christian", "Schiano", "INGEGNERE", LocalDate.of(2000, 5, 25), "Maa", "A"));
-    }
+//    private void inizializzaListaUtenti(ArrayList<Utente> lista_utenti){
+//        lista_utenti.add(new Cliente("mirkos", "Mirko", "Pettine", "PIRLONE", LocalDate.of(2025, 12, 25), "Mii", "A104"));
+//        lista_utenti.add(new Premium("matteos", "Matteo", "Sellini", "PIRLINO", LocalDate.of(2000, 5, 25), "Maa", "B104"));
+//        lista_utenti.add(new Supervisore("noxiim", "Christian", "Schiano", "INGEGNERE", LocalDate.of(2000, 5, 25), "Maa", "A"));
+//    }
 
     public void login(String username, String password) throws RuntimeException{
         if(username.isBlank() || password.isBlank()) throw new RuntimeException("Compila tutti i campi!");
@@ -63,6 +63,7 @@ public class WelcomeController {
             try{
                 db.loginCliente(saldo, tipologia, scontoPercentuale, dataDiBan,
                         nome, cognome, codiceFiscale, dataDiNascita, username, password, identificativo);
+                boolean flag = tipologia[0].equals("Premium");
                 currentUser= new Cliente(username, nome[0], cognome[0], codiceFiscale[0], dataDiNascita[0], password, identificativo[0]);
                 return;
 

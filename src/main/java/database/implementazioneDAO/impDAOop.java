@@ -64,7 +64,8 @@ public class impDAOop implements DAOop {
     //o username sia nella tabella cliente che in quella dipendente
 
     @Override
-    public void usernameTessereUtenti(ArrayList<String> usernames) throws SQLException{
+    public void usernameUtenti(ArrayList<String> usernames) throws SQLException{
+        System.out.println("fetch locale eseguita");
 
         Connection connection = ConnessioneDatabase.getInstance().connection;
 

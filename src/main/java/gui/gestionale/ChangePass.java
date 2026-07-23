@@ -1,6 +1,5 @@
 package gui.gestionale;
 
-import controller.ClienteCorrente;
 import controller.gestionale.ClientWelcomeController;
 
 import javax.swing.*;
@@ -17,11 +16,8 @@ public class ChangePass {
 
     JFrame frameChiamante;
     ClientWelcomeController controller;
-    ClienteCorrente currentUser;
 
     public ChangePass(JFrame frameChiamante, ClientWelcomeController controller) {
-
-        this.currentUser = currentUser;
         this.frameChiamante= frameChiamante;
         this.controller= controller;
 

@@ -1,6 +1,6 @@
 package gui.giochi;
 
-import controller.ClienteCorrente;
+import controller.gestionale.ClientWelcomeController;
 import controller.slotMachine.slotMachineController;
 
 import model.giochi.NonCarte.Simboli;
@@ -35,10 +35,7 @@ public class GUISlotMachine {
     //comunicazione tra frame
     private static JFrame thisFrame;
 
-    private JFrame frameChiamante;
-    private ClienteCorrente clienteCorrente;
-
-    public GUISlotMachine(JFrame frameChiamante, ClienteCorrente clienteCorrente) {
+    public GUISlotMachine(JFrame frameChiamante, ClientWelcomeController sessioneCorrente) {
         //settaggio frame
 
         thisFrame = new JFrame("GUISlotMachine");
@@ -80,9 +77,7 @@ public class GUISlotMachine {
 
 
         a10RadioButton.setSelected(true);
-        /// istanziazione controller
-        this.clienteCorrente = clienteCorrente;
-        controller = new slotMachineController(clienteCorrente);
+        controller = new slotMachineController();
         /// settaggio foto
         Image img = new ImageIcon(
                 getClass().getResource(controller.getPathSette())
@@ -95,7 +90,7 @@ public class GUISlotMachine {
         simbolo3.setText("");
 
         // recupero saldo giocatore
-        saldoGiocatore=controller.getsaldoGiocatore();
+        saldoGiocatore= sessioneCorrente.getSaldoGiocatore();
         saldoGiocatoreNumber.setText("Il saldo del giocatore è: "+saldoGiocatore);
 
         //default di guadagno
@@ -109,7 +104,7 @@ public class GUISlotMachine {
             public void actionPerformed(ActionEvent e) {
                 try{
                     //Cancella dal cliente e a schermo quanto puntato
-                    controller.decrementa(Integer.parseInt(puntate.getSelection().getActionCommand()));
+                    sessioneCorrente.decrementaSaldoGiocatore(Integer.parseInt(puntate.getSelection().getActionCommand()));
                     saldoGiocatore = saldoGiocatore - Integer.parseInt(puntate.getSelection().getActionCommand());
 
                     int creditoRisultato;
@@ -147,8 +142,8 @@ public class GUISlotMachine {
 
                     if(creditoRisultato>0){
                         saldoGiocatore = saldoGiocatore+creditoRisultato;
-                        controller.incrementa(creditoRisultato);
-                        controller.aggiornaVincitaPercentuale(true);
+                        sessioneCorrente.incrementaSaldoGiocatore(creditoRisultato);
+                        sessioneCorrente.aggiornaVincitaPercentuale(true);
                         guadagnatoText.setText("Hai vinto: "+creditoRisultato+"!");
                         saldoGiocatoreNumber.setText("Il saldo del giocatore è: "+saldoGiocatore);
 
@@ -157,7 +152,7 @@ public class GUISlotMachine {
                     }
                     else{
                         guadagnatoText.setText("oh no hai perso! ");
-                        controller.aggiornaVincitaPercentuale(false);
+                        sessioneCorrente.aggiornaVincitaPercentuale(false);
                         saldoGiocatoreNumber.setText("Il saldo del giocatore è: "+saldoGiocatore);
 
 
@@ -176,10 +171,10 @@ public class GUISlotMachine {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //modificato controller.aggiornadaticliente
-                clienteCorrente.terminaSessione();
+                sessioneCorrente.terminaSessione();
                 //Check della percentuale di vittoria o perdita
-                System.out.println(controller.getCheckPercentualeVittoria());
-                System.out.println(controller.getClienteCorrente().getClienteCorrente());
+                System.out.println(sessioneCorrente.stringaPercentuale());
+                System.out.println(sessioneCorrente.getClienteCorrente());
                 thisFrame.dispose();
                 frameChiamante.setVisible(true);
             }

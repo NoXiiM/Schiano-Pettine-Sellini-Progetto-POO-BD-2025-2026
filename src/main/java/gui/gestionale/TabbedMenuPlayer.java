@@ -1,11 +1,9 @@
 package gui.gestionale;
 
-import controller.ClienteCorrente;
 import controller.gestionale.ClientWelcomeController;
 
 import javax.swing.*;
 
-import model.gestionale.Sessione;
 import model.gestionale.utenteEFigli.*;
 
 import java.awt.event.ActionEvent;
@@ -178,7 +176,7 @@ public class TabbedMenuPlayer {
             public void actionPerformed(ActionEvent e) {
                 if(!controller.isBanned()) {
                     thisFrame.setVisible(false);
-                    //new SelezioneTavoloBlackJack(thisFrame, currentClient, TabbedMenuPlayer.this);
+                    new SelezioneTavoloBlackJack(thisFrame, controller, TabbedMenuPlayer.this);
                 } else{
                     JOptionPane.showMessageDialog(null, "Sei stato bannato !", "Errore", JOptionPane.ERROR_MESSAGE);
                 }
@@ -190,7 +188,7 @@ public class TabbedMenuPlayer {
             public void actionPerformed(ActionEvent e) {
                 if(!controller.isBanned()) {
                     thisFrame.setVisible(false);
-                    //new SelezioneTavoloSlotMachine(thisFrame, currentClient, TabbedMenuPlayer.this);
+                    new SelezioneTavoloSlotMachine(thisFrame, controller, TabbedMenuPlayer.this);
                 } else{
                     JOptionPane.showMessageDialog(null, "Sei stato bannato !", "Errore", JOptionPane.ERROR_MESSAGE);
                 }

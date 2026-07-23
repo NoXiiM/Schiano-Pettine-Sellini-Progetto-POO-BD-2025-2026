@@ -1,11 +1,15 @@
 package controller.gestionale;
 
+import model.gestionale.Giocatore;
+import model.gestionale.Sessione;
+import model.gestionale.Tavolo;
 import model.gestionale.utenteEFigli.Cliente;
 import model.gestionale.utenteEFigli.Utente;
 import database.implementazioneDAO.impDAOop;
 
 import javax.swing.*;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
@@ -14,14 +18,13 @@ import java.util.Random;
 public class ClientWelcomeController extends WelcomeController {
 
     private ArrayList<String> usernames;
-    private ArrayList<String> codiciTessera;
     private Cliente cliente;
+    private Sessione sessione;
 
     public ClientWelcomeController(WelcomeController controller) {
         super(controller.getLista_utenti(), controller.getCurrentUser());
         cliente = (Cliente) getCurrentUser();
         usernames = new ArrayList<>();
-        codiciTessera = new ArrayList<>();
     }
 
     //client
@@ -45,10 +48,7 @@ public class ClientWelcomeController extends WelcomeController {
             }
         }
 
-        String codiceTessera = generaCodiceTessera(nome, cognome, dataNascita);
-        while (codiceTesseraEsiste(codiceTessera)) {
-            codiceTessera = generaCodiceTessera(nome, cognome, dataNascita);
-        }
+        String codiceTessera = generaCodiceTessera();
 
         try {
             new impDAOop().registrazione(codiceTessera, username, nome, cognome, codiceFiscale,
@@ -75,33 +75,14 @@ public class ClientWelcomeController extends WelcomeController {
     }
 
     //client
-    private String generaCodiceTessera(String nome, String cognome, LocalDate dataNascita) {
-
-        String inizialeNome = String.valueOf(nome.charAt(0)).toUpperCase();
-        String inizialeCognome = String.valueOf(cognome.charAt(0)).toUpperCase();
-        //charAt() restituisce char, char + char= int, String.valueOf() serve a convertire char in String
-
-        String gg = String.format("%02d", dataNascita.getDayOfMonth());
-        String mm = String.format("%02d", dataNascita.getMonthValue());
-        String aa = String.format("%02d", dataNascita.getYear() % 100);
-
-        String lettere = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private String generaCodiceTessera()
+    {
+        String user = cliente.getUsername();
         Random random = new Random();
-        String casuali = String.valueOf(lettere.charAt(random.nextInt(26))) + lettere.charAt(random.nextInt(26)) + lettere.charAt(random.nextInt(26));
-        //random.nextInt(26) numero casuale tra 0 e 25. charAt() carattere di lettere a quell'indice
+        String numero = String.format("%03d", random.nextInt(0, 1000));
+        int taglio = random.nextInt(0, user.length());
 
-        return inizialeNome + inizialeCognome + gg + mm + aa + casuali;
-    }
-
-    //client
-    private boolean codiceTesseraEsiste(String codice) {
-        for (String i : codiciTessera) {
-
-            if (codice.equals(i)) {
-                return true;
-            }
-        }
-        return false;
+        return user.substring(0, taglio) + numero + user.substring(taglio);
     }
 
     //client
@@ -146,7 +127,6 @@ public class ClientWelcomeController extends WelcomeController {
 
     public void pulisciUsernamesTessere() {
         usernames.clear();
-        codiciTessera.clear();
     }
 
     public boolean isBanned() {
@@ -158,11 +138,28 @@ public class ClientWelcomeController extends WelcomeController {
         impDAOop db = new impDAOop();
 
         try {
-            db.usernameTessereUtenti(usernames);
+            db.usernameUtenti(usernames);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
+    public void creaNuovaSessioneDiGioco(Tavolo tavoloSelezionato)
+    {
+        Giocatore giocatoreCorrente = new Giocatore(cliente, cliente.getSaldo());
+        sessione = new Sessione(giocatoreCorrente, tavoloSelezionato);
+        sessione.startTimer();
+    }
+
+    public int getSaldoGiocatore(){return sessione.getSaldoGiocatore();}
+    public void decrementaSaldoGiocatore(int creditoInserito) throws RuntimeException{sessione.decrementaSaldoGiocatore(creditoInserito);}
+    public void incrementaSaldoGiocatore(int creditoInserito){sessione.incrementaSaldoGiocatore(creditoInserito);}
+    public void terminaSessione(){sessione.terminaSessione();}
+    public void aggiornaVincitaPercentuale(boolean v){ sessione.aggiornaVincitaPercentuale(v);}
+    public int getPostiTavolo(){return sessione.getPostiTavolo();}
+    public int getTimeSecondi(){return sessione.getTimeSecondi();}
+    public Time getTime(){return sessione.getTime();}
+    public String stringaPercentuale(){return sessione.stringaPercentuale();}
+    public Cliente getClienteCorrente(){return cliente;}
 }
 

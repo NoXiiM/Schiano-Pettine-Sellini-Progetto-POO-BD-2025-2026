@@ -3,7 +3,6 @@ package database.DAO;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 public interface DAOop
 {
@@ -30,6 +29,6 @@ public interface DAOop
                                 String[] ruolo, String username, String password) throws SQLException;
 
     //operazione batch su username
-    void usernameTessereUtenti(ArrayList<String> usernames) throws SQLException;
+    void usernameUtenti(ArrayList<String> usernames) throws SQLException;
 
 }

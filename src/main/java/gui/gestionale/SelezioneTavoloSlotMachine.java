@@ -1,9 +1,9 @@
 package gui.gestionale;
 
-import controller.ClienteCorrente;
 import controller.TavoloController;
 
 
+import controller.gestionale.ClientWelcomeController;
 import gui.giochi.GUISlotMachine;
 import model.gestionale.Sessione;
 
@@ -26,13 +26,11 @@ public class SelezioneTavoloSlotMachine {
     private JList listaTavoli;
     private JLabel selezioneListaLabel;
 
-    private JFrame frameChiamante;
-    private ClienteCorrente currentClient;
     private TavoloController controller;
 
     public static DefaultListModel<String> modellolistaTavoli;
 
-    public SelezioneTavoloSlotMachine(JFrame frameChiamante, ClienteCorrente currentClient, TabbedMenuPlayer mainMenu)
+    public SelezioneTavoloSlotMachine(JFrame frameChiamante, ClientWelcomeController clienteController, TabbedMenuPlayer mainMenu)
     {
         thisFrame= new JFrame("SelezioneTavoloSlotMachine");
         thisFrame.setContentPane(selezioneTavoloPanel);
@@ -79,8 +77,8 @@ public class SelezioneTavoloSlotMachine {
                         thisFrame.setVisible(false);
                         try {
 
-                            currentClient.creaNuovaSessioneDiGioco(controller.getTavolo(Integer.parseInt(selezione.replaceAll("\\D+", ""))-1));
-                            new GUISlotMachine(thisFrame, currentClient);
+                            clienteController.creaNuovaSessioneDiGioco(controller.getTavolo(Integer.parseInt(selezione.replaceAll("\\D+", ""))-1));
+                            new GUISlotMachine(thisFrame, clienteController);
                         } catch (RuntimeException ex) {
                             ex.getMessage();
                         }

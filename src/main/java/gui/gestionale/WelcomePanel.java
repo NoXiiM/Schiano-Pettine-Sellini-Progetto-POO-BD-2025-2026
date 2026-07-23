@@ -1,7 +1,5 @@
 package gui.gestionale;
 
-import controller.ClienteCorrente;
-import controller.DipendenteCorrente;
 import controller.gestionale.ClientWelcomeController;
 import controller.gestionale.DipendenteWelcomeController;
 import controller.gestionale.WelcomeController;
@@ -48,9 +46,9 @@ public class WelcomePanel {
                     passwordField.setText("");
 
                     if(welcomeController.utenteCliente()){
-                        TabbedMenuPlayer menuPlayerFrame= new TabbedMenuPlayer(new ClientWelcomeController(welcomeController), mainframe);
+                        new TabbedMenuPlayer(new ClientWelcomeController(welcomeController), mainframe);
                     } else {
-                        MainMenuAdmin menuAdminFrame = new MainMenuAdmin(new DipendenteWelcomeController(welcomeController), mainframe);
+                        new MainMenuAdmin(new DipendenteWelcomeController(welcomeController), mainframe);
                     }
 
                 } catch (RuntimeException empty_field_ex){

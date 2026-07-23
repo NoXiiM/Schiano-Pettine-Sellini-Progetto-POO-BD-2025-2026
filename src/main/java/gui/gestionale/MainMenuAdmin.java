@@ -26,7 +26,7 @@ public class MainMenuAdmin {
 
     private static DefaultListModel<Cliente> modelloListaClienti;
 
-    public MainMenuAdmin(DipendenteWelcomeController controller, JFrame frameChiamante, DipendenteCorrente dipendenteCorrente) {
+    public MainMenuAdmin(DipendenteWelcomeController controller, JFrame frameChiamante) {
         this.controller = controller;
         this.frameChiamante= frameChiamante;
 

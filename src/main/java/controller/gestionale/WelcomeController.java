@@ -1,10 +1,13 @@
 package controller.gestionale;
 import model.gestionale.utenteEFigli.*;
 import javax.swing.*;
+import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.Period;
+import database.implementazioneDAO.*;
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.Date;
+
+import database.implementazioneDAO.impDAOop;
 
 import model.gestionale.*;
 
@@ -13,15 +16,11 @@ public class WelcomeController {
 
     private Utente currentUser;
 
-//    private ArrayList<Cliente> lista_giocatori= new ArrayList<>();
-//    private ArrayList<Dipendente> lista_admin= new ArrayList<>();
-    //TODO: molte cose in questo file andranno cambiate con l'implementazione del database
     private ArrayList<Utente> lista_utenti;
 
     public WelcomeController() {
         this.lista_utenti = new ArrayList<>();
-//        inizializzaListaGiocatori(lista_giocatori);
-//        inizializzaListaAdmin(lista_admin);
+
         inizializzaListaUtenti(lista_utenti);
     }
 
@@ -36,37 +35,56 @@ public class WelcomeController {
         lista_utenti.add(new Supervisore("noxiim", "Christian", "Schiano", "INGEGNERE", LocalDate.of(2000, 5, 25), "Maa", "A"));
     }
 
-//    private void inizializzaListaGiocatori(ArrayList<Cliente> lista_giocatori){
-//        lista_giocatori.add(new Base("mirkos", "Mirko", "Pettine", "PIRLONE", LocalDate.of(2025, 12, 25), "Mii", "A104"));
-//        lista_giocatori.add(new Premium("matteos", "Matteo", "Sellini", "PIRLINO", LocalDate.of(2000, 5, 25), "Maa", "B104"));
-//    }
-//
-//    private void inizializzaListaAdmin(ArrayList<Dipendente> lista_admin){
-//        lista_admin.add(new Supervisore("noxiim", "Christian", "Schiano", "INGEGNERE", LocalDate.of(2000, 5, 25), "Maa", "A"));
-//    }
-
-    public Utente login(String username, String password) throws RuntimeException{
+    public void login(String username, String password) throws RuntimeException{
         if(username.isBlank() || password.isBlank()) throw new RuntimeException("Compila tutti i campi!");
-         // JOptionPane.showMessageDialog(null, userType, "Errore", JOptionPane.ERROR_MESSAGE); // --> Per verificare se effettivamente restituisce Admin/Giocatore
 
-//        if(userType.equals("Admin")){
-//            for(Dipendente i : lista_admin){
-//                if(i.getUsername().equals(username) && i.getPassword().equals(password)){
-//                    return i;
-//                }
-//            }
-//        } else {
-//            for(Cliente i : lista_giocatori) {
-//                if (i.getUsername().equals(username) && i.getPassword().equals(password)) {
-//                    return i;
-//                }
-//            }
-//        }
+        impDAOop db= new impDAOop();
+        String tipo;
 
-        for(Utente i : lista_utenti){
-            if (i.getUsername().equals(username) && i.getPassword().equals(password)) {
-                currentUser= i;
-                return i;
+        try{
+            tipo= db.trovaTabella(username, password);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        String[] tipologia= new String[1];
+        LocalDate[] dataDiNascita= new LocalDate[1];
+        String[] nome= new String[1];
+        String[] cognome= new String[1];
+        String[] codiceFiscale= new String[1];
+        String[] identificativo= new String[1];
+
+        if(tipo.equals("Cliente")){
+
+            int[] saldo= new int[1];
+            double[] scontoPercentuale= new double[1];
+            LocalDate[] dataDiBan= new LocalDate[1];
+
+            try{
+                db.loginCliente(saldo, tipologia, scontoPercentuale, dataDiBan,
+                        nome, cognome, codiceFiscale, dataDiNascita, username, password, identificativo);
+                currentUser= new Cliente(username, nome[0], cognome[0], codiceFiscale[0], dataDiNascita[0], password, identificativo[0]);
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        } else if(tipo.equals("Dipendente")){
+
+            try{
+                db.loginDipendente(identificativo, nome, cognome, codiceFiscale, dataDiNascita, tipologia, username, password);
+
+                if(tipologia[0].equals("Dealer")){
+                    currentUser= new Dealer(username, nome[0], cognome[0], codiceFiscale[0], dataDiNascita[0], password, identificativo[0]);
+
+
+                } else{
+                    currentUser= new Supervisore(username, nome[0], cognome[0], codiceFiscale[0], dataDiNascita[0], password, identificativo[0]);
+                }
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
         }
 
@@ -113,6 +131,11 @@ public class WelcomeController {
 
     public ArrayList<Utente> getLista_utenti(){
         return lista_utenti;
+    }
+
+    public boolean utenteCliente(){
+        if(currentUser instanceof Cliente) return true;
+        return false;
     }
 
 }

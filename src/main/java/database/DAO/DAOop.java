@@ -1,6 +1,8 @@
 package database.DAO;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 
 public interface DAOop
@@ -11,7 +13,7 @@ public interface DAOop
 
     //OP2
     //se username e codicefiscale sono nuovi ritorna true sennò false
-    void registrazione(String id, String username, String nome, String cognome, String codiceFiscale, Date data,
+    void registrazione(String id, String username, String nome, String cognome, String codiceFiscale, LocalDate data,
                        String password, int saldo) throws SQLException;
 
     //OP3
@@ -20,10 +22,13 @@ public interface DAOop
 
     //carica tutti i dati del cliente che effettivamente servono, gli array come parametri servono per effettuare
     //passaggio per riferimento, in questo caso di un singolo valore (nota: per valori multipli userò arraylist)
-    void loginCliente(int[] saldo, String[] tipo, double[] scontoPokerPercentuale, Date[] dataDiBan,
-                      String[] nome, String[] cognome, String[] codiceFiscale, Date[] dataDiNascita, String username,
-                      String password) throws SQLException;
+    void loginCliente(int[] saldo, String[] tipo, double[] scontoPokerPercentuale, LocalDate[] dataDiBan,
+                      String[] nome, String[] cognome, String[] codiceFiscale, LocalDate[] dataDiNascita, String username,
+                      String password, String[] codiceTessera) throws SQLException;
 
-    void loginDipendente(String[] identificativo, String[] nome, String[] cognome, String[] codiceFiscale, Date[] dataDiNascita,
+    void loginDipendente(String[] identificativo, String[] nome, String[] cognome, String[] codiceFiscale, LocalDate[] dataDiNascita,
                                 String[] ruolo, String username, String password) throws SQLException;
+
+    void usernameTessereUtenti(ArrayList<String> usernames, ArrayList<String> codiciTessere) throws SQLException;
+
 }

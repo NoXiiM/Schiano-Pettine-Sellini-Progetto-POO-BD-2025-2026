@@ -40,7 +40,7 @@ public class TabbedMenuPlayer {
 
     //TODO scrivere meccanismo per trasformare base in premium
 
-    public TabbedMenuPlayer(ClientWelcomeController controller, JFrame mainframe, ClienteCorrente currentClient) {
+    public TabbedMenuPlayer(ClientWelcomeController controller, JFrame mainframe) {
         this.frameChiamante = mainframe;
         this.controller= controller;
 
@@ -87,10 +87,9 @@ public class TabbedMenuPlayer {
 
                     try {
                         int valore_deposito = Integer.parseInt(input);
-                        controller.depositaSaldoCliente(valore_deposito, currentClient.getClienteCorrente());
+                        controller.depositaSaldoCliente(valore_deposito);
 
-                        saldoInGameText.setText("Saldo disponibile: " + currentClient.getSaldoCorrente());
-                        saldoInSaldoText.setText("Saldo disponibile: " + currentClient.getSaldoCorrente());
+                        aggiornaSaldo();
 
                     } catch (NumberFormatException ex_val_depo) {
                         JOptionPane.showMessageDialog(null, "Inserisci un numero intero valido.", "Errore", JOptionPane.ERROR_MESSAGE);
@@ -109,12 +108,11 @@ public class TabbedMenuPlayer {
 
                     try {
                         int valore_prelievo = Integer.parseInt(input);
-                        if(!controller.prelevaSaldoCliente(valore_prelievo, currentClient.getClienteCorrente())){
+                        if(!controller.prelevaSaldoCliente(valore_prelievo)){
                             JOptionPane.showMessageDialog(null, "Saldo insufficiente !", "Errore", JOptionPane.ERROR_MESSAGE);
                         }
 
-                        saldoInGameText.setText("Saldo disponibile: " + currentClient.getSaldoCorrente());
-                        saldoInSaldoText.setText("Saldo disponibile: " + currentClient.getSaldoCorrente());
+                        aggiornaSaldo();
 
                     } catch (NumberFormatException ex_val_depo) {
                         JOptionPane.showMessageDialog(null, "Inserisci un numero intero valido.", "Errore", JOptionPane.ERROR_MESSAGE);
@@ -176,7 +174,7 @@ public class TabbedMenuPlayer {
         blackJack.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(!currentClient.isBanned()) {
+                if(!controller.isBanned()) {
                     thisFrame.setVisible(false);
                     new SelezioneTavoloBlackJack(thisFrame, currentClient, TabbedMenuPlayer.this);
                 } else{
@@ -188,7 +186,7 @@ public class TabbedMenuPlayer {
         SlotMachine.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(!currentClient.isBanned()) {
+                if(!controller.isBanned()) {
                     thisFrame.setVisible(false);
                     new SelezioneTavoloSlotMachine(thisFrame, currentClient, TabbedMenuPlayer.this);
                 } else{

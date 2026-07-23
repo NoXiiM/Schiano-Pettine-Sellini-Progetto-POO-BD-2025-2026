@@ -42,15 +42,15 @@ public class WelcomePanel {
                 //String loginMode= (String) userType.getSelectedItem();
 
                 try{
-                    Utente user= welcomeController.login(username, password);
+                    welcomeController.login(username, password);
 
                     userField.setText("");
                     passwordField.setText("");
 
-                    if(user instanceof Dipendente){
-                        MainMenuAdmin menuAdminFrame = new MainMenuAdmin(new DipendenteWelcomeController(welcomeController), mainframe, new DipendenteCorrente((Dipendente) user));
+                    if(welcomeController.utenteCliente()){
+                        TabbedMenuPlayer menuPlayerFrame= new TabbedMenuPlayer(new ClientWelcomeController(welcomeController), mainframe);
                     } else {
-                        TabbedMenuPlayer menuPlayerFrame= new TabbedMenuPlayer(new ClientWelcomeController(welcomeController), mainframe, new ClienteCorrente((Cliente) user));
+                        MainMenuAdmin menuAdminFrame = new MainMenuAdmin(new DipendenteWelcomeController(welcomeController), mainframe);
                     }
 
                 } catch (RuntimeException empty_field_ex){

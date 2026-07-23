@@ -2,8 +2,10 @@ package controller.gestionale;
 
 import model.gestionale.utenteEFigli.Cliente;
 import model.gestionale.utenteEFigli.Utente;
+import database.implementazioneDAO.impDAOop;
 
 import javax.swing.*;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
@@ -11,18 +13,41 @@ import java.util.Random;
 
 public class ClientWelcomeController extends WelcomeController {
 
+    private ArrayList<String> usernames;
+    private ArrayList<String> codiciTessera;
+    private Cliente cliente;
+
     public ClientWelcomeController(WelcomeController controller){
         super(controller.getLista_utenti(), controller.getCurrentUser());
+        cliente= (Cliente) getCurrentUser();
     }
 
     //client
-    public void registrati(String username, String nome, String cognome, String codiceFiscale, LocalDate dataNascita, String password) throws RuntimeException{
+    public void registrati(String username, String nome, String cognome, String codiceFiscale, LocalDate dataNascita, String password, int importo) throws RuntimeException{
         if(username.isBlank() || nome.isBlank() || cognome.isBlank() || codiceFiscale.isBlank() || password.isBlank()) throw new RuntimeException("Compila tutti i campi!");
 
         if (!isEta18(dataNascita)) throw new RuntimeException("Devi avere almeno 18 anni per registrarti.");
+        if (importo < 50) throw new RuntimeException("Deposito minimo obbligatorio di 50 euro");
 
-        for (Utente i :getLista_utenti()) {
-            if (i.getUsername().equals(username)) throw new RuntimeException("Username non disponibile");
+//        for (Utente i :getLista_utenti()) {
+//            if (i.getUsername().equals(username)) throw new RuntimeException("Username non disponibile");
+//        }
+
+        impDAOop db= new impDAOop();
+        usernames= new ArrayList<>();
+        codiciTessera= new ArrayList<>();
+
+
+        //li prendo cosi se piu username non sono disp non ce bisogno di fare query ogni volta
+        try {
+            db.usernameTessereUtenti(usernames, codiciTessera);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        //check locale
+        for(String user : usernames){
+            if(username.equals(user)) throw new RuntimeException("Username non disponibile");
         }
 
         String codiceTessera = generaCodiceTessera(nome, cognome, dataNascita);
@@ -30,19 +55,27 @@ public class ClientWelcomeController extends WelcomeController {
             codiceTessera = generaCodiceTessera(nome, cognome, dataNascita);
         }
 
+        try{
+            db.registrazione(codiceTessera, username, nome, cognome, codiceFiscale,
+                    dataNascita, password, importo);
+        } catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+
+        //finita la reg, non ci serve piu
+        pulisciUsernamesTessere();
+
        getLista_utenti().add(new Cliente(username, nome, cognome, codiceFiscale, dataNascita, password, codiceTessera));
     }
 
     //client
-    //da fare cast Cliente utente
-    public void depositaSaldoCliente(int deposito, Cliente utente){
-        utente.deposita(deposito);
+    public void depositaSaldoCliente(int deposito){
+        cliente.deposita(deposito);
     }
 
     //client
-    //da fare cast Cliente utente
-    public boolean prelevaSaldoCliente(int prelievo, Cliente utente){
-        if(!utente.preleva(prelievo)){
+    public boolean prelevaSaldoCliente(int prelievo){
+        if(!cliente.preleva(prelievo)){
             return false;
         }
         return true;
@@ -69,11 +102,10 @@ public class ClientWelcomeController extends WelcomeController {
 
     //client
     private boolean codiceTesseraEsiste(String codice) {
-        for (Utente i :getLista_utenti()) {
-            //ho modificato qui perchè se nell'istanceof dopo l'espressione se scrivi un nome diventa variabile
-            //di i castato nella classe dopo istanceof -> Cliente c = (Cliente) i;
-            if (i instanceof Cliente c) {
-                if (c.getCodiceTesseraGiocatore().equals(codice)) return true;
+        for (String i : codiciTessera) {
+
+            if(codice.equals(i)){
+                return true;
             }
         }
         return false;
@@ -86,8 +118,7 @@ public class ClientWelcomeController extends WelcomeController {
 
     //client
     public int getSaldoUtente(){
-        Cliente temp= (Cliente) getCurrentUser();
-        return temp.getSaldo();
+        return cliente.getSaldo();
     }
 
     //solo client, un admin non puo cancellare il profilo, un superadmin puo cancellare altri profili
@@ -118,4 +149,12 @@ public class ClientWelcomeController extends WelcomeController {
         throw new RuntimeException("Utente non trovato!");
     }
 
+    public void pulisciUsernamesTessere(){
+        usernames.clear();
+        codiciTessera.clear();
+    }
+
+    public boolean isBanned(){
+        return cliente.getBan() != null;
+    }
 }

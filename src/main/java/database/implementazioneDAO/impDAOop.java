@@ -4,6 +4,8 @@ import database.ConnessioneDatabase;
 import database.DAO.DAOop;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class impDAOop implements DAOop {
@@ -61,9 +63,27 @@ public class impDAOop implements DAOop {
 
     //nel database c'è trigger function che si occupa di verificare all'inserimento che non ci siano duplicati di CF
     //o username sia nella tabella cliente che in quella dipendente
+
+    @Override
+    public void usernameTessereUtenti(ArrayList<String> usernames, ArrayList<String> codiciTessere) throws SQLException{
+
+        Connection connection = ConnessioneDatabase.getInstance().connection;
+
+        try (PreparedStatement query = connection.prepareStatement("select username, idCliente " +
+                "from cliente ")) {
+
+            try (ResultSet rs = query.executeQuery()) {
+                while(rs.next()) {
+                    usernames.add(rs.getString("username"));
+                    codiciTessere.add(rs.getString("idCliente"));
+                }
+            }
+        }
+    }
+
     @Override
     public void registrazione(String id, String username, String nome, String cognome, String codiceFiscale,
-                              Date dataDiNascita, String password, int saldoIniziale) throws SQLException {
+                              LocalDate dataDiNascita, String password, int saldoIniziale) throws SQLException {
         Connection connection = ConnessioneDatabase.getInstance().connection;
         try (PreparedStatement inserimento = connection.prepareStatement("insert into cliente" +
                 "(idCliente, username, nome, cognome, codiceFiscale, dataDiNascita, password, saldo) " +
@@ -73,7 +93,7 @@ public class impDAOop implements DAOop {
             inserimento.setString(3, nome);
             inserimento.setString(4, cognome);
             inserimento.setString(5, codiceFiscale);
-            inserimento.setDate(6, new java.sql.Date(dataDiNascita.getTime()));
+            inserimento.setDate(6, java.sql.Date.valueOf(dataDiNascita));
             inserimento.setString(7, password);
             inserimento.setInt(8, saldoIniziale);
 
@@ -111,37 +131,44 @@ public class impDAOop implements DAOop {
     }
 
     @Override
-    public void loginCliente(int[] saldo, String[] tipo, double[] scontoPokerPercentuale, Date[] dataDiBan,
-                             String[] nome, String[] cognome, String[] codiceFiscale, Date[] dataDiNascita,
-                             String username, String password) throws SQLException {
+    public void loginCliente(int[] saldo, String[] tipo, double[] scontoPokerPercentuale, LocalDate[] dataDiBan,
+                             String[] nome, String[] cognome, String[] codiceFiscale, LocalDate[] dataDiNascita,
+                             String username, String password, String[] codiceTessera) throws SQLException {
+
         Connection connection = ConnessioneDatabase.getInstance().connection;
 
         try (PreparedStatement query = connection.prepareStatement("select saldo, tipo, scontoPokerPercentuale," +
-                "dataDiBan, nome, cognome, codiceFiscale, dataDiNascita, username, password " +
+                "dataDiBan, nome, cognome, codiceFiscale, dataDiNascita, username, password, idCliente " +
                 "from cliente " +
                 "where username = ? AND password = ?")) {
+
             query.setString(1, username);
             query.setString(2, password);
 
             try (ResultSet rs = query.executeQuery()) {
+
                 if (rs.next()) {
                     saldo[0] = rs.getInt(1);
                     tipo[0] = rs.getString(2);
                     scontoPokerPercentuale[0] = rs.getDouble(3);
-                    Date ddb;
-                    if((ddb = rs.getDate(4)) != null) dataDiBan[0] = new java.util.Date(ddb.getTime());
-                    else dataDiBan[0] = null;
+
+                    java.sql.Date ddb = rs.getDate(4);
+                    dataDiBan[0] = (ddb != null) ? ddb.toLocalDate() : null;
+
                     nome[0] = rs.getString(5);
                     cognome[0] = rs.getString(6);
                     codiceFiscale[0] = rs.getString(7);
-                    dataDiNascita[0] = new java.util.Date(rs.getDate(8).getTime());
+
+                    dataDiNascita[0] = rs.getDate(8).toLocalDate();
+
+                    codiceTessera[0]= rs.getString(9);
                 }
             }
         }
     }
 
     @Override
-    public void loginDipendente(String[] identificativo, String[] nome, String[] cognome, String[] codiceFiscale, Date[] dataDiNascita,
+    public void loginDipendente(String[] identificativo, String[] nome, String[] cognome, String[] codiceFiscale, LocalDate[] dataDiNascita,
                                 String[] ruolo, String username, String password) throws SQLException {
         Connection connection = ConnessioneDatabase.getInstance().connection;
 
@@ -158,7 +185,7 @@ public class impDAOop implements DAOop {
                     nome[0] = rs.getString(2);
                     cognome[0] = rs.getString(3);
                     codiceFiscale[0] = rs.getString(4);
-                    dataDiNascita[0] = new java.util.Date(rs.getDate(5).getTime());
+                    dataDiNascita[0] = rs.getDate(8).toLocalDate();
                     ruolo[0] = rs.getString(6);
                 }
             }

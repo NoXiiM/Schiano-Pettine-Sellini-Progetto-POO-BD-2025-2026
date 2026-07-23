@@ -20,7 +20,8 @@ public class RegistrationForm {
     private JComboBox comboBoxDay;
     private JComboBox comboBoxMonth;
     private JComboBox comboBoxYear;
-    private JTextField textField1;
+    private JTextField importField;
+    private JLabel depositoObbligatorio;
 
     private JFrame frameChiamante;
     private ClientWelcomeController controller;
@@ -51,7 +52,9 @@ public class RegistrationForm {
                     LocalDate dataNascita = LocalDate.of(anno, mese, giorno);
                     String password = new String(passRegField.getPassword());   //getPassword restituisce char[]
 
-                    controller.registrati(usernameRegField.getText(), nameRegField.getText(), surnameRegField.getText(), codFisRegField.getText(), dataNascita, password);
+                    int importo = Integer.parseInt(importField.getText());
+
+                    controller.registrati(usernameRegField.getText(), nameRegField.getText(), surnameRegField.getText(), codFisRegField.getText(), dataNascita, password, importo);
                     JOptionPane.showMessageDialog(null, "Registrazione completata con successo");
 
                     frameChiamato.setVisible(false);

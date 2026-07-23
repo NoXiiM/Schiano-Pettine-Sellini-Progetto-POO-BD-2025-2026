@@ -39,6 +39,7 @@ public class RegistrationForm {
         frameChiamante.setVisible(false);
 
         inizializzaComboboxData();
+        controller.aggiornaUsernamesTessere();
 
         registratiButton.addActionListener(new ActionListener() {
             @Override

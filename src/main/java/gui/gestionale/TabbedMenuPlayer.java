@@ -54,6 +54,8 @@ public class TabbedMenuPlayer {
         aggiornaUsername();
         aggiornaSaldo();
 
+        controller.pulisciUsernamesTessere();
+
         logoutButtonInSaldoPanel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -219,7 +221,7 @@ public class TabbedMenuPlayer {
 
     public void aggiornaSaldo()
     {
-        saldoInGameText.setText("Saldo disponibile: " + controller.getSaldoUtente());
-        saldoInSaldoText.setText("Saldo disponibile: " + controller.getSaldoUtente());
+        saldoInGameText.setText("Saldo disponibile: " + controller.getSaldoCliente());
+        saldoInSaldoText.setText("Saldo disponibile: " + controller.getSaldoCliente());
     }
 }

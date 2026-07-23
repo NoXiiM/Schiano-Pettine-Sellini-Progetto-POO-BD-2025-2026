@@ -64,6 +64,7 @@ public class WelcomeController {
                 db.loginCliente(saldo, tipologia, scontoPercentuale, dataDiBan,
                         nome, cognome, codiceFiscale, dataDiNascita, username, password, identificativo);
                 currentUser= new Cliente(username, nome[0], cognome[0], codiceFiscale[0], dataDiNascita[0], password, identificativo[0]);
+                return;
 
             } catch (SQLException e) {
                 throw new RuntimeException(e);
@@ -81,6 +82,7 @@ public class WelcomeController {
                 } else{
                     currentUser= new Supervisore(username, nome[0], cognome[0], codiceFiscale[0], dataDiNascita[0], password, identificativo[0]);
                 }
+                return;
 
             } catch (SQLException e) {
                 throw new RuntimeException(e);

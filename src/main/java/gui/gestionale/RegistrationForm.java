@@ -20,7 +20,7 @@ public class RegistrationForm {
     private JComboBox comboBoxDay;
     private JComboBox comboBoxMonth;
     private JComboBox comboBoxYear;
-    private JTextField importField;
+    private JTextField depositoObblField;
     private JLabel depositoObbligatorio;
 
     private JFrame frameChiamante;
@@ -53,9 +53,9 @@ public class RegistrationForm {
                     LocalDate dataNascita = LocalDate.of(anno, mese, giorno);
                     String password = new String(passRegField.getPassword());   //getPassword restituisce char[]
 
-                    int importo = Integer.parseInt(importField.getText());
+                    int deposito = Integer.parseInt(depositoObblField.getText());
 
-                    controller.registrati(usernameRegField.getText(), nameRegField.getText(), surnameRegField.getText(), codFisRegField.getText(), dataNascita, password, importo);
+                    controller.registrati(usernameRegField.getText(), nameRegField.getText(), surnameRegField.getText(), codFisRegField.getText(), dataNascita, password, deposito);
                     JOptionPane.showMessageDialog(null, "Registrazione completata con successo");
 
                     frameChiamato.setVisible(false);
@@ -65,8 +65,11 @@ public class RegistrationForm {
                 } catch (DateTimeException ex) {        //combinazioni come 31 Febbraio sono selezionabili ma non esistono, LocalDate.of le rifiuta
                     JOptionPane.showMessageDialog(null, "Data non valida.", "Errore", JOptionPane.ERROR_MESSAGE);
 
-                } catch (RuntimeException e1){
-                    JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+                } catch (NumberFormatException e1){
+                    JOptionPane.showMessageDialog(null, "Inserisci un deposito valido", "Errore", JOptionPane.ERROR_MESSAGE);
+
+                } catch (RuntimeException e2) {
+                    JOptionPane.showMessageDialog(null, e2.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

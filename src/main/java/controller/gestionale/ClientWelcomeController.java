@@ -158,7 +158,7 @@ public class ClientWelcomeController extends WelcomeController {
         impDAOop db = new impDAOop();
 
         try {
-            db.usernameTessereUtenti(usernames, codiciTessera);
+            db.usernameTessereUtenti(usernames);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

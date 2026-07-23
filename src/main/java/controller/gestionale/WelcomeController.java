@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import database.implementazioneDAO.*;
 import java.util.ArrayList;
-import java.util.Date;
 
 import database.implementazioneDAO.impDAOop;
 

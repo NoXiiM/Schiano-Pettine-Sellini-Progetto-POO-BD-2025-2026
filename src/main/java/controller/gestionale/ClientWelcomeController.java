@@ -55,15 +55,14 @@ public class ClientWelcomeController extends WelcomeController {
             codiceTessera = generaCodiceTessera(nome, cognome, dataNascita);
         }
 
+        pulisciUsernamesTessere();
+
         try{
             db.registrazione(codiceTessera, username, nome, cognome, codiceFiscale,
                     dataNascita, password, importo);
         } catch (SQLException e){
             throw new RuntimeException(e);
         }
-
-        //finita la reg, non ci serve piu
-        pulisciUsernamesTessere();
 
        getLista_utenti().add(new Cliente(username, nome, cognome, codiceFiscale, dataNascita, password, codiceTessera));
     }

@@ -5,6 +5,7 @@ import controller.gestionale.ClientWelcomeController;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class ForgotPassword {
     private JTextField nameTextField;
@@ -43,6 +44,8 @@ public class ForgotPassword {
 
                 } catch (RuntimeException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+                } catch (SQLException ex1) {
+                    JOptionPane.showMessageDialog(null, ex1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

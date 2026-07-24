@@ -7,6 +7,7 @@ import model.gestionale.Tavolo;
 import model.gestionale.utenteEFigli.Cliente;
 import database.implementazioneDAO.impDAOop;
 
+import javax.swing.*;
 import java.sql.SQLException;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -115,12 +116,21 @@ public class ClientWelcomeController extends WelcomeController {
     }
 
     //client
-    public void resetPass(String nome, String cognome, String username) throws RuntimeException {
+    public void resetPass(String nome, String cognome, String username) throws RuntimeException, SQLException {
 
         if (username.isBlank() || nome.isBlank() || cognome.isBlank())
             throw new RuntimeException("Compila tutti i campi!");
 
+        impDAOop db = new impDAOop();
 
+        if(db.passwordDimenticata(nome, cognome, username))
+        {
+            JOptionPane.showMessageDialog(null, "password resettata a P@ssword!");
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "credenziali errate");
+        }
     }
 
     public void pulisciUsernames() {

@@ -2,7 +2,6 @@ package database.DAO;
 
 import java.sql.SQLException;
 import java.time.Duration;
-import java.time.LocalDate;
 
 public interface DAOopc
 {
@@ -26,8 +25,4 @@ public interface DAOopc
     //OPC4
     //cambio password
     void cambioPassword(String nuovaPassword, String codiceTessera) throws SQLException;
-
-    //OPC5
-    //resetta password
-    void resettaPassword(String nuovaPassword, String username, String nome, String cognome) throws SQLException;
 }

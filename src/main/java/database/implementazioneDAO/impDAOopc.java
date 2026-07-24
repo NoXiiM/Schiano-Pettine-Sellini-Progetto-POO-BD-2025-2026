@@ -3,10 +3,7 @@ package database.implementazioneDAO;
 import database.ConnessioneDatabase;
 import database.DAO.DAOopc;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
 import java.time.Duration;
 import java.time.LocalDate;
 
@@ -82,23 +79,6 @@ public class impDAOopc implements DAOopc
         {
             inserimento.setString(1, nuovaPassword);
             inserimento.setString(2, username);
-
-            inserimento.executeUpdate();
-        }
-    }
-
-    @Override
-    public void resettaPassword(String nuovaPassword, String username, String nome, String cognome) throws SQLException {
-        Connection connection = ConnessioneDatabase.getInstance().connection;
-
-        try(PreparedStatement inserimento = connection.prepareStatement("update cliente " +
-                "set password = ? " +
-                "where username = ? and nome = ? and cognome = ?"))
-        {
-            inserimento.setString(1, nuovaPassword);
-            inserimento.setString(2, username);
-            inserimento.setString(3, nome);
-            inserimento.setString(4, cognome);
 
             inserimento.executeUpdate();
         }

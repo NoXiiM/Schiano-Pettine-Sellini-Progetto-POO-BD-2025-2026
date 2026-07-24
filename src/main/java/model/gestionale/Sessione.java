@@ -12,9 +12,6 @@ public class Sessione
     private double vincitaPercentuale;
     //in più rispetto a uml
     private int partiteSvolte;
-    //in più rispetto a uml
-    private Timer tempoDiGioco;
-    private int secondiPassati;
 
     //gestione tempo/
     private Instant inizioCronometro;
@@ -31,19 +28,12 @@ public class Sessione
         partiteSvolte = 0;
         this.giocatore = giocatore;
         this.tavolo = tavolo;
-
-        secondiPassati = 0;
     }
 
     //timer
     public void startTimer()
     {
         inizioCronometro = Instant.now();
-    }
-
-    public int getTimeSecondi()
-    {
-        return secondiPassati;
     }
 
     public Duration getTime()

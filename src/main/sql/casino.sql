@@ -3,7 +3,7 @@ CREATE TABLE Cliente (
     idCliente VARCHAR(20) PRIMARY KEY,
     --Attributi del giocatore
     saldo INT NOT NULL CHECK(saldo >= 0) DEFAULT 50,
-    tempoDiGioco TIME NOT NULL DEFAULT '00:00:00',
+    tempoDiGioco BIGINT NOT NULL DEFAULT 0,
     fichesGiocate INT NOT NULL DEFAULT 0 CHECK(fichesGiocate >= 0),
     vincitaPercentualeTot float8 NOT NULL CHECK(vincitaPercentualeTot >= 0 and vincitaPercentualeTot <= 100) DEFAULT 0,
     partiteGiocate INT NOT NULL CHECK(partiteGiocate >= 0) DEFAULT 0,
@@ -78,7 +78,7 @@ CREATE TABLE Sessione(
     idSessione SERIAL PRIMARY KEY,
     idCliente VARCHAR(5) NOT NULL,
     idTavolo INT NOT NULL,
-    durata TIME NOT NULL DEFAULT '00:00:00',
+    durata BIGINT NOT NULL DEFAULT 0,
     vincitaPercentuale float8 NOT NULL check(vincitaPercentuale >= 0 and vincitaPercentuale <= 100),
     partiteSvolte INT NOT NULL check(partiteSvolte >= 0),
     FOREIGN KEY (idCliente) REFERENCES Cliente(IdCliente) ON DELETE CASCADE,

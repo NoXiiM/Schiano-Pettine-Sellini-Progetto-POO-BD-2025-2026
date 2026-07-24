@@ -52,7 +52,10 @@ public class Cliente extends Utente
         this.fichesGiocate = fichesGiocate;
         setSaldo(saldo);
         this.partiteGiocate = partiteGiocate;
-        ban = new Ban(dataBan, motiviBan);
+        if(dataBan != null)
+        {
+            ban = new Ban(dataBan, motiviBan);
+        }
     }
 
     public String getUsername() {

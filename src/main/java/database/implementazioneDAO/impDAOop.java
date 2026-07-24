@@ -158,7 +158,7 @@ public class impDAOop implements DAOop {
                     codiceTessera[0] = rs.getString("idCliente");
                     saldo[0] = rs.getInt("saldo");
 
-                    tempoDiGioco[0] = rs.getTime("tempoDiGioco").toLocalTime();
+                    tempoDiGioco[0] = rs.getLong("tempoDiGioco");
 
                     fichesGiocate[0] = rs.getInt("fichesGiocate");
                     vincitaPercentualeTot[0] = rs.getDouble("vincitaPercentualeTot");

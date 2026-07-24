@@ -45,7 +45,7 @@ public class ClientWelcomeController extends WelcomeController {
             }
         }
 
-        String codiceTessera = generaCodiceTessera();
+        String codiceTessera = generaCodiceTessera(username);
 
         try {
             new impDAOop().registrazione(codiceTessera, username, nome, cognome, codiceFiscale,
@@ -54,7 +54,7 @@ public class ClientWelcomeController extends WelcomeController {
             aggiornaUsernamesTessere();
             throw new RuntimeException(e);
         }
-        pulisciUsernamesTessere();
+        pulisciUsernames();
     }
 
     //client
@@ -71,14 +71,13 @@ public class ClientWelcomeController extends WelcomeController {
     }
 
     //client
-    private String generaCodiceTessera()
+    private String generaCodiceTessera(String username)
     {
-        String user = cliente.getUsername();
         Random random = new Random();
         String numero = String.format("%03d", random.nextInt(0, 1000));
-        int taglio = random.nextInt(0, user.length());
+        int taglio = random.nextInt(0, username.length());
 
-        return user.substring(0, taglio) + numero + user.substring(taglio);
+        return username.substring(0, taglio) + numero + username.substring(taglio);
     }
 
     //client
@@ -153,7 +152,6 @@ public class ClientWelcomeController extends WelcomeController {
     public void terminaSessione(){sessione.terminaSessione();}
     public void aggiornaVincitaPercentuale(boolean v){ sessione.aggiornaVincitaPercentuale(v);}
     public int getPostiTavolo(){return sessione.getPostiTavolo();}
-    public int getTimeSecondi(){return sessione.getTimeSecondi();}
     public Duration getTime(){return sessione.getTime();}
     public String stringaPercentuale(){return sessione.stringaPercentuale();}
     public Cliente getClienteCorrente(){return cliente;}

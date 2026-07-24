@@ -93,11 +93,13 @@ public class GUIBlackJack {
         //spinner per numero di mazzi
         SpinnerNumberModel modelloSpinnerMazzi = new SpinnerNumberModel(1, 1, 16, 1);
         spinnernMazzi.setModel(modelloSpinnerMazzi);
+        ((JSpinner.DefaultEditor) spinnernMazzi.getEditor()).getTextField().setEditable(false);
 
         //spinner per numero di mani
         SpinnerNumberModel modelloSpinnerMani = new SpinnerNumberModel(1, 1,
                 sessioneCorrente.getPostiTavolo(), 1);
         spinnernMani.setModel(modelloSpinnerMani);
+        ((JSpinner.DefaultEditor) spinnernMani.getEditor()).getTextField().setEditable(false);
 
         //pulsanti azioni inizialmente invisibili, solo start rimane visibile
         setVisibilityPulsantiSpeciali(false);
@@ -136,7 +138,6 @@ public class GUIBlackJack {
             public void actionPerformed(ActionEvent e) {
                 //per vedere se funziona, i dati della sessione poi andranno salvati nel DB
                 sessioneCorrente.terminaSessione();
-                System.out.println("secondi: " + sessioneCorrente.getTimeSecondi());
                 System.out.println(sessioneCorrente.getTime());
                 System.out.println(sessioneCorrente.stringaPercentuale());
                 System.out.println(sessioneCorrente.getClienteCorrente());
@@ -202,7 +203,6 @@ public class GUIBlackJack {
                 //per vedere se funziona, i dati della sessione poi andranno salvati nel DB
                 sessioneCorrente.incrementaSaldoGiocatore(controller.restituisciPuntate());
                 sessioneCorrente.terminaSessione();
-                System.out.println("secondi: " + sessioneCorrente.getTimeSecondi());
                 System.out.println(sessioneCorrente.getTime());
                 System.out.println(sessioneCorrente.stringaPercentuale());
                 System.out.println(sessioneCorrente.getClienteCorrente());
@@ -483,7 +483,6 @@ public class GUIBlackJack {
             public void actionPerformed(ActionEvent e) {
                 //per vedere se funziona, i dati della sessione poi andranno salvati nel DB
                 sessioneCorrente.terminaSessione();
-                System.out.println("secondi: " + sessioneCorrente.getTimeSecondi());
                 System.out.println(sessioneCorrente.getTime());
                 System.out.println(sessioneCorrente.stringaPercentuale());
                 System.out.println(sessioneCorrente.getClienteCorrente());

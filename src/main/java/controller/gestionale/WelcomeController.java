@@ -2,6 +2,7 @@ package controller.gestionale;
 import model.gestionale.utenteEFigli.*;
 
 import java.sql.SQLException;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class WelcomeController {
             double[] scontoPercentuale= new double[1];
             LocalDate[] dataDiBan= new LocalDate[1];
             String[] motiviBan = new String[1];
-            LocalTime[] tempoDiGioco = new LocalTime[1];
+            long[] tempoDiGioco = new long[1];
             int[] fichesGiocate = new int[1];
             double[] vincitaPercentualeTot = new double[1];
             int[] partiteGiocate = new int[1];

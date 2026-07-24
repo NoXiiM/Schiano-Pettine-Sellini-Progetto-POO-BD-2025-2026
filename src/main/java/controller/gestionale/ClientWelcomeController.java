@@ -10,6 +10,7 @@ import database.implementazioneDAO.impDAOop;
 import javax.swing.*;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
@@ -37,10 +38,6 @@ public class ClientWelcomeController extends WelcomeController {
         if (!isEta18(dataNascita)) throw new RuntimeException("Devi avere almeno 18 anni per registrarti.");
         if (importo < 50) throw new RuntimeException("Deposito minimo obbligatorio di 50 euro");
 
-//        for (Utente i :getLista_utenti()) {
-//            if (i.getUsername().equals(username)) throw new RuntimeException("Username non disponibile");
-//        }
-
         //check locale
         for (String user : usernames) {
             if (username.equals(user)){
@@ -57,8 +54,7 @@ public class ClientWelcomeController extends WelcomeController {
             aggiornaUsernamesTessere();
             throw new RuntimeException(e);
         }
-
-//       getLista_utenti().add(new Cliente(username, nome, cognome, codiceFiscale, dataNascita, password, codiceTessera));
+        pulisciUsernamesTessere();
     }
 
     //client
@@ -125,7 +121,7 @@ public class ClientWelcomeController extends WelcomeController {
         throw new RuntimeException("Utente non trovato!");
     }
 
-    public void pulisciUsernamesTessere() {
+    public void pulisciUsernames() {
         usernames.clear();
     }
 
@@ -158,7 +154,7 @@ public class ClientWelcomeController extends WelcomeController {
     public void aggiornaVincitaPercentuale(boolean v){ sessione.aggiornaVincitaPercentuale(v);}
     public int getPostiTavolo(){return sessione.getPostiTavolo();}
     public int getTimeSecondi(){return sessione.getTimeSecondi();}
-    public Time getTime(){return sessione.getTime();}
+    public Duration getTime(){return sessione.getTime();}
     public String stringaPercentuale(){return sessione.stringaPercentuale();}
     public Cliente getClienteCorrente(){return cliente;}
 }

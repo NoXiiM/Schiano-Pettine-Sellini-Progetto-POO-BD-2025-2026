@@ -5,7 +5,6 @@ import database.DAO.DAOop;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class impDAOop implements DAOop {
@@ -139,10 +138,10 @@ public class impDAOop implements DAOop {
     }
 
     @Override
-    public void loginCliente(String[] codiceTessera, int[] saldo, LocalTime[] tempoDiGioco, int[] fichesGiocate,
-                      double[] vincitaPercentualeTot, int[] partiteGiocate, String[] tipo, double[] scontoPokerPercentuale,
-                      boolean[] sospetto, LocalDate[] dataDiBan, String[] motiviBan, String[] nome, String[] cognome,
-                      String[] codiceFiscale, LocalDate[] dataDiNascita, String username, String password) throws SQLException {
+    public void loginCliente(String[] codiceTessera, int[] saldo, long[] tempoDiGioco, int[] fichesGiocate,
+                             double[] vincitaPercentualeTot, int[] partiteGiocate, String[] tipo, double[] scontoPokerPercentuale,
+                             boolean[] sospetto, LocalDate[] dataDiBan, String[] motiviBan, String[] nome, String[] cognome,
+                             String[] codiceFiscale, LocalDate[] dataDiNascita, String username, String password) throws SQLException {
 
         Connection connection = ConnessioneDatabase.getInstance().connection;
 

@@ -4,6 +4,7 @@ import model.gestionale.Ban;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -13,7 +14,7 @@ public class Cliente extends Utente
     private double sconto_premium;
     protected int saldo;
     protected String codiceTesseraGiocatore;
-    protected Time tempoDiGioco;
+    protected Duration tempoDiGioco;
     protected int fichesGiocate;
     protected double vincitaPercentualeTot;
     //in più rispetto a uml
@@ -32,7 +33,7 @@ public class Cliente extends Utente
         this.sospetto= false;
         this.premium= false;
         this.codiceTesseraGiocatore = codiceTesseraGiocatore;
-        tempoDiGioco = new Time(0, 0, 0);
+        tempoDiGioco = Duration.ZERO;
         fichesGiocate = 0;
         saldo= 0;
         ban = null;
@@ -41,14 +42,13 @@ public class Cliente extends Utente
 
     public Cliente(String username, String nome, String cognome, String codiceFiscale,
                    LocalDate dataDiNascita, String password, String codiceTesseraGiocatore, boolean premium,
-                   double sconto_premium, boolean sospetto, LocalTime tempoDiGioco, int fichesGiocate, int saldo,
+                   double sconto_premium, boolean sospetto, long tempoDiGiocoInSec, int fichesGiocate, int saldo,
                    int partiteGiocate, LocalDate dataBan, String motiviBan){
 
         this(username, nome, cognome, codiceFiscale, dataDiNascita, password, codiceTesseraGiocatore);
         setPremium(premium, sconto_premium);
         this.sospetto = sospetto;
-        //TODO soluzione temporanea, potrebbe servire portare tutto a localTime
-        this.tempoDiGioco = new Time(tempoDiGioco.getSecond()*1000);
+        this.tempoDiGioco = Duration.ofSeconds(tempoDiGiocoInSec);
         this.fichesGiocate = fichesGiocate;
         setSaldo(saldo);
         this.partiteGiocate = partiteGiocate;
@@ -67,12 +67,8 @@ public class Cliente extends Utente
         return codiceTesseraGiocatore;
     }
 
-    public Time getTempoDiGioco() {
+    public Duration getTempoDiGioco() {
         return tempoDiGioco;
-    }
-
-    public void setTempoDiGioco(Time tempoDiGioco) {
-        this.tempoDiGioco = tempoDiGioco;
     }
 
     public int getFichesGiocate() {
@@ -133,11 +129,9 @@ public class Cliente extends Utente
         }
     }
 
-    public void aggiornaTempoDiGioco(Time tempo)
+    public void aggiornaTempoDiGioco(Duration tempo)
     {
-        tempoDiGioco.setHours(tempoDiGioco.getHours() + tempo.getHours());
-        tempoDiGioco.setMinutes(tempoDiGioco.getMinutes() + tempo.getMinutes());
-        tempoDiGioco.setSeconds(tempoDiGioco.getSeconds() + tempo.getSeconds());
+        tempoDiGioco = tempoDiGioco.plus(tempo);
     }
 
     @Override
@@ -156,8 +150,9 @@ public class Cliente extends Utente
 
     public boolean convertiPremium()
     {
-        int quarantottoh = 172800000;
-        return fichesGiocate >= 10000 && tempoDiGioco.getTime() >= quarantottoh;
+        Duration quarantottoh = Duration.ofHours(48);
+
+        return fichesGiocate >= 10000 && tempoDiGioco.compareTo(quarantottoh) >= 0;
     }
 
     public boolean isPremium() {

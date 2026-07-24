@@ -4,16 +4,21 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Time;
+import java.time.Duration;
+import java.time.Instant;
 
 public class Sessione
 {
-    private Time durata;
     private double vincitaPercentuale;
     //in più rispetto a uml
     private int partiteSvolte;
     //in più rispetto a uml
     private Timer tempoDiGioco;
     private int secondiPassati;
+
+    //gestione tempo/
+    private Instant inizioCronometro;
+    private Duration durata;
 
     //attributi da associazioni
     private Giocatore giocatore;
@@ -22,7 +27,7 @@ public class Sessione
 
     public Sessione(Giocatore giocatore, Tavolo tavolo)
     {
-        durata = new Time(0, 0, 0);
+        durata = Duration.ZERO;
         partiteSvolte = 0;
         this.giocatore = giocatore;
         this.tavolo = tavolo;
@@ -33,15 +38,7 @@ public class Sessione
     //timer
     public void startTimer()
     {
-        //il delay è contato dalla classe in millisecondi
-        tempoDiGioco = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                secondiPassati++;
-            }
-        });
-
-        tempoDiGioco.start();
+        inizioCronometro = Instant.now();
     }
 
     public int getTimeSecondi()
@@ -49,18 +46,15 @@ public class Sessione
         return secondiPassati;
     }
 
-    public Time getTime()
+    public Duration getTime()
     {
         return durata;
     }
 
     public void stopTimer()
     {
-        tempoDiGioco.stop();
-
-        durata.setTime(secondiPassati*1000);
-        durata.setHours(durata.getHours()-1); //Questa maniera un po' primitiva per cambiare ora serve
-    }                                         //per non avere il fuso orario inglese
+        durata = Duration.between(inizioCronometro, Instant.now());
+    }
 
     //giocatore
     public int getSaldoGiocatore()

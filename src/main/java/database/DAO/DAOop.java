@@ -2,7 +2,6 @@ package database.DAO;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 
 public interface DAOop
@@ -22,7 +21,7 @@ public interface DAOop
 
     //carica tutti i dati del cliente che effettivamente servono, gli array come parametri servono per effettuare
     //passaggio per riferimento, in questo caso di un singolo valore (nota: per valori multipli userò arraylist)
-    void loginCliente(String[] codiceTessera, int[] saldo, LocalTime[] tempoDiGioco, int[] fichesGiocate,
+    void loginCliente(String[] codiceTessera, int[] saldo, long[] tempoDiGioco, int[] fichesGiocate,
                       double[] vincitaPercentualeTot, int[] partiteGiocate, String[] tipo, double[] scontoPokerPercentuale,
                       boolean[] sospetto, LocalDate[] dataDiBan, String[] motiviBan, String[] nome, String[] cognome,
                       String[] codiceFiscale, LocalDate[] dataDiNascita, String username, String password) throws SQLException;

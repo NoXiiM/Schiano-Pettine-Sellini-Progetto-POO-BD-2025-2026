@@ -52,7 +52,7 @@ public class TabbedMenuPlayer {
         aggiornaUsername();
         aggiornaSaldo();
 
-        controller.pulisciUsernamesTessere();
+        controller.pulisciUsernames();
 
         logoutButtonInSaldoPanel.addActionListener(new ActionListener() {
             @Override

@@ -23,18 +23,13 @@ public class WelcomeController {
         this.usernames= usernames;
     }
 
-    public void login(String username, String password) throws RuntimeException{
+    public void login(String username, String password) throws RuntimeException, SQLException{
         if(username.isBlank() || password.isBlank()) throw new RuntimeException("Compila tutti i campi!");
 
         impDAOop db= new impDAOop();
         String tipo;
 
-        try{
-            tipo= db.trovaTabella(username, password);
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        tipo= db.trovaTabella(username, password);
 
         String[] tipologia= new String[1];
         LocalDate[] dataDiNascita= new LocalDate[1];
@@ -42,6 +37,8 @@ public class WelcomeController {
         String[] cognome= new String[1];
         String[] codiceFiscale= new String[1];
         String[] identificativo= new String[1];
+
+        if(tipo == null) throw new RuntimeException("Credenziali errate!");
 
         if(tipo.equals("Cliente")){
 
@@ -55,19 +52,15 @@ public class WelcomeController {
             int[] partiteGiocate = new int[1];
             boolean[] sospetto = new boolean[1];
 
-            try{
-                db.loginCliente(identificativo, saldo, tempoDiGioco, fichesGiocate, vincitaPercentualeTot,
-                        partiteGiocate, tipologia, scontoPercentuale, sospetto, dataDiBan,
-                        motiviBan, nome, cognome, codiceFiscale, dataDiNascita, username, password);
-                boolean flag = tipologia[0].equals("Premium");
-                currentUser= new Cliente(username, nome[0], cognome[0], codiceFiscale[0], dataDiNascita[0], password,
-                        identificativo[0], flag, scontoPercentuale[0], sospetto[0], tempoDiGioco[0], fichesGiocate[0],
-                        saldo[0], partiteGiocate[0], dataDiBan[0], motiviBan[0]);
-                return;
 
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+            db.loginCliente(identificativo, saldo, tempoDiGioco, fichesGiocate, vincitaPercentualeTot,
+                    partiteGiocate, tipologia, scontoPercentuale, sospetto, dataDiBan,
+                    motiviBan, nome, cognome, codiceFiscale, dataDiNascita, username, password);
+            boolean flag = tipologia[0].equals("Premium");
+            currentUser= new Cliente(username, nome[0], cognome[0], codiceFiscale[0], dataDiNascita[0], password,
+                    identificativo[0], flag, scontoPercentuale[0], sospetto[0], tempoDiGioco[0], fichesGiocate[0],
+                    saldo[0], partiteGiocate[0], dataDiBan[0], motiviBan[0]);
+            return;
 
         } else if(tipo.equals("Dipendente")){
 
@@ -87,8 +80,6 @@ public class WelcomeController {
                 throw new RuntimeException(e);
             }
         }
-
-        throw new RuntimeException("Credenziali errate!");
     }
 
     public boolean changePass(String oldPass, String newPass1, String newPass2) throws RuntimeException{

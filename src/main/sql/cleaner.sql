@@ -1,2 +1,2 @@
-DROP SCHEMA public CASCADE;
+DROP SCHEMA public;
 CREATE SCHEMA public;

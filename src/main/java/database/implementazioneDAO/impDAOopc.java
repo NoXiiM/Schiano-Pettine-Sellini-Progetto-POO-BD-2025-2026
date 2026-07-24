@@ -61,7 +61,7 @@ public class impDAOopc implements DAOopc
         Connection connection = ConnessioneDatabase.getInstance().connection;
 
         try(PreparedStatement inserimento = connection.prepareStatement("update cliente " +
-                "set username = ?, idCliente = ?" +
+                "set username = ?, idCliente = ? " +
                 "where idCliente = ?"))
         {
             inserimento.setString(1, username);

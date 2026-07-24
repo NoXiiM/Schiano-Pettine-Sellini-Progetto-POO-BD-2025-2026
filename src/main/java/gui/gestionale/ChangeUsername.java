@@ -6,6 +6,7 @@ import controller.gestionale.WelcomeController;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class ChangeUsername {
     private JPanel changeUserPanel;
@@ -50,10 +51,12 @@ public class ChangeUsername {
                     }
 
 
-                } catch (Exception ex) {
+                } catch (RuntimeException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+                }catch (SQLException e1)
+                {
+                    JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                 }
-
             }
         });
 

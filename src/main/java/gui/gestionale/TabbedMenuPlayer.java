@@ -4,8 +4,6 @@ import controller.gestionale.ClientWelcomeController;
 
 import javax.swing.*;
 
-import model.gestionale.utenteEFigli.*;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -198,7 +196,7 @@ public class TabbedMenuPlayer {
 
             //salvataggio dati al logout
             try {
-                controller.salvaDatiCliente();
+                controller.salvaDatiClienteUscitaDaGestione();
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
             }

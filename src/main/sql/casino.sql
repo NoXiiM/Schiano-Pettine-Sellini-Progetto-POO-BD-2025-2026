@@ -76,7 +76,7 @@ CREATE TABLE SupervisoreTavolo (
 --Crea Sessione
 CREATE TABLE Sessione(
     idSessione SERIAL PRIMARY KEY,
-    idCliente VARCHAR(5) NOT NULL,
+    idCliente VARCHAR(20) NOT NULL,
     idTavolo INT NOT NULL,
     durata BIGINT NOT NULL DEFAULT 0,
     vincitaPercentuale float8 NOT NULL check(vincitaPercentuale >= 0 and vincitaPercentuale <= 100),

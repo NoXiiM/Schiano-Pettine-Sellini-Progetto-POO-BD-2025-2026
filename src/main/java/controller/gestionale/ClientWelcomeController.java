@@ -83,32 +83,25 @@ public class ClientWelcomeController extends WelcomeController {
         return Period.between(dataNascita, LocalDate.now()).getYears() >= 18;
     }
 
-    public boolean changeUsername(String newUser, String pass1, String pass2) throws RuntimeException{
+    public boolean changeUsername(String newUser, String pass1, String pass2) throws RuntimeException, SQLException{
         if(newUser.isBlank() || pass1.isBlank() || pass2.isBlank()) throw new RuntimeException("Compila tutti i campi!");
-
-        if(!pass1.equals(pass2)) throw new RuntimeException("Le password non coincidono");
 
         impDAOop db_fetch_user= new impDAOop();
 
+        if(!pass1.equals(pass2)) throw new RuntimeException("Le 2 password non coincidono");
+        if(db_fetch_user.trovaTabella(cliente.getUsername(), pass1) == null) throw new RuntimeException("password errata");
+
         impDAOopc db= new impDAOopc();
 
-        try{
-            db_fetch_user.usernameUtenti(usernames);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        db_fetch_user.usernameUtenti(usernames);
 
         for(String i : usernames){
-            if(i.equals(newUser)) throw new RuntimeException();
+            if(i.equals(newUser)) throw new RuntimeException("username già preso");
         }
 
         String newCodiceTessera= generaCodiceTessera(newUser);
 
-        try{
-            db.cambioUsername(cliente.getCodiceTesseraGiocatore(), cliente.getUsername(), newCodiceTessera);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        db.cambioUsername(cliente.getCodiceTesseraGiocatore(), newUser, newCodiceTessera);
 
         return true;
     }
@@ -171,16 +164,26 @@ public class ClientWelcomeController extends WelcomeController {
 
     public void terminaSessione() throws SQLException{
         sessione.terminaSessione();
-        salvaDatiCliente();
+        salvaDatiClienteUscitaDaGIoco();
     }
 
     //salvataggio dati sia al logout che a fine sessione
-    public void salvaDatiCliente() throws SQLException{
+    public void salvaDatiClienteUscitaDaGIoco() throws SQLException{
         impDAOopc db= new impDAOopc();
 
 
         db.salvaSessione(cliente.getCodiceTesseraGiocatore(), sessione.getTavolo().getIdTavolo(),
                 sessione.getDurataSessione(), sessione.getVincitaPercentuale(), sessione.getPartiteSvolte());
+
+        String tipologiaCliente= (cliente.isPremium()) ? "Premium" : "Base";
+
+        db.salvataggioCliente(cliente.getCodiceTesseraGiocatore(), cliente.getSaldo(), cliente.getTempoDiGioco(),
+                cliente.getFichesGiocate(), cliente.getVincitaPercentualeTot(), cliente.getPartiteGiocate(), tipologiaCliente,
+                cliente.getSconto_premium(), cliente.isSospetto());
+    }
+
+    public void salvaDatiClienteUscitaDaGestione() throws SQLException{
+        impDAOopc db= new impDAOopc();
 
         String tipologiaCliente= (cliente.isPremium()) ? "Premium" : "Base";
 

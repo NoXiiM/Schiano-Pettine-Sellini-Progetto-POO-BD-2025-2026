@@ -2,36 +2,28 @@ package controller.gestionale;
 import model.gestionale.utenteEFigli.*;
 
 import java.sql.SQLException;
-import java.time.Duration;
+import java.sql.SQLWarning;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 
-import database.implementazioneDAO.impDAOop;
+import database.implementazioneDAO.*;
 
 
 public class WelcomeController {
 
     private Utente currentUser;
+    private ArrayList<String> usernames;
 
     private ArrayList<Utente> lista_utenti;
 
     public WelcomeController() {
-        this.lista_utenti = new ArrayList<>();
-
-        //inizializzaListaUtenti(lista_utenti);
+        usernames= new ArrayList<>();
     }
 
-    protected WelcomeController(ArrayList<Utente> lista_utenti, Utente currentUser) {
-        this.lista_utenti = lista_utenti;
+    public WelcomeController(Utente currentUser, ArrayList<String> usernames) {
         this.currentUser = currentUser;
+        this.usernames= usernames;
     }
-
-//    private void inizializzaListaUtenti(ArrayList<Utente> lista_utenti){
-//        lista_utenti.add(new Cliente("mirkos", "Mirko", "Pettine", "PIRLONE", LocalDate.of(2025, 12, 25), "Mii", "A104"));
-//        lista_utenti.add(new Premium("matteos", "Matteo", "Sellini", "PIRLINO", LocalDate.of(2000, 5, 25), "Maa", "B104"));
-//        lista_utenti.add(new Supervisore("noxiim", "Christian", "Schiano", "INGEGNERE", LocalDate.of(2000, 5, 25), "Maa", "A"));
-//    }
 
     public void login(String username, String password) throws RuntimeException{
         if(username.isBlank() || password.isBlank()) throw new RuntimeException("Compila tutti i campi!");
@@ -115,16 +107,24 @@ public class WelcomeController {
 
         if(!pass1.equals(pass2)) throw new RuntimeException("Le password non coincidono");
 
-        for (Utente i : lista_utenti) {
-            if (i.getUsername().equals(newUser)) throw new RuntimeException("Username non disponibile");
+        impDAOop db_fetch_user= new impDAOop();
+
+        impDAOopc db= new impDAOopc();
+        ArrayList<String> usernames= new ArrayList<>();
+
+        try{
+            db_fetch_user.usernameUtenti(usernames);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
 
-        if(currentUser.getPassword().equals(pass1))
-        {
-            currentUser.setUsername(newUser);
-            return true;
+        for(String i : usernames){
+            if(i.equals(newUser)) throw new RuntimeException();
         }
-        else return false;
+
+        try{
+            db.cambioUsername(currentUser.);
+        }
     }
 
     public String getUserUtente(){
@@ -148,4 +148,7 @@ public class WelcomeController {
         return false;
     }
 
+    public ArrayList<String> getUsernamesList() {
+        return usernames;
+    }
 }

@@ -18,14 +18,13 @@ import java.util.Random;
 
 public class ClientWelcomeController extends WelcomeController {
 
-    private ArrayList<String> usernames;
     private Cliente cliente;
     private Sessione sessione;
+    private ArrayList<String> usernames;
 
     public ClientWelcomeController(WelcomeController controller) {
-        super(controller.getLista_utenti(), controller.getCurrentUser());
+        super(controller.getCurrentUser(), controller.getUsernamesList());
         cliente = (Cliente) getCurrentUser();
-        usernames = new ArrayList<>();
     }
 
     //client
@@ -146,14 +145,40 @@ public class ClientWelcomeController extends WelcomeController {
         sessione.startTimer();
     }
 
-    public int getSaldoGiocatore(){return sessione.getSaldoGiocatore();}
-    public void decrementaSaldoGiocatore(int creditoInserito) throws RuntimeException{sessione.decrementaSaldoGiocatore(creditoInserito);}
-    public void incrementaSaldoGiocatore(int creditoInserito){sessione.incrementaSaldoGiocatore(creditoInserito);}
-    public void terminaSessione(){sessione.terminaSessione();}
-    public void aggiornaVincitaPercentuale(boolean v){ sessione.aggiornaVincitaPercentuale(v);}
-    public int getPostiTavolo(){return sessione.getPostiTavolo();}
-    public Duration getTime(){return sessione.getTime();}
-    public String stringaPercentuale(){return sessione.stringaPercentuale();}
-    public Cliente getClienteCorrente(){return cliente;}
+    public int getSaldoGiocatore(){
+        return sessione.getSaldoGiocatore();
+    }
+
+    public void decrementaSaldoGiocatore(int creditoInserito) throws RuntimeException{
+        sessione.decrementaSaldoGiocatore(creditoInserito);
+    }
+
+    public void incrementaSaldoGiocatore(int creditoInserito){
+        sessione.incrementaSaldoGiocatore(creditoInserito);
+    }
+
+    public void terminaSessione(){
+        sessione.terminaSessione();
+    }
+
+    public void aggiornaVincitaPercentuale(boolean v){
+        sessione.aggiornaVincitaPercentuale(v);
+    }
+
+    public int getPostiTavolo(){
+        return sessione.getPostiTavolo();
+    }
+
+    public Duration getTime(){
+        return sessione.getTime();
+    }
+
+    public String stringaPercentuale(){
+        return sessione.stringaPercentuale();
+    }
+
+    public Cliente getClienteCorrente(){
+        return cliente;
+    }
 }
 

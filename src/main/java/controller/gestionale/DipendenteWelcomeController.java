@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class DipendenteWelcomeController extends WelcomeController {
 
     public DipendenteWelcomeController(WelcomeController controller){
-        super(controller.getLista_utenti(), controller.getCurrentUser());
+        super(controller.getCurrentUser());
     }
 
     //admin

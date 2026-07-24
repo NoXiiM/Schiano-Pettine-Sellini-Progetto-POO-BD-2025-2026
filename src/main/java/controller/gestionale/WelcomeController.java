@@ -14,8 +14,6 @@ public class WelcomeController {
     private Utente currentUser;
     private ArrayList<String> usernames;
 
-    private ArrayList<Utente> lista_utenti;
-
     public WelcomeController() {
         usernames= new ArrayList<>();
     }
@@ -112,10 +110,6 @@ public class WelcomeController {
 
     public void setCurrentUserNull(){
         currentUser= null;
-    }
-
-    public ArrayList<Utente> getLista_utenti(){
-        return lista_utenti;
     }
 
     public boolean utenteCliente(){

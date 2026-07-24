@@ -24,6 +24,7 @@ public class ClientWelcomeController extends WelcomeController {
 
     public ClientWelcomeController(WelcomeController controller) {
         super(controller.getCurrentUser(), controller.getUsernamesList());
+        this.usernames = controller.getUsernamesList();
         cliente = (Cliente) getCurrentUser();
     }
 
@@ -119,11 +120,6 @@ public class ClientWelcomeController extends WelcomeController {
         if (username.isBlank() || pass.isBlank() || conferma.isBlank())
             throw new RuntimeException("Compila tutti i campi!");
 
-        if (getCurrentUser().getUsername().equals(username) && getCurrentUser().getPassword().equals(pass) && conferma.equals("CONFERMA")) {
-            getLista_utenti().remove(getCurrentUser());
-            setCurrentUserNull();
-            return true;
-        }
         return false;
     }
 
@@ -133,15 +129,6 @@ public class ClientWelcomeController extends WelcomeController {
         if (username.isBlank() || nome.isBlank() || cognome.isBlank())
             throw new RuntimeException("Compila tutti i campi!");
 
-
-        for (Utente i : getLista_utenti()) {
-            if (i.getUsername().equals(username) && i.getNome().equals(nome) && i.getCognome().equals(cognome)) {
-                i.setPassword("P@ssw0rd!");
-                JOptionPane.showMessageDialog(null, "Password resettata ! Al prossimo accesso usa: \"P@ssword!\", non dimenticare di modificarla !");
-                return;
-            }
-        }
-        throw new RuntimeException("Utente non trovato!");
     }
 
     public void pulisciUsernames() {

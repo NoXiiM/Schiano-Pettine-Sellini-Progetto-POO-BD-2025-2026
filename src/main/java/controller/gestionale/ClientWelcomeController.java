@@ -120,6 +120,7 @@ public class ClientWelcomeController extends WelcomeController {
         if (username.isBlank() || nome.isBlank() || cognome.isBlank())
             throw new RuntimeException("Compila tutti i campi!");
 
+
     }
 
     public void pulisciUsernames() {

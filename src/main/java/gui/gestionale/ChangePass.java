@@ -52,8 +52,6 @@ public class ChangePass {
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                 }
-
-
             }
         });
 

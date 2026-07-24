@@ -2,7 +2,6 @@ package controller.gestionale;
 import model.gestionale.utenteEFigli.*;
 
 import java.sql.SQLException;
-import java.sql.SQLWarning;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -82,12 +81,20 @@ public class WelcomeController {
         }
     }
 
-    public boolean changePass(String oldPass, String newPass1, String newPass2) throws RuntimeException{
+    public boolean changePass(String oldPass, String newPass1, String newPass2) throws RuntimeException, SQLException{
         if(oldPass.isBlank() || newPass1.isBlank() || newPass2.isBlank()) throw new RuntimeException("Compila tutti i campi!");
 
         if(!newPass1.equals(newPass2)) throw new RuntimeException("Le password non coincidono");
 
-        if(currentUser.getPassword().equals(oldPass)) return true;
+        impDAOopc db1 = new impDAOopc();
+        impDAOop db2 = new impDAOop();
+
+        if(currentUser.getPassword().equals(oldPass) && (db2.trovaTabella(currentUser.getUsername(), oldPass) != null)) {
+            currentUser.setPassword(newPass1);
+            db1.cambioPassword(newPass1, currentUser.getUsername());
+
+            return true;
+        }
         else return false;
     }
 

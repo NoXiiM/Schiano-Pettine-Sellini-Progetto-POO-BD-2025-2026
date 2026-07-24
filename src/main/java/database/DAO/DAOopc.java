@@ -22,4 +22,12 @@ public interface DAOopc
     //il cambio username in operazione separata rispetto a salvataggio cliente perché username deve essere unico
     //se uno cambia l'username cambia anche il codice della tessera
     void cambioUsername(String vecchioCodiceTessera, String username, String nuovoCodiceTessera) throws SQLException;
+
+    //OPC4
+    //cambio password
+    void cambioPassword(String nuovaPassword, String codiceTessera) throws SQLException;
+
+    //OPC5
+    //resetta password
+    void resettaPassword(String nuovaPassword, String username, String nome, String cognome) throws SQLException;
 }

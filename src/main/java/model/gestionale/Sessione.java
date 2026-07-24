@@ -1,9 +1,5 @@
 package model.gestionale;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.Time;
 import java.time.Duration;
 import java.time.Instant;
 
@@ -15,7 +11,7 @@ public class Sessione
 
     //gestione tempo/
     private Instant inizioCronometro;
-    private Duration durata;
+    private Duration durataSessione;
 
     //attributi da associazioni
     private Giocatore giocatore;
@@ -24,7 +20,7 @@ public class Sessione
 
     public Sessione(Giocatore giocatore, Tavolo tavolo)
     {
-        durata = Duration.ZERO;
+        durataSessione = Duration.ZERO;
         partiteSvolte = 0;
         this.giocatore = giocatore;
         this.tavolo = tavolo;
@@ -36,14 +32,14 @@ public class Sessione
         inizioCronometro = Instant.now();
     }
 
-    public Duration getTime()
+    public Duration getDurataSessione()
     {
-        return durata;
+        return durataSessione;
     }
 
     public void stopTimer()
     {
-        durata = Duration.between(inizioCronometro, Instant.now());
+        durataSessione = Duration.between(inizioCronometro, Instant.now());
     }
 
     //giocatore
@@ -99,7 +95,7 @@ public class Sessione
     public void aggiornaDatiCliente()
     {
         giocatore.getClienteAssociato().aggiornaPercentualeVittoria(vincitaPercentuale, partiteSvolte);
-        giocatore.getClienteAssociato().aggiornaTempoDiGioco(durata);
+        giocatore.getClienteAssociato().aggiornaTempoDiGioco(durataSessione);
         if(giocatore.getClienteAssociato().convertiPremium())
         {
             giocatore.getClienteAssociato().setPremium(true);
@@ -109,5 +105,13 @@ public class Sessione
     public int getPostiTavolo()
     {
         return tavolo.getNumeroPosti();
+    }
+
+    public Tavolo getTavolo(){
+        return tavolo;
+    }
+
+    public int getPartiteSvolte() {
+        return partiteSvolte;
     }
 }

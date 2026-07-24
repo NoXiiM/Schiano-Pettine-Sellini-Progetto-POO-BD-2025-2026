@@ -132,9 +132,9 @@ public class Cliente extends Utente
         }
     }
 
-    public void aggiornaTempoDiGioco(Duration tempo)
+    public void aggiornaTempoDiGioco(Duration tempoDaAggiungere)
     {
-        tempoDiGioco = tempoDiGioco.plus(tempo);
+        tempoDiGioco = tempoDiGioco.plus(tempoDaAggiungere);
     }
 
     @Override
@@ -176,4 +176,11 @@ public class Cliente extends Utente
         return sconto_premium;
     }
 
+    public int getPartiteGiocate() {
+        return partiteGiocate;
+    }
+
+    public boolean isSospetto() {
+        return sospetto;
+    }
 }

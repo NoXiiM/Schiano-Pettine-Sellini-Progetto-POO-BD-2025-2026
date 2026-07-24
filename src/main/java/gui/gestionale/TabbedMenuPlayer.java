@@ -36,8 +36,6 @@ public class TabbedMenuPlayer {
     private JFrame frameChiamante;
     private ClientWelcomeController controller;
 
-    //TODO scrivere meccanismo per trasformare base in premium
-
     public TabbedMenuPlayer(ClientWelcomeController controller, JFrame mainframe) {
         this.frameChiamante = mainframe;
         this.controller= controller;
@@ -67,15 +65,6 @@ public class TabbedMenuPlayer {
                 logout(thisFrame);
             }
         });
-
-
-//        pokerButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                GUIBlackJack blackJackFrame= new GUIBlackJack(thisFrame, currentClient);
-//            }
-//        });
-
 
         depositaButton.addActionListener(new ActionListener() {
             @Override

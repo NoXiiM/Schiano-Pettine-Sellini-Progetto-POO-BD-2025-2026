@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class GUISlotMachine {
     private JPanel slotMachinePanel;
@@ -170,11 +171,13 @@ public class GUISlotMachine {
         tornaIndietroButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //modificato controller.aggiornadaticliente
-                sessioneCorrente.terminaSessione();
-                //Check della percentuale di vittoria o perdita
-                System.out.println(sessioneCorrente.stringaPercentuale());
-                System.out.println(sessioneCorrente.getClienteCorrente());
+
+                try {
+                    sessioneCorrente.terminaSessione();
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+                }
+
                 thisFrame.dispose();
                 frameChiamante.setVisible(true);
             }

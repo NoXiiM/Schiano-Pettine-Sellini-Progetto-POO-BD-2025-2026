@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.Objects;
 
 /**
@@ -137,10 +138,12 @@ public class GUIBlackJack {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //per vedere se funziona, i dati della sessione poi andranno salvati nel DB
-                sessioneCorrente.terminaSessione();
-                System.out.println(sessioneCorrente.getTime());
-                System.out.println(sessioneCorrente.stringaPercentuale());
-                System.out.println(sessioneCorrente.getClienteCorrente());
+
+                try {
+                    sessioneCorrente.terminaSessione();
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+                }
 
                 thisFrame.dispose();
                 frameChiamante.setVisible(true);
@@ -202,10 +205,12 @@ public class GUIBlackJack {
             public void actionPerformed(ActionEvent e) {
                 //per vedere se funziona, i dati della sessione poi andranno salvati nel DB
                 sessioneCorrente.incrementaSaldoGiocatore(controller.restituisciPuntate());
-                sessioneCorrente.terminaSessione();
-                System.out.println(sessioneCorrente.getTime());
-                System.out.println(sessioneCorrente.stringaPercentuale());
-                System.out.println(sessioneCorrente.getClienteCorrente());
+
+                try {
+                    sessioneCorrente.terminaSessione();
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+                }
 
                 thisFrame.dispose();
                 frameChiamante.setVisible(true);
@@ -482,11 +487,12 @@ public class GUIBlackJack {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //per vedere se funziona, i dati della sessione poi andranno salvati nel DB
-                sessioneCorrente.terminaSessione();
-                System.out.println(sessioneCorrente.getTime());
-                System.out.println(sessioneCorrente.stringaPercentuale());
-                System.out.println(sessioneCorrente.getClienteCorrente());
 
+                try {
+                    sessioneCorrente.terminaSessione();
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+                }
                 thisFrame.dispose();
                 frameChiamante.setVisible(true);
             }

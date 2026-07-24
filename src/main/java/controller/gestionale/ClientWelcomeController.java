@@ -1,5 +1,6 @@
 package controller.gestionale;
 
+import database.implementazioneDAO.impDAOopc;
 import model.gestionale.Giocatore;
 import model.gestionale.Sessione;
 import model.gestionale.Tavolo;
@@ -9,7 +10,6 @@ import database.implementazioneDAO.impDAOop;
 
 import javax.swing.*;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Period;
@@ -84,9 +84,34 @@ public class ClientWelcomeController extends WelcomeController {
         return Period.between(dataNascita, LocalDate.now()).getYears() >= 18;
     }
 
-    //client
-    public int getSaldoCliente() {
-        return cliente.getSaldo();
+    public boolean changeUsername(String newUser, String pass1, String pass2) throws RuntimeException{
+        if(newUser.isBlank() || pass1.isBlank() || pass2.isBlank()) throw new RuntimeException("Compila tutti i campi!");
+
+        if(!pass1.equals(pass2)) throw new RuntimeException("Le password non coincidono");
+
+        impDAOop db_fetch_user= new impDAOop();
+
+        impDAOopc db= new impDAOopc();
+
+        try{
+            db_fetch_user.usernameUtenti(usernames);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        for(String i : usernames){
+            if(i.equals(newUser)) throw new RuntimeException();
+        }
+
+        String newCodiceTessera= generaCodiceTessera(newUser);
+
+        try{
+            db.cambioUsername(cliente.getCodiceTesseraGiocatore(), cliente.getUsername(), newCodiceTessera);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return true;
     }
 
     //solo client, un admin non puo cancellare il profilo, un superadmin puo cancellare altri profili
@@ -124,6 +149,8 @@ public class ClientWelcomeController extends WelcomeController {
     }
 
     public boolean isBanned() {
+
+        //TODO fetch status isbanned pre partita da parte di client ( non urgente )
         return cliente.getBan() != null;
     }
 
@@ -157,8 +184,25 @@ public class ClientWelcomeController extends WelcomeController {
         sessione.incrementaSaldoGiocatore(creditoInserito);
     }
 
-    public void terminaSessione(){
+    public void terminaSessione() throws SQLException{
+
         sessione.terminaSessione();
+        impDAOopc db= new impDAOopc();
+
+
+        db.salvaSessione(cliente.getCodiceTesseraGiocatore(), sessione.getTavolo().getIdTavolo(),
+                sessione.getDurataSessione(), sessione.getVincitaPercentuale(), sessione.getPartiteSvolte());
+
+        String tipologiaCliente= (cliente.isPremium()) ? "Premium" : "Base";
+
+        db.salvataggioCliente(cliente.getCodiceTesseraGiocatore(), cliente.getSaldo(), cliente.getTempoDiGioco(),
+                cliente.getFichesGiocate(), cliente.getVincitaPercentualeTot(), cliente.getPartiteGiocate(), tipologiaCliente,
+                cliente.getSconto_premium(), cliente.isSospetto());
+
+    }
+
+    public int getSaldoCliente(){
+        return cliente.getSaldo();
     }
 
     public void aggiornaVincitaPercentuale(boolean v){
@@ -170,7 +214,7 @@ public class ClientWelcomeController extends WelcomeController {
     }
 
     public Duration getTime(){
-        return sessione.getTime();
+        return sessione.getDurataSessione();
     }
 
     public String stringaPercentuale(){

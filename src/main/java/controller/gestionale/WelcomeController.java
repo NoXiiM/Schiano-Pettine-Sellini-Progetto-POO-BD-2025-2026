@@ -102,31 +102,6 @@ public class WelcomeController {
         else return false;
     }
 
-    public boolean changeUsername(String newUser, String pass1, String pass2) throws RuntimeException{
-        if(newUser.isBlank() || pass1.isBlank() || pass2.isBlank()) throw new RuntimeException("Compila tutti i campi!");
-
-        if(!pass1.equals(pass2)) throw new RuntimeException("Le password non coincidono");
-
-        impDAOop db_fetch_user= new impDAOop();
-
-        impDAOopc db= new impDAOopc();
-        ArrayList<String> usernames= new ArrayList<>();
-
-        try{
-            db_fetch_user.usernameUtenti(usernames);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        for(String i : usernames){
-            if(i.equals(newUser)) throw new RuntimeException();
-        }
-
-        try{
-            db.cambioUsername(currentUser.);
-        }
-    }
-
     public String getUserUtente(){
         return currentUser.getUsername();
     }

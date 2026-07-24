@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Tavolo
 {
-    private int numero;
+    private int idTavolo;
     private Gioco gioco;
     private int numeroPosti;
 
@@ -16,17 +16,17 @@ public class Tavolo
     //private ArrayList<Giocatore> listaGiocatori;
     //private ArrayList<Sessione> sessioniAperteSulTavolo = new ArrayList<>();
 
-    public Tavolo(int numero, Gioco gioco, int numeroPosti)
+    public Tavolo(int idTavolo, Gioco gioco, int numeroPosti)
     {
-        this.numero = numero;
+        this.idTavolo = idTavolo;
         this.gioco = gioco;
         this.numeroPosti = numeroPosti;
         dealer = null;
     }
 
-    public Tavolo(int numero, Gioco gioco, int numeroPosti, Dealer dealer)
+    public Tavolo(int idTavolo, Gioco gioco, int numeroPosti, Dealer dealer)
     {
-        this(numero, gioco, numeroPosti);
+        this(idTavolo, gioco, numeroPosti);
         this.dealer = dealer;
     }
 
@@ -37,11 +37,13 @@ public class Tavolo
     //Necessari alla selezione del tavolo
     @Override
     public String toString() {
-        return "Il tavolo " + numero +
+        return "Il tavolo " + idTavolo +
                 " ha " + numeroPosti +
                 " posti";
     }
 
-    public int getNumero(){ return numero;}
+    public int getIdTavolo(){
+        return idTavolo;
+    }
 }
 

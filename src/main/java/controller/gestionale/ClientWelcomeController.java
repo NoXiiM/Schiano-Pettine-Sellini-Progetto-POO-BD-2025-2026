@@ -5,10 +5,8 @@ import model.gestionale.Giocatore;
 import model.gestionale.Sessione;
 import model.gestionale.Tavolo;
 import model.gestionale.utenteEFigli.Cliente;
-import model.gestionale.utenteEFigli.Utente;
 import database.implementazioneDAO.impDAOop;
 
-import javax.swing.*;
 import java.sql.SQLException;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -172,8 +170,12 @@ public class ClientWelcomeController extends WelcomeController {
     }
 
     public void terminaSessione() throws SQLException{
-
         sessione.terminaSessione();
+        salvaDatiCliente();
+    }
+
+    //salvataggio dati sia al logout che a fine sessione
+    public void salvaDatiCliente() throws SQLException{
         impDAOopc db= new impDAOopc();
 
 
@@ -185,7 +187,6 @@ public class ClientWelcomeController extends WelcomeController {
         db.salvataggioCliente(cliente.getCodiceTesseraGiocatore(), cliente.getSaldo(), cliente.getTempoDiGioco(),
                 cliente.getFichesGiocate(), cliente.getVincitaPercentualeTot(), cliente.getPartiteGiocate(), tipologiaCliente,
                 cliente.getSconto_premium(), cliente.isSospetto());
-
     }
 
     public int getSaldoCliente(){

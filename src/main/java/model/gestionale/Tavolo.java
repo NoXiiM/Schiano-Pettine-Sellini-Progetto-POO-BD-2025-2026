@@ -44,6 +44,6 @@ public class Tavolo
 
     public int getIdTavolo(){
         return idTavolo;
-    }
+        }
 }
 

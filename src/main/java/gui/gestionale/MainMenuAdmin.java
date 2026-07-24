@@ -18,6 +18,33 @@ public class MainMenuAdmin {
     private JTextArea infoField;
     private JButton logoutButton;
     private JLabel userFieldAdmin;
+    private JLabel ricercaText;
+    private JButton cercaButton;
+    private JLabel nomeText;
+    private JTextField textFieldNome;
+    private JLabel cognomeText;
+    private JTextField textFieldCognome;
+    private JLabel saldoText;
+    private JLabel usernameText;
+    private JLabel sospettoText;
+    private JLabel banText;
+    private JTextField textFieldUsername;
+    private JSpinner spinnerSaldo;
+    private JLabel percentualVincitaText;
+    private JLabel partiteGiocateText;
+    private JCheckBox siCheckBoxSospetto;
+    private JCheckBox noCheckBoxSospetto;
+    private JCheckBox siCheckBoxBan;
+    private JCheckBox noCheckBoxBan;
+    private JSlider sliderPercentualeVincita;
+    private JSpinner spinnerPartiteGiocate;
+    private JScrollPane jScrollPaneJlist;
+    private JScrollPane jScrollPaneInfoClienti;
+    private JRadioButton piuRadioButtonVincita;
+    private JRadioButton menoRadioButtonVincita;
+    private JRadioButton piuRadioButtonPartite;
+    private JRadioButton menoRadioButtonPartite;
+    private JSlider sliderPartite;
 
     JFrame thisFrame;
     JFrame frameChiamante;
@@ -40,7 +67,17 @@ public class MainMenuAdmin {
         thisFrame.setVisible(true);
 
         frameChiamante.setVisible(false);
+        piuRadioButtonVincita.setActionCommand("piu");
+        menoRadioButtonVincita.setActionCommand("meno");
+        ButtonGroup selezionaVincita = new ButtonGroup();
+        selezionaVincita.add(menoRadioButtonVincita);
+        selezionaVincita.add(piuRadioButtonVincita);
 
+        piuRadioButtonPartite.setActionCommand("piu");
+        menoRadioButtonPartite.setActionCommand("meno");
+        ButtonGroup selezionaPartite = new ButtonGroup();
+        selezionaPartite.add(menoRadioButtonPartite);
+        selezionaPartite.add(piuRadioButtonPartite);
 
         bannaButton.addActionListener(new ActionListener() {
             @Override
@@ -90,6 +127,51 @@ public class MainMenuAdmin {
             }
         });
 
+        cercaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String nomeRicerca = textFieldNome.getText();
+                String cognomeRicerca = textFieldCognome.getText();
+                String usernameRicerca = textFieldUsername.getText();
+
+                int saldoRicerca = (int)spinnerSaldo.getValue();
+
+                double percentualeVittoriaRicerca = sliderPercentualeVincita.getValue();
+                String piuMenoVittoria = selezionaVincita.getSelection().getActionCommand(); //Se si true, se no false
+
+                int partiteGiocateRicerca = (int) spinnerPartiteGiocate.getValue();
+                String piuMenoPartite = selezionaPartite.getSelection().getActionCommand();
+
+                //Definiamo se sia indifferente, si o no, il sospetto
+                String sospettoRicerca;
+                if(siCheckBoxSospetto.isSelected() && noCheckBoxSospetto.isSelected()) {
+                    sospettoRicerca = "indifferente";
+                } else if (siCheckBoxSospetto.isSelected()) {
+                    sospettoRicerca = "si";
+                } else if (noCheckBoxSospetto.isSelected()) {
+                    sospettoRicerca = "no";
+                } else  {
+                    sospettoRicerca = "indifferente";
+                }
+
+                //Definiamo se sia indifferente, si o no, il ban
+                String banRicerca;
+                if(siCheckBoxBan.isSelected() && noCheckBoxBan.isSelected()) {
+                    banRicerca = "indifferente";
+                } else if (siCheckBoxBan.isSelected()) {
+                    banRicerca = "si";
+                } else if (noCheckBoxBan.isSelected()) {
+                    banRicerca = "no";
+                } else  {
+                    banRicerca = "indifferente";
+                }
+                modelloListaClienti.clear();
+                modelloListaClienti.addAll(controller.ricercaClienti(nomeRicerca,cognomeRicerca,usernameRicerca,
+                        saldoRicerca,percentualeVittoriaRicerca,piuMenoVittoria,partiteGiocateRicerca,piuMenoPartite,sospettoRicerca,banRicerca));
+                listaClienti.setModel(modelloListaClienti);
+
+            }
+        });
     }
 
     public void aggiornaUsername(){

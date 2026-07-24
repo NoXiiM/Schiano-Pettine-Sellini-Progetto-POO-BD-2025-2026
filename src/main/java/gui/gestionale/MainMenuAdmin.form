@@ -21,7 +21,7 @@
         </properties>
         <border type="none"/>
         <children>
-          <grid id="476f9" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="476f9" layout-manager="GridLayoutManager" row-count="7" column-count="8" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <tabbedpane title="Gestione Utenti"/>
@@ -31,22 +31,9 @@
             </properties>
             <border type="none"/>
             <children>
-              <component id="8219f" class="javax.swing.JList" binding="listaClienti">
-                <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="50"/>
-                  </grid>
-                </constraints>
-                <properties>
-                  <background color="-15923680"/>
-                  <font style="1"/>
-                  <foreground color="-10496"/>
-                  <model/>
-                </properties>
-              </component>
               <component id="60e73" class="javax.swing.JButton" binding="bannaButton" default-binding="true">
                 <constraints>
-                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <background color="-12772720"/>
@@ -54,21 +41,9 @@
                   <text value="Banna"/>
                 </properties>
               </component>
-              <component id="bbbef" class="javax.swing.JTextArea" binding="infoField">
-                <constraints>
-                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="50"/>
-                  </grid>
-                </constraints>
-                <properties>
-                  <background color="-15923680"/>
-                  <font style="1"/>
-                  <foreground color="-10496"/>
-                </properties>
-              </component>
               <component id="64276" class="javax.swing.JButton" binding="logoutButton" default-binding="true">
                 <constraints>
-                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <background color="-12772720"/>
@@ -85,6 +60,237 @@
                   <font style="1"/>
                   <foreground color="-659232"/>
                   <text value="Utente:"/>
+                </properties>
+              </component>
+              <component id="b3d67" class="javax.swing.JLabel" binding="ricercaText">
+                <constraints>
+                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Ricerca"/>
+                </properties>
+              </component>
+              <component id="4cf58" class="javax.swing.JButton" binding="cercaButton" default-binding="true">
+                <constraints>
+                  <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Cerca"/>
+                </properties>
+              </component>
+              <component id="193ba" class="javax.swing.JLabel" binding="nomeText">
+                <constraints>
+                  <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Nome"/>
+                  <verticalAlignment value="1"/>
+                  <verticalTextPosition value="1"/>
+                </properties>
+              </component>
+              <component id="bf80d" class="javax.swing.JTextField" binding="textFieldNome">
+                <constraints>
+                  <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="45e1e" class="javax.swing.JLabel" binding="cognomeText">
+                <constraints>
+                  <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Cognome"/>
+                </properties>
+              </component>
+              <component id="b5aa6" class="javax.swing.JTextField" binding="textFieldCognome">
+                <constraints>
+                  <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="c52db" class="javax.swing.JLabel" binding="saldoText">
+                <constraints>
+                  <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Saldo"/>
+                </properties>
+              </component>
+              <component id="9ca72" class="javax.swing.JLabel" binding="usernameText">
+                <constraints>
+                  <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Username"/>
+                </properties>
+              </component>
+              <component id="783f1" class="javax.swing.JLabel" binding="sospettoText">
+                <constraints>
+                  <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Sospetto"/>
+                </properties>
+              </component>
+              <component id="88ddb" class="javax.swing.JLabel" binding="banText">
+                <constraints>
+                  <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Ban"/>
+                </properties>
+              </component>
+              <component id="1a870" class="javax.swing.JTextField" binding="textFieldUsername">
+                <constraints>
+                  <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="86ec7" class="javax.swing.JSpinner" binding="spinnerSaldo">
+                <constraints>
+                  <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="dd9ea" class="javax.swing.JLabel" binding="percentualVincitaText">
+                <constraints>
+                  <grid row="3" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Percentuale Vincita"/>
+                </properties>
+              </component>
+              <component id="2542a" class="javax.swing.JLabel" binding="partiteGiocateText">
+                <constraints>
+                  <grid row="4" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Partite Giocate"/>
+                </properties>
+              </component>
+              <component id="26bc7" class="javax.swing.JCheckBox" binding="siCheckBoxSospetto">
+                <constraints>
+                  <grid row="1" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Si"/>
+                </properties>
+              </component>
+              <component id="a86fb" class="javax.swing.JCheckBox" binding="noCheckBoxSospetto">
+                <constraints>
+                  <grid row="1" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="No"/>
+                </properties>
+              </component>
+              <component id="27846" class="javax.swing.JCheckBox" binding="siCheckBoxBan">
+                <constraints>
+                  <grid row="2" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Si"/>
+                </properties>
+              </component>
+              <component id="cbd88" class="javax.swing.JCheckBox" binding="noCheckBoxBan">
+                <constraints>
+                  <grid row="2" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="No"/>
+                </properties>
+              </component>
+              <component id="5b2f1" class="javax.swing.JSlider" binding="sliderPercentualeVincita">
+                <constraints>
+                  <grid row="3" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <minorTickSpacing value="1"/>
+                  <paintLabels value="false"/>
+                  <snapToTicks value="false"/>
+                </properties>
+              </component>
+              <scrollpane id="b83fa" binding="jScrollPaneJlist">
+                <constraints>
+                  <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="1027b" class="javax.swing.JList" binding="listaClienti">
+                    <constraints/>
+                    <properties>
+                      <background color="-15923680"/>
+                      <font style="1"/>
+                      <foreground color="-10496"/>
+                      <model/>
+                    </properties>
+                  </component>
+                </children>
+              </scrollpane>
+              <scrollpane id="8d8a7" binding="jScrollPaneInfoClienti">
+                <constraints>
+                  <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="56dd1" class="javax.swing.JTextArea" binding="infoField">
+                    <constraints/>
+                    <properties>
+                      <background color="-15923680"/>
+                      <font style="1"/>
+                      <foreground color="-10496"/>
+                    </properties>
+                  </component>
+                </children>
+              </scrollpane>
+              <component id="d0f62" class="javax.swing.JRadioButton" binding="piuRadioButtonVincita">
+                <constraints>
+                  <grid row="3" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Più"/>
+                </properties>
+              </component>
+              <component id="60c87" class="javax.swing.JRadioButton" binding="menoRadioButtonVincita">
+                <constraints>
+                  <grid row="3" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Meno"/>
+                </properties>
+              </component>
+              <component id="53346" class="javax.swing.JRadioButton" binding="piuRadioButtonPartite">
+                <constraints>
+                  <grid row="4" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Più"/>
+                </properties>
+              </component>
+              <component id="6ab51" class="javax.swing.JRadioButton" binding="menoRadioButtonPartite">
+                <constraints>
+                  <grid row="4" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Meno"/>
+                </properties>
+              </component>
+              <component id="19772" class="javax.swing.JSlider" binding="sliderPartite">
+                <constraints>
+                  <grid row="4" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <minorTickSpacing value="1"/>
+                  <paintLabels value="false"/>
+                  <snapToTicks value="false"/>
                 </properties>
               </component>
             </children>

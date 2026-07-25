@@ -17,11 +17,14 @@ public class DipendenteWelcomeController extends WelcomeController {
     //admin
     public ArrayList<Cliente> getListaClientiDB() {
 
-        ArrayList<Cliente> onlyClients= new ArrayList<>();
         //TODO recupero clienti da db
 
-        onlyClients.add(new Cliente("user", "marc", "gg", "scia", LocalDate.of(1990, 5, 14), "ciao", "ciaio"));
-        return onlyClients;
+        clientiInLocale.add(new Cliente("user", "marc", "gg", "scia", LocalDate.of(1990, 5, 14), "ciao", "ciaio"));
+        return clientiInLocale;
+    }
+
+    public ArrayList<Cliente> getClientiInLocale() {
+        return clientiInLocale;
     }
 
     public ArrayList<Cliente> ricercaClienti(String nome, String cognome, String username, int saldoMin, int saldoMax,
@@ -29,21 +32,18 @@ public class DipendenteWelcomeController extends WelcomeController {
                                              boolean checkSaldo, boolean checkPartite, boolean checkPercentuale){
 
         ArrayList<Cliente> clientiRicercati = new ArrayList<>();
-        ArrayList<Cliente> clientiLista = new ArrayList<>();
 
-        clientiLista.addAll(getListaClientiDB());
+        for(Cliente c: clientiInLocale){
 
-        for(Cliente c: clientiLista){
-
-            if(nome != null){
+            if(!nome.isBlank()){
                 if(!(nome.equals(c.getNome()))) continue;
             }
 
-            if(cognome != null){
+            if(!cognome.isBlank()){
                 if(!(cognome.equals(c.getCognome()))) continue;
             }
 
-            if(username!=null){
+            if(!username.isBlank()){
                 if(!(username.equals(c.getUsername()))) continue;
             }
 
@@ -59,25 +59,23 @@ public class DipendenteWelcomeController extends WelcomeController {
                 if(!(c.getPartiteGiocate() >= partiteMin && c.getPartiteGiocate() <= partiteMax)) continue;
             }
 
-            if(!(sospetto.equals("indifferente"))){
-                if(sospetto.equals("si")){
-                    if(!(c.isSospetto())) continue;
-                } else{
-                    if(c.isSospetto()) continue;
+            if (!sospetto.equals("indifferente")) {
+                if (sospetto.equals("si")) {
+                    if (!c.isSospetto()) continue;
+                } else {
+                    if (c.isSospetto()) continue;
                 }
             }
-            if(!(ban.equals("indifferente"))){
-                if(ban.equals("si")){
-                    if(!(c.getBan()==null)) continue;
-                } else{
-                    if(c.getBan()==null) continue;
+            if (!ban.equals("indifferente")) {
+                if (ban.equals("si")) {
+                    if (c.getBan() == null) continue;
+                } else {
+                    if (c.getBan() != null) continue;
                 }
             }
-
             clientiRicercati.add(c);
 
         }
-
         return clientiRicercati;
     }
 }

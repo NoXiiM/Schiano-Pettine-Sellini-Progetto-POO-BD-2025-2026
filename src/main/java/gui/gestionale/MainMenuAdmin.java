@@ -44,7 +44,6 @@ public class MainMenuAdmin {
     private JLabel banText;
     private JLabel percentualVincitaText;
     private JLabel partiteGiocateText;
-    private JLabel ricercaText;
     private JSpinner spinnerSaldoMin;
     private JSpinner spinnerSaldoMax;
     private JSpinner spinnerPercMin;
@@ -54,6 +53,7 @@ public class MainMenuAdmin {
     private JCheckBox controllaSaldoCheckBox;
     private JCheckBox controllaPercentualeCheckBox;
     private JCheckBox controllaPartiteCheckBox;
+    private JButton aggiornaButton;
 
     JFrame thisFrame;
     JFrame frameChiamante;
@@ -149,7 +149,7 @@ public class MainMenuAdmin {
                 String usernameRicerca = textFieldUsername.getText();
 
                 int saldoMin= (int) spinnerSaldoMin.getValue();
-                int saldoMax = (int) spinnerPartMax.getValue();
+                int saldoMax = (int) spinnerSaldoMax.getValue();
 
                 int percMin= (int) spinnerPercMin.getValue();
                 int percMax= (int) spinnerPercMax.getValue();
@@ -193,7 +193,13 @@ public class MainMenuAdmin {
 
                 infoField.setText("");
 
-                listaClienti.setModel(modelloListaClienti);
+            }
+        });
+        aggiornaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                modelloListaClienti.clear();
+                modelloListaClienti.addAll(controller.getClientiInLocale());
 
             }
         });

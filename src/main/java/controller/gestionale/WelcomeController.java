@@ -55,15 +55,15 @@ public class WelcomeController {
             db.loginCliente(identificativo, saldo, tempoDiGioco, fichesGiocate, vincitaPercentualeTot,
                     partiteGiocate, tipologia, scontoPercentuale, sospetto, dataDiBan,
                     motiviBan, nome, cognome, codiceFiscale, dataDiNascita, username, password);
+
             boolean flag = tipologia[0].equals("Premium");
+
             currentUser= new Cliente(username, nome[0], cognome[0], codiceFiscale[0], dataDiNascita[0], password,
                     identificativo[0], flag, scontoPercentuale[0], sospetto[0], tempoDiGioco[0], fichesGiocate[0],
                     saldo[0], partiteGiocate[0], dataDiBan[0], motiviBan[0]);
-            return;
 
         } else if(tipo.equals("Dipendente")){
 
-            try{
                 db.loginDipendente(identificativo, nome, cognome, codiceFiscale, dataDiNascita, tipologia, username, password);
 
                 if(tipologia[0].equals("Dealer")){
@@ -73,11 +73,6 @@ public class WelcomeController {
                 } else{
                     currentUser= new Supervisore(username, nome[0], cognome[0], codiceFiscale[0], dataDiNascita[0], password, identificativo[0]);
                 }
-                return;
-
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
         }
     }
 
@@ -110,7 +105,7 @@ public class WelcomeController {
         currentUser= null;
     }
 
-    public boolean utenteCliente(){
+    public boolean isUtenteACliente(){
         if(currentUser instanceof Cliente) return true;
         return false;
     }

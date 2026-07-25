@@ -44,8 +44,16 @@ public class MainMenuAdmin {
     private JLabel banText;
     private JLabel percentualVincitaText;
     private JLabel partiteGiocateText;
-    private JSlider sliderPartite;
     private JLabel ricercaText;
+    private JSpinner spinnerSaldoMin;
+    private JSpinner spinnerSaldoMax;
+    private JSpinner spinnerPercMin;
+    private JSpinner spinnerPercMax;
+    private JSpinner spinnerPartMin;
+    private JSpinner spinnerPartMax;
+    private JCheckBox controllaSaldoCheckBox;
+    private JCheckBox controllaPercentualeCheckBox;
+    private JCheckBox controllaPartiteCheckBox;
 
     JFrame thisFrame;
     JFrame frameChiamante;
@@ -58,7 +66,7 @@ public class MainMenuAdmin {
         this.frameChiamante= frameChiamante;
 
         modelloListaClienti= new DefaultListModel<>();
-        modelloListaClienti.addAll(controller.getLista_clienti());
+        modelloListaClienti.addAll(controller.getListaClientiDB());
         listaClienti.setModel(modelloListaClienti);
 
         thisFrame = new JFrame("MainMenuAdmin");
@@ -66,33 +74,37 @@ public class MainMenuAdmin {
         thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         thisFrame.pack();
         thisFrame.setVisible(true);
-
         frameChiamante.setVisible(false);
-        piuRadioButtonVincita.setActionCommand("piu");
-        menoRadioButtonVincita.setActionCommand("meno");
-        ButtonGroup selezionaVincita = new ButtonGroup();
-        selezionaVincita.add(menoRadioButtonVincita);
-        selezionaVincita.add(piuRadioButtonVincita);
 
-        piuRadioButtonPartite.setActionCommand("piu");
-        menoRadioButtonPartite.setActionCommand("meno");
-        ButtonGroup selezionaPartite = new ButtonGroup();
-        selezionaPartite.add(menoRadioButtonPartite);
-        selezionaPartite.add(piuRadioButtonPartite);
+        spinnerPercMin.setModel(new SpinnerNumberModel(0, 0, 100, 1));
+        spinnerPercMax.setModel(new SpinnerNumberModel(0, 0, 100, 1));
+
+        spinnerSaldoMin.setModel(new SpinnerNumberModel(0, -10000, 10000, 1)); // adatta i limiti reali
+        spinnerSaldoMax.setModel(new SpinnerNumberModel(0, -10000, 10000, 1));
+
+        spinnerPartMin.setModel(new SpinnerNumberModel(0, 0, 10000, 1));
+        spinnerPartMax.setModel(new SpinnerNumberModel(0, 0, 10000, 1));
 
         bannaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
                 Cliente temp= (Cliente) listaClienti.getSelectedValue();
-                String input = JOptionPane.showInputDialog(null, "Inserisci motivo ban:", "Ban utente", JOptionPane.QUESTION_MESSAGE);
 
-                if (input != null && !input.isBlank()) {
-                    temp.creaBan(input);
+                if(temp != null) {
+                    String input = JOptionPane.showInputDialog(null, "Inserisci motivo ban:", "Ban utente", JOptionPane.QUESTION_MESSAGE);
+
+                    if (input != null && !input.isBlank()) {
+                        temp.creaBan(input);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Non hai inserito un motivo di ban", "Errore", JOptionPane.ERROR_MESSAGE);
+                    }
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Cliente non selezionato", "Errore", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
-
 
         listaClienti.addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -131,17 +143,23 @@ public class MainMenuAdmin {
         cercaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 String nomeRicerca = textFieldNome.getText();
                 String cognomeRicerca = textFieldCognome.getText();
                 String usernameRicerca = textFieldUsername.getText();
 
-                int saldoRicerca = (int)spinnerSaldo.getValue();
+                int saldoMin= (int) spinnerSaldoMin.getValue();
+                int saldoMax = (int) spinnerPartMax.getValue();
 
-                double percentualeVittoriaRicerca = sliderPercentualeVincita.getValue();
-                String piuMenoVittoria = selezionaVincita.getSelection().getActionCommand(); //Se si true, se no false
+                int percMin= (int) spinnerPercMin.getValue();
+                int percMax= (int) spinnerPercMax.getValue();
 
-                int partiteGiocateRicerca = (int) spinnerPartiteGiocate.getValue();
-                String piuMenoPartite = selezionaPartite.getSelection().getActionCommand();
+                int partiteMin= (int) spinnerPartMin.getValue();
+                int partiteMax= (int) spinnerPartMax.getValue();
+
+                boolean checkSaldo= controllaSaldoCheckBox.isSelected();
+                boolean checkPercentuale= controllaPercentualeCheckBox.isSelected();
+                boolean checkPartite= controllaPartiteCheckBox.isSelected();
 
                 //Definiamo se sia indifferente, si o no, il sospetto
                 String sospettoRicerca;
@@ -166,9 +184,15 @@ public class MainMenuAdmin {
                 } else  {
                     banRicerca = "indifferente";
                 }
+
                 modelloListaClienti.clear();
-                modelloListaClienti.addAll(controller.ricercaClienti(nomeRicerca,cognomeRicerca,usernameRicerca,
-                        saldoRicerca,percentualeVittoriaRicerca,piuMenoVittoria,partiteGiocateRicerca,piuMenoPartite,sospettoRicerca,banRicerca));
+
+                modelloListaClienti.addAll(controller.ricercaClienti(nomeRicerca, cognomeRicerca, usernameRicerca,
+                        saldoMin, saldoMax, percMin, percMax, partiteMin, partiteMax, sospettoRicerca, banRicerca,
+                        checkSaldo, checkPartite, checkPercentuale));
+
+                infoField.setText("");
+
                 listaClienti.setModel(modelloListaClienti);
 
             }

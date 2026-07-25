@@ -199,7 +199,7 @@ public class impDAOop implements DAOop {
                     nome[0] = rs.getString(2);
                     cognome[0] = rs.getString(3);
                     codiceFiscale[0] = rs.getString(4);
-                    dataDiNascita[0] = rs.getDate(8).toLocalDate();
+                    dataDiNascita[0] = rs.getDate(5).toLocalDate();
                     ruolo[0] = rs.getString(6);
                 }
             }

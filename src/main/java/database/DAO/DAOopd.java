@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public interface DAOopd {
+    //OP1 Recupero clienti dal DB
     void recuperaDatiClienti(ArrayList<String> username, ArrayList<String> nome, ArrayList<String> cognome,
                              ArrayList<String> codiceFiscale, ArrayList<LocalDate> dataDiNascita, ArrayList<String> password,
                              ArrayList<String> codiceTesseraGiocatore,ArrayList<Boolean> premium,

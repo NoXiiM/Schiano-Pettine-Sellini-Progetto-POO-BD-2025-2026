@@ -9,7 +9,7 @@ public class Ban
 
     public Ban(String motivi)
     {
-        dataDiBan = null;
+        dataDiBan = LocalDate.now();
         this.motivi = motivi;
     }
 

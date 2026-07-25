@@ -25,6 +25,8 @@ public class ClientWelcomeController extends WelcomeController {
         super(controller.getCurrentUser(), controller.getUsernamesList());
         this.usernames = controller.getUsernamesList();
         cliente = (Cliente) getCurrentUser();
+        //importantissimo
+        controller.setCurrentUserNull();
     }
 
     //client

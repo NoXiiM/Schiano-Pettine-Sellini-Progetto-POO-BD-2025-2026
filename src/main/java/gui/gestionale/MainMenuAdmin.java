@@ -2,6 +2,8 @@ package gui.gestionale;
 
 import controller.gestionale.DipendenteWelcomeController;
 import controller.gestionale.WelcomeController;
+import database.implementazioneDAO.impDAOop;
+import database.implementazioneDAO.impDAOopd;
 import model.gestionale.utenteEFigli.Cliente;
 
 import javax.swing.*;
@@ -9,6 +11,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class MainMenuAdmin {
     private JPanel AdminPanel;
@@ -100,6 +103,16 @@ public class MainMenuAdmin {
                                 temp.getVincitaPercentualeTot() + "\nSaldo giocato: " + temp.getFichesGiocate() + "\nTempo di gioco totale: " + temp.getTempoDiGioco() +
                                 "\nBan: " + (temp.getMotivoBan() != null ? temp.getMotivoBan() : "Nessuno")
                         );
+
+                        impDAOopd db = new impDAOopd();
+
+                        try {
+                            db.salvataggioBan(temp.getCodiceTesseraGiocatore(), temp.getDataBan(), temp.getMotivoBan());
+                            JOptionPane.showMessageDialog(null, "ban registrato con successo");
+                        } catch (SQLException ex) {
+                            JOptionPane.showMessageDialog(null, "errore salvataggio ban",
+                                    "errore", JOptionPane.ERROR_MESSAGE);
+                        }
                     } else {
                         JOptionPane.showMessageDialog(null, "Non hai inserito un motivo di ban", "Errore", JOptionPane.ERROR_MESSAGE);
                     }

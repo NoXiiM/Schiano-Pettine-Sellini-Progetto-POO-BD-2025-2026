@@ -91,7 +91,7 @@ public class WelcomePanel {
                 userField.setText("");
                 passwordField.setText("");
 
-                RegistrationForm registrationForm= new RegistrationForm(new ClientWelcomeController(welcomeController), mainframe);
+                new RegistrationForm(new ClientWelcomeController(welcomeController), mainframe);
 
             }
         });

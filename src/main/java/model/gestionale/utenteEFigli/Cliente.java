@@ -151,6 +151,12 @@ public class Cliente extends Utente
         return ban.getMotivi();
     }
 
+    public LocalDate getDataBan()
+    {
+        if(ban == null) return null;
+        return ban.getDataDiBan();
+    }
+
     public boolean convertiPremium()
     {
         Duration quarantottoh = Duration.ofHours(48);

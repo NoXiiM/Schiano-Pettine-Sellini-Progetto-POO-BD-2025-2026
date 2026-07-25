@@ -109,6 +109,56 @@ public class impDAOopd implements DAOopd {
             }
 
         }
+    }
 
+    @Override
+    public void salvataggioBan(String idCliente,LocalDate dataDiBan, String motiviBan) throws SQLException
+    {
+        Connection connection = ConnessioneDatabase.getInstance().connection;
+
+        try(PreparedStatement aggiornamento = connection.prepareStatement("update cliente " +
+                "set dataDiBan = ?, motiviBan = ? " +
+                "where idCliente = ?"))
+        {
+            aggiornamento.setDate(1, java.sql.Date.valueOf(dataDiBan));
+            aggiornamento.setString(2, motiviBan);
+            aggiornamento.setString(3, idCliente);
+
+            aggiornamento.executeUpdate();
+        }
+    }
+
+    @Override
+    public void aggiungiDipendente(String idDipendente, String nome, String cognome, LocalDate dataDiNascita,
+                                   String codiceFiscale, String username, String password, String ruolo) throws SQLException
+    {
+        Connection connection = ConnessioneDatabase.getInstance().connection;
+        try (PreparedStatement inserimento = connection.prepareStatement("insert into dipendente " +
+                "(idDipendente, username, nome, cognome, codiceFiscale, dataDiNascita, password, ruolo) " +
+                "VALUES(?,?,?,?,?,?,?, ?)")) {
+            inserimento.setString(1, idDipendente);
+            inserimento.setString(2, username);
+            inserimento.setString(3, nome);
+            inserimento.setString(4, cognome);
+            inserimento.setString(5, codiceFiscale);
+            inserimento.setDate(6, java.sql.Date.valueOf(dataDiNascita));
+            inserimento.setString(7, password);
+            inserimento.setString(8, ruolo);
+
+            inserimento.executeUpdate();
+        }
+    }
+
+    @Override
+    public void eliminaDipendente(String idDipendente) throws SQLException
+    {
+        Connection connection = ConnessioneDatabase.getInstance().connection;
+        try(PreparedStatement cancellazione = connection.prepareCall("delete from dipendente " +
+                "where idDipendente = ?"))
+        {
+            cancellazione.setString(1, idDipendente);
+
+            cancellazione.executeUpdate();
+        }
     }
 }

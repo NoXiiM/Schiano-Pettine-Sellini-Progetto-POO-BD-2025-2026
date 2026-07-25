@@ -96,6 +96,10 @@ public class MainMenuAdmin {
 
                     if (input != null && !input.isBlank()) {
                         temp.creaBan(input);
+                        infoField.setText("User: " + temp.getUsername() + "\nSaldo: " + temp.getSaldo() + "\nTasso vincita: " +
+                                temp.getVincitaPercentualeTot() + "\nSaldo giocato: " + temp.getFichesGiocate() + "\nTempo di gioco totale: " + temp.getTempoDiGioco() +
+                                "\nBan: " + (temp.getMotivoBan() != null ? temp.getMotivoBan() : "Nessuno")
+                        );
                     } else {
                         JOptionPane.showMessageDialog(null, "Non hai inserito un motivo di ban", "Errore", JOptionPane.ERROR_MESSAGE);
                     }

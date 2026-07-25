@@ -123,13 +123,8 @@ public class ClientWelcomeController extends WelcomeController {
 
         impDAOop db = new impDAOop();
 
-        if(db.passwordDimenticata(nome, cognome, username))
-        {
-            JOptionPane.showMessageDialog(null, "password resettata a P@ssword!");
-        }
-        else
-        {
-            JOptionPane.showMessageDialog(null, "credenziali errate");
+        if(! db.passwordDimenticata(nome, cognome, username)){
+            throw new RuntimeException("Credenziali errate");
         }
     }
 

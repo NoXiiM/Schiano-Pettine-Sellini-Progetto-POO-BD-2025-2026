@@ -18,20 +18,11 @@ public class MainMenuAdmin {
     private JTextArea infoField;
     private JButton logoutButton;
     private JLabel userFieldAdmin;
-    private JLabel ricercaText;
     private JButton cercaButton;
-    private JLabel nomeText;
     private JTextField textFieldNome;
-    private JLabel cognomeText;
     private JTextField textFieldCognome;
-    private JLabel saldoText;
-    private JLabel usernameText;
-    private JLabel sospettoText;
-    private JLabel banText;
     private JTextField textFieldUsername;
     private JSpinner spinnerSaldo;
-    private JLabel percentualVincitaText;
-    private JLabel partiteGiocateText;
     private JCheckBox siCheckBoxSospetto;
     private JCheckBox noCheckBoxSospetto;
     private JCheckBox siCheckBoxBan;
@@ -44,7 +35,17 @@ public class MainMenuAdmin {
     private JRadioButton menoRadioButtonVincita;
     private JRadioButton piuRadioButtonPartite;
     private JRadioButton menoRadioButtonPartite;
+    private JLabel nomeText;
+    private JLabel cognomeText;
+    private JPanel jpanelRicerca;
+    private JLabel usernameText;
+    private JLabel saldoText;
+    private JLabel sospettoText;
+    private JLabel banText;
+    private JLabel percentualVincitaText;
+    private JLabel partiteGiocateText;
     private JSlider sliderPartite;
+    private JLabel ricercaText;
 
     JFrame thisFrame;
     JFrame frameChiamante;

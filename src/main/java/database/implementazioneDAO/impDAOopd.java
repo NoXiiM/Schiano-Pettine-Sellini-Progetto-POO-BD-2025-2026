@@ -28,11 +28,11 @@ public class impDAOopd implements DAOopd {
 
         try(PreparedStatement ricerca = connection.prepareStatement(
                 "SELECT username, nome, cognome, codiceFiscale, " +
-                        "dataDiNascita, password, idCliente, premium, " +
-                        "sconto_premium, sospetto, tempoDiGioco, " +
+                        "dataDiNascita, password, idCliente, tipo, " +
+                        "scontoPokerPercentuale, sospetto, tempoDiGioco, " +
                         "fichesGiocate, saldo, partiteGiocate, " +
-                        "dataBan, motiviBan " +
-                        "FROM cliente"
+                        "dataDiBan, motiviBan " +
+                        "FROM Cliente"
         )) {
 
             ResultSet risultato = ricerca.executeQuery();
@@ -61,42 +61,47 @@ public class impDAOopd implements DAOopd {
                 );
 
 
+
                 premium.add(
-                        risultato.getBoolean("premium")
+                        risultato.getString("tipo").equals("Premium")
                 );
 
+
                 sconto_premium.add(
-                        risultato.getDouble("sconto_premium")
+                        risultato.getDouble("scontoPokerPercentuale")
                 );
+
 
                 sospetto.add(
                         risultato.getBoolean("sospetto")
                 );
 
+
                 tempoDiGiocoInSec.add(
                         risultato.getLong("tempoDiGioco")
                 );
+
 
                 fichesGiocate.add(
                         risultato.getInt("fichesGiocate")
                 );
 
+
                 saldo.add(
                         risultato.getInt("saldo")
                 );
+
 
                 partiteGiocate.add(
                         risultato.getInt("partiteGiocate")
                 );
 
-
-                LocalDate data = risultato.getDate("dataBan").toLocalDate();
-
-                if(data != null)
-                    dataBan.add(data);
-                else
+                java.sql.Date sqlDate = risultato.getDate("dataDiBan");
+                if (sqlDate != null) {
+                    dataBan.add(sqlDate.toLocalDate());
+                } else {
                     dataBan.add(null);
-
+                }
 
                 motiviBan.add(
                         risultato.getString("motiviBan")

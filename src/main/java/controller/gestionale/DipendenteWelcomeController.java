@@ -1,7 +1,9 @@
 package controller.gestionale;
 
+import database.implementazioneDAO.impDAOopd;
 import model.gestionale.utenteEFigli.Cliente;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -17,9 +19,54 @@ public class DipendenteWelcomeController extends WelcomeController {
     //admin
     public ArrayList<Cliente> getListaClientiDB() {
 
-        //TODO recupero clienti da db
+        if(clientiInLocale!=null) clientiInLocale.clear();
+        ArrayList<String> username = new ArrayList<>();
+        ArrayList<String> nome = new ArrayList<>();
+        ArrayList<String> cognome = new ArrayList<>();
+        ArrayList<String> codiceFiscale = new ArrayList<>();
+        ArrayList<LocalDate> dataDiNascita = new ArrayList<>();
+        ArrayList<String> password = new ArrayList<>();
+        ArrayList<String> codiceTesseraGiocatore = new ArrayList<>();
+        ArrayList<Boolean> premium = new ArrayList<>();
+        ArrayList<Double> sconto_premium = new ArrayList<>();
+        ArrayList<Boolean> sospetto = new ArrayList<>();
+        ArrayList<Long> tempoDiGiocoInSec = new ArrayList<>();
+        ArrayList<Integer> fichesGiocate = new ArrayList<>();
+        ArrayList<Integer> saldo = new ArrayList<>();
+        ArrayList<Integer> partiteGiocate = new ArrayList<>();
+        ArrayList<LocalDate> dataBan = new ArrayList<>();
+        ArrayList<String> motiviBan = new ArrayList<>();
 
-        clientiInLocale.add(new Cliente("user", "marc", "gg", "scia", LocalDate.of(1990, 5, 14), "ciao", "ciaio"));
+        impDAOopd db = new impDAOopd();
+        try {
+            db.recuperaDatiClienti(username, nome, cognome, codiceFiscale, dataDiNascita, password,
+                    codiceTesseraGiocatore,premium,sconto_premium,sospetto,tempoDiGiocoInSec,fichesGiocate,saldo,partiteGiocate,dataBan,motiviBan);
+        } catch(SQLException e) {
+            throw new RuntimeException(e);
+        }
+        for(int i = 0; i < username.size(); i++) {
+
+            Cliente c = new Cliente(
+                    username.get(i),
+                    nome.get(i),
+                    cognome.get(i),
+                    codiceFiscale.get(i),
+                    dataDiNascita.get(i),
+                    password.get(i),
+                    codiceTesseraGiocatore.get(i),
+                    premium.get(i),
+                    sconto_premium.get(i),
+                    sospetto.get(i),
+                    tempoDiGiocoInSec.get(i),
+                    fichesGiocate.get(i),
+                    saldo.get(i),
+                    partiteGiocate.get(i),
+                    dataBan.get(i),
+                    motiviBan.get(i)
+            );
+
+            clientiInLocale.add(c);
+        }
         return clientiInLocale;
     }
 

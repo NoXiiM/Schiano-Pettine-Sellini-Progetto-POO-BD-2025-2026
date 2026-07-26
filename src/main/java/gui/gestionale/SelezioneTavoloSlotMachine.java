@@ -48,7 +48,7 @@ public class SelezioneTavoloSlotMachine {
 
         modellolistaTavoli = new DefaultListModel<String>();
 
-        ArrayList<String> tavoliDaMostrare = controller.getTavoliNumber();
+        ArrayList<String> tavoliDaMostrare = controller.getTavoliId();
 
         modellolistaTavoli.addAll(tavoliDaMostrare);
 
@@ -97,8 +97,11 @@ public class SelezioneTavoloSlotMachine {
         listaTavoli.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
+
+
                 String tavoloSelezionato = (String)listaTavoli.getSelectedValue();
-                selezioneListaLabel.setText(controller.getTavoloCorrispondente(tavoloSelezionato));
+                int idTavolo = controller.getIdFromList(tavoloSelezionato);
+                selezioneListaLabel.setText(controller.getTavoloWithId(idTavolo).toString());
                 selezioneListaLabel.setVisible(true);
             }
         });

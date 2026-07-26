@@ -179,4 +179,26 @@ public class DipendenteWelcomeController extends WelcomeController {
         return clientiRicercati;
     }
 
+    public ArrayList<Dipendente> ricercaDipendente(String nome, String cognome, String username, String ruolo){
+        ArrayList<Dipendente> dipendentiRicercati = new ArrayList<>();
+
+        for(Dipendente dipendente : dipendentiInLocale) {
+            if (!nome.isBlank()) {
+                if (!nome.equals(dipendente.getNome())) continue;
+            }
+            if (!cognome.isBlank()) {
+                if (!cognome.equals(dipendente.getCognome())) continue;
+            }
+            if(!username.isBlank()){
+                if (!username.equals(dipendente.getUsername())) continue;
+            }
+            if(!ruolo.isBlank()){
+                if(!ruolo.equals(dipendente.getClass().getName())) continue; //Da scrivere con lettere maiuscole iniziali
+            }
+            dipendentiRicercati.add(dipendente);
+        }
+
+        return dipendentiRicercati;
+
+    }
 }

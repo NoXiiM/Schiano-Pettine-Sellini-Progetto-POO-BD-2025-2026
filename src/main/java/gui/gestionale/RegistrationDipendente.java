@@ -1,6 +1,5 @@
 package gui.gestionale;
 
-import controller.gestionale.ClientWelcomeController;
 import controller.gestionale.DipendenteWelcomeController;
 
 import javax.swing.*;
@@ -13,6 +12,7 @@ public class RegistrationDipendente {
     private JPanel registrationPanel;
     private JTextField usernameRegField;
     private JTextField nameRegField;
+    private JLabel ruolo;
     private JTextField surnameRegField;
     private JTextField codFisRegField;
     private JButton registratiButton;
@@ -20,8 +20,10 @@ public class RegistrationDipendente {
     private JComboBox comboBoxDay;
     private JComboBox comboBoxMonth;
     private JComboBox comboBoxYear;
-    private JLabel ruolo;
-    private JTextField ruoloFIeld;
+    private JComboBox ruoloComboBox;
+    private JCheckBox blackJackCheckBox;
+    private JCheckBox pokerCheckBox;
+    private JLabel giochiLabel;
 
     private JFrame frameChiamante;
     private DipendenteWelcomeController controller;
@@ -37,7 +39,12 @@ public class RegistrationDipendente {
         frameChiamato.pack();
         frameChiamato.setVisible(true);
 
+        controller.aggiornaUsernames();
+        inizializzaComboboxData();
 
+        giochiLabel.setVisible(false);
+        pokerCheckBox.setVisible(false);
+        blackJackCheckBox.setVisible(false);
 
         registratiButton.addActionListener(new ActionListener() {
             @Override
@@ -51,7 +58,7 @@ public class RegistrationDipendente {
                     LocalDate dataNascita = LocalDate.of(anno, mese, giorno);
                     String password = new String("P@ssw0rd!");
 
-                    String ruolo= ruoloFIeld.getText();
+                    String ruolo= (String) ruoloComboBox.getSelectedItem();
 
                     controller.registraDipendente(usernameRegField.getText(), nameRegField.getText(), surnameRegField.getText(), codFisRegField.getText(), dataNascita, password, ruolo);
                     JOptionPane.showMessageDialog(null, "Registrazione completata con successo");
@@ -71,6 +78,7 @@ public class RegistrationDipendente {
                 }
             }
         });
+
         tornaIndietroButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -78,5 +86,42 @@ public class RegistrationDipendente {
                 controller.pulisciUsernames();
             }
         });
+
+        ruoloComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if((ruoloComboBox.getSelectedItem()).equals("Dealer")){
+                    giochiLabel.setVisible(true);
+                    pokerCheckBox.setVisible(true);
+                    blackJackCheckBox.setVisible(true);
+
+                } else{
+                    giochiLabel.setVisible(false);
+                    pokerCheckBox.setVisible(false);
+                    blackJackCheckBox.setVisible(false);
+                }
+            }
+        });
+    }
+
+    private void inizializzaComboboxData() {
+
+        // Giorni
+        for (int i = 1; i <= 31; i++) {
+            comboBoxDay.addItem(i);
+        }
+
+        // Mesi
+        String[] mesi = {"Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno",
+                "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"};
+        for (String mese : mesi) {
+            comboBoxMonth.addItem(mese);
+        }
+
+        // Anni
+        for (int i = 2026; i >= 1920; i--) {
+            comboBoxYear.addItem(i);
+        }
     }
 }

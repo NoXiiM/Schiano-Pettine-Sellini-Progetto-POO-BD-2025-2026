@@ -229,6 +229,9 @@ public class DipendenteWelcomeController extends WelcomeController {
             throw new RuntimeException(e);
         }
 
+        if(ruolo.equals("Supervisore")) dipendentiInLocale.add(new Supervisore(username, nome, cognome, codiceFiscale, dataNascita, password, idTesseraDip));
+        if(ruolo.equals("Dealer")) dipendentiInLocale.add(new Dealer(username, nome, cognome, codiceFiscale, dataNascita, password, idTesseraDip));
+
         pulisciUsernames();
     }
 }

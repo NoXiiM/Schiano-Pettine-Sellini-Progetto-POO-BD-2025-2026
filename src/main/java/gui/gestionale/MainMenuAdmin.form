@@ -12,7 +12,7 @@
     <children>
       <tabbedpane id="e645" binding="tabbedPane1" default-binding="true">
         <constraints>
-          <grid row="0" column="0" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+          <grid row="0" column="0" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="1" use-parent-layout="false">
             <preferred-size width="200" height="200"/>
           </grid>
         </constraints>

@@ -21,10 +21,6 @@ public interface DAOopd {
     //OPD2 registrazione del ban
     void salvataggioBan(String idCliente,LocalDate dataBan, String motivoBan) throws SQLException;
 
-    //OPD3
-    void aggiungiDipendente(String idDipendente, String nome, String cognome, LocalDate dataDiNascita,
-                            String codiceFiscale, String username, String password, String ruolo) throws SQLException;
-
     //OPD4
     void eliminaDipendente(String idDipendente) throws SQLException;
 

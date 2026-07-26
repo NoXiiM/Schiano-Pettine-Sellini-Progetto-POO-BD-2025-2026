@@ -83,6 +83,7 @@ public class DipendenteWelcomeController extends WelcomeController {
     }
 
     public ArrayList<Dipendente> getDipendentiDB(){
+        if(dipendentiInLocale!=null) dipendentiInLocale.clear();
         ArrayList<String> idDipendenti = new ArrayList<>();
         ArrayList<String> nome = new ArrayList<>();
         ArrayList<String> cognome = new ArrayList<>();
@@ -186,7 +187,7 @@ public class DipendenteWelcomeController extends WelcomeController {
         return clientiRicercati;
     }
 
-    public ArrayList<Dipendente> ricercaDipendente(String nome, String cognome, String username, String ruolo){
+    public ArrayList<Dipendente> ricercaDipendente(String nome, String cognome, String username,boolean checkRuolo, String ruolo){
         ArrayList<Dipendente> dipendentiRicercati = new ArrayList<>();
 
         for(Dipendente dipendente : dipendentiInLocale) {
@@ -199,7 +200,7 @@ public class DipendenteWelcomeController extends WelcomeController {
             if(!username.isBlank()){
                 if (!username.equals(dipendente.getUsername())) continue;
             }
-            if(!ruolo.isBlank()){
+            if(checkRuolo){
                 if(!ruolo.equals(dipendente.getClass().getName())) continue; //Da scrivere con lettere maiuscole iniziali
             }
             dipendentiRicercati.add(dipendente);

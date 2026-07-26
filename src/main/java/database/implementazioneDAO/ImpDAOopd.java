@@ -113,7 +113,7 @@ public class ImpDAOopd implements DAOopd {
 
         try(PreparedStatement ricerca = connection.prepareStatement(
                 "SELECT idDipendente, nome, cognome, dataDiNascita, " +
-                        "codiceFiscale, username, password, ruolo, " +
+                        "codiceFiscale, username, password, ruolo " +
                         "FROM Dipendente"
         )) {
 

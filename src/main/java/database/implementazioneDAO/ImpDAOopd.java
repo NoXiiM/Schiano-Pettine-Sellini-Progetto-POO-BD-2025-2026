@@ -103,6 +103,46 @@ public class ImpDAOopd implements DAOopd {
         }
     }
 
+    public void recuperaDatiDipendenti(ArrayList<String> idDipendenti, ArrayList<String> nome, ArrayList<String> cognome,
+                                       ArrayList<LocalDate> dataDiNascita, ArrayList<String> codiceFiscale, ArrayList<String> username,
+                                       ArrayList<String> password, ArrayList<String> ruolo) throws SQLException{
+        Connection connection = ConnessioneDatabase.getInstance().connection;
+
+
+        try(PreparedStatement ricerca = connection.prepareStatement(
+                "SELECT idDipendente, nome, cognome, dataDiNascita, " +
+                        "codiceFiscale, username, password, ruolo, " +
+                        "FROM Dipendente"
+        )) {
+
+            ResultSet risultato = ricerca.executeQuery();
+
+
+            while (risultato.next()) {
+
+                idDipendenti.add(risultato.getString("idDipendente"));
+
+                nome.add(risultato.getString("nome"));
+
+                cognome.add(risultato.getString("cognome"));
+
+                dataDiNascita.add(
+                        risultato.getDate("dataDiNascita").toLocalDate()
+                );
+
+                codiceFiscale.add(risultato.getString("codiceFiscale"));
+
+                username.add(risultato.getString("username"));
+
+                password.add(risultato.getString("password"));
+
+                ruolo.add(risultato.getString("ruolo"));
+
+
+            }
+        }
+    }
+
     @Override
     public void salvataggioBan(String idCliente,LocalDate dataDiBan, String motiviBan) throws SQLException
     {

@@ -2,6 +2,9 @@ package controller.gestionale;
 
 import database.implementazioneDAO.ImpDAOopd;
 import model.gestionale.utenteEFigli.Cliente;
+import model.gestionale.utenteEFigli.Dealer;
+import model.gestionale.utenteEFigli.Dipendente;
+import model.gestionale.utenteEFigli.Supervisore;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -10,10 +13,12 @@ import java.util.ArrayList;
 public class DipendenteWelcomeController extends WelcomeController {
 
     ArrayList<Cliente> clientiInLocale;
+    ArrayList<Dipendente> dipendentiInLocale;
 
     public DipendenteWelcomeController(WelcomeController controller){
         super(controller.getCurrentUser(), controller.getUsernamesList());
-        clientiInLocale= new ArrayList<>();
+        clientiInLocale = new ArrayList<>();
+        dipendentiInLocale = new ArrayList<>();
     }
 
     //admin
@@ -68,6 +73,54 @@ public class DipendenteWelcomeController extends WelcomeController {
             clientiInLocale.add(c);
         }
         return clientiInLocale;
+    }
+
+    public ArrayList<Dipendente> getDipendentiDB(){
+        ArrayList<String> idDipendenti = new ArrayList<>();
+        ArrayList<String> nome = new ArrayList<>();
+        ArrayList<String> cognome = new ArrayList<>();
+        ArrayList<LocalDate> dataDiNascita = new ArrayList<>();
+        ArrayList<String> codiceFiscale = new ArrayList<>();
+        ArrayList<String> username = new ArrayList<>();
+        ArrayList<String> password = new ArrayList<>();
+        ArrayList<String> ruolo = new ArrayList<>();
+
+        ImpDAOopd db = new ImpDAOopd();
+        try {
+            db.recuperaDatiDipendenti(idDipendenti, nome, cognome, dataDiNascita, codiceFiscale, username, password,ruolo);
+        } catch(SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        Dealer d;
+        Supervisore s;
+
+        for(int i = 0; i < idDipendenti.size(); i++) {
+
+            if(ruolo.get(i).equals("Dealer")){
+                d = new Dealer(username.get(i),
+                        nome.get(i),
+                        cognome.get(i),
+                        codiceFiscale.get(i),
+                        dataDiNascita.get(i),
+                        password.get(i),
+                        idDipendenti.get(i));
+                dipendentiInLocale.add(d);
+            }
+            else{
+                s = new Supervisore(username.get(i),
+                        nome.get(i),
+                        cognome.get(i),
+                        codiceFiscale.get(i),
+                        dataDiNascita.get(i),
+                        password.get(i),
+                        idDipendenti.get(i));
+                dipendentiInLocale.add(s);
+            }
+
+        }
+        return dipendentiInLocale;
+
     }
 
     public ArrayList<Cliente> getClientiInLocale() {

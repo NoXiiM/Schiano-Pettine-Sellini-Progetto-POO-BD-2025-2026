@@ -4,6 +4,7 @@ import controller.mazzo.ControllerMazzo;
 import model.gestionale.Gioco;
 import model.giochi.*;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -65,12 +66,30 @@ public class ControllerBlackJack extends ControllerMazzo
     {
         for(Mano i: listaMani)
         {
-            this.serviCarta(i);
-            this.serviCarta(i);
+            try {
+                this.serviCarta(i);
+            } catch (DeckOut e) {
+                JOptionPane.showMessageDialog(null, e.getMessage(), "errore", JOptionPane.WARNING_MESSAGE);
+                this.serviCarta(i);
+            }
+            try {
+                this.serviCarta(i);
+            } catch (DeckOut e) {
+                JOptionPane.showMessageDialog(null, e.getMessage(), "errore", JOptionPane.WARNING_MESSAGE);
+                this.serviCarta(i);
+            }
         }
 
-        this.serviCarta(banco);
-        this.serviCarta(banco);
+        try {
+            this.serviCarta(banco);
+        } catch (DeckOut e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "errore", JOptionPane.WARNING_MESSAGE);
+        }
+        try {
+            this.serviCarta(banco);
+        } catch (DeckOut e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "errore", JOptionPane.WARNING_MESSAGE);
+        }
 
         return listaMani.size();
     }
@@ -166,7 +185,12 @@ public class ControllerBlackJack extends ControllerMazzo
     {
         if(getPoints(banco) < 17)
         {
-            serviCarta(banco);
+            try {
+                serviCarta(banco);
+            } catch (DeckOut e) {
+                JOptionPane.showMessageDialog(null, e.getMessage(), "errore", JOptionPane.WARNING_MESSAGE);
+                serviCarta(banco);
+            }
             return true;
         }
         else return false;
@@ -224,6 +248,19 @@ public class ControllerBlackJack extends ControllerMazzo
 
         Carta cartaTrasferita = manoCorrente.traslaCarta();
         nuovaMano.addCarta(cartaTrasferita);
+
+        try {
+            serviCarta(manoCorrente);
+        } catch (DeckOut e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "errore", JOptionPane.WARNING_MESSAGE);
+            serviCarta(manoCorrente);
+        }
+        try {
+            serviCarta(nuovaMano);
+        } catch (DeckOut e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "errore", JOptionPane.WARNING_MESSAGE);
+            serviCarta(nuovaMano);
+        }
 
         //fa inserimento con scorrimento, non sostituzione
         listaMani.add(index + 1, nuovaMano);

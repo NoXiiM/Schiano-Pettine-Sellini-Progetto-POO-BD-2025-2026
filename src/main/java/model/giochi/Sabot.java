@@ -1,5 +1,6 @@
 package model.giochi;
 
+import controller.blackjack.DeckOut;
 import model.gestionale.Gioco;
 
 import javax.swing.*;
@@ -73,8 +74,14 @@ public class Sabot
         }
     }
 
-    public Carta serviCartaDaMazzo()
+    public Carta serviCartaDaMazzo() throws DeckOut
     {
+        if(listaCarte.size() == 0)
+        {
+            inizializzaSabot();
+            mischiaMazzo();
+            throw new DeckOut("rimischiata di emergenza, sono finite le carte nel mazzo");
+        }
         Carta out = listaCarte.getLast();
         listaCarte.removeLast();
         return out;

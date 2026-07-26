@@ -18,41 +18,10 @@ public class ClientWelcomeController extends WelcomeController {
 
     private Cliente cliente;
     private Sessione sessione;
-    private ArrayList<String> usernames;
 
     public ClientWelcomeController(WelcomeController controller) {
         super(controller.getCurrentUser(), controller.getUsernamesList());
-        this.usernames = controller.getUsernamesList();
         cliente = (Cliente) getCurrentUser();
-    }
-
-    //client
-    public void registrati(String username, String nome, String cognome, String codiceFiscale,
-                           LocalDate dataNascita, String password, int importo) throws RuntimeException {
-
-        if (username.isBlank() || nome.isBlank() || cognome.isBlank() || codiceFiscale.isBlank() || password.isBlank())
-            throw new RuntimeException("Compila tutti i campi!");
-
-        if (!isEta18(dataNascita)) throw new RuntimeException("Devi avere almeno 18 anni per registrarti.");
-        if (importo < 50) throw new RuntimeException("Deposito minimo obbligatorio di 50 euro");
-
-        //check locale
-        for (String user : usernames) {
-            if (username.equals(user)){
-                throw new RuntimeException("Username non disponibile");
-            }
-        }
-
-        String codiceTessera = generaCodiceTessera(username);
-
-        try {
-            new ImpDAOop().registrazione(codiceTessera, username, nome, cognome, codiceFiscale,
-                    dataNascita, password, importo);
-        } catch (SQLException e) {
-            aggiornaUsernamesTessere();
-            throw new RuntimeException(e);
-        }
-        pulisciUsernames();
     }
 
     //client
@@ -76,11 +45,6 @@ public class ClientWelcomeController extends WelcomeController {
         int taglio = random.nextInt(0, username.length());
 
         return username.substring(0, taglio) + numero + username.substring(taglio);
-    }
-
-    //client
-    private boolean isEta18(LocalDate dataNascita) {
-        return Period.between(dataNascita, LocalDate.now()).getYears() >= 18;
     }
 
     public boolean changeUsername(String newUser, String pass1, String pass2) throws RuntimeException, SQLException{
@@ -137,25 +101,10 @@ public class ClientWelcomeController extends WelcomeController {
         }
     }
 
-    public void pulisciUsernames() {
-        usernames.clear();
-    }
-
     public boolean isBanned() {
 
         //TODO fetch status isbanned pre partita da parte di client ( non urgente )
         return cliente.getBan() != null;
-    }
-
-    public void aggiornaUsernamesTessere() {
-
-        ImpDAOop db = new ImpDAOop();
-
-        try {
-            db.usernameUtenti(usernames);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public void creaNuovaSessioneDiGioco(Tavolo tavoloSelezionato)

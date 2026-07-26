@@ -368,6 +368,13 @@ public class MainMenuAdmin {
                 }
             }
         });
+
+        aggiungiDipendenti.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new RegistrationDipendente(thisFrame, controller);
+            }
+        });
     }
 
     private void inizializzaMenuAdmin(){
@@ -443,9 +450,6 @@ public class MainMenuAdmin {
         }
     }
 
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-    }
     private void stampaClienteInfoField(Cliente temp){
         infoField.setText("Username: " + temp.getUsername() +
                 "\n\nInformazioni anagrafiche" +

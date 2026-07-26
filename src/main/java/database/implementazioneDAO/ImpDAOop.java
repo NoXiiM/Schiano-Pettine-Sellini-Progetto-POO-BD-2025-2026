@@ -109,6 +109,25 @@ public class ImpDAOop implements DAOop {
     }
 
     @Override
+    public void registrazione(String id, String username, String nome, String cognome, String codiceFiscale,
+                              LocalDate dataDiNascita, String password, String ruolo) throws SQLException {
+        Connection connection = ConnessioneDatabase.getInstance().connection;
+        try (PreparedStatement inserimento = connection.prepareStatement("insert into dipendente" +
+                "(username, nome, cognome, codiceFiscale, dataDiNascita, password, saldo, ruolo) " +
+                "VALUES(?,?,?,?,?,?,?,?)")) {
+            inserimento.setString(1, username);
+            inserimento.setString(2, nome);
+            inserimento.setString(3, cognome);
+            inserimento.setString(4, codiceFiscale);
+            inserimento.setDate(5, java.sql.Date.valueOf(dataDiNascita));
+            inserimento.setString(6, password);
+            inserimento.setString(7, password);
+
+            inserimento.executeUpdate();
+        }
+    }
+
+    @Override
     public String trovaTabella(String username, String password) throws SQLException {
         Connection connection = ConnessioneDatabase.getInstance().connection;
 

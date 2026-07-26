@@ -108,9 +108,15 @@ public class ClientWelcomeController extends WelcomeController {
 
     //solo client, un admin non puo cancellare il profilo, un superadmin puo cancellare altri profili
     public boolean deleteUser(String username, String pass, String conferma) throws RuntimeException {
+
         if (username.isBlank() || pass.isBlank() || conferma.isBlank())
             throw new RuntimeException("Compila tutti i campi!");
 
+
+        //TODO funzione deleteCliente
+        ImpDAOop db= new ImpDAOop();
+
+        setCurrentUserNull();
         return false;
     }
 

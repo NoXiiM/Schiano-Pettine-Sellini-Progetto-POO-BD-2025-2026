@@ -1,5 +1,6 @@
 package controller.mazzo;
 
+import controller.blackjack.DeckOut;
 import model.gestionale.Gioco;
 import model.giochi.*;
 
@@ -42,7 +43,7 @@ public abstract class ControllerMazzo
         listaMani.add(nuova);
     }
 
-    public void serviCarta(Mano ricevitore)
+    public void serviCarta(Mano ricevitore) throws DeckOut
     {
         ricevitore.riceviCarta(mazzo.serviCartaDaMazzo());
     }

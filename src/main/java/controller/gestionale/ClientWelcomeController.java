@@ -27,8 +27,8 @@ public class ClientWelcomeController extends WelcomeController {
     }
 
     //client
-    public void registrati(String username, String nome, String cognome, String codiceFiscale,
-                           LocalDate dataNascita, String password, int importo) throws RuntimeException {
+    public void registrazioneCliente(String username, String nome, String cognome, String codiceFiscale,
+                                     LocalDate dataNascita, String password, int importo) throws RuntimeException {
 
         if (username.isBlank() || nome.isBlank() || cognome.isBlank() || codiceFiscale.isBlank() || password.isBlank())
             throw new RuntimeException("Compila tutti i campi!");
@@ -46,12 +46,13 @@ public class ClientWelcomeController extends WelcomeController {
         String codiceTessera = generaCodiceTessera(username);
 
         try {
-            new ImpDAOop().registrazione(codiceTessera, username, nome, cognome, codiceFiscale,
+            new ImpDAOop().registrazioneCliente(codiceTessera, username, nome, cognome, codiceFiscale,
                     dataNascita, password, importo);
         } catch (SQLException e) {
-            aggiornaUsernamesTessere();
+            aggiornaUsernames();
             throw new RuntimeException(e);
         }
+
         pulisciUsernames();
     }
 
@@ -66,16 +67,6 @@ public class ClientWelcomeController extends WelcomeController {
             return false;
         }
         return true;
-    }
-
-    //client
-    private String generaCodiceTessera(String username)
-    {
-        Random random = new Random();
-        String numero = String.format("%03d", random.nextInt(0, 1000));
-        int taglio = random.nextInt(0, username.length());
-
-        return username.substring(0, taglio) + numero + username.substring(taglio);
     }
 
     //client
@@ -137,25 +128,10 @@ public class ClientWelcomeController extends WelcomeController {
         }
     }
 
-    public void pulisciUsernames() {
-        usernames.clear();
-    }
-
     public boolean isBanned() {
 
         //TODO fetch status isbanned pre partita da parte di client ( non urgente )
         return cliente.getBan() != null;
-    }
-
-    public void aggiornaUsernamesTessere() {
-
-        ImpDAOop db = new ImpDAOop();
-
-        try {
-            db.usernameUtenti(usernames);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public void creaNuovaSessioneDiGioco(Tavolo tavoloSelezionato)
@@ -222,12 +198,5 @@ public class ClientWelcomeController extends WelcomeController {
         return sessione.getDurataSessione();
     }
 
-    public String stringaPercentuale(){
-        return sessione.stringaPercentuale();
-    }
-
-    public Cliente getClienteCorrente(){
-        return cliente;
-    }
 }
 

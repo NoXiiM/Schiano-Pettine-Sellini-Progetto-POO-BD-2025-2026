@@ -1,5 +1,6 @@
 package controller.gestionale;
 
+import database.implementazioneDAO.ImpDAOop;
 import database.implementazioneDAO.ImpDAOopd;
 import model.gestionale.utenteEFigli.Cliente;
 import model.gestionale.utenteEFigli.Dealer;
@@ -12,11 +13,17 @@ import java.util.ArrayList;
 
 public class DipendenteWelcomeController extends WelcomeController {
 
+    Dipendente dipendenteCorrente;
     ArrayList<Cliente> clientiInLocale;
     ArrayList<Dipendente> dipendentiInLocale;
+    ArrayList<String> usernames;
 
     public DipendenteWelcomeController(WelcomeController controller){
         super(controller.getCurrentUser(), controller.getUsernamesList());
+        this.usernames= controller.getUsernamesList();
+
+        dipendenteCorrente= (Dipendente) getCurrentUser();
+
         clientiInLocale = new ArrayList<>();
         dipendentiInLocale = new ArrayList<>();
     }
@@ -197,8 +204,31 @@ public class DipendenteWelcomeController extends WelcomeController {
             }
             dipendentiRicercati.add(dipendente);
         }
-
         return dipendentiRicercati;
+    }
 
+    public void registraDipendente(String username, String nome, String cognome, String codiceFiscale, LocalDate dataNascita, String password, String ruolo){
+
+        if (username.isBlank() || nome.isBlank() || cognome.isBlank() || codiceFiscale.isBlank() || password.isBlank() || ruolo.isBlank())
+            throw new RuntimeException("Compila tutti i campi!");
+
+        //check locale
+        for (String user : usernames) {
+            if (username.equals(user)){
+                throw new RuntimeException("Username non disponibile");
+            }
+        }
+
+        String idTesseraDip= generaCodiceTessera(username);
+
+        try {
+            new ImpDAOop().registrazioneDipendente(idTesseraDip, username, nome, cognome, codiceFiscale,
+                    dataNascita, password, ruolo);
+        } catch (SQLException e) {
+            aggiornaUsernames();
+            throw new RuntimeException(e);
+        }
+
+        pulisciUsernames();
     }
 }

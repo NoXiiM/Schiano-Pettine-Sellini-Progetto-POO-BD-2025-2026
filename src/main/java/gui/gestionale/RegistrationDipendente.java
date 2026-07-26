@@ -37,6 +37,8 @@ public class RegistrationDipendente {
         frameChiamato.pack();
         frameChiamato.setVisible(true);
 
+
+
         registratiButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -49,7 +51,9 @@ public class RegistrationDipendente {
                     LocalDate dataNascita = LocalDate.of(anno, mese, giorno);
                     String password = new String("P@ssw0rd!");
 
-                    controller.registrazione(usernameRegField.getText(), nameRegField.getText(), surnameRegField.getText(), codFisRegField.getText(), dataNascita, password, 0, "dipendente");
+                    String ruolo= ruoloFIeld.getText();
+
+                    controller.registraDipendente(usernameRegField.getText(), nameRegField.getText(), surnameRegField.getText(), codFisRegField.getText(), dataNascita, password, ruolo);
                     JOptionPane.showMessageDialog(null, "Registrazione completata con successo");
 
                     frameChiamato.setVisible(false);
@@ -65,6 +69,13 @@ public class RegistrationDipendente {
                 } catch (RuntimeException e2) {
                     JOptionPane.showMessageDialog(null, e2.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                 }
+            }
+        });
+        tornaIndietroButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frameChiamato.dispose();
+                controller.pulisciUsernames();
             }
         });
     }

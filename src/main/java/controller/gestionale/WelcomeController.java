@@ -4,6 +4,7 @@ import model.gestionale.utenteEFigli.*;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Random;
 
 import database.implementazioneDAO.*;
 
@@ -112,5 +113,34 @@ public class WelcomeController {
 
     public ArrayList<String> getUsernamesList() {
         return usernames;
+    }
+
+    public void aggiornaUsernames() {
+
+        ImpDAOop db = new ImpDAOop();
+
+        try {
+            db.usernameUtenti(usernames);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void pulisciUsernames() {
+        usernames.clear();
+    }
+
+    public String generaCodiceTessera(String username)
+    {
+        Random random = new Random();
+        String numero = String.format("%03d", random.nextInt(0, 1000));
+        int taglio = random.nextInt(0, username.length());
+
+        String prefissoDipendente= "";
+
+        if(currentUser instanceof Dealer) prefissoDipendente= "DE";
+        if(currentUser instanceof Supervisore) prefissoDipendente= "SU";
+
+        return prefissoDipendente + username.substring(0, taglio) + numero + username.substring(taglio);
     }
 }

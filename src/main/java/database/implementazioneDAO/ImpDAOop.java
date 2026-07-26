@@ -89,13 +89,13 @@ public class ImpDAOop implements DAOop {
     }
 
     @Override
-    public void registrazione(String id, String username, String nome, String cognome, String codiceFiscale,
-                              LocalDate dataDiNascita, String password, int saldoIniziale) throws SQLException {
+    public void registrazioneCliente(String idTessera, String username, String nome, String cognome, String codiceFiscale,
+                                     LocalDate dataDiNascita, String password, int saldoIniziale) throws SQLException {
         Connection connection = ConnessioneDatabase.getInstance().connection;
         try (PreparedStatement inserimento = connection.prepareStatement("insert into cliente" +
                 "(idCliente, username, nome, cognome, codiceFiscale, dataDiNascita, password, saldo) " +
                 "VALUES(?,?,?,?,?,?,?,?)")) {
-            inserimento.setString(1, id);
+            inserimento.setString(1, idTessera);
             inserimento.setString(2, username);
             inserimento.setString(3, nome);
             inserimento.setString(4, cognome);
@@ -109,11 +109,11 @@ public class ImpDAOop implements DAOop {
     }
 
     @Override
-    public void registrazione(String id, String username, String nome, String cognome, String codiceFiscale,
+    public void registrazioneDipendente(String idTessera, String username, String nome, String cognome, String codiceFiscale,
                               LocalDate dataDiNascita, String password, String ruolo) throws SQLException {
         Connection connection = ConnessioneDatabase.getInstance().connection;
         try (PreparedStatement inserimento = connection.prepareStatement("insert into dipendente" +
-                "(username, nome, cognome, codiceFiscale, dataDiNascita, password, saldo, ruolo) " +
+                "(username, nome, cognome, codiceFiscale, dataDiNascita, password, saldo, ruolo, idDipendente) " +
                 "VALUES(?,?,?,?,?,?,?,?)")) {
             inserimento.setString(1, username);
             inserimento.setString(2, nome);
@@ -121,7 +121,8 @@ public class ImpDAOop implements DAOop {
             inserimento.setString(4, codiceFiscale);
             inserimento.setDate(5, java.sql.Date.valueOf(dataDiNascita));
             inserimento.setString(6, password);
-            inserimento.setString(7, password);
+            inserimento.setString(7, ruolo);
+            inserimento.setString(8, idTessera);
 
             inserimento.executeUpdate();
         }

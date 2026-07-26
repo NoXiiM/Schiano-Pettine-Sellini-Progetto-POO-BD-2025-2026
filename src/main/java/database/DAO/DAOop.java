@@ -12,10 +12,10 @@ public interface DAOop
 
     //OP2
     //se username e codicefiscale sono nuovi ritorna true sennò false
-    void registrazione(String id, String username, String nome, String cognome, String codiceFiscale, LocalDate data,
+    void registrazioneCliente(String idTessera, String username, String nome, String cognome, String codiceFiscale, LocalDate data,
                        String password, int saldo) throws SQLException;
 
-    public void registrazione(String id, String username, String nome, String cognome, String codiceFiscale,
+    public void registrazioneDipendente(String idTessera, String username, String nome, String cognome, String codiceFiscale,
                               LocalDate dataDiNascita, String password, String ruolo) throws SQLException;
 
     //OP3

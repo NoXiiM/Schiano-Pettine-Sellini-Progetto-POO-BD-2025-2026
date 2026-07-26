@@ -14,8 +14,6 @@ public class DipendenteWelcomeController extends WelcomeController {
     public DipendenteWelcomeController(WelcomeController controller){
         super(controller.getCurrentUser(), controller.getUsernamesList());
         clientiInLocale= new ArrayList<>();
-        //importantissimo
-        controller.setCurrentUserNull();
     }
 
     //admin

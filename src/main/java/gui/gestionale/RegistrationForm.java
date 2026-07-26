@@ -39,7 +39,7 @@ public class RegistrationForm {
         frameChiamante.setVisible(false);
 
         inizializzaComboboxData();
-        controller.aggiornaUsernames();
+        controller.aggiornaUsernamesTessere();
 
         registratiButton.addActionListener(new ActionListener() {
             @Override
@@ -55,7 +55,7 @@ public class RegistrationForm {
 
                     int deposito = Integer.parseInt(depositoObblField.getText());
 
-                    controller.registrazione(usernameRegField.getText(), nameRegField.getText(), surnameRegField.getText(), codFisRegField.getText(), dataNascita, password, deposito, "cliente");
+                    controller.registrati(usernameRegField.getText(), nameRegField.getText(), surnameRegField.getText(), codFisRegField.getText(), dataNascita, password, deposito);
                     JOptionPane.showMessageDialog(null, "Registrazione completata con successo");
 
                     frameChiamato.setVisible(false);

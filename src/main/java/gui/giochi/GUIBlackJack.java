@@ -315,7 +315,12 @@ public class GUIBlackJack {
                 raddoppiaButton.setVisible(false);
                 dividiButton.setVisible(false);
 
-                controller.serviCarta(controller.getMano(currentHand));
+                try {
+                    controller.serviCarta(controller.getMano(currentHand));
+                } catch (DeckOut ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "errore", JOptionPane.WARNING_MESSAGE);
+                    controller.serviCarta(controller.getMano(currentHand));
+                }
                 manoGiocatorePanel.removeAll();
                 paintCardsPlayer();
                 refreshPanel(manoGiocatorePanel);
@@ -340,7 +345,12 @@ public class GUIBlackJack {
                 saldo.setText("saldo: " + sessioneCorrente.getSaldoGiocatore());
                 manoCorrente.raddoppio();
 
-                controller.serviCarta(manoCorrente);
+                try {
+                    controller.serviCarta(manoCorrente);
+                } catch (DeckOut ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "errore", JOptionPane.WARNING_MESSAGE);
+                    controller.serviCarta(manoCorrente);
+                }
                 manoGiocatorePanel.removeAll();
                 paintCardsPlayer();
                 refreshPanel(manoGiocatorePanel);
@@ -351,7 +361,7 @@ public class GUIBlackJack {
                 }
             }
         });
-        //TODO: sistema questa funzionalità, subito dopo split devi ricevere seconda carta in entrambe le mani
+
         dividiButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -474,7 +484,6 @@ public class GUIBlackJack {
 
                 if(controller.controlloCuttingCard())
                 {
-                    //TODO: controlla che matematicamente sia impossibile fare index out of bound con anche solo un mazzo
                     controller.reinizializzaMazzo();
                     JOptionPane.showMessageDialog(null,
                             "cut card raggiunta, il mazzo è stato rimischiato");

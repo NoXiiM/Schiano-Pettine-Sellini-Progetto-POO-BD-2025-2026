@@ -60,37 +60,29 @@ public class impDAOopd implements DAOopd {
                         risultato.getString("idCliente")
                 );
 
-
-
                 premium.add(
                         risultato.getString("tipo").equals("Premium")
                 );
-
 
                 sconto_premium.add(
                         risultato.getDouble("scontoPokerPercentuale")
                 );
 
-
                 sospetto.add(
                         risultato.getBoolean("sospetto")
                 );
-
 
                 tempoDiGiocoInSec.add(
                         risultato.getLong("tempoDiGioco")
                 );
 
-
                 fichesGiocate.add(
                         risultato.getInt("fichesGiocate")
                 );
 
-
                 saldo.add(
                         risultato.getInt("saldo")
                 );
-
 
                 partiteGiocate.add(
                         risultato.getInt("partiteGiocate")

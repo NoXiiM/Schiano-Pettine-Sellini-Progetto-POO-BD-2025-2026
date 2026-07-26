@@ -142,6 +142,7 @@ public class MainMenuAdmin {
                 );
 
                 if (risposta == JOptionPane.YES_OPTION) {
+                    controller.setCurrentUserNull();
                     thisFrame.setVisible(false);
                     frameChiamante.setVisible(true);
                     thisFrame.dispose();

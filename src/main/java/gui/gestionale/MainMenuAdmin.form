@@ -21,10 +21,10 @@
         </properties>
         <border type="none"/>
         <children>
-          <grid id="476f9" layout-manager="GridLayoutManager" row-count="4" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="476f9" binding="gestioneClienti" layout-manager="GridLayoutManager" row-count="4" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <tabbedpane title="Gestione Utenti"/>
+              <tabbedpane title="Gestione Clienti"/>
             </constraints>
             <properties>
               <background color="-15923680"/>
@@ -388,14 +388,215 @@
               </component>
             </children>
           </grid>
-          <grid id="ca9d6" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="ca9d6" binding="gestioneDipendenti" layout-manager="GridLayoutManager" row-count="3" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <tabbedpane title="Gestione Admin"/>
+              <tabbedpane title="Gestione Dipendenti"/>
             </constraints>
             <properties>
               <background color="-15923680"/>
             </properties>
+            <border type="none"/>
+            <children>
+              <grid id="fb8e5" layout-manager="GridLayoutManager" row-count="4" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="0" column="2" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-15923680"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="e4425" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <font style="1"/>
+                      <foreground color="-10496"/>
+                      <text value="Nome"/>
+                      <verticalAlignment value="1"/>
+                      <verticalTextPosition value="1"/>
+                    </properties>
+                  </component>
+                  <component id="db324" class="javax.swing.JTextField">
+                    <constraints>
+                      <grid row="0" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <background color="-659232"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <component id="e4440" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <font style="1"/>
+                      <foreground color="-10496"/>
+                      <text value="Cognome"/>
+                    </properties>
+                  </component>
+                  <component id="2f493" class="javax.swing.JTextField">
+                    <constraints>
+                      <grid row="1" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <background color="-659232"/>
+                    </properties>
+                  </component>
+                  <component id="294f7" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <font style="1"/>
+                      <foreground color="-10496"/>
+                      <text value="Username"/>
+                    </properties>
+                  </component>
+                  <component id="e646e" class="javax.swing.JTextField">
+                    <constraints>
+                      <grid row="2" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <background color="-659232"/>
+                    </properties>
+                  </component>
+                  <component id="35a2d" class="javax.swing.JRadioButton" binding="radioButton1" default-binding="true">
+                    <constraints>
+                      <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="RadioButton"/>
+                    </properties>
+                  </component>
+                  <component id="1e44a" class="javax.swing.JRadioButton" binding="radioButton2" default-binding="true">
+                    <constraints>
+                      <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="RadioButton"/>
+                    </properties>
+                  </component>
+                  <component id="32743" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <font style="1"/>
+                      <foreground color="-10496"/>
+                      <text value="Ruolo"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <scrollpane id="6f33c">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="b970e" class="javax.swing.JList" binding="listaDipendenti">
+                    <constraints/>
+                    <properties>
+                      <background color="-15923680"/>
+                      <font style="1"/>
+                      <foreground color="-10496"/>
+                      <model/>
+                    </properties>
+                  </component>
+                </children>
+              </scrollpane>
+              <scrollpane id="a27ef">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="d534a" class="javax.swing.JTextArea" binding="textAreaInfoDipendenti">
+                    <constraints/>
+                    <properties>
+                      <background color="-15923680"/>
+                      <font style="1"/>
+                      <foreground color="-10496"/>
+                    </properties>
+                  </component>
+                </children>
+              </scrollpane>
+              <component id="24782" class="javax.swing.JButton" binding="aggiornaDipendenti">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-12772720"/>
+                  <font style="1"/>
+                  <foreground color="-10496"/>
+                  <text value="Aggiorna"/>
+                </properties>
+              </component>
+              <component id="bbe39" class="javax.swing.JButton" binding="logoutDipendenti">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-12772720"/>
+                  <font style="1"/>
+                  <foreground color="-10496"/>
+                  <text value="Logout"/>
+                </properties>
+              </component>
+              <component id="3551f" class="javax.swing.JButton" binding="licenziaDipendenti">
+                <constraints>
+                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-12772720"/>
+                  <font style="1"/>
+                  <foreground color="-10496"/>
+                  <text value="Licenzia"/>
+                </properties>
+              </component>
+              <component id="26035" class="javax.swing.JButton" binding="cercaDipendenti">
+                <constraints>
+                  <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-12772720"/>
+                  <font style="1"/>
+                  <foreground color="-10496"/>
+                  <text value="Cerca"/>
+                </properties>
+              </component>
+              <component id="234a1" class="javax.swing.JButton" binding="aggiungiDipendenti">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-12772720"/>
+                  <font style="1"/>
+                  <foreground color="-10496"/>
+                  <text value="Aggiungi"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="59289" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="Gestione Tavoli"/>
+            </constraints>
+            <properties/>
             <border type="none"/>
             <children/>
           </grid>

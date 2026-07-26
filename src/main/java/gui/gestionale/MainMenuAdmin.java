@@ -2,8 +2,7 @@ package gui.gestionale;
 
 import controller.gestionale.DipendenteWelcomeController;
 import controller.gestionale.WelcomeController;
-import database.implementazioneDAO.impDAOop;
-import database.implementazioneDAO.impDAOopd;
+import database.implementazioneDAO.ImpDAOopd;
 import model.gestionale.utenteEFigli.Cliente;
 
 import javax.swing.*;
@@ -50,6 +49,17 @@ public class MainMenuAdmin {
     private JCheckBox controllaPercentualeCheckBox;
     private JCheckBox controllaPartiteCheckBox;
     private JButton aggiornaButton;
+    private JPanel gestioneClienti;
+    private JPanel gestioneDipendenti;
+    private JRadioButton radioButton1;
+    private JRadioButton radioButton2;
+    private JButton aggiornaDipendenti;
+    private JButton logoutDipendenti;
+    private JButton licenziaDipendenti;
+    private JButton cercaDipendenti;
+    private JButton aggiungiDipendenti;
+    private JList listaDipendenti;
+    private JTextArea textAreaInfoDipendenti;
 
     JFrame thisFrame;
     JFrame frameChiamante;
@@ -97,7 +107,7 @@ public class MainMenuAdmin {
                                 "\nBan: " + (temp.getMotivoBan() != null ? temp.getMotivoBan() : "Nessuno")
                         );
 
-                        impDAOopd db = new impDAOopd();
+                        ImpDAOopd db = new ImpDAOopd();
 
                         try {
                             db.salvataggioBan(temp.getCodiceTesseraGiocatore(), temp.getDataBan(), temp.getMotivoBan());

@@ -1,13 +1,12 @@
 package controller.gestionale;
 
-import database.implementazioneDAO.impDAOopc;
+import database.implementazioneDAO.ImpDAOopc;
 import model.gestionale.Giocatore;
 import model.gestionale.Sessione;
 import model.gestionale.Tavolo;
 import model.gestionale.utenteEFigli.Cliente;
-import database.implementazioneDAO.impDAOop;
+import database.implementazioneDAO.ImpDAOop;
 
-import javax.swing.*;
 import java.sql.SQLException;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -47,7 +46,7 @@ public class ClientWelcomeController extends WelcomeController {
         String codiceTessera = generaCodiceTessera(username);
 
         try {
-            new impDAOop().registrazione(codiceTessera, username, nome, cognome, codiceFiscale,
+            new ImpDAOop().registrazione(codiceTessera, username, nome, cognome, codiceFiscale,
                     dataNascita, password, importo);
         } catch (SQLException e) {
             aggiornaUsernamesTessere();
@@ -87,12 +86,12 @@ public class ClientWelcomeController extends WelcomeController {
     public boolean changeUsername(String newUser, String pass1, String pass2) throws RuntimeException, SQLException{
         if(newUser.isBlank() || pass1.isBlank() || pass2.isBlank()) throw new RuntimeException("Compila tutti i campi!");
 
-        impDAOop db_fetch_user= new impDAOop();
+        ImpDAOop db_fetch_user= new ImpDAOop();
 
         if(!pass1.equals(pass2)) throw new RuntimeException("Le 2 password non coincidono");
         if(db_fetch_user.trovaTabella(cliente.getUsername(), pass1) == null) throw new RuntimeException("password errata");
 
-        impDAOopc db= new impDAOopc();
+        ImpDAOopc db= new ImpDAOopc();
 
         db_fetch_user.usernameUtenti(usernames);
 
@@ -121,7 +120,7 @@ public class ClientWelcomeController extends WelcomeController {
         if (username.isBlank() || nome.isBlank() || cognome.isBlank())
             throw new RuntimeException("Compila tutti i campi!");
 
-        impDAOop db = new impDAOop();
+        ImpDAOop db = new ImpDAOop();
 
         if(! db.passwordDimenticata(nome, cognome, username)){
             throw new RuntimeException("Credenziali errate");
@@ -140,7 +139,7 @@ public class ClientWelcomeController extends WelcomeController {
 
     public void aggiornaUsernamesTessere() {
 
-        impDAOop db = new impDAOop();
+        ImpDAOop db = new ImpDAOop();
 
         try {
             db.usernameUtenti(usernames);
@@ -175,7 +174,7 @@ public class ClientWelcomeController extends WelcomeController {
 
     //salvataggio dati sia al logout che a fine sessione
     public void salvaDatiClienteUscitaDaGIoco() throws SQLException{
-        impDAOopc db= new impDAOopc();
+        ImpDAOopc db= new ImpDAOopc();
 
         db.salvaSessione(cliente.getCodiceTesseraGiocatore(), sessione.getTavolo().getIdTavolo(),
                 sessione.getDurataSessione(), sessione.getVincitaPercentuale(), sessione.getPartiteSvolte());
@@ -188,7 +187,7 @@ public class ClientWelcomeController extends WelcomeController {
     }
 
     public void salvaDatiClienteUscitaDaGestione() throws SQLException{
-        impDAOopc db= new impDAOopc();
+        ImpDAOopc db= new ImpDAOopc();
 
         String tipologiaCliente= (cliente.isPremium()) ? "Premium" : "Base";
 

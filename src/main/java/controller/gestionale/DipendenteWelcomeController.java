@@ -1,6 +1,6 @@
 package controller.gestionale;
 
-import database.implementazioneDAO.impDAOopd;
+import database.implementazioneDAO.ImpDAOopd;
 import model.gestionale.utenteEFigli.Cliente;
 
 import java.sql.SQLException;
@@ -37,7 +37,7 @@ public class DipendenteWelcomeController extends WelcomeController {
         ArrayList<LocalDate> dataBan = new ArrayList<>();
         ArrayList<String> motiviBan = new ArrayList<>();
 
-        impDAOopd db = new impDAOopd();
+        ImpDAOopd db = new ImpDAOopd();
         try {
             db.recuperaDatiClienti(username, nome, cognome, codiceFiscale, dataDiNascita, password,
                     codiceTesseraGiocatore,premium,sconto_premium,sospetto,tempoDiGiocoInSec,fichesGiocate,saldo,partiteGiocate,dataBan,motiviBan);

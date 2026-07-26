@@ -7,7 +7,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class impDAOop implements DAOop {
+public class ImpDAOop implements DAOop {
     @Override
     public boolean passwordDimenticata(String nome, String cognome, String username) throws SQLException {
         Connection connection = ConnessioneDatabase.getInstance().connection;

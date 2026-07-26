@@ -46,7 +46,7 @@ CREATE TABLE Gioco (
 
 --Crea GiochiDealer
 CREATE TABLE GiochiDealer (
-    idDealer VARCHAR(5) NOT NULL,
+    idDealer VARCHAR(20) NOT NULL,
     idGioco VARCHAR(11) NOT NULL check(idGioco in('Poker', 'SlotMachine', 'Blackjack')),
     PRIMARY KEY (idDealer, idGioco),
     FOREIGN KEY (idDealer) REFERENCES Dipendente(IdDipendente) ON DELETE CASCADE,
@@ -58,7 +58,7 @@ CREATE TABLE Tavolo (
     numero INT PRIMARY KEY,
     gioco VARCHAR(11) NOT NULL,
     numeroPosti INT NOT NULL,
-    idDealer VARCHAR(5) UNIQUE,
+    idDealer VARCHAR(20) UNIQUE,
     FOREIGN KEY (idDealer) REFERENCES Dipendente(IdDipendente) ON DELETE CASCADE,
     CHECK ((gioco = 'SlotMachine' AND idDealer IS NULL) OR (gioco IN ('Poker', 'Blackjack') AND idDealer IS NOT NULL)),
 	FOREIGN KEY (gioco) REFERENCES Gioco(nomeGioco)

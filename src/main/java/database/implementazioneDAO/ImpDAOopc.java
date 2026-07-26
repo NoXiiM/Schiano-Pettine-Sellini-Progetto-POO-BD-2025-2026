@@ -5,9 +5,8 @@ import database.DAO.DAOopc;
 
 import java.sql.*;
 import java.time.Duration;
-import java.time.LocalDate;
 
-public class impDAOopc implements DAOopc
+public class ImpDAOopc implements DAOopc
 {
     @Override
     public void salvaSessione(String idCliente, int idTavolo, Duration durata, double vincitaPercentuale,

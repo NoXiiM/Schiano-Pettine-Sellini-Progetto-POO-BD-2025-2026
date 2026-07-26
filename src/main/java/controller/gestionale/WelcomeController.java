@@ -25,7 +25,7 @@ public class WelcomeController {
     public void login(String username, String password) throws RuntimeException, SQLException{
         if(username.isBlank() || password.isBlank()) throw new RuntimeException("Compila tutti i campi!");
 
-        impDAOop db= new impDAOop();
+        ImpDAOop db= new ImpDAOop();
         String tipo;
 
         tipo= db.trovaTabella(username, password);
@@ -81,8 +81,8 @@ public class WelcomeController {
 
         if(!newPass1.equals(newPass2)) throw new RuntimeException("Le password non coincidono");
 
-        impDAOopc db1 = new impDAOopc();
-        impDAOop db2 = new impDAOop();
+        ImpDAOopc db1 = new ImpDAOopc();
+        ImpDAOop db2 = new ImpDAOop();
 
         if(currentUser.getPassword().equals(oldPass) && (db2.trovaTabella(currentUser.getUsername(), oldPass) != null)) {
             currentUser.setPassword(newPass1);

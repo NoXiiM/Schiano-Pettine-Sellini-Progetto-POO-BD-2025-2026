@@ -32,11 +32,11 @@ public class TabbedMenuPlayer {
     private JButton SlotMachine;
     private JFrame thisFrame;
 
-    private JFrame frameChiamante;
+    private JFrame frameLogin;
     private ClientWelcomeController controller;
 
     public TabbedMenuPlayer(ClientWelcomeController controller, JFrame mainframe) {
-        this.frameChiamante = mainframe;
+        this.frameLogin = mainframe;
         this.controller= controller;
 
         thisFrame = new JFrame("TabbedMenuPlayer");
@@ -45,7 +45,7 @@ public class TabbedMenuPlayer {
         thisFrame.pack();
         thisFrame.setVisible(true);
 
-        frameChiamante.setVisible(false);
+        frameLogin.setVisible(false);
         aggiornaUsername();
         aggiornaSaldo();
 
@@ -149,15 +149,15 @@ public class TabbedMenuPlayer {
             }
         });
 
-
         cancellaAccountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                CancellaAccount del_account= new CancellaAccount(controller, thisFrame, frameChiamante);
+                CancellaAccount del_account= new CancellaAccount(controller, thisFrame, frameLogin);
 
             }
         });
+
         //collegamento
         blackJack.addActionListener(new ActionListener() {
             @Override
@@ -203,7 +203,7 @@ public class TabbedMenuPlayer {
 
             controller.setCurrentUserNull();
             frameChiamato.setVisible(false);
-            frameChiamante.setVisible(true);
+            frameLogin.setVisible(true);
             frameChiamato.dispose();
         }
     }
@@ -213,8 +213,7 @@ public class TabbedMenuPlayer {
         userFieldSaldoPanel.setText(controller.getUserUtente() + "\t");
     }
 
-    public void aggiornaSaldo()
-    {
+    public void aggiornaSaldo() {
         saldoInGameText.setText("Saldo disponibile: " + controller.getSaldoCliente());
         saldoInSaldoText.setText("Saldo disponibile: " + controller.getSaldoCliente());
     }

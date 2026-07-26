@@ -15,6 +15,9 @@ public interface DAOop
     void registrazione(String id, String username, String nome, String cognome, String codiceFiscale, LocalDate data,
                        String password, int saldo) throws SQLException;
 
+    public void registrazione(String id, String username, String nome, String cognome, String codiceFiscale,
+                              LocalDate dataDiNascita, String password, String ruolo) throws SQLException;
+
     //OP3
     //restituisce Cliente o Dipendente o null,
     String trovaTabella(String username, String password) throws SQLException;
@@ -31,5 +34,6 @@ public interface DAOop
 
     //operazione batch su username
     void usernameUtenti(ArrayList<String> usernames) throws SQLException;
+
 
 }

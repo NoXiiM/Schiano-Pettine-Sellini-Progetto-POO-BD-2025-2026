@@ -368,6 +368,13 @@ public class MainMenuAdmin {
                 }
             }
         });
+
+        aggiungiDipendenti.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new RegistrationDipendente(thisFrame, controller);
+            }
+        });
     }
 
     private void inizializzaMenuAdmin(){

@@ -125,4 +125,5 @@ public class DipendenteWelcomeController extends WelcomeController {
         }
         return clientiRicercati;
     }
+
 }

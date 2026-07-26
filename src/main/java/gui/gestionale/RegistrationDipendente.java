@@ -1,6 +1,7 @@
 package gui.gestionale;
 
 import controller.gestionale.ClientWelcomeController;
+import controller.gestionale.DipendenteWelcomeController;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -8,38 +9,33 @@ import java.awt.event.ActionListener;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 
-public class RegistrationForm {
+public class RegistrationDipendente {
     private JPanel registrationPanel;
     private JTextField usernameRegField;
     private JTextField nameRegField;
     private JTextField surnameRegField;
     private JTextField codFisRegField;
-    private JPasswordField passRegField;
     private JButton registratiButton;
-    private JButton tornaAlLoginRegButton;
+    private JButton tornaIndietroButton;
     private JComboBox comboBoxDay;
     private JComboBox comboBoxMonth;
     private JComboBox comboBoxYear;
-    private JTextField depositoObblField;
-    private JLabel depositoObbligatorio;
+    private JLabel ruolo;
+    private JTextField ruoloFIeld;
 
     private JFrame frameChiamante;
-    private ClientWelcomeController controller;
+    private DipendenteWelcomeController controller;
 
-    public RegistrationForm(ClientWelcomeController controller, JFrame mainframe) {
+    public RegistrationDipendente(JFrame frameChiamante, DipendenteWelcomeController controller) {
+
+        this.frameChiamante= frameChiamante;
         this.controller= controller;
-        this.frameChiamante= mainframe;
 
-        JFrame frameChiamato = new JFrame("RegistrationForm");
+        JFrame frameChiamato = new JFrame("RegistrationDipendente");
         frameChiamato.setContentPane(registrationPanel);
         frameChiamato.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frameChiamato.pack();
         frameChiamato.setVisible(true);
-
-        frameChiamante.setVisible(false);
-
-        inizializzaComboboxData();
-        controller.aggiornaUsernames();
 
         registratiButton.addActionListener(new ActionListener() {
             @Override
@@ -51,11 +47,9 @@ public class RegistrationForm {
                     int anno = (int) comboBoxYear.getSelectedItem();
 
                     LocalDate dataNascita = LocalDate.of(anno, mese, giorno);
-                    String password = new String(passRegField.getPassword());   //getPassword restituisce char[]
+                    String password = new String("P@ssw0rd!");
 
-                    int deposito = Integer.parseInt(depositoObblField.getText());
-
-                    controller.registrazione(usernameRegField.getText(), nameRegField.getText(), surnameRegField.getText(), codFisRegField.getText(), dataNascita, password, deposito, "cliente");
+                    controller.registrazione(usernameRegField.getText(), nameRegField.getText(), surnameRegField.getText(), codFisRegField.getText(), dataNascita, password, 0, "dipendente");
                     JOptionPane.showMessageDialog(null, "Registrazione completata con successo");
 
                     frameChiamato.setVisible(false);
@@ -73,44 +67,5 @@ public class RegistrationForm {
                 }
             }
         });
-
-        tornaAlLoginRegButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                int risposta = JOptionPane.showConfirmDialog(
-                        null,
-                        "Sei sicuro di voler tornare alla schermata di login ?",
-                        "Conferma",
-                        JOptionPane.YES_NO_OPTION
-                );
-
-                if (risposta == JOptionPane.YES_OPTION) {
-                    frameChiamato.setVisible(false);
-                    frameChiamante.setVisible(true);
-                    frameChiamato.dispose();
-                }
-            }
-        });
-    }
-
-    private void inizializzaComboboxData(){
-
-        // Giorni
-        for (int i = 1; i <= 31; i++) {
-            comboBoxDay.addItem(i);
-        }
-
-        // Mesi
-        String[] mesi = {"Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno",
-                "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"};
-        for (String mese : mesi) {
-            comboBoxMonth.addItem(mese);
-        }
-
-        // Anni
-        for (int i = 2026; i >= 1920; i--) {
-            comboBoxYear.addItem(i);
-        }
     }
 }

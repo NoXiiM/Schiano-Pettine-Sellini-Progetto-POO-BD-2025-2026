@@ -3,6 +3,7 @@ import model.gestionale.utenteEFigli.*;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 
 import database.implementazioneDAO.*;
@@ -13,6 +14,7 @@ public class WelcomeController {
     private Utente currentUser;
     private ArrayList<String> usernames;
 
+
     public WelcomeController() {
         usernames= new ArrayList<>();
     }
@@ -20,6 +22,38 @@ public class WelcomeController {
     public WelcomeController(Utente currentUser, ArrayList<String> usernames) {
         this.currentUser = currentUser;
         this.usernames= usernames;
+    }
+
+    //client
+    public void registrazione(String username, String nome, String cognome, String codiceFiscale,
+                           LocalDate dataNascita, String password, int importo, String tipoRegistrazione) throws RuntimeException {
+
+        if (username.isBlank() || nome.isBlank() || cognome.isBlank() || codiceFiscale.isBlank() || password.isBlank())
+            throw new RuntimeException("Compila tutti i campi!");
+
+        if (!isEta18(dataNascita)) throw new RuntimeException("Devi avere almeno 18 anni per registrarti.");
+
+        if(tipoRegistrazione.equals("cliente")){
+            if (importo < 50) throw new RuntimeException("Deposito minimo obbligatorio di 50 euro");
+        }
+
+        //check locale
+        for (String user : usernames) {
+            if (username.equals(user)){
+                throw new RuntimeException("Username non disponibile");
+            }
+        }
+
+        String codiceTessera = generaCodiceTessera(username);
+
+        try {
+            new ImpDAOop().registrazione(codiceTessera, username, nome, cognome, codiceFiscale,
+                    dataNascita, password);
+        } catch (SQLException e) {
+            aggiornaUsernames();
+            throw new RuntimeException(e);
+        }
+        pulisciUsernames();
     }
 
     public void login(String username, String password) throws RuntimeException, SQLException{
@@ -112,5 +146,24 @@ public class WelcomeController {
 
     public ArrayList<String> getUsernamesList() {
         return usernames;
+    }
+
+    private boolean isEta18(LocalDate dataNascita) {
+        return Period.between(dataNascita, LocalDate.now()).getYears() >= 18;
+    }
+
+    public void pulisciUsernames() {
+        usernames.clear();
+    }
+
+    public void aggiornaUsernames() {
+
+        ImpDAOop db = new ImpDAOop();
+
+        try {
+            db.usernameUtenti(usernames);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

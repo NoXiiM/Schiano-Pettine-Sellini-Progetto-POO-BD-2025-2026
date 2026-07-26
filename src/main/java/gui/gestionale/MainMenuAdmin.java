@@ -116,10 +116,7 @@ public class MainMenuAdmin {
 
                         temp.creaBan(input);
 
-                        infoField.setText("User: " + temp.getUsername() + "\nSaldo: " + temp.getSaldo() + "\nTasso vincita: " +
-                                temp.getVincitaPercentualeTot() + "\nSaldo giocato: " + temp.getFichesGiocate() + "\nTempo di gioco totale: " + temp.getTempoDiGioco() +
-                                "\nBan: " + (temp.getMotivoBan() != null ? temp.getMotivoBan() : "Nessuno")
-                        );
+                        stampaClienteInfoField(temp);
 
                         ImpDAOopd db = new ImpDAOopd();
 
@@ -146,10 +143,7 @@ public class MainMenuAdmin {
 
                 Cliente temp= (Cliente) listaClienti.getSelectedValue();
                 if(temp != null){
-                    infoField.setText("User: " + temp.getUsername() + "\nSaldo: " + temp.getSaldo() + "\nTasso vincita: " +
-                            temp.getVincitaPercentualeTot() + "\nSaldo giocato: " + temp.getFichesGiocate() + "\nTempo di gioco totale: " + temp.getTempoDiGioco() +
-                            "\nBan: " + (temp.getMotivoBan() != null ? temp.getMotivoBan() : "Nessuno")
-                    );
+                    stampaClienteInfoField(temp);
                 }
             }
         });
@@ -451,5 +445,24 @@ public class MainMenuAdmin {
 
     private void createUIComponents() {
         // TODO: place custom component creation code here
+    }
+    private void stampaClienteInfoField(Cliente temp){
+        infoField.setText("Username: " + temp.getUsername() +
+                "\n\nInformazioni anagrafiche" +
+                "\nNome: " + temp.getNome() +
+                "\nCognome: " + temp.getCognome() +
+                "\nCodice Fiscale: " + temp.getCodiceFiscale() +
+                "\nData di Nascita: " + temp.getDataDiNascita() +
+                "\n\nInformazioni Giocatore" +
+                "\nSaldo: " + temp.getSaldo() +
+                "\nSaldo Giocate: " + temp.getFichesGiocate() +
+                "\nTempo di gioco totale: " + temp.getTempoDiGioco().toHoursPart()+ ":" +temp.getTempoDiGioco().toMinutesPart() + ":" + temp.getTempoDiGioco().toSecondsPart() +
+                "\nTasso vincita: " + temp.getVincitaPercentualeTot() +
+                "\nPartite giocate: " + temp.getPartiteGiocate() +
+                "\nTipo: " + (temp.isPremium() ? "Premium" : "Base") +
+                "\nPercentuale Sconto " + temp.getSconto_premium() +
+                (temp.getMotivoBan() == null ? "" : "\n\n Il giocatore è stato bannato\n" +
+                        " Motivo di Ban: " + temp.getMotivoBan() + "\n In data: " + temp.getDataBan())
+        );
     }
 }

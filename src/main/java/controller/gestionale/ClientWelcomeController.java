@@ -107,9 +107,19 @@ public class ClientWelcomeController extends WelcomeController {
     }
 
     //solo client, un admin non puo cancellare il profilo, un superadmin puo cancellare altri profili
-    public boolean deleteUser(String username, String pass, String conferma) throws RuntimeException {
+    public boolean deleteUser(String username, String pass, String conferma) throws RuntimeException, SQLException {
         if (username.isBlank() || pass.isBlank() || conferma.isBlank())
             throw new RuntimeException("Compila tutti i campi!");
+
+        ImpDAOopc db = new ImpDAOopc();
+
+        if(username.equals(cliente.getUsername()) && pass.equals(cliente.getPassword()) && conferma.equals("CONFERMA"))
+        {
+            db.cancellaCliente(cliente.getCodiceTesseraGiocatore());
+
+            setCurrentUserNull();
+            return true;
+        }
 
         return false;
     }

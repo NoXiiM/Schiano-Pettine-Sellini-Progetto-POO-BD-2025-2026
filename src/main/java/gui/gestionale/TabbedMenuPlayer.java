@@ -1,6 +1,7 @@
 package gui.gestionale;
 
 import controller.gestionale.ClientWelcomeController;
+import database.implementazioneDAO.ImpDAOopc;
 
 import javax.swing.*;
 
@@ -153,9 +154,7 @@ public class TabbedMenuPlayer {
         cancellaAccountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                CancellaAccount del_account= new CancellaAccount(controller, thisFrame, frameChiamante);
-
+                new CancellaAccount(controller, thisFrame, frameChiamante);
             }
         });
         //collegamento

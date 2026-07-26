@@ -5,6 +5,7 @@ import controller.gestionale.ClientWelcomeController;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class CancellaAccount {
     private JPanel delUserPanel;
@@ -60,9 +61,10 @@ public class CancellaAccount {
 
                 } catch(RuntimeException e1){
                     JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+                } catch(SQLException e2)
+                {
+                    JOptionPane.showMessageDialog(null, e2.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                 }
-
-
             }
         });
 

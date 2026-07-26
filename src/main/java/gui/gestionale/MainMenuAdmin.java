@@ -4,7 +4,9 @@ import controller.gestionale.DipendenteWelcomeController;
 import controller.gestionale.WelcomeController;
 import database.implementazioneDAO.ImpDAOopd;
 import model.gestionale.utenteEFigli.Cliente;
+import model.gestionale.utenteEFigli.Dealer;
 import model.gestionale.utenteEFigli.Dipendente;
+import model.gestionale.utenteEFigli.Supervisore;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -374,7 +376,10 @@ public class MainMenuAdmin {
         listaDipendenti.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-
+                Dipendente temp= (Dipendente) listaDipendenti.getSelectedValue();
+                if(temp != null){
+                    stampaDipendenteInfoField(temp);
+                }
             }
         });
         aggiornaDipendenti.addActionListener(new ActionListener() {
@@ -477,6 +482,10 @@ public class MainMenuAdmin {
         }
     }
 
+    public static DefaultListModel<Dipendente> getModelloListaDipendente() {//Serve in registazione per aggiornare lista
+        return modelloListaDipendente;
+    }
+
     private void stampaClienteInfoField(Cliente temp){
         infoField.setText("Username: " + temp.getUsername() +
                 "\n\nInformazioni anagrafiche" +
@@ -495,5 +504,18 @@ public class MainMenuAdmin {
                 (temp.getMotivoBan() == null ? "" : "\n\n Il giocatore è stato bannato\n" +
                         " Motivo di Ban: " + temp.getMotivoBan() + "\n In data: " + temp.getDataBan())
         );
+
+    }
+    private void stampaDipendenteInfoField(Dipendente temp){
+        if(temp!=null){
+            textAreaInfoDipendenti.setText("Username: " + temp.getUsername() +
+                    "\n\nInformazioni anagrafiche" +
+                    "\nNome: " + temp.getNome() +
+                    "\nCognome: " + temp.getCognome() +
+                    "\nCodice Fiscale: " + temp.getCodiceFiscale() +
+                    "\nData di Nascita: " + temp.getDataDiNascita() +
+                    (temp instanceof Supervisore ? "\n\nRuolo: Supervisore" :
+                            "\n\nRuolo: Dealer\nGiochi a cui è abilitato: " + ((Dealer) temp).getGiochiDoveServeString()));
+        }
     }
 }

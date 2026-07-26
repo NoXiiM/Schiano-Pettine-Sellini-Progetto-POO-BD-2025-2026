@@ -5,6 +5,8 @@ import model.gestionale.Gioco;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import static model.gestionale.Gioco.*;
+
 public class Dealer extends Dipendente
 {
     //soluzione assolutamente provvisoria
@@ -23,5 +25,35 @@ public class Dealer extends Dipendente
                   String identificativoDipendente){
 
         super(username, nome, cognome, codiceFiscale, dataDiNascita, password, identificativoDipendente);
+    }
+
+    @Override
+    public String toString() {
+        return username + " " + nome + " " + cognome+ " " + "Dealer" ;
+    }
+
+    public String getGiochiDoveServeString() {
+        String risultato = "";
+        if(giochiDoveServe==null){
+            if(giochiDoveServe.get(0)==Blackjack ||giochiDoveServe.get(0)==Poker){
+                if(giochiDoveServe.get(0)==Blackjack){
+                    risultato = "Blackjack ";
+            }   else{
+              risultato = "Poker ";
+            }
+            if(giochiDoveServe.get(1)==Blackjack ||giochiDoveServe.get(1)==Poker) {
+                if (giochiDoveServe.get(1) == Blackjack) {
+                    risultato += "Blackjack ";
+                } else {
+                  risultato += "Poker ";
+                }
+            }
+
+            }
+            if (risultato.isEmpty()) {
+             return "Nessuno";
+            }
+        }
+        return risultato;
     }
 }

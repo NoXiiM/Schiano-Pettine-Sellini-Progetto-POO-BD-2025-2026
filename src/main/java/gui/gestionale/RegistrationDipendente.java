@@ -63,6 +63,10 @@ public class RegistrationDipendente {
                     controller.registraDipendente(usernameRegField.getText(), nameRegField.getText(), surnameRegField.getText(), codFisRegField.getText(), dataNascita, password, ruolo);
                     JOptionPane.showMessageDialog(null, "Registrazione completata con successo");
 
+                    //Aggiornamento Lista
+                    MainMenuAdmin.getModelloListaDipendente().clear();
+                    MainMenuAdmin.getModelloListaDipendente().addAll(controller.getDipendentiDB());
+
                     frameChiamato.setVisible(false);
                     frameChiamante.setVisible(true);
                     frameChiamato.dispose();

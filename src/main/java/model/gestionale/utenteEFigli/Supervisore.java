@@ -10,4 +10,8 @@ public class Supervisore extends  Dipendente
     {
         super(username, nome, cognome, codiceFiscale, dataDiNascita, password, identificativoDipendente);
     }
+    @Override
+    public String toString() {
+        return username + " " + nome + " " + cognome+ " " + "Supervisore" ;
+    }
 }

@@ -3,27 +3,29 @@ package gui.gestionale;
 import controller.TavoloController;
 import controller.gestionale.ClientWelcomeController;
 import gui.giochi.GUIBlackJack;
+import gui.giochi.GUISlotMachine;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class SelezioneTavoloBlackJack
 {
-    private JRadioButton radioButtonBJ1;
-    private JRadioButton radioButtonBJ2;
-    private JRadioButton radioButtonBJ3;
     private JPanel selezioneTavoloPanel;
     private JButton giocaButton;
-    private JLabel infoTavolo1;
-    private JLabel infoTavolo2;
-    private JLabel infoTavolo3;
     private JButton indietroButton;
+    private JList<String> listaTavoli;
+    private JTextArea informazioniTavolo;
 
     private TavoloController controller;
 
-    private static JFrame thisFrame;
+    private JFrame thisFrame;
+
+    private static DefaultListModel<String> modellolistaTavoli;
 
     public SelezioneTavoloBlackJack(JFrame frameChiamante, ClientWelcomeController clienteController, TabbedMenuPlayer mainMenu)
     {
@@ -38,27 +40,25 @@ public class SelezioneTavoloBlackJack
         controller = new TavoloController();
         controller.popolaBlackJack();
 
-        ButtonGroup selezionaTavolo = new ButtonGroup();
+        modellolistaTavoli = new DefaultListModel<>();
 
-        selezionaTavolo.add(radioButtonBJ1);
-        selezionaTavolo.add(radioButtonBJ2);
-        selezionaTavolo.add(radioButtonBJ3);
+        ArrayList<String> tavoliDaMostrare = controller.getTavoliId();
 
-        infoTavolo1.setText("il tavolo 1 ha " + controller.getNumeroPosti(0) + " posti");
-        infoTavolo2.setText("il tavolo 2 ha " + controller.getNumeroPosti(1) + " posti");
-        infoTavolo3.setText("il tavolo 3 ha " + controller.getNumeroPosti(2) + " posti");
+        modellolistaTavoli.addAll(tavoliDaMostrare);
+
+        listaTavoli.setModel(modellolistaTavoli);
 
         giocaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(selezionaTavolo.getSelection() != null)
+                String selezione;
+                if(listaTavoli.getSelectedValue() != null)
                 {
-                thisFrame.setVisible(false);
+                    selezione = listaTavoli.getSelectedValue();
+                    int idTavolo = controller.getIdFromList(selezione);
+                    thisFrame.setVisible(false);
                     try {
-                        if(radioButtonBJ1.isSelected()) clienteController.creaNuovaSessioneDiGioco(controller.getTavolo(0));
-                        else if(radioButtonBJ2.isSelected()) clienteController.creaNuovaSessioneDiGioco(controller.getTavolo(1));
-                        else if(radioButtonBJ3.isSelected()) clienteController.creaNuovaSessioneDiGioco(controller.getTavolo(2));
-                        else throw new RuntimeException("è successo qualcosa di brutto coi tavoli");
+                        clienteController.creaNuovaSessioneDiGioco(controller.getTavoloWithId(idTavolo));
                         new GUIBlackJack(thisFrame, clienteController);
                     } catch (RuntimeException ex) {
                         ex.getMessage();
@@ -74,10 +74,18 @@ public class SelezioneTavoloBlackJack
         indietroButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 thisFrame.dispose();
                 mainMenu.aggiornaSaldo();
                 frameChiamante.setVisible(true);
+            }
+        });
+        listaTavoli.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                String selezione = listaTavoli.getSelectedValue();
+                int idTavolo = controller.getIdFromList(selezione);
+
+                informazioniTavolo.setText(controller.getTavoloWithId(idTavolo).toString());
             }
         });
     }

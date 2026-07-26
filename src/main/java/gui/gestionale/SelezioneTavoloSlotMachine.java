@@ -98,7 +98,7 @@ public class SelezioneTavoloSlotMachine {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 String tavoloSelezionato = (String)listaTavoli.getSelectedValue();
-                selezioneListaLabel.setText(controller.geTavoloCorrispondente(tavoloSelezionato));
+                selezioneListaLabel.setText(controller.getTavoloCorrispondente(tavoloSelezionato));
                 selezioneListaLabel.setVisible(true);
             }
         });

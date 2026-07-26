@@ -25,8 +25,6 @@ public class ClientWelcomeController extends WelcomeController {
         super(controller.getCurrentUser(), controller.getUsernamesList());
         this.usernames = controller.getUsernamesList();
         cliente = (Cliente) getCurrentUser();
-        //importantissimo
-        controller.setCurrentUserNull();
     }
 
     //client
@@ -178,7 +176,6 @@ public class ClientWelcomeController extends WelcomeController {
     //salvataggio dati sia al logout che a fine sessione
     public void salvaDatiClienteUscitaDaGIoco() throws SQLException{
         impDAOopc db= new impDAOopc();
-
 
         db.salvaSessione(cliente.getCodiceTesseraGiocatore(), sessione.getTavolo().getIdTavolo(),
                 sessione.getDurataSessione(), sessione.getVincitaPercentuale(), sessione.getPartiteSvolte());

@@ -161,4 +161,21 @@ public class impDAOopd implements DAOopd {
             cancellazione.executeUpdate();
         }
     }
+
+    @Override
+    public void aggiungiTavolo(int idTavolo, String gioco, int numeroPosti, String idDealer) throws SQLException
+    {
+        Connection connection = ConnessioneDatabase.getInstance().connection;
+
+        try(PreparedStatement inserimento = connection.prepareStatement("insert into tavolo " +
+                "values(?,?,?,?)"))
+        {
+            inserimento.setInt(1, idTavolo);
+            inserimento.setString(2, gioco);
+            inserimento.setInt(3, numeroPosti);
+            inserimento.setString(4, idDealer);
+
+            inserimento.executeUpdate();
+        }
+    }
 }

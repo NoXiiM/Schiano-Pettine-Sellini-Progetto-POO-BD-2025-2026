@@ -51,13 +51,41 @@ public class TavoloController
         return listaTavoli.get(index).getNumeroPosti();
     }
 
+    public int getIdFromList(String idTavolo)
+    {
+        int id = Integer.parseInt(idTavolo.replaceAll("[^0-9]", ""));
+
+        return id;
+    }
+
     public Tavolo getTavolo(int index)
     {
         return listaTavoli.get(index);
     }
 
+    public Tavolo getTavoloWithId(int id){
+        for(Tavolo i : listaTavoli)
+        {
+            if(i.getIdTavolo() == id) return i;
+        }
+
+        return null;
+    }
+
     public ArrayList<String> getTavoliNumber() {
         return tavoliNumber;
     }
-    public String geTavoloCorrispondente(String s){return tavoloCorrispondente.get(s).toString();}
+    public String getTavoloCorrispondente(String s){return tavoloCorrispondente.get(s).toString();}
+
+    public ArrayList<String> getTavoliId()
+    {
+        ArrayList<String> info = new ArrayList<>();
+
+        for(Tavolo i : listaTavoli)
+        {
+            info.add("tavolo " + i.getIdTavolo());
+        }
+
+        return info;
+    }
 }

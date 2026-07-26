@@ -25,19 +25,12 @@ public class MainMenuAdmin {
     private JTextField textFieldNome;
     private JTextField textFieldCognome;
     private JTextField textFieldUsername;
-    private JSpinner spinnerSaldo;
     private JCheckBox siCheckBoxSospetto;
     private JCheckBox noCheckBoxSospetto;
     private JCheckBox siCheckBoxBan;
     private JCheckBox noCheckBoxBan;
-    private JSlider sliderPercentualeVincita;
-    private JSpinner spinnerPartiteGiocate;
     private JScrollPane jScrollPaneJlist;
     private JScrollPane jScrollPaneInfoClienti;
-    private JRadioButton piuRadioButtonVincita;
-    private JRadioButton menoRadioButtonVincita;
-    private JRadioButton piuRadioButtonPartite;
-    private JRadioButton menoRadioButtonPartite;
     private JLabel nomeText;
     private JLabel cognomeText;
     private JPanel jpanelRicerca;
@@ -217,7 +210,6 @@ public class MainMenuAdmin {
             public void actionPerformed(ActionEvent e) {
                 modelloListaClienti.clear();
                 modelloListaClienti.addAll(controller.getClientiInLocale());
-
             }
         });
     }
@@ -226,5 +218,4 @@ public class MainMenuAdmin {
         userFieldAdmin.setText(controller.getUserUtente() + "\t");
         userFieldAdmin.setText(controller.getUserUtente() + "\t");
     }
-
 }

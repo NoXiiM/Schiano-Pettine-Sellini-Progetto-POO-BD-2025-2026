@@ -27,4 +27,7 @@ public interface DAOopd {
 
     //OPD4
     void eliminaDipendente(String idDipendente) throws SQLException;
+
+    //OPD5
+    void aggiungiTavolo(int idTavolo, String gioco, int numeroPosti, String idDealer) throws SQLException;
 }

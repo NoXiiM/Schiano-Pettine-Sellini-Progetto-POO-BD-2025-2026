@@ -1,5 +1,7 @@
 package database.DAO;
 
+import model.gestionale.Gioco;
+
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -33,4 +35,13 @@ public interface DAOopd {
 
     //OPD6
     void recuperaDatiDipendenti(ArrayList<String> idDipendenti, ArrayList<String> nome, ArrayList<String> cognome, ArrayList<LocalDate> dataDiNascita, ArrayList<String> codiceFiscale, ArrayList<String> username, ArrayList<String> password, ArrayList<String> ruolo)throws SQLException;
+
+    //OPD7
+    void assegnaDipendenteATavolo(String idDipendente, String ruolo, int idTavolo) throws SQLException;
+
+    //OPD8
+    void caricaTavoli(Gioco gioco, ArrayList<Integer> idTavolo, ArrayList<Integer> numeroPosti,
+                      ArrayList<String> idDealer, ArrayList<String> nome,
+                      ArrayList<String> cognome, ArrayList<LocalDate> dataDiNascita, ArrayList<String> codiceFiscale,
+                      ArrayList<String> username, ArrayList<String> password, ArrayList<String> ruolo) throws SQLException;
 }

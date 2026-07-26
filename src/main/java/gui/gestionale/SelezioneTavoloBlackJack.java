@@ -11,6 +11,7 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class SelezioneTavoloBlackJack
@@ -38,7 +39,11 @@ public class SelezioneTavoloBlackJack
         thisFrame.setMinimumSize(minDim);
 
         controller = new TavoloController();
-        controller.popolaBlackJack();
+        try {
+            controller.popolaBlackJack();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
+        }
 
         modellolistaTavoli = new DefaultListModel<>();
 

@@ -6,7 +6,6 @@ import model.giochi.*;
 
 import javax.swing.*;
 import java.util.ArrayList;
-import java.util.Map;
 
 public class ControllerBlackJack extends ControllerMazzo
 {
@@ -14,9 +13,9 @@ public class ControllerBlackJack extends ControllerMazzo
     private int indiceRiduzioneMano;
 
     public ControllerBlackJack(int nmazzi, int nmani) {
-        super(nmazzi, nmani, Gioco.BlackJack);
+        super(nmazzi, nmani, Gioco.Blackjack);
 
-        banco = new ManoBlackJack(Gioco.BlackJack);
+        banco = new ManoBlackJack(Gioco.Blackjack);
         indiceRiduzioneMano = 0;
     }
 
@@ -232,17 +231,17 @@ public class ControllerBlackJack extends ControllerMazzo
         listaMani = new ArrayList<>();
         for(int i = 0; i < nmani; i++)
         {
-            this.addMano(creaMano(Gioco.BlackJack));
+            this.addMano(creaMano(Gioco.Blackjack));
         }
 
-        banco = new ManoBlackJack(Gioco.BlackJack);
+        banco = new ManoBlackJack(Gioco.Blackjack);
     }
 
     public void divisione(int index)
     {
         ManoBlackJack manoCorrente = (ManoBlackJack) listaMani.get(index);
 
-        ManoBlackJack nuovaMano = new ManoBlackJack(Gioco.BlackJack);
+        ManoBlackJack nuovaMano = new ManoBlackJack(Gioco.Blackjack);
 
         nuovaMano.setPuntata(manoCorrente.getPuntata());
 

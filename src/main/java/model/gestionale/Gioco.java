@@ -2,5 +2,5 @@ package model.gestionale;
 
 public enum Gioco
 {
-    BlackJack, PokerItaliano, SlotMachine
+    Blackjack, Poker, SlotMachine
 }

@@ -2,6 +2,7 @@ package database.implementazioneDAO;
 
 import database.ConnessioneDatabase;
 import database.DAO.DAOopd;
+import model.gestionale.Gioco;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -103,6 +104,7 @@ public class ImpDAOopd implements DAOopd {
         }
     }
 
+    @Override
     public void recuperaDatiDipendenti(ArrayList<String> idDipendenti, ArrayList<String> nome, ArrayList<String> cognome,
                                        ArrayList<LocalDate> dataDiNascita, ArrayList<String> codiceFiscale, ArrayList<String> username,
                                        ArrayList<String> password, ArrayList<String> ruolo) throws SQLException{
@@ -211,6 +213,7 @@ public class ImpDAOopd implements DAOopd {
         }
     }
 
+    @Override
     public void assegnaDipendenteATavolo(String idDipendente, String ruolo, int idTavolo) throws SQLException
     {
         Connection connection = ConnessioneDatabase.getInstance().connection;
@@ -218,7 +221,7 @@ public class ImpDAOopd implements DAOopd {
         if(ruolo.equals("Dealer"))
         {
             try(PreparedStatement aggiornamento = connection.prepareStatement("UPDATE tavolo " +
-                    "set idDipendente = ? " +
+                    "set idDealer = ? " +
                     "where numero = ? "))
             {
                 aggiornamento.setString(1, idDipendente);
@@ -236,6 +239,40 @@ public class ImpDAOopd implements DAOopd {
                 aggiornamento.setInt(2, idTavolo);
 
                 aggiornamento.executeUpdate();
+            }
+        }
+    }
+
+    @Override
+    public void caricaTavoli(Gioco gioco, ArrayList<Integer> idTavolo, ArrayList<Integer> numeroPosti,
+                             ArrayList<String> idDealer, ArrayList<String> nome,
+                             ArrayList<String> cognome, ArrayList<LocalDate> dataDiNascita, ArrayList<String> codiceFiscale,
+                             ArrayList<String> username, ArrayList<String> password, ArrayList<String> ruolo) throws SQLException
+    {
+        Connection connection = ConnessioneDatabase.getInstance().connection;
+
+        try(PreparedStatement query = connection.prepareStatement("select * " +
+                "from tavolo as t " +
+                "join dipendente as d on t.idDealer = d.idDipendente " +
+                "where gioco = ?"))
+        {
+            query.setString(1, gioco.name());
+
+            try(ResultSet rs = query.executeQuery())
+            {
+                while (rs.next())
+                {
+                    idTavolo.add(rs.getInt("numero"));
+                    numeroPosti.add(rs.getInt("numeroPosti"));
+                    idDealer.add(rs.getString("idDealer"));
+                    nome.add(rs.getString("nome"));
+                    cognome.add(rs.getString("cognome"));
+                    dataDiNascita.add(rs.getDate("dataDiNascita").toLocalDate());
+                    codiceFiscale.add(rs.getString("codiceFiscale"));
+                    username.add(rs.getString("username"));
+                    password.add(rs.getString("password"));
+                    ruolo.add(rs.getString("ruolo"));
+                }
             }
         }
     }

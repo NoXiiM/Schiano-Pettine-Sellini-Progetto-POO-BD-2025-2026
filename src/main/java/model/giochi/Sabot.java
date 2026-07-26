@@ -3,7 +3,6 @@ package model.giochi;
 import controller.blackjack.DeckOut;
 import model.gestionale.Gioco;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -22,7 +21,7 @@ public class Sabot
         listaCarte = new ArrayList<>();
         this.numeroDiMazzi = numeroDiMazzi;
         numeroDiCarte = numeroDiMazzi*52;
-        if(gioco == Gioco.BlackJack) cuttingCard = (int)(numeroDiCarte * (((Math.random() * 10) + 50)/100));
+        if(gioco == Gioco.Blackjack) cuttingCard = (int)(numeroDiCarte * (((Math.random() * 10) + 50)/100));
         else cuttingCard = null;
         inizializzaSabot();
     }

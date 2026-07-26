@@ -83,5 +83,16 @@ public class ImpDAOopc implements DAOopc
         }
     }
 
+    public void cancellaCliente(String codiceTessera) throws SQLException
+    {
+        Connection connection = ConnessioneDatabase.getInstance().connection;
 
+        try(PreparedStatement cancellazione = connection.prepareStatement("delete from cliente " +
+                "where idCliente = ?"))
+        {
+            cancellazione.setString(1, codiceTessera);
+
+            cancellazione.executeUpdate();
+        }
+    }
 }

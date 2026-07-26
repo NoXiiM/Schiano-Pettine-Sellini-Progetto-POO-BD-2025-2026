@@ -1,6 +1,7 @@
 package gui.gestionale;
 
 import controller.gestionale.ClientWelcomeController;
+import database.implementazioneDAO.ImpDAOopc;
 
 import javax.swing.*;
 
@@ -32,11 +33,11 @@ public class TabbedMenuPlayer {
     private JButton SlotMachine;
     private JFrame thisFrame;
 
-    private JFrame frameLogin;
+    private JFrame frameChiamante;
     private ClientWelcomeController controller;
 
     public TabbedMenuPlayer(ClientWelcomeController controller, JFrame mainframe) {
-        this.frameLogin = mainframe;
+        this.frameChiamante = mainframe;
         this.controller= controller;
 
         thisFrame = new JFrame("TabbedMenuPlayer");
@@ -45,7 +46,7 @@ public class TabbedMenuPlayer {
         thisFrame.pack();
         thisFrame.setVisible(true);
 
-        frameLogin.setVisible(false);
+        frameChiamante.setVisible(false);
         aggiornaUsername();
         aggiornaSaldo();
 
@@ -149,15 +150,13 @@ public class TabbedMenuPlayer {
             }
         });
 
+
         cancellaAccountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                CancellaAccount del_account= new CancellaAccount(controller, thisFrame, frameLogin);
-
+                new CancellaAccount(controller, thisFrame, frameChiamante);
             }
         });
-
         //collegamento
         blackJack.addActionListener(new ActionListener() {
             @Override
@@ -203,7 +202,7 @@ public class TabbedMenuPlayer {
 
             controller.setCurrentUserNull();
             frameChiamato.setVisible(false);
-            frameLogin.setVisible(true);
+            frameChiamante.setVisible(true);
             frameChiamato.dispose();
         }
     }
@@ -213,7 +212,8 @@ public class TabbedMenuPlayer {
         userFieldSaldoPanel.setText(controller.getUserUtente() + "\t");
     }
 
-    public void aggiornaSaldo() {
+    public void aggiornaSaldo()
+    {
         saldoInGameText.setText("Saldo disponibile: " + controller.getSaldoCliente());
         saldoInSaldoText.setText("Saldo disponibile: " + controller.getSaldoCliente());
     }

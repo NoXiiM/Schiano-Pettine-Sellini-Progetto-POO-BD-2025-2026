@@ -170,4 +170,33 @@ public class ImpDAOopd implements DAOopd {
             inserimento.executeUpdate();
         }
     }
+
+    public void assegnaDipendenteATavolo(String idDipendente, String ruolo, int idTavolo) throws SQLException
+    {
+        Connection connection = ConnessioneDatabase.getInstance().connection;
+
+        if(ruolo.equals("Dealer"))
+        {
+            try(PreparedStatement aggiornamento = connection.prepareStatement("UPDATE tavolo " +
+                    "set idDipendente = ? " +
+                    "where numero = ? "))
+            {
+                aggiornamento.setString(1, idDipendente);
+                aggiornamento.setInt(2, idTavolo);
+
+                aggiornamento.executeUpdate();
+            }
+        }
+        else
+        {
+            try(PreparedStatement aggiornamento = connection.prepareStatement("insert into supervisoreTavolo(idSupervisore, idTavolo) " +
+                    "values(?,?)"))
+            {
+                aggiornamento.setString(1, idDipendente);
+                aggiornamento.setInt(2, idTavolo);
+
+                aggiornamento.executeUpdate();
+            }
+        }
+    }
 }

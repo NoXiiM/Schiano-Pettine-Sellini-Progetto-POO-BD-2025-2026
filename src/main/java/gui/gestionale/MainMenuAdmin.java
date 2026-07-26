@@ -4,6 +4,7 @@ import controller.gestionale.DipendenteWelcomeController;
 import controller.gestionale.WelcomeController;
 import database.implementazioneDAO.ImpDAOopd;
 import model.gestionale.utenteEFigli.Cliente;
+import model.gestionale.utenteEFigli.Dipendente;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -79,12 +80,16 @@ public class MainMenuAdmin {
     private JCheckBox filtraPerGiocoCheckBox;
     private JRadioButton pokerRadio;
     private JRadioButton blackjackRadio;
+    private JTextField nomeDipendenteField;
+    private JTextField cognomeDipendenteField;
+    private JTextField usernameDipendenteField;
 
     JFrame thisFrame;
     JFrame frameChiamante;
     WelcomeController controller;
 
     private static DefaultListModel<Cliente> modelloListaClienti;
+    private static DefaultListModel<Dipendente> modelloListaDipendente;
 
     public MainMenuAdmin(DipendenteWelcomeController controller, JFrame frameChiamante) {
         this.controller = controller;
@@ -93,6 +98,10 @@ public class MainMenuAdmin {
         modelloListaClienti= new DefaultListModel<>();
         modelloListaClienti.addAll(controller.getListaClientiDB());
         listaClienti.setModel(modelloListaClienti);
+
+        modelloListaDipendente= new DefaultListModel<>();
+        modelloListaDipendente.addAll(controller.getDipendentiDB());
+        listaDipendenti.setModel(modelloListaDipendente);
 
         thisFrame = new JFrame("MainMenuAdmin");
         thisFrame.setContentPane(AdminPanel);
@@ -224,13 +233,6 @@ public class MainMenuAdmin {
             }
         });
 
-        cercaDipendenti.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-
         controllaSaldoCheckBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -347,13 +349,6 @@ public class MainMenuAdmin {
             }
         });
 
-        cercaDipendenti.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-
         filtraPerGiocoCheckBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -373,6 +368,34 @@ public class MainMenuAdmin {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new RegistrationDipendente(thisFrame, controller);
+
+            }
+        });
+        listaDipendenti.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+
+            }
+        });
+        aggiornaDipendenti.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                modelloListaDipendente.clear();
+                modelloListaDipendente.addAll(controller.getDipendentiDB());
+            }
+        });
+        cercaDipendenti.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                String nome = nomeDipendenteField.getText();
+                String cognome = cognomeDipendenteField.getText();
+                String username = usernameDipendenteField.getText();
+                boolean checkRuolo = filtraPerRuoloCheckBox.isSelected();
+                String ruoloSelezionato =(dealerRadioButton.isSelected() ? "Dealer" : "Supervisore");
+
+                modelloListaDipendente.clear();
+                modelloListaDipendente.addAll(controller.ricercaDipendente(nome,cognome, username, checkRuolo, ruoloSelezionato));
             }
         });
     }
@@ -390,6 +413,10 @@ public class MainMenuAdmin {
         ButtonGroup giochiButtons= new ButtonGroup();
         giochiButtons.add(pokerRadio);
         giochiButtons.add(blackjackRadio);
+
+        ButtonGroup ruoloButtons = new ButtonGroup();
+        ruoloButtons.add(dealerRadioButton);
+        ruoloButtons.add(supervisoreRadioButton);
 
         spinnerPercMin.setModel(new SpinnerNumberModel(0, 0, 100, 1));
         spinnerPercMax.setModel(new SpinnerNumberModel(0, 0, 100, 1));

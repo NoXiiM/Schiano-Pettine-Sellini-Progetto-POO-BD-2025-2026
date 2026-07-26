@@ -7,7 +7,7 @@ public class TestMazzo
 {
     public static void main(String[] args)
     {
-        Sabot mazzo = new Sabot(2, Gioco.BlackJack);
+        Sabot mazzo = new Sabot(2, Gioco.Blackjack);
         mazzo.mischiaMazzo();
         mazzo.stampaCarte();
 

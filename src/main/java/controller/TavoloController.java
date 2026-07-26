@@ -1,8 +1,12 @@
 package controller;
 
+import database.implementazioneDAO.ImpDAOopd;
 import model.gestionale.Gioco;
 import model.gestionale.Tavolo;
+import model.gestionale.utenteEFigli.Dealer;
 
+import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -16,11 +20,32 @@ public class TavoloController
         this.tavoliNumber = new ArrayList<>();
     }
 
-    public void popolaBlackJack()
+    public void popolaBlackJack() throws SQLException
     {
-        listaTavoli.add(new Tavolo(1, Gioco.BlackJack, 5));
-        listaTavoli.add(new Tavolo(2, Gioco.BlackJack, 4));
-        listaTavoli.add(new Tavolo(3, Gioco.BlackJack, 4));
+        ImpDAOopd db = new ImpDAOopd();
+
+        ArrayList<Integer> idTavoli = new ArrayList<>();
+        ArrayList<Integer> numeroPosti = new ArrayList<>();
+        ArrayList<String> idDealer = new ArrayList<>();
+        ArrayList<String> nome = new ArrayList<>();
+        ArrayList<String> cognome = new ArrayList<>();
+        ArrayList<LocalDate> dataDiNascita = new ArrayList<>();
+        ArrayList<String> codiceFiscale = new ArrayList<>();
+        ArrayList<String> username = new ArrayList<>();
+        ArrayList<String> password = new ArrayList<>();
+        ArrayList<String> ruolo = new ArrayList<>();
+
+        db.caricaTavoli(Gioco.Blackjack, idTavoli, numeroPosti, idDealer, nome, cognome, dataDiNascita, codiceFiscale,
+                username, password, ruolo);
+
+        for(int i = 0; i < idTavoli.size(); i++)
+        {
+            String idDealerCorrente = idDealer.get(i);
+            if(idDealerCorrente != null)
+            {
+                listaTavoli.add(new Tavolo(idTavoli.get(i), Gioco.Blackjack, numeroPosti.get(i)));
+            }
+        }
     }
 
     public void popolaSlotMachine()

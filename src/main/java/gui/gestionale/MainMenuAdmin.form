@@ -447,7 +447,7 @@
                       <verticalTextPosition value="1"/>
                     </properties>
                   </component>
-                  <component id="db324" class="javax.swing.JTextField">
+                  <component id="db324" class="javax.swing.JTextField" binding="nomeDipendenteField">
                     <constraints>
                       <grid row="0" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                         <preferred-size width="150" height="-1"/>
@@ -468,7 +468,7 @@
                       <text value="Cognome"/>
                     </properties>
                   </component>
-                  <component id="2f493" class="javax.swing.JTextField">
+                  <component id="2f493" class="javax.swing.JTextField" binding="cognomeDipendenteField">
                     <constraints>
                       <grid row="1" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                         <preferred-size width="150" height="-1"/>
@@ -488,7 +488,7 @@
                       <text value="Username"/>
                     </properties>
                   </component>
-                  <component id="e646e" class="javax.swing.JTextField">
+                  <component id="e646e" class="javax.swing.JTextField" binding="usernameDipendenteField">
                     <constraints>
                       <grid row="2" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                         <preferred-size width="150" height="-1"/>

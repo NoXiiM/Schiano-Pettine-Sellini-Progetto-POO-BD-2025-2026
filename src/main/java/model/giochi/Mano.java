@@ -14,11 +14,11 @@ public class Mano
     public Mano(Gioco gioco) {
 
         //considerare l eliminazione del codice sotto
-        if(gioco == Gioco.PokerItaliano)
+        if(gioco == Gioco.Poker)
         {
             larghezzaMano = 5;
         }
-        if(gioco == Gioco.BlackJack)
+        if(gioco == Gioco.Blackjack)
         {
             larghezzaMano = null;
         }

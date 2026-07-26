@@ -12,16 +12,16 @@ public class Dealer extends Dipendente
 
     public Dealer(String username, String nome, String cognome, String codiceFiscale,
                   LocalDate dataDiNascita, String password,
-                  String identificativoDipendente, Gioco giocoDoveServe)
-    {
+                  String identificativoDipendente, Gioco giocoDoveServe){
+
         super(username, nome, cognome, codiceFiscale, dataDiNascita, password, identificativoDipendente);
         giochiDoveServe.add(giocoDoveServe);
     }
 
     public Dealer(String username, String nome, String cognome, String codiceFiscale,
                   LocalDate dataDiNascita, String password,
-                  String identificativoDipendente)
-    {
+                  String identificativoDipendente){
+
         super(username, nome, cognome, codiceFiscale, dataDiNascita, password, identificativoDipendente);
     }
 }

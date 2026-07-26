@@ -18,7 +18,7 @@ public class MainMenuAdmin {
     private JList listaClienti;
     private JButton bannaButton;
     private JTextArea infoField;
-    private JButton logoutButton;
+    private JButton logoutDaClienti;
     private JLabel userFieldAdmin;
     private JButton cercaButton;
     private JTextField textFieldNome;
@@ -34,11 +34,9 @@ public class MainMenuAdmin {
     private JLabel cognomeText;
     private JPanel jpanelRicerca;
     private JLabel usernameText;
-    private JLabel saldoText;
-    private JLabel sospettoText;
-    private JLabel banText;
-    private JLabel percentualVincitaText;
-    private JLabel partiteGiocateText;
+    private JLabel saldoTextMin;
+    private JLabel percentualVincitaTextMin;
+    private JLabel partiteGiocateTextMin;
     private JSpinner spinnerSaldoMin;
     private JSpinner spinnerSaldoMax;
     private JSpinner spinnerPercMin;
@@ -51,15 +49,36 @@ public class MainMenuAdmin {
     private JButton aggiornaButton;
     private JPanel gestioneClienti;
     private JPanel gestioneDipendenti;
-    private JRadioButton radioButton1;
-    private JRadioButton radioButton2;
     private JButton aggiornaDipendenti;
-    private JButton logoutDipendenti;
+    private JButton logoutDaDipendenti;
     private JButton licenziaDipendenti;
     private JButton cercaDipendenti;
     private JButton aggiungiDipendenti;
     private JList listaDipendenti;
     private JTextArea textAreaInfoDipendenti;
+    private JList list1;
+    private JTextArea textArea1;
+    private JButton aggiornaListaButton;
+    private JButton logoutDaTavoli;
+    private JButton assegnaTavoloButton;
+    private JButton modificaGiochiButton;
+    private JButton filtraButton;
+    private JLabel saldoTextMax;
+    private JLabel percentualVincitaTextMax;
+    private JLabel partiteGiocateTextMax;
+    private JCheckBox filtraPerRuoloCheckBox;
+    private JRadioButton supervisoreRadioButton;
+    private JRadioButton dealerRadioButton;
+    private JButton modificaButton;
+    private JCheckBox filtraPerSospettiCheckBox;
+    private JCheckBox filtraPerBanCheckBox;
+    private JRadioButton siSospettoRadio;
+    private JRadioButton noSospettoRadio;
+    private JRadioButton siBanRadio;
+    private JRadioButton noBanRadio;
+    private JCheckBox filtraPerGiocoCheckBox;
+    private JRadioButton pokerRadio;
+    private JRadioButton blackjackRadio;
 
     JFrame thisFrame;
     JFrame frameChiamante;
@@ -82,14 +101,7 @@ public class MainMenuAdmin {
         thisFrame.setVisible(true);
         frameChiamante.setVisible(false);
 
-        spinnerPercMin.setModel(new SpinnerNumberModel(0, 0, 100, 1));
-        spinnerPercMax.setModel(new SpinnerNumberModel(0, 0, 100, 1));
-
-        spinnerSaldoMin.setModel(new SpinnerNumberModel(0, -10000, 10000, 1)); // adatta i limiti reali
-        spinnerSaldoMax.setModel(new SpinnerNumberModel(0, -10000, 10000, 1));
-
-        spinnerPartMin.setModel(new SpinnerNumberModel(0, 0, 10000, 1));
-        spinnerPartMax.setModel(new SpinnerNumberModel(0, 0, 10000, 1));
+        inizializzaMenuAdmin();
 
         bannaButton.addActionListener(new ActionListener() {
             @Override
@@ -101,7 +113,9 @@ public class MainMenuAdmin {
                     String input = JOptionPane.showInputDialog(null, "Inserisci motivo ban:", "Ban utente", JOptionPane.QUESTION_MESSAGE);
 
                     if (input != null && !input.isBlank()) {
+
                         temp.creaBan(input);
+
                         infoField.setText("User: " + temp.getUsername() + "\nSaldo: " + temp.getSaldo() + "\nTasso vincita: " +
                                 temp.getVincitaPercentualeTot() + "\nSaldo giocato: " + temp.getFichesGiocate() + "\nTempo di gioco totale: " + temp.getTempoDiGioco() +
                                 "\nBan: " + (temp.getMotivoBan() != null ? temp.getMotivoBan() : "Nessuno")
@@ -140,24 +154,11 @@ public class MainMenuAdmin {
             }
         });
 
-        logoutButton.addActionListener(new ActionListener() {
+        logoutDaClienti.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                int risposta = JOptionPane.showConfirmDialog(
-                        null,
-                        "Sei sicuro di voler tornare alla schermata di login ?",
-                        "Conferma",
-                        JOptionPane.YES_NO_OPTION
-                );
-
-                if (risposta == JOptionPane.YES_OPTION) {
-                    controller.setCurrentUserNull();
-                    thisFrame.setVisible(false);
-                    frameChiamante.setVisible(true);
-                    thisFrame.dispose();
-                }
-
+                logoutAdmin();
             }
         });
 
@@ -182,28 +183,32 @@ public class MainMenuAdmin {
                 boolean checkPercentuale= controllaPercentualeCheckBox.isSelected();
                 boolean checkPartite= controllaPartiteCheckBox.isSelected();
 
-                //Definiamo se sia indifferente, si o no, il sospetto
-                String sospettoRicerca;
-                if(siCheckBoxSospetto.isSelected() && noCheckBoxSospetto.isSelected()) {
-                    sospettoRicerca = "indifferente";
-                } else if (siCheckBoxSospetto.isSelected()) {
-                    sospettoRicerca = "si";
-                } else if (noCheckBoxSospetto.isSelected()) {
-                    sospettoRicerca = "no";
-                } else  {
-                    sospettoRicerca = "indifferente";
+                String sospettoRicerca= "indifferente";
+                if(filtraPerSospettiCheckBox.isSelected()) {
+
+                    if(siSospettoRadio.isSelected()){
+                        sospettoRicerca= "si";
+
+                    } else if(noSospettoRadio.isSelected()){
+                        sospettoRicerca= "no";
+                    }
+
+                } else {
+                    sospettoRicerca= "indifferente";
                 }
 
-                //Definiamo se sia indifferente, si o no, il ban
-                String banRicerca;
-                if(siCheckBoxBan.isSelected() && noCheckBoxBan.isSelected()) {
-                    banRicerca = "indifferente";
-                } else if (siCheckBoxBan.isSelected()) {
-                    banRicerca = "si";
-                } else if (noCheckBoxBan.isSelected()) {
-                    banRicerca = "no";
-                } else  {
-                    banRicerca = "indifferente";
+                String banRicerca= "indifferente";
+                if(filtraPerBanCheckBox.isSelected()) {
+
+                    if(siBanRadio.isSelected()){
+                        banRicerca= "si";
+
+                    } else if (noBanRadio.isSelected()){
+                        banRicerca= "no";
+                    }
+
+                } else {
+                    banRicerca= "indifferente";
                 }
 
                 modelloListaClienti.clear();
@@ -216,17 +221,235 @@ public class MainMenuAdmin {
 
             }
         });
+
         aggiornaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 modelloListaClienti.clear();
-                modelloListaClienti.addAll(controller.getClientiInLocale());
+                modelloListaClienti.addAll(controller.getListaClientiDB());
+            }
+        });
+
+        cercaDipendenti.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        controllaSaldoCheckBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(controllaSaldoCheckBox.isSelected()){
+                    saldoTextMin.setVisible(true);
+                    saldoTextMax.setVisible(true);
+                    spinnerSaldoMin.setVisible(true);
+                    spinnerSaldoMax.setVisible(true);
+
+                } else {
+                    saldoTextMin.setVisible(false);
+                    saldoTextMax.setVisible(false);
+                    spinnerSaldoMin.setVisible(false);
+                    spinnerSaldoMax.setVisible(false);
+                }
+            }
+        });
+
+        controllaPercentualeCheckBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(controllaPercentualeCheckBox.isSelected()){
+                        percentualVincitaTextMax.setVisible(true);
+                        percentualVincitaTextMin.setVisible(true);
+                        spinnerPercMin.setVisible(true);
+                        spinnerPercMax.setVisible(true);
+
+                } else {
+                        percentualVincitaTextMax.setVisible(false);
+                        percentualVincitaTextMin.setVisible(false);
+                        spinnerPercMin.setVisible(false);
+                        spinnerPercMax.setVisible(false);
+                }
+            }
+        });
+
+        controllaPartiteCheckBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(controllaPartiteCheckBox.isSelected()){
+
+                    partiteGiocateTextMin.setVisible(true);
+                    partiteGiocateTextMax.setVisible(true);
+                    spinnerPartMin.setVisible(true);
+                    spinnerPartMax.setVisible(true);
+                } else {
+                    partiteGiocateTextMin.setVisible(false);
+                    partiteGiocateTextMax.setVisible(false);
+                    spinnerPartMin.setVisible(false);
+                    spinnerPartMax.setVisible(false);
+                }
+            }
+        });
+
+        filtraPerRuoloCheckBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(filtraPerRuoloCheckBox.isSelected()){
+                    supervisoreRadioButton.setVisible(true);
+                    dealerRadioButton.setVisible(true);
+
+                } else {
+                    supervisoreRadioButton.setVisible(false);
+                    dealerRadioButton.setVisible(false);
+                }
+            }
+        });
+
+        filtraPerSospettiCheckBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(filtraPerSospettiCheckBox.isSelected()){
+                    siSospettoRadio.setVisible(true);
+                    noSospettoRadio.setVisible(true);
+
+                } else {
+                    siSospettoRadio.setVisible(false);
+                    noSospettoRadio.setVisible(false);
+                }
+            }
+        });
+
+        filtraPerBanCheckBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(filtraPerBanCheckBox.isSelected()){
+                    siBanRadio.setVisible(true);
+                    noBanRadio.setVisible(true);
+
+                } else {
+                    siBanRadio.setVisible(false);
+                    noBanRadio.setVisible(false);
+                }
+            }
+        });
+
+        logoutDaTavoli.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                logoutAdmin();
+            }
+        });
+
+        logoutDaDipendenti.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                logoutAdmin();
+            }
+        });
+
+        cercaDipendenti.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        filtraPerGiocoCheckBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(filtraPerGiocoCheckBox.isSelected()){
+                    pokerRadio.setVisible(true);
+                    blackjackRadio.setVisible(true);
+
+                } else {
+                    pokerRadio.setVisible(false);
+                    blackjackRadio.setVisible(false);
+                }
             }
         });
     }
 
-    public void aggiornaUsername(){
+    private void inizializzaMenuAdmin(){
+
+        ButtonGroup sospettiButtons= new ButtonGroup();
+        sospettiButtons.add(siSospettoRadio);
+        sospettiButtons.add(noSospettoRadio);
+
+        ButtonGroup banButtons= new ButtonGroup();
+        banButtons.add(siBanRadio);
+        banButtons.add(noBanRadio);
+
+        ButtonGroup giochiButtons= new ButtonGroup();
+        giochiButtons.add(pokerRadio);
+        giochiButtons.add(blackjackRadio);
+
+        spinnerPercMin.setModel(new SpinnerNumberModel(0, 0, 100, 1));
+        spinnerPercMax.setModel(new SpinnerNumberModel(0, 0, 100, 1));
+
+        spinnerSaldoMin.setModel(new SpinnerNumberModel(0, -10000, 10000, 1));
+        spinnerSaldoMax.setModel(new SpinnerNumberModel(0, -10000, 10000, 1));
+
+        spinnerPartMin.setModel(new SpinnerNumberModel(0, 0, 10000, 1));
+        spinnerPartMax.setModel(new SpinnerNumberModel(0, 0, 10000, 1));
+
+        saldoTextMin.setVisible(false);
+        saldoTextMax.setVisible(false);
+        spinnerSaldoMin.setVisible(false);
+        spinnerSaldoMax.setVisible(false);
+
+        percentualVincitaTextMax.setVisible(false);
+        percentualVincitaTextMin.setVisible(false);
+        spinnerPercMin.setVisible(false);
+        spinnerPercMax.setVisible(false);
+
+        partiteGiocateTextMin.setVisible(false);
+        partiteGiocateTextMax.setVisible(false);
+        spinnerPartMin.setVisible(false);
+        spinnerPartMax.setVisible(false);
+
+        supervisoreRadioButton.setVisible(false);
+        dealerRadioButton.setVisible(false);
+
+        siBanRadio.setVisible(false);
+        noBanRadio.setVisible(false);
+
+        siSospettoRadio.setVisible(false);
+        noSospettoRadio.setVisible(false);
+
+        pokerRadio.setVisible(false);
+        blackjackRadio.setVisible(false);
+    }
+
+    private void aggiornaUsername(){
         userFieldAdmin.setText(controller.getUserUtente() + "\t");
         userFieldAdmin.setText(controller.getUserUtente() + "\t");
+    }
+
+    private void logoutAdmin(){
+
+        int risposta = JOptionPane.showConfirmDialog(
+                null,
+                "Sei sicuro di voler tornare alla schermata di login ?",
+                "Conferma",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (risposta == JOptionPane.YES_OPTION) {
+            controller.setCurrentUserNull();
+            thisFrame.setVisible(false);
+            frameChiamante.setVisible(true);
+            thisFrame.dispose();
+        }
+    }
+
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
     }
 }

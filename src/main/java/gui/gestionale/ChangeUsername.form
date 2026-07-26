@@ -18,7 +18,7 @@
           <background color="-15070674"/>
           <font name="Arial Black" size="28" style="1"/>
           <foreground color="-10496"/>
-          <text value="Cambia password"/>
+          <text value="Cambia Username"/>
         </properties>
       </component>
       <component id="2ad0d" class="javax.swing.JPasswordField" binding="passwordField">

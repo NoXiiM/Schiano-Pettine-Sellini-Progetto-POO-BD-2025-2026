@@ -30,7 +30,7 @@ public interface DAOopd {
     void aggiungiTavolo(int idTavolo, String gioco, int numeroPosti, String idDealer) throws SQLException;
 
     //OPD6
-    void recuperaDatiDipendenti(ArrayList<String> idDipendenti, ArrayList<String> nome, ArrayList<String> cognome, ArrayList<LocalDate> dataDiNascita, ArrayList<String> codiceFiscale, ArrayList<String> username, ArrayList<String> password, ArrayList<String> ruolo)throws SQLException;
+    void recuperaDatiDipendenti(ArrayList<String> idDipendenti, ArrayList<String> nome, ArrayList<String> cognome, ArrayList<LocalDate> dataDiNascita, ArrayList<String> codiceFiscale, ArrayList<String> username, ArrayList<String> password, ArrayList<String> ruolo, ArrayList<String> gioco)throws SQLException;
 
     //OPD7
     void assegnaDipendenteATavolo(String idDipendente, String ruolo, int idTavolo) throws SQLException;
@@ -40,4 +40,7 @@ public interface DAOopd {
                       ArrayList<String> idDealer, ArrayList<String> nome,
                       ArrayList<String> cognome, ArrayList<LocalDate> dataDiNascita, ArrayList<String> codiceFiscale,
                       ArrayList<String> username, ArrayList<String> password, ArrayList<String> ruolo) throws SQLException;
+
+    //OPD9
+    void aggiungiGiocoDealer(String idDealer, ArrayList<Gioco> giochi) throws  SQLException;
 }

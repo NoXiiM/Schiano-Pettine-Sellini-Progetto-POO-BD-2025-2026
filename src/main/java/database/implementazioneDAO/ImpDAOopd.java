@@ -36,111 +36,100 @@ public class ImpDAOopd implements DAOopd {
                         "FROM Cliente"
         )) {
 
-            ResultSet risultato = ricerca.executeQuery();
+            try(ResultSet risultato = ricerca.executeQuery())
+            {
+                while(risultato.next()) {
 
+                    username.add(risultato.getString("username"));
 
-            while(risultato.next()) {
+                    nome.add(risultato.getString("nome"));
 
-                username.add(risultato.getString("username"));
+                    cognome.add(risultato.getString("cognome"));
 
-                nome.add(risultato.getString("nome"));
+                    codiceFiscale.add(risultato.getString("codiceFiscale"));
 
-                cognome.add(risultato.getString("cognome"));
+                    dataDiNascita.add(
+                            risultato.getDate("dataDiNascita").toLocalDate()
+                    );
 
-                codiceFiscale.add(risultato.getString("codiceFiscale"));
+                    password.add(
+                            risultato.getString("password")
+                    );
 
-                dataDiNascita.add(
-                        risultato.getDate("dataDiNascita").toLocalDate()
-                );
+                    codiceTesseraGiocatore.add(
+                            risultato.getString("idCliente")
+                    );
 
-                password.add(
-                        risultato.getString("password")
-                );
+                    premium.add(
+                            risultato.getString("tipo").equals("Premium")
+                    );
 
-                codiceTesseraGiocatore.add(
-                        risultato.getString("idCliente")
-                );
+                    sconto_premium.add(
+                            risultato.getDouble("scontoPokerPercentuale")
+                    );
 
-                premium.add(
-                        risultato.getString("tipo").equals("Premium")
-                );
+                    sospetto.add(
+                            risultato.getBoolean("sospetto")
+                    );
 
-                sconto_premium.add(
-                        risultato.getDouble("scontoPokerPercentuale")
-                );
+                    tempoDiGiocoInSec.add(
+                            risultato.getLong("tempoDiGioco")
+                    );
 
-                sospetto.add(
-                        risultato.getBoolean("sospetto")
-                );
+                    fichesGiocate.add(
+                            risultato.getInt("fichesGiocate")
+                    );
 
-                tempoDiGiocoInSec.add(
-                        risultato.getLong("tempoDiGioco")
-                );
+                    saldo.add(
+                            risultato.getInt("saldo")
+                    );
 
-                fichesGiocate.add(
-                        risultato.getInt("fichesGiocate")
-                );
+                    partiteGiocate.add(
+                            risultato.getInt("partiteGiocate")
+                    );
 
-                saldo.add(
-                        risultato.getInt("saldo")
-                );
+                    java.sql.Date sqlDate = risultato.getDate("dataDiBan");
+                    if (sqlDate != null) {
+                        dataBan.add(sqlDate.toLocalDate());
+                    } else {
+                        dataBan.add(null);
+                    }
 
-                partiteGiocate.add(
-                        risultato.getInt("partiteGiocate")
-                );
-
-                java.sql.Date sqlDate = risultato.getDate("dataDiBan");
-                if (sqlDate != null) {
-                    dataBan.add(sqlDate.toLocalDate());
-                } else {
-                    dataBan.add(null);
+                    motiviBan.add(
+                            risultato.getString("motiviBan")
+                    );
                 }
-
-                motiviBan.add(
-                        risultato.getString("motiviBan")
-                );
             }
-
         }
     }
 
     @Override
     public void recuperaDatiDipendenti(ArrayList<String> idDipendenti, ArrayList<String> nome, ArrayList<String> cognome,
                                        ArrayList<LocalDate> dataDiNascita, ArrayList<String> codiceFiscale, ArrayList<String> username,
-                                       ArrayList<String> password, ArrayList<String> ruolo) throws SQLException{
+                                       ArrayList<String> password, ArrayList<String> ruolo, ArrayList<String> gioco) throws SQLException{
         Connection connection = ConnessioneDatabase.getInstance().connection;
 
 
         try(PreparedStatement ricerca = connection.prepareStatement(
                 "SELECT idDipendente, nome, cognome, dataDiNascita, " +
-                        "codiceFiscale, username, password, ruolo " +
-                        "FROM Dipendente"
+                        "codiceFiscale, username, password, ruolo, idGioco " +
+                        "FROM Dipendente as d " +
+                        "LEFT JOIN giochiDealer as gd on d.idDipendente = gd.idDealer"
         )) {
 
-            ResultSet risultato = ricerca.executeQuery();
-
-
-            while (risultato.next()) {
-
-                idDipendenti.add(risultato.getString("idDipendente"));
-
-                nome.add(risultato.getString("nome"));
-
-                cognome.add(risultato.getString("cognome"));
-
-                dataDiNascita.add(
-                        risultato.getDate("dataDiNascita").toLocalDate()
-                );
-
-                codiceFiscale.add(risultato.getString("codiceFiscale"));
-
-                username.add(risultato.getString("username"));
-
-                password.add(risultato.getString("password"));
-
-                ruolo.add(risultato.getString("ruolo"));
-
-
+            try(ResultSet risultato = ricerca.executeQuery())
+            {
+                while (risultato.next()) {
+                    idDipendenti.add(risultato.getString("idDipendente"));
+                    nome.add(risultato.getString("nome"));
+                    cognome.add(risultato.getString("cognome"));
+                    dataDiNascita.add(risultato.getDate("dataDiNascita").toLocalDate());
+                    codiceFiscale.add(risultato.getString("codiceFiscale"));
+                    username.add(risultato.getString("username"));
+                    password.add(risultato.getString("password"));
+                    ruolo.add(risultato.getString("ruolo"));
+                    gioco.add(risultato.getString("idGioco"));
+                }
             }
         }
     }
@@ -222,6 +211,7 @@ public class ImpDAOopd implements DAOopd {
         }
     }
 
+    //TODO vedi se puoi non prendere dipendente
     @Override
     public void caricaTavoli(Gioco gioco, ArrayList<Integer> idTavolo, ArrayList<Integer> numeroPosti,
                              ArrayList<String> idDealer, ArrayList<String> nome,
@@ -252,6 +242,24 @@ public class ImpDAOopd implements DAOopd {
                     password.add(rs.getString("password"));
                     ruolo.add(rs.getString("ruolo"));
                 }
+            }
+        }
+    }
+
+    @Override
+    public void aggiungiGiocoDealer(String idDealer, ArrayList<Gioco> giochi) throws  SQLException
+    {
+        Connection connection = ConnessioneDatabase.getInstance().connection;
+
+        for(Gioco i : giochi)
+        {
+            try(PreparedStatement inserimento = connection.prepareStatement("insert into giochiDealer " +
+                    "values(?,?) "))
+            {
+                inserimento.setString(1, idDealer);
+                inserimento.setString(2, i.name());
+
+                inserimento.executeUpdate();
             }
         }
     }

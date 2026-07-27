@@ -2,6 +2,7 @@ package controller.gestionale;
 
 import database.implementazioneDAO.ImpDAOop;
 import database.implementazioneDAO.ImpDAOopd;
+import model.gestionale.Gioco;
 import model.gestionale.utenteEFigli.Cliente;
 import model.gestionale.utenteEFigli.Dealer;
 import model.gestionale.utenteEFigli.Dipendente;
@@ -93,10 +94,11 @@ public class DipendenteWelcomeController extends WelcomeController {
         ArrayList<String> username = new ArrayList<>();
         ArrayList<String> password = new ArrayList<>();
         ArrayList<String> ruolo = new ArrayList<>();
+        ArrayList<String> giochi = new ArrayList<>();
 
         ImpDAOopd db = new ImpDAOopd();
         try {
-            db.recuperaDatiDipendenti(idDipendenti, nome, cognome, dataDiNascita, codiceFiscale, username, password,ruolo);
+            db.recuperaDatiDipendenti(idDipendenti, nome, cognome, dataDiNascita, codiceFiscale, username, password, ruolo, giochi);
         } catch(SQLException e) {
             throw new RuntimeException(e);
         }
@@ -211,7 +213,7 @@ public class DipendenteWelcomeController extends WelcomeController {
         return dipendentiRicercati;
     }
 
-    public void registraDipendente(String username, String nome, String cognome, String codiceFiscale, LocalDate dataNascita, String password, String ruolo){
+    public void registraDipendente(String username, String nome, String cognome, String codiceFiscale, LocalDate dataNascita, String password, String ruolo, ArrayList<Gioco> giochi){
 
         if (username.isBlank() || nome.isBlank() || cognome.isBlank() || codiceFiscale.isBlank() || password.isBlank() || ruolo.isBlank())
             throw new RuntimeException("Compila tutti i campi!");

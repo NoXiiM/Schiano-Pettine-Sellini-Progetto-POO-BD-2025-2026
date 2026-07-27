@@ -123,7 +123,7 @@
           <grid id="30924" binding="saldoInGamePanel" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <tabbedpane title="Gestisci saldo"/>
+              <tabbedpane title="Gestisci Saldo"/>
             </constraints>
             <properties>
               <background color="-15923680"/>
@@ -191,7 +191,7 @@
           <grid id="f934b" binding="accountIn" layout-manager="GridLayoutManager" row-count="5" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <tabbedpane title="Gestisci account"/>
+              <tabbedpane title="Gestisci Account"/>
             </constraints>
             <properties>
               <background color="-15923680"/>
@@ -206,7 +206,7 @@
                 <properties>
                   <font name="Arial Black" size="28" style="1"/>
                   <foreground color="-659232"/>
-                  <text value="Gestisci account"/>
+                  <text value="Gestisci Account"/>
                 </properties>
               </component>
               <component id="72b51" class="javax.swing.JButton" binding="cambiaPasswordButton" default-binding="true">

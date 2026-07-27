@@ -1,4 +1,4 @@
-package gui;
+package gui.gestionale;
 
 import controller.gestionale.DipendenteWelcomeController;
 import model.gestionale.Gioco;

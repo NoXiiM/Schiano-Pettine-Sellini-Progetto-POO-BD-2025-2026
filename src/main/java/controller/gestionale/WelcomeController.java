@@ -107,8 +107,11 @@ public class WelcomeController {
     }
 
     public boolean isUtenteACliente(){
-        if(currentUser instanceof Cliente) return true;
-        return false;
+        return (currentUser instanceof Cliente);
+    }
+
+    public boolean isUtenteADealer(){
+        return(currentUser != null && currentUser instanceof Dealer);
     }
 
     public ArrayList<String> getUsernamesList() {

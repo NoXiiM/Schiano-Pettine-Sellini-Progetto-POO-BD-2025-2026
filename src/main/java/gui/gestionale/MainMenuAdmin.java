@@ -3,7 +3,6 @@ package gui.gestionale;
 import controller.gestionale.DipendenteWelcomeController;
 import controller.gestionale.WelcomeController;
 import database.implementazioneDAO.ImpDAOopd;
-import gui.AggiungiGiocoDealer;
 import model.gestionale.utenteEFigli.Cliente;
 import model.gestionale.utenteEFigli.Dealer;
 import model.gestionale.utenteEFigli.Dipendente;
@@ -86,6 +85,14 @@ public class MainMenuAdmin {
     private JTextField nomeDipendenteField;
     private JTextField cognomeDipendenteField;
     private JTextField usernameDipendenteField;
+    private JPanel gestioneTavoli;
+    private JPanel gestioneAccountPanel;
+    private JButton cambiaPasswordButton;
+    private JButton cambiaUsernameButton;
+    private JButton resettaPasswordButton;
+    private JLabel userDipendenteLabel;
+    private JLabel usernameClientiLabel;
+    private JLabel usernameTavoliPanel;
 
     JFrame thisFrame;
     JFrame frameChiamante;

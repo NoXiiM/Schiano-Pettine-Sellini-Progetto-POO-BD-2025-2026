@@ -3,6 +3,7 @@ package gui.gestionale;
 import controller.gestionale.DipendenteWelcomeController;
 import controller.gestionale.WelcomeController;
 import database.implementazioneDAO.ImpDAOopd;
+import gui.AggiungiGiocoDealer;
 import model.gestionale.utenteEFigli.Cliente;
 import model.gestionale.utenteEFigli.Dealer;
 import model.gestionale.utenteEFigli.Dipendente;
@@ -64,15 +65,15 @@ public class MainMenuAdmin {
     private JButton aggiornaListaButton;
     private JButton logoutDaTavoli;
     private JButton assegnaTavoloButton;
-    private JButton modificaGiochiButton;
+    private JButton aggiungiGiocoButton;
     private JButton filtraButton;
+    private JButton modificaGiochiButton;
     private JLabel saldoTextMax;
     private JLabel percentualVincitaTextMax;
     private JLabel partiteGiocateTextMax;
     private JCheckBox filtraPerRuoloCheckBox;
     private JRadioButton supervisoreRadioButton;
     private JRadioButton dealerRadioButton;
-    private JButton modificaButton;
     private JCheckBox filtraPerSospettiCheckBox;
     private JCheckBox filtraPerBanCheckBox;
     private JRadioButton siSospettoRadio;
@@ -376,10 +377,15 @@ public class MainMenuAdmin {
         listaDipendenti.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
+
                 Dipendente temp= (Dipendente) listaDipendenti.getSelectedValue();
+
                 if(temp != null){
                     stampaDipendenteInfoField(temp);
                 }
+
+                if(controller.isDealer(temp)) aggiungiGiocoButton.setVisible(true);
+                else aggiungiGiocoButton.setVisible(false);
             }
         });
         aggiornaDipendenti.addActionListener(new ActionListener() {
@@ -401,12 +407,31 @@ public class MainMenuAdmin {
                 if(dealerRadioButton.isSelected()||supervisoreRadioButton.isSelected()){
                     ruoloSelezionato =(dealerRadioButton.isSelected() ? "Dealer" : "Supervisore");
                 }
-                textAreaInfoDipendenti.setText("");
                 modelloListaDipendente.clear();
                 modelloListaDipendente.addAll(controller.ricercaDipendente(nome,cognome, username, checkRuolo, ruoloSelezionato));
             }
         });
 
+        licenziaDipendenti.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                Dipendente temp = (Dipendente) listaDipendenti.getSelectedValue();
+
+                if (temp != null) {
+                    //if()
+                } else {
+                    JOptionPane.showMessageDialog(null,"Nessun dipendente selezionato","Errore",JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        aggiungiGiocoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new AggiungiGiocoDealer(controller, thisFrame, (Dealer) listaDipendenti.getSelectedValue());
+            }
+        });
     }
 
     private void inizializzaMenuAdmin(){
@@ -435,6 +460,8 @@ public class MainMenuAdmin {
 
         spinnerPartMin.setModel(new SpinnerNumberModel(0, 0, 10000, 1));
         spinnerPartMax.setModel(new SpinnerNumberModel(0, 0, 10000, 1));
+
+        aggiungiGiocoButton.setVisible(false);
 
         saldoTextMin.setVisible(false);
         saldoTextMax.setVisible(false);
@@ -520,6 +547,6 @@ public class MainMenuAdmin {
                     "\nData di Nascita: " + temp.getDataDiNascita() +
                     (temp instanceof Supervisore ? "\n\nRuolo: Supervisore" :
                             "\n\nRuolo: Dealer\nGiochi a cui è abilitato: " + ((Dealer) temp).getGiochiDoveServeString()));
-        }else{textAreaInfoDipendenti.setText("");}
+        }
     }
 }

@@ -1,12 +1,16 @@
 package gui.gestionale;
 
 import controller.gestionale.DipendenteWelcomeController;
+import model.gestionale.Gioco;
+import model.gestionale.utenteEFigli.Dealer;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class RegistrationDipendente {
     private JPanel registrationPanel;
@@ -60,7 +64,21 @@ public class RegistrationDipendente {
 
                     String ruolo= (String) ruoloComboBox.getSelectedItem();
 
-                    controller.registraDipendente(usernameRegField.getText(), nameRegField.getText(), surnameRegField.getText(), codFisRegField.getText(), dataNascita, password, ruolo);
+                    ArrayList<Gioco> giochi = null;
+
+                    if(ruolo.equals("Dealer"))
+                    {
+                        giochi = new ArrayList<>();
+                        if(pokerCheckBox.isSelected()) giochi.add(Gioco.Poker);
+                        if(blackJackCheckBox.isSelected()) giochi.add(Gioco.Blackjack);
+                    }
+
+                    try {
+                        controller.registraDipendente(usernameRegField.getText(), nameRegField.getText(),
+                                surnameRegField.getText(), codFisRegField.getText(), dataNascita, password, ruolo, giochi);
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
+                    }
                     JOptionPane.showMessageDialog(null, "Registrazione completata con successo");
 
                     //Aggiornamento Lista

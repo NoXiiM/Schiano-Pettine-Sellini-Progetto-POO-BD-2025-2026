@@ -618,7 +618,7 @@
                   <background color="-12772720"/>
                   <font style="1"/>
                   <foreground color="-10496"/>
-                  <text value="Aggiungi"/>
+                  <text value="Aggiungi dipendente"/>
                 </properties>
               </component>
               <component id="24782" class="javax.swing.JButton" binding="aggiornaDipendenti">
@@ -632,7 +632,7 @@
                   <text value="Aggiorna Lista"/>
                 </properties>
               </component>
-              <component id="d9083" class="javax.swing.JButton" binding="modificaButton" default-binding="true">
+              <component id="d9083" class="javax.swing.JButton" binding="aggiungiGiocoButton">
                 <constraints>
                   <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -640,7 +640,7 @@
                   <background color="-12772720"/>
                   <font style="1"/>
                   <foreground color="-10496"/>
-                  <text value="Modifica"/>
+                  <text value="Aggiungi gioco"/>
                 </properties>
               </component>
               <component id="26035" class="javax.swing.JButton" binding="cercaDipendenti">

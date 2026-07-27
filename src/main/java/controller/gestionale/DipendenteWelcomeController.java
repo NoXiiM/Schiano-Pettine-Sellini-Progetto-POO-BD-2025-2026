@@ -10,6 +10,7 @@ import model.gestionale.utenteEFigli.Supervisore;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class DipendenteWelcomeController extends WelcomeController {
 
@@ -246,5 +247,20 @@ public class DipendenteWelcomeController extends WelcomeController {
         } catch(SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public Dipendente getDipendenteCorrente(){
+        return dipendenteCorrente;
+    }
+
+    public boolean isDealer(Object d){
+        return d instanceof Dealer;
+    }
+
+    public void aggiungiGiochi(Dealer dealerSelezionato, ArrayList<Gioco> giochi) throws SQLException{
+
+        ImpDAOopd db= new ImpDAOopd();
+
+        db.aggiungiGiocoDealer(dealerSelezionato.getIdentificativoDipendente(), giochi);
     }
 }

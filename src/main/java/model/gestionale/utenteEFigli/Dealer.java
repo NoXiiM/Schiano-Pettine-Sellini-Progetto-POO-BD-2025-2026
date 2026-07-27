@@ -51,4 +51,8 @@ public class Dealer extends Dipendente
         }
         return risultato;
     }
+
+    public ArrayList<Gioco> getGiochiDealer(){
+        return giochiDoveServe;
+    }
 }

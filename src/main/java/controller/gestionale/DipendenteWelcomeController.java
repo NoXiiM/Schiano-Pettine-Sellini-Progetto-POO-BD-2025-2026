@@ -200,8 +200,10 @@ public class DipendenteWelcomeController extends WelcomeController {
             if(!username.isBlank()){
                 if (!username.equals(dipendente.getUsername())) continue;
             }
-            if(checkRuolo){
-                if(!ruolo.equals(dipendente.getClass().getName())) continue; //Da scrivere con lettere maiuscole iniziali
+            if(checkRuolo &&!(ruolo.isBlank())){
+                if((dipendente instanceof Dealer) && !(ruolo.equals("Dealer")))continue; //Da scrivere con lettere maiuscole iniziali
+                if((dipendente instanceof Supervisore) && !(ruolo.equals("Supervisore"))) continue;
+
             }
             dipendentiRicercati.add(dipendente);
         }

@@ -34,25 +34,20 @@ public class Dealer extends Dipendente
 
     public String getGiochiDoveServeString() {
         String risultato = "";
-        if(giochiDoveServe==null){
-            if(giochiDoveServe.get(0)==Blackjack ||giochiDoveServe.get(0)==Poker){
-                if(giochiDoveServe.get(0)==Blackjack){
-                    risultato = "Blackjack ";
-            }   else{
-              risultato = "Poker ";
-            }
-            if(giochiDoveServe.get(1)==Blackjack ||giochiDoveServe.get(1)==Poker) {
-                if (giochiDoveServe.get(1) == Blackjack) {
-                    risultato += "Blackjack ";
-                } else {
-                  risultato += "Poker ";
-                }
-            }
+        if(giochiDoveServe!=null){
 
+            if (giochiDoveServe.contains(Blackjack)) {
+                risultato += Blackjack.name()+" ";
             }
-            if (risultato.isEmpty()) {
-             return "Nessuno";
+            if (giochiDoveServe.contains(Poker)){
+                risultato += Poker.name()+" ";
             }
+            if (risultato.isBlank()){
+                risultato = "Nessuno ";
+            }
+        }
+        else{
+            risultato = "Nessuno ";
         }
         return risultato;
     }

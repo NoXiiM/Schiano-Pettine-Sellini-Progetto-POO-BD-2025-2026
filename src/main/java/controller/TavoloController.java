@@ -27,16 +27,8 @@ public class TavoloController
         ArrayList<Integer> idTavoli = new ArrayList<>();
         ArrayList<Integer> numeroPosti = new ArrayList<>();
         ArrayList<String> idDealer = new ArrayList<>();
-        ArrayList<String> nome = new ArrayList<>();
-        ArrayList<String> cognome = new ArrayList<>();
-        ArrayList<LocalDate> dataDiNascita = new ArrayList<>();
-        ArrayList<String> codiceFiscale = new ArrayList<>();
-        ArrayList<String> username = new ArrayList<>();
-        ArrayList<String> password = new ArrayList<>();
-        ArrayList<String> ruolo = new ArrayList<>();
 
-        db.caricaTavoli(Gioco.Blackjack, idTavoli, numeroPosti, idDealer, nome, cognome, dataDiNascita, codiceFiscale,
-                username, password, ruolo);
+        db.caricaTavoli(Gioco.Blackjack, idTavoli, numeroPosti, idDealer);
 
         for(int i = 0; i < idTavoli.size(); i++)
         {
@@ -48,11 +40,27 @@ public class TavoloController
         }
     }
 
-    public void popolaSlotMachine()
+    public void popolaSlotMachine() throws SQLException
     {
-        listaTavoli.add(new Tavolo(1, Gioco.SlotMachine, 1));
-        listaTavoli.add(new Tavolo(2, Gioco.SlotMachine, 0));
-        listaTavoli.add(new Tavolo(3, Gioco.SlotMachine, 1));
+        ImpDAOopd db = new ImpDAOopd();
+
+        ArrayList<Integer> idTavoli = new ArrayList<>();
+        ArrayList<Integer> numeroPosti = new ArrayList<>();
+        ArrayList<String> idDealer = new ArrayList<>();
+
+        db.caricaTavoli(Gioco.SlotMachine, idTavoli, numeroPosti, idDealer);
+        //System.out.println(idTavoli.size());
+
+        for(int i = 0; i < idTavoli.size(); i++)
+        {
+            String idDealerCorrente = idDealer.get(i);
+            //System.out.println(idDealer.get(i).equals("null"));
+
+            if(idDealerCorrente == null)
+            {
+                listaTavoli.add(new Tavolo(idTavoli.get(i), Gioco.SlotMachine, numeroPosti.get(i)));
+            }
+        }
     }
 
     public int getNumeroPosti(int index)

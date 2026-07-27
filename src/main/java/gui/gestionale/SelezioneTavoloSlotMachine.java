@@ -12,6 +12,7 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class SelezioneTavoloSlotMachine {
@@ -44,7 +45,12 @@ public class SelezioneTavoloSlotMachine {
 
 
         controller = new TavoloController();
-        controller.popolaSlotMachine();
+
+        try {
+            controller.popolaSlotMachine();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
+        }
 
         modellolistaTavoli = new DefaultListModel<String>();
 
@@ -71,21 +77,21 @@ public class SelezioneTavoloSlotMachine {
                 String selezione;
                 if(listaTavoli.getSelectedValue() != null)
                 {
+                    //TODO ricordare di poter inserire solo tavoli con un posto per la slot
+//                  if(controller.getNumeroPosti(Integer.parseInt(selezione.replaceAll("\\D+", ""))-1) ==1) {
                     selezione = (String)listaTavoli.getSelectedValue();
-                    if(controller.getNumeroPosti(Integer.parseInt(selezione.replaceAll("\\D+", ""))-1) ==1) {
-                        thisFrame.setVisible(false);
-                        try {
-
-                            clienteController.creaNuovaSessioneDiGioco(controller.getTavolo(Integer.parseInt(selezione.replaceAll("\\D+", ""))-1));
-                            new GUISlotMachine(thisFrame, clienteController);
-                        } catch (RuntimeException ex) {
-                            ex.getMessage();
-                        }
+                    int idTavolo = controller.getIdFromList(selezione);
+                    thisFrame.setVisible(false);
+                    try {
+                        clienteController.creaNuovaSessioneDiGioco(controller.getTavoloWithId(idTavolo));
+                        new GUISlotMachine(thisFrame, clienteController);
+                    } catch (RuntimeException ex) {
+                        ex.getMessage();
                     }
-                    else{
-                        JOptionPane.showMessageDialog(null, "Il tavolo selezionato è occupato ",
-                                "errore", JOptionPane.ERROR_MESSAGE);
-                    }
+//                    else{
+//                        JOptionPane.showMessageDialog(null, "Il tavolo selezionato è occupato ",
+//                                "errore", JOptionPane.ERROR_MESSAGE);
+//                    }
                 }
                 else
                 {

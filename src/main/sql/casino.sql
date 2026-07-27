@@ -60,13 +60,14 @@ CREATE TABLE Tavolo (
     numeroPosti INT NOT NULL,
     idDealer VARCHAR(20) UNIQUE,
     FOREIGN KEY (idDealer) REFERENCES Dipendente(IdDipendente) ON DELETE CASCADE,
-    CHECK ((gioco = 'SlotMachine' AND idDealer IS NULL) OR (gioco IN ('Poker', 'Blackjack') AND idDealer IS NOT NULL)),
+    CHECK ((gioco = 'SlotMachine' AND idDealer IS NULL AND numeroPosti = 1) --vedi se fare la logica per occupato
+	OR (gioco IN ('Poker', 'Blackjack') AND idDealer IS NOT NULL)),
 	FOREIGN KEY (gioco) REFERENCES Gioco(nomeGioco)
 );
 
 --Crea Supervisore
 CREATE TABLE SupervisoreTavolo (
-    idSupervisore VARCHAR(5) NOT NULL,
+    idSupervisore VARCHAR(20) NOT NULL,
     idTavolo INT NOT NULL,
     PRIMARY KEY (idSupervisore, idTavolo),
     FOREIGN KEY (idSupervisore) REFERENCES Dipendente(IdDipendente) ON DELETE CASCADE,

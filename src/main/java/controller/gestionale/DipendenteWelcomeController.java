@@ -237,4 +237,14 @@ public class DipendenteWelcomeController extends WelcomeController {
 
         pulisciUsernames();
     }
+    public void licenziaDipendente(Dipendente dipendente){
+        String idDipendente = dipendente.getIdentificativoDipendente();
+
+        ImpDAOopd db = new ImpDAOopd();
+        try {
+            db.eliminaDipendente(idDipendente);
+        } catch(SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

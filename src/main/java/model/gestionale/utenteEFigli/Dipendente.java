@@ -13,4 +13,8 @@ public abstract class Dipendente extends Utente
         super(username, nome, cognome, codiceFiscale, dataDiNascita, password);
         this.identificativoDipendente = identificativoDipendente;
     }
+
+    public String getIdentificativoDipendente() {
+        return identificativoDipendente;
+    }
 }

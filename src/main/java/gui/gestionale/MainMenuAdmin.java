@@ -401,21 +401,12 @@ public class MainMenuAdmin {
                 if(dealerRadioButton.isSelected()||supervisoreRadioButton.isSelected()){
                     ruoloSelezionato =(dealerRadioButton.isSelected() ? "Dealer" : "Supervisore");
                 }
+                textAreaInfoDipendenti.setText("");
                 modelloListaDipendente.clear();
                 modelloListaDipendente.addAll(controller.ricercaDipendente(nome,cognome, username, checkRuolo, ruoloSelezionato));
             }
         });
-        licenziaDipendenti.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Dipendente temp = (Dipendente) listaDipendenti.getSelectedValue();
-                if (temp != null) {
-                    //if()
-                } else {
-                    JOptionPane.showMessageDialog(null,"Nessun dipendente selezionato","Errore",JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        });
+
     }
 
     private void inizializzaMenuAdmin(){
@@ -529,6 +520,6 @@ public class MainMenuAdmin {
                     "\nData di Nascita: " + temp.getDataDiNascita() +
                     (temp instanceof Supervisore ? "\n\nRuolo: Supervisore" :
                             "\n\nRuolo: Dealer\nGiochi a cui è abilitato: " + ((Dealer) temp).getGiochiDoveServeString()));
-        }
+        }else{textAreaInfoDipendenti.setText("");}
     }
 }

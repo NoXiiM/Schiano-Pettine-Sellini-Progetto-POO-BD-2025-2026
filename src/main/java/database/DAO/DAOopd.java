@@ -40,4 +40,7 @@ public interface DAOopd {
                       ArrayList<String> idDealer, ArrayList<String> nome,
                       ArrayList<String> cognome, ArrayList<LocalDate> dataDiNascita, ArrayList<String> codiceFiscale,
                       ArrayList<String> username, ArrayList<String> password, ArrayList<String> ruolo) throws SQLException;
+
+    //OPD9
+    void aggiungiGiocoDealer(String idDealer, ArrayList<Gioco> giochi) throws  SQLException;
 }

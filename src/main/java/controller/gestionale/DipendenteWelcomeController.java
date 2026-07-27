@@ -106,6 +106,8 @@ public class DipendenteWelcomeController extends WelcomeController {
         Dealer d;
         Supervisore s;
 
+        //System.out.println(idDipendenti.size());
+
         for(int i = 0; i < idDipendenti.size(); i++) {
             if(ruolo.get(i).equals("Dealer")){
                 ArrayList<Gioco> listaGiochi = new ArrayList<>();
@@ -117,6 +119,8 @@ public class DipendenteWelcomeController extends WelcomeController {
                     i++;
                     listaGiochi.add(Gioco.valueOf(gioco.get(i)));
                 }
+
+                //for(Gioco j : listaGiochi) System.out.println(j);
 
                 d = new Dealer(username.get(i), nome.get(i), cognome.get(i), codiceFiscale.get(i), dataDiNascita.get(i),
                         password.get(i), idDipendenti.get(i), listaGiochi);
@@ -211,7 +215,8 @@ public class DipendenteWelcomeController extends WelcomeController {
         return dipendentiRicercati;
     }
 
-    public void registraDipendente(String username, String nome, String cognome, String codiceFiscale, LocalDate dataNascita, String password, String ruolo){
+    public void registraDipendente(String username, String nome, String cognome, String codiceFiscale,
+                                   LocalDate dataNascita, String password, String ruolo, ArrayList<Gioco> gioco) throws SQLException{
 
         if (username.isBlank() || nome.isBlank() || cognome.isBlank() || codiceFiscale.isBlank() || password.isBlank() || ruolo.isBlank())
             throw new RuntimeException("Compila tutti i campi!");
@@ -230,7 +235,12 @@ public class DipendenteWelcomeController extends WelcomeController {
                     dataNascita, password, ruolo);
         } catch (SQLException e) {
             aggiornaUsernames();
-            throw new RuntimeException(e);
+            throw new SQLException(e);
+        }
+
+        if(gioco != null)
+        {
+            new ImpDAOopd().aggiungiGiocoDealer(idTesseraDip, gioco);
         }
 
         if(ruolo.equals("Supervisore")) dipendentiInLocale.add(new Supervisore(username, nome, cognome, codiceFiscale, dataNascita, password, idTesseraDip));

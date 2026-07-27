@@ -245,4 +245,22 @@ public class ImpDAOopd implements DAOopd {
             }
         }
     }
+
+    @Override
+    public void aggiungiGiocoDealer(String idDealer, ArrayList<Gioco> giochi) throws  SQLException
+    {
+        Connection connection = ConnessioneDatabase.getInstance().connection;
+
+        for(Gioco i : giochi)
+        {
+            try(PreparedStatement inserimento = connection.prepareStatement("insert into giochiDealer " +
+                    "values(?,?) "))
+            {
+                inserimento.setString(1, idDealer);
+                inserimento.setString(2, i.name());
+
+                inserimento.executeUpdate();
+            }
+        }
+    }
 }

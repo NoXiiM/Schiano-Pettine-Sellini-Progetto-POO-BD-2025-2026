@@ -12,6 +12,7 @@ public class Tavolo
 
     //attributi da associazioni
     private Dealer dealer;
+    private String idDealer;
     //probabilmente non serve
     //private ArrayList<Giocatore> listaGiocatori;
     //private ArrayList<Sessione> sessioniAperteSulTavolo = new ArrayList<>();
@@ -22,6 +23,12 @@ public class Tavolo
         this.gioco = gioco;
         this.numeroPosti = numeroPosti;
         dealer = null;
+    }
+
+    public Tavolo(int idTavolo, Gioco gioco, int numeroPosti, String idDealer)
+    {
+        this(idTavolo, gioco, numeroPosti);
+        this.idDealer = idDealer;
     }
 
     public Tavolo(int idTavolo, Gioco gioco, int numeroPosti, Dealer dealer)

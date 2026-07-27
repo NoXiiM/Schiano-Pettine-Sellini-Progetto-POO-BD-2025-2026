@@ -418,13 +418,96 @@ public class MainMenuAdmin {
 
                 Dipendente temp = (Dipendente) listaDipendenti.getSelectedValue();
 
+                textAreaInfoDipendenti.setText("");
+
                 if (temp != null) {
-                    //if()
+                    if(temp instanceof Dealer){
+                        JPasswordField passwordField = new JPasswordField();
+
+                        Object[] messaggio = {
+                                "Inserisci la password per confermare il licenziamento:",
+                                passwordField
+                        };
+
+                        int risposta = JOptionPane.showConfirmDialog(
+                                null,
+                                messaggio,
+                                "Conferma licenziamento",
+                                JOptionPane.OK_CANCEL_OPTION,
+                                JOptionPane.WARNING_MESSAGE
+                        );
+
+                        if (risposta == JOptionPane.OK_OPTION) {
+                            String password = new String(passwordField.getPassword());
+
+                            // Controlla la password
+                            if(password.equals(controller.getCurrentUser().getPassword())) {
+                                try {
+                                    controller.licenziaDipendente(temp);
+                                } catch (SQLException ex) {
+                                    JOptionPane.showMessageDialog(null, ex.getMessage(),
+                                            "errore", JOptionPane.ERROR_MESSAGE);
+                                }
+                                textAreaInfoDipendenti.setText("");
+                            } else {
+                                JOptionPane.showMessageDialog(
+                                        null,
+                                        "Password non corretta!",
+                                        "Errore",
+                                        JOptionPane.ERROR_MESSAGE
+                                );
+                            }
+                        }
+                    }else{
+                        if(controller.getCurrentUser().getUsername().equals("root")){
+                            JPasswordField passwordField = new JPasswordField();
+
+                            Object[] messaggio = {
+                                    "Inserisci la password per confermare il licenziamento:",
+                                    passwordField
+                            };
+
+                            int risposta = JOptionPane.showConfirmDialog(
+                                    null,
+                                    messaggio,
+                                    "Conferma licenziamento",
+                                    JOptionPane.OK_CANCEL_OPTION,
+                                    JOptionPane.WARNING_MESSAGE
+                            );
+
+                            if (risposta == JOptionPane.OK_OPTION) {
+                                String password = new String(passwordField.getPassword());
+
+                                // Controlla la password
+                                if(password.equals(controller.getCurrentUser().getPassword())) {
+                                    try {
+                                        controller.licenziaDipendente(temp);
+                                    } catch (SQLException ex) {
+                                        JOptionPane.showMessageDialog(null, ex.getMessage(),
+                                                "errore", JOptionPane.ERROR_MESSAGE);
+                                    }
+                                    textAreaInfoDipendenti.setText("");
+                                }
+                                else {
+                                    JOptionPane.showMessageDialog(
+                                            null,
+                                            "Password non corretta!",
+                                            "Errore",
+                                            JOptionPane.ERROR_MESSAGE
+                                    );
+                                }
+                            }
+                        }
+                        JOptionPane.showMessageDialog(null,"Non hai i permessi per cancellare un Supervisore","Errore",JOptionPane.ERROR_MESSAGE);
+                    }
+                    modelloListaDipendente.clear();
+                    modelloListaDipendente.addAll(controller.getDipendentiDB());
                 } else {
                     JOptionPane.showMessageDialog(null,"Nessun dipendente selezionato","Errore",JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
+
 
         aggiungiGiocoButton.addActionListener(new ActionListener() {
             @Override

@@ -14,10 +14,10 @@ public class Dealer extends Dipendente
 
     public Dealer(String username, String nome, String cognome, String codiceFiscale,
                   LocalDate dataDiNascita, String password,
-                  String identificativoDipendente, Gioco giocoDoveServe){
+                  String identificativoDipendente, ArrayList<Gioco> giochiDoveServe){
 
         super(username, nome, cognome, codiceFiscale, dataDiNascita, password, identificativoDipendente);
-        giochiDoveServe.add(giocoDoveServe);
+        this.giochiDoveServe = giochiDoveServe;
     }
 
     public Dealer(String username, String nome, String cognome, String codiceFiscale,

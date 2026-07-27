@@ -11,7 +11,6 @@ import model.gestionale.utenteEFigli.Supervisore;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class DipendenteWelcomeController extends WelcomeController {
 
@@ -94,11 +93,12 @@ public class DipendenteWelcomeController extends WelcomeController {
         ArrayList<String> username = new ArrayList<>();
         ArrayList<String> password = new ArrayList<>();
         ArrayList<String> ruolo = new ArrayList<>();
-        ArrayList<String> giochi = new ArrayList<>();
+        ArrayList<String> gioco = new ArrayList<>();
 
         ImpDAOopd db = new ImpDAOopd();
         try {
-            db.recuperaDatiDipendenti(idDipendenti, nome, cognome, dataDiNascita, codiceFiscale, username, password, ruolo, giochi);
+            db.recuperaDatiDipendenti(idDipendenti, nome, cognome, dataDiNascita, codiceFiscale,
+                    username, password, ruolo, gioco);
         } catch(SQLException e) {
             throw new RuntimeException(e);
         }
@@ -106,32 +106,34 @@ public class DipendenteWelcomeController extends WelcomeController {
         Dealer d;
         Supervisore s;
 
-        for(int i = 0; i < idDipendenti.size(); i++) {
+        //System.out.println(idDipendenti.size());
 
+        for(int i = 0; i < idDipendenti.size(); i++) {
             if(ruolo.get(i).equals("Dealer")){
-                d = new Dealer(username.get(i),
-                        nome.get(i),
-                        cognome.get(i),
-                        codiceFiscale.get(i),
-                        dataDiNascita.get(i),
-                        password.get(i),
-                        idDipendenti.get(i));
+                ArrayList<Gioco> listaGiochi = new ArrayList<>();
+                if(gioco.get(i) != null) listaGiochi.add(Gioco.valueOf(gioco.get(i)));
+                String idCorrente = idDipendenti.get(i);
+
+                while(i < (idDipendenti.size() - 1) && idDipendenti.get(i+1).equals(idCorrente))
+                {
+                    i++;
+                    listaGiochi.add(Gioco.valueOf(gioco.get(i)));
+                }
+
+                //for(Gioco j : listaGiochi) System.out.println(j);
+
+                d = new Dealer(username.get(i), nome.get(i), cognome.get(i), codiceFiscale.get(i), dataDiNascita.get(i),
+                        password.get(i), idDipendenti.get(i), listaGiochi);
                 dipendentiInLocale.add(d);
             }
             else{
-                s = new Supervisore(username.get(i),
-                        nome.get(i),
-                        cognome.get(i),
-                        codiceFiscale.get(i),
-                        dataDiNascita.get(i),
-                        password.get(i),
-                        idDipendenti.get(i));
+                s = new Supervisore(username.get(i), nome.get(i), cognome.get(i), codiceFiscale.get(i),
+                        dataDiNascita.get(i), password.get(i), idDipendenti.get(i));
                 dipendentiInLocale.add(s);
             }
 
         }
         return dipendentiInLocale;
-
     }
 
     public ArrayList<Cliente> getClientiInLocale() {
@@ -213,7 +215,8 @@ public class DipendenteWelcomeController extends WelcomeController {
         return dipendentiRicercati;
     }
 
-    public void registraDipendente(String username, String nome, String cognome, String codiceFiscale, LocalDate dataNascita, String password, String ruolo, ArrayList<Gioco> giochi){
+    public void registraDipendente(String username, String nome, String cognome, String codiceFiscale,
+                                   LocalDate dataNascita, String password, String ruolo, ArrayList<Gioco> gioco) throws SQLException{
 
         if (username.isBlank() || nome.isBlank() || cognome.isBlank() || codiceFiscale.isBlank() || password.isBlank() || ruolo.isBlank())
             throw new RuntimeException("Compila tutti i campi!");
@@ -232,7 +235,12 @@ public class DipendenteWelcomeController extends WelcomeController {
                     dataNascita, password, ruolo);
         } catch (SQLException e) {
             aggiornaUsernames();
-            throw new RuntimeException(e);
+            throw new SQLException(e);
+        }
+
+        if(gioco != null)
+        {
+            new ImpDAOopd().aggiungiGiocoDealer(idTesseraDip, gioco);
         }
 
         if(ruolo.equals("Supervisore")) dipendentiInLocale.add(new Supervisore(username, nome, cognome, codiceFiscale, dataNascita, password, idTesseraDip));
@@ -240,15 +248,12 @@ public class DipendenteWelcomeController extends WelcomeController {
 
         pulisciUsernames();
     }
-    public void licenziaDipendente(Dipendente dipendente){
+    public void licenziaDipendente(Dipendente dipendente) throws SQLException{
         String idDipendente = dipendente.getIdentificativoDipendente();
 
         ImpDAOopd db = new ImpDAOopd();
-        try {
-            db.eliminaDipendente(idDipendente);
-        } catch(SQLException e) {
-            throw new RuntimeException(e);
-        }
+
+        db.eliminaDipendente(idDipendente);
     }
 
     public Dipendente getDipendenteCorrente(){

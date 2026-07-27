@@ -2,6 +2,7 @@ package controller.gestionale;
 
 import database.implementazioneDAO.ImpDAOop;
 import database.implementazioneDAO.ImpDAOopd;
+import model.gestionale.Gioco;
 import model.gestionale.utenteEFigli.Cliente;
 import model.gestionale.utenteEFigli.Dealer;
 import model.gestionale.utenteEFigli.Dipendente;
@@ -92,10 +93,12 @@ public class DipendenteWelcomeController extends WelcomeController {
         ArrayList<String> username = new ArrayList<>();
         ArrayList<String> password = new ArrayList<>();
         ArrayList<String> ruolo = new ArrayList<>();
+        ArrayList<String> gioco = new ArrayList<>();
 
         ImpDAOopd db = new ImpDAOopd();
         try {
-            db.recuperaDatiDipendenti(idDipendenti, nome, cognome, dataDiNascita, codiceFiscale, username, password,ruolo);
+            db.recuperaDatiDipendenti(idDipendenti, nome, cognome, dataDiNascita, codiceFiscale,
+                    username, password, ruolo, gioco);
         } catch(SQLException e) {
             throw new RuntimeException(e);
         }
@@ -104,31 +107,29 @@ public class DipendenteWelcomeController extends WelcomeController {
         Supervisore s;
 
         for(int i = 0; i < idDipendenti.size(); i++) {
-
             if(ruolo.get(i).equals("Dealer")){
-                d = new Dealer(username.get(i),
-                        nome.get(i),
-                        cognome.get(i),
-                        codiceFiscale.get(i),
-                        dataDiNascita.get(i),
-                        password.get(i),
-                        idDipendenti.get(i));
+                ArrayList<Gioco> listaGiochi = new ArrayList<>();
+                if(gioco.get(i) != null) listaGiochi.add(Gioco.valueOf(gioco.get(i)));
+                String idCorrente = idDipendenti.get(i);
+
+                while(i < (idDipendenti.size() - 1) && idDipendenti.get(i+1).equals(idCorrente))
+                {
+                    i++;
+                    listaGiochi.add(Gioco.valueOf(gioco.get(i)));
+                }
+
+                d = new Dealer(username.get(i), nome.get(i), cognome.get(i), codiceFiscale.get(i), dataDiNascita.get(i),
+                        password.get(i), idDipendenti.get(i), listaGiochi);
                 dipendentiInLocale.add(d);
             }
             else{
-                s = new Supervisore(username.get(i),
-                        nome.get(i),
-                        cognome.get(i),
-                        codiceFiscale.get(i),
-                        dataDiNascita.get(i),
-                        password.get(i),
-                        idDipendenti.get(i));
+                s = new Supervisore(username.get(i), nome.get(i), cognome.get(i), codiceFiscale.get(i),
+                        dataDiNascita.get(i), password.get(i), idDipendenti.get(i));
                 dipendentiInLocale.add(s);
             }
 
         }
         return dipendentiInLocale;
-
     }
 
     public ArrayList<Cliente> getClientiInLocale() {

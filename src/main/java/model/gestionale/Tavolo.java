@@ -11,12 +11,12 @@ public class Tavolo
     private int numeroPosti;
 
     //attributi da associazioni
+
     private Dealer dealer;
     private String idDealer;
     //probabilmente non serve
     //private ArrayList<Giocatore> listaGiocatori;
     //private ArrayList<Sessione> sessioniAperteSulTavolo = new ArrayList<>();
-
     public Tavolo(int idTavolo, Gioco gioco, int numeroPosti)
     {
         this.idTavolo = idTavolo;
@@ -42,15 +42,19 @@ public class Tavolo
     }
 
     //Necessari alla selezione del tavolo
+
     @Override
     public String toString() {
         return "Il tavolo " + idTavolo +
                 " ha " + numeroPosti +
                 " posti";
     }
-
     public int getIdTavolo(){
         return idTavolo;
         }
+
+    public Gioco getGioco() {
+        return gioco;
+    }
 }
 

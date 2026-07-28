@@ -3,6 +3,8 @@ package gui.gestionale;
 import controller.gestionale.DipendenteWelcomeController;
 import controller.gestionale.WelcomeController;
 import database.implementazioneDAO.ImpDAOopd;
+import model.gestionale.Gioco;
+import model.gestionale.Tavolo;
 import model.gestionale.utenteEFigli.Cliente;
 import model.gestionale.utenteEFigli.Dealer;
 import model.gestionale.utenteEFigli.Dipendente;
@@ -15,8 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
-//TODO 1) aggiorna lista funziona come un pulisci filtri di ricerca, quindi si potrebbe pensare di pulire e deselezionare tutti i tipi di filtri
-//TODO 2) chiarire la questione: non mostrare dati nella text area quando nessuno è selezionato
+//TODO 1) chiarire la questione: non mostrare dati nella text area quando nessuno è selezionato
 //manca: parte di gestione tavoli e gestione account
 
 public class MainMenuAdmin {
@@ -63,9 +64,9 @@ public class MainMenuAdmin {
     private JButton aggiungiDipendenti;
     private JList listaDipendenti;
     private JTextArea textAreaInfoDipendenti;
-    private JList list1;
+    private JList listaTavoli;
     private JTextArea textArea1;
-    private JButton aggiornaListaButton;
+    private JButton aggiornaTavoli;
     private JButton logoutDaTavoli;
     private JButton assegnaTavoloButton;
     private JButton aggiungiGiocoButton;
@@ -104,18 +105,35 @@ public class MainMenuAdmin {
 
     private static DefaultListModel<Cliente> modelloListaClienti;
     private static DefaultListModel<Dipendente> modelloListaDipendente;
+    private static DefaultListModel<Tavolo> modelloListaTavoli;
 
     public MainMenuAdmin(DipendenteWelcomeController controller, JFrame frameChiamante) {
         this.controller = controller;
         this.frameChiamante= frameChiamante;
 
         modelloListaClienti= new DefaultListModel<>();
-        modelloListaClienti.addAll(controller.getListaClientiDB());
+        try {
+            modelloListaClienti.addAll(controller.getListaClientiDB());
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
+        }
         listaClienti.setModel(modelloListaClienti);
 
         modelloListaDipendente= new DefaultListModel<>();
-        modelloListaDipendente.addAll(controller.getDipendentiDB());
+        try {
+            modelloListaDipendente.addAll(controller.getDipendentiDB());
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
+        }
         listaDipendenti.setModel(modelloListaDipendente);
+
+        modelloListaTavoli = new DefaultListModel<>();
+        try {
+            modelloListaTavoli.addAll(controller.getTavoliDB());
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
+        }
+        listaTavoli.setModel(modelloListaTavoli);
 
         thisFrame = new JFrame("MainMenuAdmin");
         thisFrame.setContentPane(AdminPanel);
@@ -239,11 +257,17 @@ public class MainMenuAdmin {
             }
         });
 
+        //il pulsante aggiorna carica nuovamente i clienti dal database nell'ipotetica eventualità che 2 supervisori
+        //stiano modificando i clienti in contemporanea
         aggiornaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 modelloListaClienti.clear();
-                modelloListaClienti.addAll(controller.getClientiInLocale());
+                try {
+                    modelloListaClienti.addAll(controller.getListaClientiDB());
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
 
@@ -399,11 +423,17 @@ public class MainMenuAdmin {
                 else aggiungiGiocoButton.setVisible(false);
             }
         });
+        //il pulsante aggiorna carica nuovamente i dipendenti dal database nell'ipotetica eventualità che 2 supervisori
+        //stiano modificando i clienti in contemporanea
         aggiornaDipendenti.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 modelloListaDipendente.clear();
-                modelloListaDipendente.addAll(controller.getDipendentiInLocale());
+                try {
+                    modelloListaDipendente.addAll(controller.getDipendentiDB());
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
         cercaDipendenti.addActionListener(new ActionListener() {
@@ -524,6 +554,34 @@ public class MainMenuAdmin {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new AggiungiGiocoDealer(controller, thisFrame, (Dealer) listaDipendenti.getSelectedValue());
+            }
+        });
+
+        aggiornaTavoli.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                modelloListaTavoli.clear();
+                try {
+                    modelloListaTavoli.addAll(controller.getTavoliDB());
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        filtraButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Gioco selezione = null;
+
+                if(filtraPerGiocoCheckBox.isSelected())
+                {
+                    if(pokerRadio.isSelected()) selezione = Gioco.Poker;
+                    if(blackjackRadio.isSelected()) selezione = Gioco.Blackjack;
+                }
+
+                modelloListaTavoli.clear();
+                modelloListaTavoli.addAll(controller.ricercaTavolo(selezione));
             }
         });
     }

@@ -136,6 +136,28 @@ public class ImpDAOopd implements DAOopd {
     }
 
     @Override
+    public void recuperaDatiTavoli(ArrayList<Integer> idTavolo, ArrayList<Gioco> gioco,
+                                   ArrayList<Integer> numeroPosti, ArrayList<String> idDealer) throws SQLException
+    {
+        Connection connection = ConnessioneDatabase.getInstance().connection;
+
+        try(PreparedStatement query = connection.prepareStatement("select * " +
+                "from tavolo as t "))
+        {
+            try(ResultSet rs = query.executeQuery())
+            {
+                while (rs.next())
+                {
+                    idTavolo.add(rs.getInt("numero"));
+                    gioco.add(Gioco.valueOf(rs.getString("gioco")));
+                    numeroPosti.add(rs.getInt("numeroPosti"));
+                    idDealer.add(rs.getString("idDealer"));
+                }
+            }
+        }
+    }
+
+    @Override
     public void caricaTavoli(Gioco gioco, ArrayList<Integer> idTavolo, ArrayList<Integer> numeroPosti,
                              ArrayList<String> idDealer) throws SQLException
     {

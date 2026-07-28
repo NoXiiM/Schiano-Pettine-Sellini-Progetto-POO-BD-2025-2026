@@ -127,26 +127,21 @@ public class TabbedMenuPlayer {
         cambiaPasswordButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                ChangePass changea_pass_frame= new ChangePass(thisFrame, controller);
-
+                new ChangePass(thisFrame, controller);
             }
         });
 
         cambiaUsernameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                ChangeUsername change_user_frame = new ChangeUsername(thisFrame, controller, TabbedMenuPlayer.this);
+                new ChangeUsername(thisFrame, controller, TabbedMenuPlayer.this);
             }
         });
 
         resettaPasswordButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                ForgotPassword forgotPasswordPanel= new ForgotPassword(controller, thisFrame);
-
+                new ForgotPassword(controller, thisFrame);
             }
         });
 

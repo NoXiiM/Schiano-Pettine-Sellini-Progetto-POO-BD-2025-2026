@@ -19,7 +19,13 @@ public interface DAOopd {
                              ArrayList<LocalDate> dataBan,
                              ArrayList<String> motiviBan)throws SQLException;
 
-    void recuperaDatiDipendenti(ArrayList<String> idDipendenti, ArrayList<String> nome, ArrayList<String> cognome, ArrayList<LocalDate> dataDiNascita, ArrayList<String> codiceFiscale, ArrayList<String> username, ArrayList<String> password, ArrayList<String> ruolo, ArrayList<String> gioco)throws SQLException;
+    void recuperaDatiDipendenti(ArrayList<String> idDipendenti, ArrayList<String> nome, ArrayList<String> cognome,
+                                ArrayList<LocalDate> dataDiNascita, ArrayList<String> codiceFiscale,
+                                ArrayList<String> username, ArrayList<String> password, ArrayList<String> ruolo,
+                                ArrayList<String> gioco)throws SQLException;
+
+    void recuperaDatiTavoli(ArrayList<Integer> idTavolo, ArrayList<Gioco> gioco,
+                            ArrayList<Integer> numeroPosti, ArrayList<String> idDealer) throws SQLException;
 
     void caricaTavoli(Gioco gioco, ArrayList<Integer> idTavolo, ArrayList<Integer> numeroPosti,
                       ArrayList<String> idDealer) throws SQLException;

@@ -3,6 +3,7 @@ package controller.gestionale;
 import database.implementazioneDAO.ImpDAOop;
 import database.implementazioneDAO.ImpDAOopd;
 import model.gestionale.Gioco;
+import model.gestionale.Tavolo;
 import model.gestionale.utenteEFigli.Cliente;
 import model.gestionale.utenteEFigli.Dealer;
 import model.gestionale.utenteEFigli.Dipendente;
@@ -17,6 +18,7 @@ public class DipendenteWelcomeController extends WelcomeController {
     Dipendente dipendenteCorrente;
     ArrayList<Cliente> clientiInLocale;
     ArrayList<Dipendente> dipendentiInLocale;
+    ArrayList<Tavolo> tavoliInLocale;
     ArrayList<String> usernames;
 
     public DipendenteWelcomeController(WelcomeController controller){
@@ -27,10 +29,11 @@ public class DipendenteWelcomeController extends WelcomeController {
 
         clientiInLocale = new ArrayList<>();
         dipendentiInLocale = new ArrayList<>();
+        tavoliInLocale = new ArrayList<>();
     }
 
     //admin
-    public ArrayList<Cliente> getListaClientiDB() {
+    public ArrayList<Cliente> getListaClientiDB() throws SQLException{
 
         if(clientiInLocale!=null) clientiInLocale.clear();
         ArrayList<String> username = new ArrayList<>();
@@ -51,12 +54,9 @@ public class DipendenteWelcomeController extends WelcomeController {
         ArrayList<String> motiviBan = new ArrayList<>();
 
         ImpDAOopd db = new ImpDAOopd();
-        try {
-            db.recuperaDatiClienti(username, nome, cognome, codiceFiscale, dataDiNascita, password,
-                    codiceTesseraGiocatore,premium,sconto_premium,sospetto,tempoDiGiocoInSec,fichesGiocate,saldo,partiteGiocate,dataBan,motiviBan);
-        } catch(SQLException e) {
-            throw new RuntimeException(e);
-        }
+        db.recuperaDatiClienti(username, nome, cognome, codiceFiscale, dataDiNascita, password,
+                codiceTesseraGiocatore,premium,sconto_premium,sospetto,tempoDiGiocoInSec,fichesGiocate,saldo,partiteGiocate,dataBan,motiviBan);
+
         for(int i = 0; i < username.size(); i++) {
 
             Cliente c = new Cliente(
@@ -83,7 +83,7 @@ public class DipendenteWelcomeController extends WelcomeController {
         return clientiInLocale;
     }
 
-    public ArrayList<Dipendente> getDipendentiDB(){
+    public ArrayList<Dipendente> getDipendentiDB() throws SQLException{
         if(dipendentiInLocale!=null) dipendentiInLocale.clear();
         ArrayList<String> idDipendenti = new ArrayList<>();
         ArrayList<String> nome = new ArrayList<>();
@@ -96,12 +96,9 @@ public class DipendenteWelcomeController extends WelcomeController {
         ArrayList<String> gioco = new ArrayList<>();
 
         ImpDAOopd db = new ImpDAOopd();
-        try {
-            db.recuperaDatiDipendenti(idDipendenti, nome, cognome, dataDiNascita, codiceFiscale,
-                    username, password, ruolo, gioco);
-        } catch(SQLException e) {
-            throw new RuntimeException(e);
-        }
+
+        db.recuperaDatiDipendenti(idDipendenti, nome, cognome, dataDiNascita, codiceFiscale,
+                username, password, ruolo, gioco);
 
         Dealer d;
         Supervisore s;
@@ -134,6 +131,27 @@ public class DipendenteWelcomeController extends WelcomeController {
 
         }
         return dipendentiInLocale;
+    }
+
+    public ArrayList<Tavolo> getTavoliDB() throws SQLException
+    {
+        if(tavoliInLocale!=null) tavoliInLocale.clear();
+
+        ArrayList<Integer> idTavolo = new ArrayList<>();
+        ArrayList<Gioco> gioco = new ArrayList<>();
+        ArrayList<Integer> numeroPosti = new ArrayList<>();
+        ArrayList<String> idDealer = new ArrayList<>();
+
+        ImpDAOopd db = new ImpDAOopd();
+
+        db.recuperaDatiTavoli(idTavolo, gioco, numeroPosti, idDealer);
+
+        for(int i = 0; i < idDealer.size(); i++)
+        {
+            tavoliInLocale.add(new Tavolo(idTavolo.get(i), gioco.get(i), numeroPosti.get(i), idDealer.get(i)));
+        }
+
+        return tavoliInLocale;
     }
 
     public ArrayList<Cliente> getClientiInLocale() {
@@ -213,6 +231,23 @@ public class DipendenteWelcomeController extends WelcomeController {
             dipendentiRicercati.add(dipendente);
         }
         return dipendentiRicercati;
+    }
+
+    public ArrayList<Tavolo> ricercaTavolo(Gioco gioco)
+    {
+        ArrayList<Tavolo> tavoliRicercati = new ArrayList<>();
+
+        for(Tavolo i : tavoliInLocale)
+        {
+            if(gioco != null)
+            {
+                if(!(i.getGioco().equals(gioco))) continue;
+            }
+
+            tavoliRicercati.add(i);
+        }
+
+        return tavoliRicercati;
     }
 
     public void registraDipendente(String username, String nome, String cognome, String codiceFiscale,

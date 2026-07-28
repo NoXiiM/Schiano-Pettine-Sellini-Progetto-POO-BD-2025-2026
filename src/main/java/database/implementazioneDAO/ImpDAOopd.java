@@ -136,6 +136,30 @@ public class ImpDAOopd implements DAOopd {
     }
 
     @Override
+    public void caricaTavoli(Gioco gioco, ArrayList<Integer> idTavolo, ArrayList<Integer> numeroPosti,
+                             ArrayList<String> idDealer) throws SQLException
+    {
+        Connection connection = ConnessioneDatabase.getInstance().connection;
+
+        try(PreparedStatement query = connection.prepareStatement("select * " +
+                "from tavolo as t " +
+                "where gioco = ?"))
+        {
+            query.setString(1, gioco.name());
+
+            try(ResultSet rs = query.executeQuery())
+            {
+                while (rs.next())
+                {
+                    idTavolo.add(rs.getInt("numero"));
+                    numeroPosti.add(rs.getInt("numeroPosti"));
+                    idDealer.add(rs.getString("idDealer"));
+                }
+            }
+        }
+    }
+
+    @Override
     public void salvataggioBan(String idCliente,LocalDate dataDiBan, String motiviBan) throws SQLException
     {
         Connection connection = ConnessioneDatabase.getInstance().connection;
@@ -208,30 +232,6 @@ public class ImpDAOopd implements DAOopd {
                 aggiornamento.setInt(2, idTavolo);
 
                 aggiornamento.executeUpdate();
-            }
-        }
-    }
-
-    @Override
-    public void caricaTavoli(Gioco gioco, ArrayList<Integer> idTavolo, ArrayList<Integer> numeroPosti,
-                             ArrayList<String> idDealer) throws SQLException
-    {
-        Connection connection = ConnessioneDatabase.getInstance().connection;
-
-        try(PreparedStatement query = connection.prepareStatement("select * " +
-                "from tavolo as t " +
-                "where gioco = ?"))
-        {
-            query.setString(1, gioco.name());
-
-            try(ResultSet rs = query.executeQuery())
-            {
-                while (rs.next())
-                {
-                    idTavolo.add(rs.getInt("numero"));
-                    numeroPosti.add(rs.getInt("numeroPosti"));
-                    idDealer.add(rs.getString("idDealer"));
-                }
             }
         }
     }

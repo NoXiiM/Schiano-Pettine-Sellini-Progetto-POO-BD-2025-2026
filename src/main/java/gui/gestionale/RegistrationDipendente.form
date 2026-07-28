@@ -25,7 +25,7 @@
             <properties>
               <font name="Arial Black" size="28" style="1"/>
               <foreground color="-10496"/>
-              <text value="Registrati"/>
+              <text value="Aggiungi Dipendente"/>
             </properties>
           </component>
           <component id="a4643" class="javax.swing.JLabel">
@@ -125,7 +125,7 @@
             <properties>
               <background color="-14514108"/>
               <foreground color="-659232"/>
-              <text value="Registrati"/>
+              <text value="Aggiungi Dipendente"/>
             </properties>
           </component>
           <component id="4da09" class="javax.swing.JButton" binding="tornaIndietroButton">

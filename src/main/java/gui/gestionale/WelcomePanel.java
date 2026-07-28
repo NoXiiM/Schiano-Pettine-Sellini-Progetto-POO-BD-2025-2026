@@ -49,7 +49,7 @@ public class WelcomePanel {
                     if(welcomeController.isUtenteACliente()){
                         new TabbedMenuPlayer(new ClientWelcomeController(welcomeController), mainframe);
                     } else if (welcomeController.isUtenteADealer()){
-
+                        new DealerPanel(new DipendenteWelcomeController(welcomeController), mainframe);
                     } else {
                         new MainMenuAdmin(new DipendenteWelcomeController(welcomeController), mainframe);
                     }
@@ -82,7 +82,7 @@ public class WelcomePanel {
                 userField.setText("");
                 passwordField.setText("");
 
-                ForgotPassword forgotPasswordPanel= new ForgotPassword(new ClientWelcomeController(welcomeController), mainframe);
+                new ForgotPassword(new ClientWelcomeController(welcomeController), mainframe);
             }
         });
 

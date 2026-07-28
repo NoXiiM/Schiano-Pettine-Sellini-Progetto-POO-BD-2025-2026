@@ -68,6 +68,9 @@ public class AggiungiGiocoDealer {
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                 }
+
+                MainMenuAdmin.getModelloListaDipendente().clear();
+                MainMenuAdmin.getModelloListaDipendente().addAll(controller.getDipendentiInLocale());
             }
         });
 

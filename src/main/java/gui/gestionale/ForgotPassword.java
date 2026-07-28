@@ -42,7 +42,7 @@ public class ForgotPassword {
                     surnameTextField.setText("");
                     usernameTextField.setText("");
 
-                    JOptionPane.showMessageDialog(null, "Password resettata a P@ssword!");
+                    JOptionPane.showMessageDialog(null, "Password resettata a P@ssw0rd!");
 
 
                 } catch (RuntimeException ex) {

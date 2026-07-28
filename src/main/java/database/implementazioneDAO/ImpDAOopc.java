@@ -9,25 +9,6 @@ import java.time.Duration;
 public class ImpDAOopc implements DAOopc
 {
     @Override
-    public void salvaSessione(String idCliente, int idTavolo, Duration durata, double vincitaPercentuale,
-                              int partiteSvolte) throws SQLException {
-        Connection connection = ConnessioneDatabase.getInstance().connection;
-
-        try(PreparedStatement inserimento = connection.prepareStatement("insert into sessione(idCliente, idTavolo, " +
-                "durata, vincitaPercentuale, partiteSvolte) " +
-                "values(?,?,?,?,?)"))
-        {
-            inserimento.setString(1, idCliente);
-            inserimento.setInt(2, idTavolo);
-            inserimento.setLong(3, durata.getSeconds());
-            inserimento.setDouble(4, vincitaPercentuale);
-            inserimento.setInt(5, partiteSvolte);
-
-            inserimento.executeUpdate();
-        }
-    }
-
-    @Override
     public void salvataggioCliente(String codiceTessera, int saldo, Duration tempoDiGioco, int fichesGiocate,
                                    double vincitaPercentualeTot, int partiteGiocate, String tipo,
                                    double scontoPokerPercentuale, boolean sospetto) throws SQLException {
@@ -47,6 +28,25 @@ public class ImpDAOopc implements DAOopc
             inserimento.setDouble(7, scontoPokerPercentuale);
             inserimento.setBoolean(8, sospetto);
             inserimento.setString(9, codiceTessera);
+
+            inserimento.executeUpdate();
+        }
+    }
+
+    @Override
+    public void salvaSessione(String idCliente, int idTavolo, Duration durata, double vincitaPercentuale,
+                              int partiteSvolte) throws SQLException {
+        Connection connection = ConnessioneDatabase.getInstance().connection;
+
+        try(PreparedStatement inserimento = connection.prepareStatement("insert into sessione(idCliente, idTavolo, " +
+                "durata, vincitaPercentuale, partiteSvolte) " +
+                "values(?,?,?,?,?)"))
+        {
+            inserimento.setString(1, idCliente);
+            inserimento.setInt(2, idTavolo);
+            inserimento.setLong(3, durata.getSeconds());
+            inserimento.setDouble(4, vincitaPercentuale);
+            inserimento.setInt(5, partiteSvolte);
 
             inserimento.executeUpdate();
         }
@@ -83,6 +83,7 @@ public class ImpDAOopc implements DAOopc
         }
     }
 
+    @Override
     public void cancellaCliente(String codiceTessera) throws SQLException
     {
         Connection connection = ConnessioneDatabase.getInstance().connection;

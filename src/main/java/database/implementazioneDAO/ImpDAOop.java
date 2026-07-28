@@ -24,7 +24,7 @@ public class ImpDAOop implements DAOop {
                 //query non vuota
                 if ((rs1.next())) {
                     try (PreparedStatement updatePassword = connection.prepareStatement("UPDATE cliente " +
-                            "set password = 'P@ssword!' " +
+                            "set password = 'P@ssw0rd!' " +
                             "where username = ?")) {
                         updatePassword.setString(1, username);
 
@@ -58,34 +58,6 @@ public class ImpDAOop implements DAOop {
             }
         }
         return false;
-    }
-
-    //nel database c'è trigger function che si occupa di verificare all'inserimento che non ci siano duplicati di CF
-    //o username sia nella tabella cliente che in quella dipendente
-
-    @Override
-    public void usernameUtenti(ArrayList<String> usernames) throws SQLException{
-        //System.out.println("fetch locale eseguita");
-
-        Connection connection = ConnessioneDatabase.getInstance().connection;
-
-        try (PreparedStatement query = connection.prepareStatement("select username " +
-                "from cliente ")) {
-            try (ResultSet rs = query.executeQuery()) {
-                while(rs.next()) {
-                    usernames.add(rs.getString("username"));
-                }
-            }
-        }
-
-        try (PreparedStatement query = connection.prepareStatement("select username " +
-                "from dipendente ")) {
-            try (ResultSet rs = query.executeQuery()) {
-                while(rs.next()) {
-                    usernames.add(rs.getString("username"));
-                }
-            }
-        }
     }
 
     @Override
@@ -223,6 +195,33 @@ public class ImpDAOop implements DAOop {
                     codiceFiscale[0] = rs.getString(4);
                     dataDiNascita[0] = rs.getDate(5).toLocalDate();
                     ruolo[0] = rs.getString(6);
+                }
+            }
+        }
+    }
+
+    //nel database c'è trigger function che si occupa di verificare all'inserimento che non ci siano duplicati di CF
+    //o username sia nella tabella cliente che in quella dipendente
+    @Override
+    public void usernameUtenti(ArrayList<String> usernames) throws SQLException{
+        //System.out.println("fetch locale eseguita");
+
+        Connection connection = ConnessioneDatabase.getInstance().connection;
+
+        try (PreparedStatement query = connection.prepareStatement("select username " +
+                "from cliente ")) {
+            try (ResultSet rs = query.executeQuery()) {
+                while(rs.next()) {
+                    usernames.add(rs.getString("username"));
+                }
+            }
+        }
+
+        try (PreparedStatement query = connection.prepareStatement("select username " +
+                "from dipendente ")) {
+            try (ResultSet rs = query.executeQuery()) {
+                while(rs.next()) {
+                    usernames.add(rs.getString("username"));
                 }
             }
         }

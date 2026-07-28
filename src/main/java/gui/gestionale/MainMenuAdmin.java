@@ -15,6 +15,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
+//TODO 1) aggiorna lista funziona come un pulisci filtri di ricerca, quindi si potrebbe pensare di pulire e deselezionare tutti i tipi di filtri
+//TODO 2) chiarire la questione: non mostrare dati nella text area quando nessuno è selezionato
+//manca: parte di gestione tavoli e gestione account
+
 public class MainMenuAdmin {
     private JPanel AdminPanel;
     private JTabbedPane tabbedPane1;
@@ -239,7 +243,7 @@ public class MainMenuAdmin {
             @Override
             public void actionPerformed(ActionEvent e) {
                 modelloListaClienti.clear();
-                modelloListaClienti.addAll(controller.getListaClientiDB());
+                modelloListaClienti.addAll(controller.getClientiInLocale());
             }
         });
 
@@ -399,7 +403,7 @@ public class MainMenuAdmin {
             @Override
             public void actionPerformed(ActionEvent e) {
                 modelloListaDipendente.clear();
-                modelloListaDipendente.addAll(controller.getDipendentiDB());
+                modelloListaDipendente.addAll(controller.getDipendentiInLocale());
             }
         });
         cercaDipendenti.addActionListener(new ActionListener() {
@@ -508,7 +512,7 @@ public class MainMenuAdmin {
                         JOptionPane.showMessageDialog(null,"Non hai i permessi per cancellare un Supervisore","Errore",JOptionPane.ERROR_MESSAGE);
                     }
                     modelloListaDipendente.clear();
-                    modelloListaDipendente.addAll(controller.getDipendentiDB());
+                    modelloListaDipendente.addAll(controller.getDipendentiInLocale());
                 } else {
                     JOptionPane.showMessageDialog(null,"Nessun dipendente selezionato","Errore",JOptionPane.ERROR_MESSAGE);
                 }

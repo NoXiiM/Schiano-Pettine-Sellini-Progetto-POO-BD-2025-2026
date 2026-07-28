@@ -55,4 +55,9 @@ public class Dealer extends Dipendente
     public ArrayList<Gioco> getGiochiDealer(){
         return giochiDoveServe;
     }
+
+    public void aggiungiGiochi(ArrayList<Gioco> giochi)
+    {
+        giochiDoveServe.addAll(giochi);
+    }
 }

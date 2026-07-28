@@ -83,7 +83,7 @@ public class RegistrationDipendente {
 
                     //Aggiornamento Lista
                     MainMenuAdmin.getModelloListaDipendente().clear();
-                    MainMenuAdmin.getModelloListaDipendente().addAll(controller.getDipendentiDB());
+                    MainMenuAdmin.getModelloListaDipendente().addAll(controller.getDipendentiInLocale());
 
                     frameChiamato.setVisible(false);
                     frameChiamante.setVisible(true);

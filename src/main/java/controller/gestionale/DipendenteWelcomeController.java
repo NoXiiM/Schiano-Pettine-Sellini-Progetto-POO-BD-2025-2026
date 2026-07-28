@@ -250,6 +250,7 @@ public class DipendenteWelcomeController extends WelcomeController {
     }
     public void licenziaDipendente(Dipendente dipendente) throws SQLException{
         String idDipendente = dipendente.getIdentificativoDipendente();
+        dipendentiInLocale.remove(dipendente);
 
         ImpDAOopd db = new ImpDAOopd();
 
@@ -260,6 +261,10 @@ public class DipendenteWelcomeController extends WelcomeController {
         return dipendenteCorrente;
     }
 
+    public ArrayList<Dipendente> getDipendentiInLocale() {
+        return dipendentiInLocale;
+    }
+
     public boolean isDealer(Object d){
         return d instanceof Dealer;
     }
@@ -268,6 +273,7 @@ public class DipendenteWelcomeController extends WelcomeController {
 
         ImpDAOopd db= new ImpDAOopd();
 
+        dealerSelezionato.aggiungiGiochi(giochi);
         db.aggiungiGiocoDealer(dealerSelezionato.getIdentificativoDipendente(), giochi);
     }
 }

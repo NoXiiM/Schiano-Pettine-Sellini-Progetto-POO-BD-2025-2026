@@ -25,4 +25,7 @@ public interface DAOopc
     //OPC4
     //cambio password
     void cambioPassword(String nuovaPassword, String codiceTessera) throws SQLException;
+
+    //OPC5
+    void cancellaCliente(String codiceTessera) throws SQLException;
 }

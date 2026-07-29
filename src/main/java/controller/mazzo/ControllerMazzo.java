@@ -15,7 +15,6 @@ public abstract class ControllerMazzo
     {
         //System.out.println(nmazzi);
         mazzo = new Sabot(nmazzi, gioco);
-        mazzo.mischiaMazzo();
 
         for(int i = 0; i < nmani; i++)
         {
@@ -28,11 +27,7 @@ public abstract class ControllerMazzo
         return mazzo.controlloRimischiaMazzo();
     }
 
-    public void reinizializzaMazzo()
-    {
-        mazzo = new Sabot(mazzo.getNumeroDiMazzi(), mazzo.getGioco());
-        mazzo.mischiaMazzo();
-    }
+    public abstract void reinizializzaMazzo();
 
     protected Mano creaMano(Gioco gioco) {
         return new Mano(gioco);
@@ -45,7 +40,12 @@ public abstract class ControllerMazzo
 
     public void serviCarta(Mano ricevitore) throws DeckOut
     {
-        ricevitore.riceviCarta(mazzo.serviCartaDaMazzo());
+        try {
+            ricevitore.riceviCarta(mazzo.serviCartaDaMazzo());
+        } catch (DeckOut e) {
+            reinizializzaMazzo();
+            throw new DeckOut(e.getMessage());
+        }
     }
 
     //funzione di mapping delle carte generica

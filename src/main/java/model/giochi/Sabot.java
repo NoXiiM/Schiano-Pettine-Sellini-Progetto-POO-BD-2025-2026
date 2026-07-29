@@ -23,7 +23,6 @@ public class Sabot
         numeroDiCarte = numeroDiMazzi*52;
         if(gioco == Gioco.Blackjack) cuttingCard = (int)(numeroDiCarte * (((Math.random() * 10) + 50)/100));
         else cuttingCard = null;
-        inizializzaSabot();
     }
 
     public Integer getCuttingCard() {
@@ -54,6 +53,22 @@ public class Sabot
         }
     }
 
+    public void inizializzaSabotPoker(int nmani)
+    {
+        Numero[] numeri = {Numero.uno, Numero.due, Numero.tre, Numero.quattro, Numero.cinque,
+                Numero.sei, Numero.sette, Numero.otto, Numero.nove, Numero.dieci, Numero.jack, Numero.queen,
+                Numero.king};
+        Seme[] semi = {Seme.cuore, Seme.quadro, Seme.fiore, Seme.picche};
+
+        for(int i = 10 - nmani; i < numeri.length; i++)
+        {
+            for(int j = 0; j < semi.length; j++)
+            {
+                listaCarte.add(new Carta(numeri[i], semi[j]));
+            }
+        }
+    }
+
     //per debug
     public void stampaCarte()
     {
@@ -77,8 +92,6 @@ public class Sabot
     {
         if(listaCarte.size() == 0)
         {
-            inizializzaSabot();
-            mischiaMazzo();
             throw new DeckOut("rimischiata di emergenza, sono finite le carte nel mazzo");
         }
         Carta out = listaCarte.getLast();

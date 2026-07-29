@@ -132,7 +132,7 @@ public class ImpDAOop implements DAOop {
     }
 
     @Override
-    public void loginCliente(String[] codiceTessera, int[] saldo, long[] tempoDiGioco, int[] fichesGiocate,
+    public boolean loginCliente(String[] codiceTessera, int[] saldo, long[] tempoDiGioco, int[] fichesGiocate,
                              double[] vincitaPercentualeTot, int[] partiteGiocate, String[] tipo, double[] scontoPokerPercentuale,
                              boolean[] sospetto, LocalDate[] dataDiBan, String[] motiviBan, String[] nome, String[] cognome,
                              String[] codiceFiscale, LocalDate[] dataDiNascita, String username, String password) throws SQLException {
@@ -170,14 +170,17 @@ public class ImpDAOop implements DAOop {
                     codiceFiscale[0] = rs.getString("codiceFiscale");
 
                     dataDiNascita[0] = rs.getDate("dataDiNascita").toLocalDate();
+
+                    return true;
                 }
+                else return false;
             }
         }
     }
 
     @Override
-    public void loginDipendente(String[] identificativo, String[] nome, String[] cognome, String[] codiceFiscale, LocalDate[] dataDiNascita,
-                                String[] ruolo, String username, String password) throws SQLException {
+    public boolean loginDipendente(String[] identificativo, String[] nome, String[] cognome, String[] codiceFiscale, LocalDate[] dataDiNascita,
+                                   String[] ruolo, String username, String password) throws SQLException {
         Connection connection = ConnessioneDatabase.getInstance().connection;
 
         try (PreparedStatement query = connection.prepareStatement("select idDipendente, nome, cognome, codiceFiscale," +
@@ -195,7 +198,9 @@ public class ImpDAOop implements DAOop {
                     codiceFiscale[0] = rs.getString(4);
                     dataDiNascita[0] = rs.getDate(5).toLocalDate();
                     ruolo[0] = rs.getString(6);
+                    return true;
                 }
+                else return false;
             }
         }
     }

@@ -15,8 +15,18 @@ public class ControllerBlackJack extends ControllerMazzo
     public ControllerBlackJack(int nmazzi, int nmani) {
         super(nmazzi, nmani, Gioco.Blackjack);
 
+        mazzo.inizializzaSabot();
+        mazzo.mischiaMazzo();
+
         banco = new ManoBlackJack(Gioco.Blackjack);
         indiceRiduzioneMano = 0;
+    }
+
+    @Override
+    public void reinizializzaMazzo() {
+        mazzo = new Sabot(mazzo.getNumeroDiMazzi(), mazzo.getGioco());
+        mazzo.inizializzaSabot();
+        mazzo.mischiaMazzo();
     }
 
     @Override

@@ -13,12 +13,16 @@ import java.time.LocalDate;
 
 public class ControllerPoker extends ControllerMazzo
 {
+    private int puntataAttuale;
+
     public ControllerPoker(int nmani)
     {
         super(1, nmani, Gioco.Poker);
 
         mazzo.inizializzaSabotPoker(nmani);
         mazzo.mischiaMazzo();
+
+        puntataAttuale = 0;
     }
 
     @Override
@@ -67,5 +71,13 @@ public class ControllerPoker extends ControllerMazzo
                     saldo[0], partiteGiocate[0], dataDiBan[0], motiviBan[0]);
         }
         return null;
+    }
+
+    public int getPuntataAttuale() {
+        return puntataAttuale;
+    }
+
+    public void setPuntataAttuale(int puntataAttuale) {
+        this.puntataAttuale = puntataAttuale;
     }
 }

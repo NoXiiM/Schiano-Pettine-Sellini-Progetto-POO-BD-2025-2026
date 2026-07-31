@@ -26,6 +26,11 @@ public class ClientWelcomeController extends WelcomeController {
         cliente = (Cliente) getCurrentUser();
     }
 
+    public ClientWelcomeController(Cliente cliente)
+    {
+        this.cliente = cliente;
+    }
+
     //client
     public void registrazioneCliente(String username, String nome, String cognome, String codiceFiscale,
                                      LocalDate dataNascita, String password, int importo) throws RuntimeException {
@@ -198,5 +203,8 @@ public class ClientWelcomeController extends WelcomeController {
         return sessione.getDurataSessione();
     }
 
+    public String getClienteUsername() {
+        return cliente.getUsername();
+    }
 }
 

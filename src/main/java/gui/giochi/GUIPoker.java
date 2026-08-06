@@ -33,11 +33,13 @@ public class GUIPoker {
     private JLabel labelAnte;
     private JLabel usernameLabel;
     private JLabel saldo;
+    private JLabel pot;
 
     //conta qual è la mano corrente
     private int currentHand = 0;
 
     private ControllerPoker controller;
+    private ClientWelcomeController sessioneCorrente;
 
     private ArrayList<ClientWelcomeController> sessioniCorrenti;
 
@@ -85,6 +87,9 @@ public class GUIPoker {
                 int nmani = (int) spinnerNplayer.getValue();
                 controller = new ControllerPoker(nmani);
 
+                int ante = (int) spinnerAnte.getValue();
+                controller.setAnte(ante);
+
                 while(sessioniCorrenti.size() < nmani)
                 {
                     String username = JOptionPane.showInputDialog(null,
@@ -119,27 +124,44 @@ public class GUIPoker {
     //[1]
     public void pescataIniziale()
     {
+        for(int i = 0; i < sessioniCorrenti.size(); i++)
+        {
+            if(!decrementa(controller.getAnte(), i)) controller.setFolded(i);
+        }
+        pot.setText("pot: " + controller.getAnte()*sessioniCorrenti.size());
+        rimuoviActionListener(vediCarteButton);
+        rimuoviActionListener(puntaButton);
+        rimuoviActionListener(confermaButton);
+        rimuoviActionListener(checkButton);
+        rimuoviActionListener(foldButton);
+
         startingButton(false);
         vediCarteButton.setVisible(true);
         usernameLabel.setText(sessioniCorrenti.get(currentHand).getClienteUsername());
         usernameLabel.setVisible(true);
+        saldo.setVisible(false);
 
-        controller.serviCarte();
+        if(currentHand == 0) controller.serviCarte();
 
-        ClientWelcomeController sessioneCorrente = sessioniCorrenti.get(0);
+        sessioneCorrente = sessioniCorrenti.get(currentHand);
 
         vediCarteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                mano.removeAll();
                 disegnaCarte();
+                refreshPanel(mano);
                 vediCarteButton.setVisible(false);
                 azioniButton(true);
+                saldo.setVisible(true);
+                saldo.setText("saldo: " + sessioneCorrente.getSaldoGiocatore());
 
                 SpinnerNumberModel modelloSpinnerPuntata = new SpinnerNumberModel(controller.getPuntataAttuale(),
                         controller.getPuntataAttuale(), sessioneCorrente.getSaldoGiocatore(), 1);
                 spinnerPuntata.setModel(modelloSpinnerPuntata);
             }
         });
+
         puntaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -154,14 +176,62 @@ public class GUIPoker {
                 if(!decrementa(input, currentHand)) return;
 
                 controller.getMano(currentHand).setPuntata(input);
+                controller.setPuntataAttuale(input);
 
-                currentHand++;
-                pescataIniziale();
+                nextHand();
+
+                prossimoPescata();
+            }
+        });
+
+        checkButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int input = controller.getPuntataAttuale();
+
+                if(!decrementa(input, currentHand)) return;
+
+                controller.getMano(currentHand).setPuntata(input);
+
+                nextHand();
+
+                prossimoPescata();
+            }
+        });
+
+        foldButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.setFolded(currentHand);
+
+                nextHand();
+
+                prossimoPescata();
             }
         });
     }
 
+    //[2]
+    public void rimischiata()
+    {
+        //System.out.println("sono qui");
+        rimuoviActionListener(vediCarteButton);
+        ArrayList<JLabel> carte = new ArrayList<>();
 
+        currentHand = 0;
+
+        vediCarteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mano.removeAll();
+                disegnaCarte();
+                refreshPanel(mano);
+                vediCarteButton.setVisible(false);
+                saldo.setVisible(true);
+                saldo.setText("saldo: " + sessioneCorrente.getSaldoGiocatore());
+            }
+        });
+    }
 
     //funzioni di utility
     //gestione visibilità componenti
@@ -180,13 +250,27 @@ public class GUIPoker {
         puntaButton.setVisible(visibilità);
         checkButton.setVisible(visibilità);
         foldButton.setVisible(visibilità);
-        usernameLabel.setVisible(visibilità);
+        //usernameLabel.setVisible(visibilità);
     }
 
     private void relativiRilancia(boolean visibilità)
     {
         spinnerPuntata.setVisible(visibilità);
         confermaButton.setVisible(visibilità);
+    }
+
+    //macro
+    private void prossimoPescata()
+    {
+        azioniButton(false);
+        confermaButton.setVisible(false);
+        spinnerPuntata.setVisible(false);
+        vediCarteButton.setVisible(true);
+        saldo.setVisible(false);
+
+
+        mano.removeAll();
+        refreshPanel(mano);
     }
 
     //funzioni che disegnano le carte
@@ -233,5 +317,32 @@ public class GUIPoker {
                     "errore", JOptionPane.ERROR_MESSAGE);
             return false;
         }
+    }
+
+    //gestione cambio player
+    public void nextHand()
+    {
+        do {
+            currentHand++;
+            if(currentHand >= sessioniCorrenti.size())
+            {
+                rimischiata();
+                return;
+            }
+        }while(controller.getFolded(currentHand));
+
+        if(controller.getPuntataAttuale() != 0)
+        {
+            checkButton.setText("call");
+            puntaButton.setText("rilancia");
+        }
+        if(currentHand == sessioniCorrenti.size())
+        {
+            checkButton.setText("check");
+            puntaButton.setText("punta");
+        }
+
+        usernameLabel.setText(sessioniCorrenti.get(currentHand).getClienteUsername());
+        sessioneCorrente = sessioniCorrenti.get(currentHand);
     }
 }

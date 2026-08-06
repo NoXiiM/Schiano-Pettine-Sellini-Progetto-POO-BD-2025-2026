@@ -29,8 +29,11 @@ public abstract class ControllerMazzo
 
     public abstract void reinizializzaMazzo();
 
-    protected Mano creaMano(Gioco gioco) {
-        return new Mano(gioco);
+    protected Mano creaMano(Gioco gioco)
+    {
+        if(gioco.equals(Gioco.Blackjack)) return new ManoBlackJack(gioco);
+        if(gioco.equals(Gioco.Poker)) return new ManoPoker(gioco);
+        return null;
     }
 
     protected void addMano(Mano nuova)

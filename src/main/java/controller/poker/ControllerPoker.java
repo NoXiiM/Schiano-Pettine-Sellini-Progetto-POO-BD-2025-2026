@@ -6,6 +6,7 @@ import database.implementazioneDAO.ImpDAOop;
 import model.gestionale.Gioco;
 import model.gestionale.utenteEFigli.Cliente;
 import model.giochi.Mano;
+import model.giochi.ManoPoker;
 import model.giochi.Sabot;
 
 import java.sql.SQLException;
@@ -14,6 +15,8 @@ import java.time.LocalDate;
 public class ControllerPoker extends ControllerMazzo
 {
     private int puntataAttuale;
+    private int pot;
+    private int ante;
 
     public ControllerPoker(int nmani)
     {
@@ -23,6 +26,8 @@ public class ControllerPoker extends ControllerMazzo
         mazzo.mischiaMazzo();
 
         puntataAttuale = 0;
+        pot = 0;
+        ante = 0;
     }
 
     @Override
@@ -79,5 +84,27 @@ public class ControllerPoker extends ControllerMazzo
 
     public void setPuntataAttuale(int puntataAttuale) {
         this.puntataAttuale = puntataAttuale;
+    }
+
+    public void setFolded(int index)
+    {
+        ManoPoker temp = (ManoPoker) getMano(index);
+
+        temp.setFolded(true);
+    }
+
+    public boolean getFolded(int index)
+    {
+        ManoPoker temp = (ManoPoker) getMano(index);
+
+        return temp.isFolded();
+    }
+
+    public int getAnte() {
+        return ante;
+    }
+
+    public void setAnte(int ante) {
+        this.ante = ante;
     }
 }

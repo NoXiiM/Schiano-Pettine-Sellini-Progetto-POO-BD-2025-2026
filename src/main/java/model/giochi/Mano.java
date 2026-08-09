@@ -57,6 +57,8 @@ public class Mano
         this.puntata = puntata;
     }
 
+    public void incrementaPuntata(int val){puntata += val;}
+
     public int getPuntata() {
         return puntata;
     }

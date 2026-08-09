@@ -11,12 +11,14 @@ import model.giochi.Sabot;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class ControllerPoker extends ControllerMazzo
 {
     private int puntataAttuale;
     private int pot;
     private int ante;
+    private boolean almenoUnGiro;
 
     public ControllerPoker(int nmani)
     {
@@ -121,6 +123,35 @@ public class ControllerPoker extends ControllerMazzo
         else return null;
     }
 
+    public boolean controlloStessePuntate()
+    {
+        ArrayList<Integer> listaPuntate = new ArrayList<>();
+
+        for(Mano i : listaMani)
+        {
+            ManoPoker temp = (ManoPoker) i;
+
+            if(!temp.isFolded()) listaPuntate.add(temp.getPuntata());
+        }
+
+        int val = listaPuntate.get(0);
+
+        for(Integer i : listaPuntate)
+        {
+            if(val != i) return false;
+        }
+
+        return true;
+    }
+
+    public void resetPuntateMani()
+    {
+        for(Mano i : listaMani)
+        {
+            i.setPuntata(0);
+        }
+    }
+
     public boolean getFolded(int index)
     {
         ManoPoker temp = (ManoPoker) getMano(index);
@@ -147,5 +178,13 @@ public class ControllerPoker extends ControllerMazzo
     public void resetPot()
     {
         pot = 0;
+    }
+
+    public boolean isAlmenoUnGiro() {
+        return almenoUnGiro;
+    }
+
+    public void setAlmenoUnGiro(boolean almenoUnGiro) {
+        this.almenoUnGiro = almenoUnGiro;
     }
 }

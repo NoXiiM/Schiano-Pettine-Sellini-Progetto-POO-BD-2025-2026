@@ -2,14 +2,19 @@ package model.giochi;
 
 import model.gestionale.Gioco;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class ManoPoker extends Mano
 {
     private boolean folded;
+    private ArrayList<Integer> carteSelezionate;
 
     public ManoPoker(Gioco gioco)
     {
         super(gioco);
 
+        carteSelezionate = new ArrayList<>();
         folded = false;
     }
 
@@ -24,5 +29,23 @@ public class ManoPoker extends Mano
     public void aumentaPuntata(int valore)
     {
         puntata += valore;
+    }
+
+    public ArrayList<Integer> getCarteSelezionate() {
+        return carteSelezionate;
+    }
+
+    public void setCarteSelezionate(ArrayList<Integer> carteSelezionate) {
+        this.carteSelezionate = carteSelezionate;
+    }
+
+    public void rimuoviCarte()
+    {
+        carteSelezionate.sort(Collections.reverseOrder());
+
+        for(int i : carteSelezionate)
+        {
+            listaMano.remove(i);
+        }
     }
 }

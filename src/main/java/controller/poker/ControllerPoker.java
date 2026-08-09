@@ -78,6 +78,18 @@ public class ControllerPoker extends ControllerMazzo
         return null;
     }
 
+    public void rimischiataMano(int index)
+    {
+        ManoPoker mano = (ManoPoker) listaMani.get(index);
+
+        mano.rimuoviCarte();
+
+        while(mano.getListaMano().size() < 5)
+        {
+            serviCarta(mano);
+        }
+    }
+
     public int getPuntataAttuale() {
         return puntataAttuale;
     }
@@ -86,11 +98,27 @@ public class ControllerPoker extends ControllerMazzo
         this.puntataAttuale = puntataAttuale;
     }
 
-    public void setFolded(int index)
+    //se rimane un solo giocatore ne restituisce la posizione
+    public Integer setFolded(int index)
     {
         ManoPoker temp = (ManoPoker) getMano(index);
+        int contatore = 0;
+        Integer indiceVincitore = null;
 
         temp.setFolded(true);
+
+        for(int i = 0; i < listaMani.size(); i++)
+        {
+            ManoPoker j = (ManoPoker) listaMani.get(i);
+            if(!j.isFolded())
+            {
+                contatore++;
+                indiceVincitore = i;
+            }
+        }
+
+        if(contatore == 1) return indiceVincitore;
+        else return null;
     }
 
     public boolean getFolded(int index)
@@ -106,5 +134,18 @@ public class ControllerPoker extends ControllerMazzo
 
     public void setAnte(int ante) {
         this.ante = ante;
+    }
+
+    public int getPot() {
+        return pot;
+    }
+
+    public void incrementaPot(int incremento) {
+        pot += incremento;
+    }
+
+    public void resetPot()
+    {
+        pot = 0;
     }
 }

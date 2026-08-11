@@ -1,0 +1,10 @@
+1. Scala Reale
+2. Scala Colore
+3. Poker
+4. Colore
+5. Full
+6. Scala
+7. Tris
+8. Doppia Coppia
+9. Coppia
+10. Carta Alta

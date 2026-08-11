@@ -1,17 +1,18 @@
 package controller.poker;
 
 import controller.blackjack.DeckOut;
+import controller.gestionale.ClientWelcomeController;
 import controller.mazzo.ControllerMazzo;
 import database.implementazioneDAO.ImpDAOop;
 import model.gestionale.Gioco;
 import model.gestionale.utenteEFigli.Cliente;
-import model.giochi.Mano;
-import model.giochi.ManoPoker;
-import model.giochi.Sabot;
+import model.giochi.*;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class ControllerPoker extends ControllerMazzo
 {
@@ -47,8 +48,18 @@ public class ControllerPoker extends ControllerMazzo
         }
     }
 
-    public Cliente caricaPlayer(String username, String password) throws SQLException
+    public Cliente caricaPlayer(String username, String password, ArrayList<ClientWelcomeController> loggedYet)
+            throws RuntimeException, SQLException
     {
+        ArrayList<String> usrLogged = new ArrayList<>();
+
+        for(ClientWelcomeController i : loggedYet)
+        {
+            usrLogged.add(i.getClienteUsername());
+        }
+
+        if(usrLogged.contains(username)) throw new RuntimeException("questo utente è già loggato");
+
         ImpDAOop db = new ImpDAOop();
 
         String[] codiceTessera = new String[1];
@@ -157,6 +168,264 @@ public class ControllerPoker extends ControllerMazzo
         ManoPoker temp = (ManoPoker) getMano(index);
 
         return temp.isFolded();
+    }
+
+    public static int getValoreNumero(Carta carta) {
+        int val = ControllerMazzo.getValoreNumero(carta);
+
+        if(val == 1) val = 14;
+
+        return val;
+    }
+
+    public ArrayList<Integer> calcolaCombo()
+    {
+        ArrayList<ManoPoker> maniAttive = new ArrayList<>();
+
+        for(Mano i : listaMani)
+        {
+            ManoPoker j = (ManoPoker) i;
+
+            if(!j.isFolded())
+            {
+                ArrayList<Integer> numbers = new ArrayList<>();
+                ArrayList<Seme> seeds = new ArrayList<>();
+
+                for(Carta z : j.getListaMano())
+                {
+                    numbers.add(getValoreNumero(z));
+                    seeds.add(z.getSeme());
+                }
+
+                j.setValoreCombo(valoreCombo(numbers, seeds));
+
+                maniAttive.add(j);
+            }
+        }
+
+        ArrayList<ManoPoker> vincitori = new ArrayList<>();
+
+        //ordine lessicografico: a > b <-> valore combo di a < valore combo di b OR (valore combo di a = valore combo
+        // di b AND tie-break di a > tie-break di b)
+        for(ManoPoker i : maniAttive)
+        {
+            if(vincitori.isEmpty()) vincitori.add(i);
+            else
+            {
+                if(vincitori.getFirst().getValoreCombo()[0] > i.getValoreCombo()[0])
+                {
+                    vincitori.clear();
+                    vincitori.add(i);
+                }
+                else if(vincitori.getFirst().getValoreCombo()[0] == i.getValoreCombo()[0])
+                {
+                    if(vincitori.getFirst().getValoreCombo()[1] < i.getValoreCombo()[1])
+                    {
+                        vincitori.clear();
+                        vincitori.add(i);
+                    }
+                    else if(vincitori.getFirst().getValoreCombo()[1] == i.getValoreCombo()[1]) vincitori.add(i);
+                }
+            }
+        }
+
+        ArrayList<Integer> indiciVincitori = new ArrayList<>();
+
+        for(ManoPoker i : vincitori)
+        {
+            indiciVincitori.add(listaMani.indexOf(i));
+        }
+
+        return indiciVincitori;
+    }
+
+    //ritorna array di 2 valori interi: 1) valore della combo (vedi ComboPoker), 2) tie-break
+    private int[] valoreCombo(ArrayList<Integer> numbers, ArrayList<Seme> seeds)
+    {
+        numbers.sort(null);
+
+        int[] punteggio = new int[2];
+
+        Integer flagScala = scala(numbers);
+        boolean flagColore = colore(seeds);
+
+        //1) scala reale
+        if(flagScala != null && flagScala == 14 && flagColore)
+        {
+            punteggio[0] = ComboPoker.scalaReale;
+            return punteggio;
+        }
+        //2) scala colore
+        if(flagScala != null && flagColore)
+        {
+            punteggio[0] = ComboPoker.scalaColore;
+            punteggio[1] = flagScala;
+            return punteggio;
+        }
+
+        Integer flagPoker = poker(numbers);
+
+        //3) poker
+        if(flagPoker != null)
+        {
+            punteggio[0] = ComboPoker.poker;
+            punteggio[1] = flagPoker;
+            return punteggio;
+        }
+        //4) colore
+        if(flagColore)
+        {
+            punteggio[0] = ComboPoker.colore;
+            punteggio[1] = numbers.getLast();
+            return punteggio;
+        }
+
+        Integer flagTris = tris(numbers);
+        Integer[] flagCoppie = coppie(numbers);
+
+        //5) full
+        if(flagTris != null && flagCoppie != null)
+        {
+            punteggio[0] = ComboPoker.full;
+            punteggio[1] = flagTris;
+            return punteggio;
+        }
+
+        //6) scala
+        if(flagScala != null)
+        {
+            punteggio[0] = ComboPoker.scala;
+            punteggio[1] = flagScala;
+            return punteggio;
+        }
+
+        //7) tris
+        if(flagTris != null)
+        {
+            punteggio[0] = ComboPoker.tris;
+            punteggio[1] = flagTris;
+            return punteggio;
+        }
+
+        //8) doppia coppia
+        if(flagCoppie != null && flagCoppie[0] == 2)
+        {
+            punteggio[0] = ComboPoker.doppiaCoppia;
+            punteggio[1] = flagCoppie[1];
+            return punteggio;
+        }
+
+        //9) coppia
+        if(flagCoppie != null && flagCoppie[0] == 1)
+        {
+            punteggio[0] = ComboPoker.coppia;
+            punteggio[1] = flagCoppie[1];
+            return punteggio;
+        }
+
+        //10) carta alta
+        punteggio[0] = ComboPoker.cartaAlta;
+        punteggio[1] = numbers.getLast();
+        return punteggio;
+    }
+
+    private Integer[] coppie(ArrayList<Integer> numbersSorted)
+    {
+        int[] occur = new int[13];
+
+        Arrays.fill(occur, 0);
+
+        for(int i : numbersSorted)
+        {
+            occur[i-2]++;
+        }
+
+        int counter = 0, highest = 0;
+
+        for(int i = 0; i < occur.length; i++)
+        {
+            if(occur[i] == 2)
+            {
+                counter++;
+                highest = i+2;
+            }
+        }
+
+        if(counter > 0)
+        {
+            //numero di coppie, valore coppia più alta
+            Integer[] res = {counter, highest};
+
+            return res;
+        }
+        else return null;
+    }
+
+    private Integer tris(ArrayList<Integer> numbersSorted)
+    {
+        int[] occur = new int[13];
+
+        Arrays.fill(occur, 0);
+
+        for(int i : numbersSorted)
+        {
+            occur[i-2]++;
+        }
+
+        for(int i = 0; i < occur.length; i++)
+        {
+            if(occur[i] == 3) return i+2;
+        }
+        return null;
+    }
+
+    private Integer poker(ArrayList<Integer> numbersSorted)
+    {
+        int[] occur = new int[13];
+
+        Arrays.fill(occur, 0);
+
+        for(int i : numbersSorted)
+        {
+            occur[i-2]++;
+        }
+
+        for(int i = 0; i < occur.length; i++)
+        {
+            if(occur[i] == 4) return i+2;
+        }
+        return null;
+    }
+
+    //ritorna il valore della scala
+    private Integer scala(ArrayList<Integer> numbersSorted)
+    {
+        int primo = numbersSorted.get(0);
+
+        if(numbersSorted.get(0) == 2
+        && numbersSorted.get(1) == 3
+        && numbersSorted.get(2) == 4
+        && numbersSorted.get(3) == 5
+        && numbersSorted.get(4) == 14) return 5;
+
+        for(int i = 1; i < 5; i++)
+        {
+            if(primo != numbersSorted.get(i) - i) return null;
+        }
+
+        return numbersSorted.get(4);
+    }
+
+    private boolean colore(ArrayList<Seme> seeds)
+    {
+        Seme seme = seeds.get(0);
+
+        for(Seme i : seeds)
+        {
+            if(!i.equals(seme)) return false;
+        }
+
+        return true;
     }
 
     public int getAnte() {

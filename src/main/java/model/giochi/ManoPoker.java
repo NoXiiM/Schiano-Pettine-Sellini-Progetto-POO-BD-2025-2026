@@ -9,6 +9,7 @@ public class ManoPoker extends Mano
 {
     private boolean folded;
     private ArrayList<Integer> carteSelezionate;
+    private int[] valoreCombo;
 
     public ManoPoker(Gioco gioco)
     {
@@ -16,6 +17,8 @@ public class ManoPoker extends Mano
 
         carteSelezionate = new ArrayList<>();
         folded = false;
+
+        valoreCombo = new int[2];
     }
 
     public boolean isFolded() {
@@ -37,6 +40,14 @@ public class ManoPoker extends Mano
 
     public void setCarteSelezionate(ArrayList<Integer> carteSelezionate) {
         this.carteSelezionate = carteSelezionate;
+    }
+
+    public int[] getValoreCombo() {
+        return valoreCombo;
+    }
+
+    public void setValoreCombo(int[] valoreCombo) {
+        this.valoreCombo = valoreCombo;
     }
 
     public void rimuoviCarte()

@@ -104,7 +104,7 @@ public class GUIPoker {
                     String password = JOptionPane.showInputDialog(null, "inserisci la password");
 
                     try {
-                        Cliente cliente = controller.caricaPlayer(username, password);
+                        Cliente cliente = controller.caricaPlayer(username, password, sessioniCorrenti);
 
                         if(cliente == null) JOptionPane.showMessageDialog(null, "credenziali sbagliate",
                                 "errore", JOptionPane.ERROR_MESSAGE);
@@ -119,6 +119,9 @@ public class GUIPoker {
                         }
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(null, ex.getMessage(),
+                                "errore", JOptionPane.ERROR_MESSAGE);
+                    } catch (RuntimeException ex2) {
+                        JOptionPane.showMessageDialog(null, ex2.getMessage(),
                                 "errore", JOptionPane.ERROR_MESSAGE);
                     }
                 }
@@ -193,7 +196,7 @@ public class GUIPoker {
                 aggiornaPot(input);
                 controller.setPuntataAttuale((int) spinnerPuntata.getValue());
 
-                nextHand1();
+                nextHand1(false);
             }
         });
 
@@ -208,7 +211,7 @@ public class GUIPoker {
                 aggiornaPot(input);
                 pot.setText("pot: " + controller.getPot());
 
-                nextHand1();
+                nextHand1(false);
             }
         });
 
@@ -220,7 +223,7 @@ public class GUIPoker {
                 if (vincitore != null) {
                     vittoriaPerFold(vincitore);
                 } else {
-                    nextHand1();
+                    nextHand1(false);
                 }
             }
         });
@@ -239,6 +242,7 @@ public class GUIPoker {
         sessioneCorrente = sessioniCorrenti.get(currentHand);
 
         vediCarteButton.setVisible(true);
+        saldo.setVisible(false);
 
         vediCarteButton.addActionListener(new ActionListener() {
             @Override
@@ -333,7 +337,7 @@ public class GUIPoker {
                 aggiornaPot(input);
                 controller.setPuntataAttuale((int) spinnerPuntata.getValue());
 
-                nextHand1();
+                nextHand1(true);
             }
         });
 
@@ -348,7 +352,7 @@ public class GUIPoker {
                 aggiornaPot(input);
                 pot.setText("pot: " + controller.getPot());
 
-                nextHand1();
+                nextHand1(true);
             }
         });
 
@@ -360,10 +364,16 @@ public class GUIPoker {
                 if (vincitore != null) {
                     vittoriaPerFold(vincitore);
                 } else {
-                    nextHand1();
+                    nextHand1(true);
                 }
             }
         });
+    }
+
+    //[4]
+    public void mostrareLeCarte()
+    {
+
     }
 
     //funzioni di utility
@@ -510,7 +520,7 @@ public class GUIPoker {
 
     //aggiornamenti
     //gestione cambio player
-    public void nextHand1()
+    public void nextHand1(boolean fase)
     {
         currentHand++;
 
@@ -530,9 +540,11 @@ public class GUIPoker {
 
         if(controller.controlloStessePuntate() && controller.isAlmenoUnGiro())
         {
+            controller.setAlmenoUnGiro(false);
             mano.removeAll();
             azioniButton(false);
-            rimischiata();
+            if(fase) rimischiata();
+            else mostrareLeCarte();
             return;
         }
 
@@ -564,6 +576,7 @@ public class GUIPoker {
             }
         }while(controller.getFolded(currentHand));
 
+        saldo.setVisible(false);
         usernameLabel.setText(sessioniCorrenti.get(currentHand).getClienteUsername());
         sessioneCorrente = sessioniCorrenti.get(currentHand);
     }

@@ -39,6 +39,7 @@ public class GUIPoker {
     private JLabel pot;
     private JButton rimischiaButton;
     private JButton okButton;
+    private JTextPane infoTextPane;
 
     //conta qual è la mano corrente
     private int currentHand = 0;
@@ -81,6 +82,9 @@ public class GUIPoker {
         SpinnerNumberModel modelloSpinnerAnte = new SpinnerNumberModel(10, 0, 1000, 5);
         spinnerAnte.setModel(modelloSpinnerAnte);
         ((JSpinner.DefaultEditor) spinnerAnte.getEditor()).getTextField().setEditable(false);
+
+        infoTextPane.setEditable(false);
+        infoTextPane.setFocusable(false);
 
         indietroButton.addActionListener(new ActionListener() {
             @Override
@@ -196,7 +200,7 @@ public class GUIPoker {
                 aggiornaPot(input);
                 controller.setPuntataAttuale((int) spinnerPuntata.getValue());
 
-                nextHand1(false);
+                nextHand1(true);
             }
         });
 
@@ -211,7 +215,7 @@ public class GUIPoker {
                 aggiornaPot(input);
                 pot.setText("pot: " + controller.getPot());
 
-                nextHand1(false);
+                nextHand1(true);
             }
         });
 
@@ -223,7 +227,7 @@ public class GUIPoker {
                 if (vincitore != null) {
                     vittoriaPerFold(vincitore);
                 } else {
-                    nextHand1(false);
+                    nextHand1(true);
                 }
             }
         });
@@ -232,14 +236,14 @@ public class GUIPoker {
     //[2]
     public void rimischiata()
     {
-        System.out.println("sono qui");
+        //System.out.println("sono qui");
         rimuoviActionListener(vediCarteButton);
         rimuoviActionListener(rimischiaButton);
         rimuoviActionListener(okButton);
 
         resetCurrentHand();
-        usernameLabel.setText(sessioniCorrenti.get(currentHand).getClienteUsername());
         sessioneCorrente = sessioniCorrenti.get(currentHand);
+        usernameLabel.setText(sessioneCorrente.getClienteUsername());
 
         vediCarteButton.setVisible(true);
         saldo.setVisible(false);
@@ -278,7 +282,7 @@ public class GUIPoker {
                 vediCarteButton.setVisible(true);
                 mano.removeAll();
 
-                nextHand2();
+                nextHand2(true);
             }
         });
     }
@@ -300,6 +304,8 @@ public class GUIPoker {
         usernameLabel.setText(sessioniCorrenti.get(currentHand).getClienteUsername());
         usernameLabel.setVisible(true);
         saldo.setVisible(false);
+        checkButton.setText("check");
+        puntaButton.setText("punta");
 
         sessioneCorrente = sessioniCorrenti.get(currentHand);
 
@@ -337,7 +343,7 @@ public class GUIPoker {
                 aggiornaPot(input);
                 controller.setPuntataAttuale((int) spinnerPuntata.getValue());
 
-                nextHand1(true);
+                nextHand1(false);
             }
         });
 
@@ -352,7 +358,7 @@ public class GUIPoker {
                 aggiornaPot(input);
                 pot.setText("pot: " + controller.getPot());
 
-                nextHand1(true);
+                nextHand1(false);
             }
         });
 
@@ -364,7 +370,7 @@ public class GUIPoker {
                 if (vincitore != null) {
                     vittoriaPerFold(vincitore);
                 } else {
-                    nextHand1(true);
+                    nextHand1(false);
                 }
             }
         });
@@ -373,7 +379,99 @@ public class GUIPoker {
     //[4]
     public void mostrareLeCarte()
     {
+        rimuoviActionListener(okButton);
 
+        resetCurrentHand();
+        sessioneCorrente = sessioniCorrenti.get(currentHand);
+        usernameLabel.setText(sessioneCorrente.getClienteUsername());
+
+        okButton.setVisible(true);
+
+        mano.removeAll();
+        disegnaCarte();
+        refreshPanel(mano);
+
+        saldo.setVisible(false);
+        okButton.setText("avanti");
+
+        okButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mano.removeAll();
+                disegnaCarte();
+                refreshPanel(mano);
+
+                saldo.setText("saldo: " + sessioneCorrente.getSaldoGiocatore());
+
+                nextHand2(false);
+            }
+        });
+    }
+
+    //[5] vincitore e reset
+    public void vittoriaReset()
+    {
+        rimuoviActionListener(okButton);
+
+        ArrayList<Integer> indiciVincitori = controller.calcolaCombo();
+
+        int premio = controller.calcolaPremio(indiciVincitori.size());
+        String messaggioVittoria = formattaMessaggioVittoria(indiciVincitori, premio);
+
+        infoTextPane.setText(messaggioVittoria);
+
+        for(int i : indiciVincitori)
+        {
+            sessioniCorrenti.get(i).incrementaSaldoGiocatore(premio);
+        }
+
+        okButton.setText("continua");
+        okButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mano.removeAll();
+                refreshPanel(mano);
+
+                currentHand = 0;
+                ogniBottone();
+                controller.reinizializzaMazzo();
+                controller.resettaMani();
+                infoTextPane.setText(null);
+
+                pescataIniziale();
+            }
+        });
+        indietroButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+    }
+
+    //formattazione messaggio di vittoria
+    private String formattaMessaggioVittoria(ArrayList<Integer> indiciVincitori, int premio)
+    {
+        String messaggio = "";
+        boolean moltepliciVincitori = false;
+
+        for(int i : indiciVincitori)
+        {
+            messaggio += sessioniCorrenti.get(i).getClienteUsername();
+            if(i != indiciVincitori.getLast())
+            {
+                moltepliciVincitori = true;
+                messaggio += ", ";
+            }
+            else messaggio += " ";
+        }
+
+        if(moltepliciVincitori) messaggio += "vincono ";
+        else messaggio += "vince ";
+
+        messaggio += premio;
+
+        return messaggio;
     }
 
     //funzioni di utility
@@ -400,6 +498,14 @@ public class GUIPoker {
     {
         spinnerPuntata.setVisible(visibilità);
         confermaButton.setVisible(visibilità);
+    }
+
+    private void ogniBottone()
+    {
+        startingButton(false);
+        azioniButton(false);
+        relativiRilancia(false);
+        okButton.setVisible(false);
     }
 
     //macro
@@ -486,7 +592,7 @@ public class GUIPoker {
         }
     }
 
-    public void refreshPanel(JPanel pannello)
+    private void refreshPanel(JPanel pannello)
     {
         //ricalcola la posizione delle componenti nel pannello
         pannello.revalidate();
@@ -495,7 +601,7 @@ public class GUIPoker {
     }
 
     //pulisci action listener
-    public void rimuoviActionListener(JButton pulsante)
+    private void rimuoviActionListener(JButton pulsante)
     {
         for (ActionListener i : pulsante.getActionListeners()) {
             pulsante.removeActionListener(i);
@@ -503,7 +609,7 @@ public class GUIPoker {
     }
 
     //transazioni
-    public boolean decrementa(int input, int indice)
+    private boolean decrementa(int input, int indice)
     {
         ClientWelcomeController sessioneCorrente = sessioniCorrenti.get(indice);
         try {
@@ -520,7 +626,7 @@ public class GUIPoker {
 
     //aggiornamenti
     //gestione cambio player
-    public void nextHand1(boolean fase)
+    private void nextHand1(boolean fase)
     {
         currentHand++;
 
@@ -543,6 +649,7 @@ public class GUIPoker {
             controller.setAlmenoUnGiro(false);
             mano.removeAll();
             azioniButton(false);
+            relativiRilancia(false);
             if(fase) rimischiata();
             else mostrareLeCarte();
             return;
@@ -565,13 +672,14 @@ public class GUIPoker {
         prossimoPescata();
     }
 
-    public void nextHand2()
+    private void nextHand2(boolean fase)
     {
         do {
             currentHand++;
             if(currentHand >= sessioniCorrenti.size())
             {
-                puntata2();
+                if(fase) puntata2();
+                else vittoriaReset();
                 return;
             }
         }while(controller.getFolded(currentHand));
@@ -582,14 +690,14 @@ public class GUIPoker {
     }
 
     //aggiorna pot
-    public void aggiornaPot(int valore)
+    private void aggiornaPot(int valore)
     {
         controller.incrementaPot(valore);
         pot.setText("pot: " + controller.getPot());
     }
 
     //reset alla prima mano non foldata
-    public void resetCurrentHand()
+    private void resetCurrentHand()
     {
         currentHand = 0;
 
@@ -597,18 +705,23 @@ public class GUIPoker {
     }
 
     //gestione vittoria per fold
-    public void vittoriaPerFold(Integer indexVincitore)
+    private void vittoriaPerFold(Integer indexVincitore)
     {
         if(indexVincitore == null) return;
 
         controller.reinizializzaMazzo();
+        controller.resettaMani();
         sessioneCorrente = sessioniCorrenti.get(indexVincitore);
 
         sessioneCorrente.incrementaSaldoGiocatore(controller.getPot());
+        infoTextPane.setText(null);
 
         JOptionPane.showMessageDialog(null, "il giocatore " + sessioneCorrente.getClienteUsername() +
                 " vince perchè gli altri hanno foldato");
 
+        mano.removeAll();
+        refreshPanel(mano);
+        ogniBottone();
         pescataIniziale();
     }
 }

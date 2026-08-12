@@ -48,6 +48,17 @@ public class ControllerPoker extends ControllerMazzo
         }
     }
 
+    public void resettaMani()
+    {
+        int nmani = listaMani.size();
+        listaMani = new ArrayList<>();
+
+        for(int i = 0; i < nmani; i++)
+        {
+            this.addMano(creaMano(Gioco.Poker));
+        }
+    }
+
     public Cliente caricaPlayer(String username, String password, ArrayList<ClientWelcomeController> loggedYet)
             throws RuntimeException, SQLException
     {
@@ -178,6 +189,7 @@ public class ControllerPoker extends ControllerMazzo
         return val;
     }
 
+    //indici in listaMani dei vincitori
     public ArrayList<Integer> calcolaCombo()
     {
         ArrayList<ManoPoker> maniAttive = new ArrayList<>();
@@ -426,6 +438,11 @@ public class ControllerPoker extends ControllerMazzo
         }
 
         return true;
+    }
+
+    public int calcolaPremio(int numeroVincitori)
+    {
+        return pot/numeroVincitori;
     }
 
     public int getAnte() {

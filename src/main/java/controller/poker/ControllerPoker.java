@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 public class ControllerPoker extends ControllerMazzo
 {
@@ -153,10 +152,10 @@ public class ControllerPoker extends ControllerMazzo
         {
             ManoPoker temp = (ManoPoker) i;
 
-            if(!temp.isFolded()) listaPuntate.add(temp.getPuntata());
+            if(!temp.isFolded() && !temp.isAllIn()) listaPuntate.add(temp.getPuntata());
         }
 
-        int val = listaPuntate.get(0);
+        int val = listaPuntate.getFirst();
 
         for(Integer i : listaPuntate)
         {
@@ -190,15 +189,15 @@ public class ControllerPoker extends ControllerMazzo
     }
 
     //indici in listaMani dei vincitori
-    public ArrayList<Integer> calcolaCombo()
+    public ArrayList<Integer> calcolaCombo(ArrayList<Integer> listaEsclusi)
     {
         ArrayList<ManoPoker> maniAttive = new ArrayList<>();
 
-        for(Mano i : listaMani)
+        for(int i = 0; i < listaMani.size(); i++)
         {
-            ManoPoker j = (ManoPoker) i;
+            ManoPoker j = (ManoPoker) getMano(i);
 
-            if(!j.isFolded())
+            if(!j.isFolded() && (listaEsclusi == null || !listaEsclusi.contains(i)))
             {
                 ArrayList<Integer> numbers = new ArrayList<>();
                 ArrayList<Seme> seeds = new ArrayList<>();
@@ -443,6 +442,60 @@ public class ControllerPoker extends ControllerMazzo
     public int calcolaPremio(int numeroVincitori)
     {
         return pot/numeroVincitori;
+    }
+
+    public int calcolaPremio(int numeroVincitori, int sidePot)
+    {
+        return sidePot/numeroVincitori;
+    }
+
+    public int puntataSpinnerValue(int saldoGiocatore)
+    {
+        if(puntataAttuale > saldoGiocatore) return saldoGiocatore;
+        else return puntataAttuale;
+    }
+
+    public void sidePot(int index)
+    {
+        ManoPoker temp = (ManoPoker) listaMani.get(index);
+        int saldoPuntato = temp.getPuntataTotalePartita();
+        int potEffettiva = 0;
+
+        for(Mano i : listaMani)
+        {
+            ManoPoker j = (ManoPoker) i;
+            if(j.getPuntataTotalePartita() > saldoPuntato) potEffettiva += saldoPuntato;
+            else potEffettiva += j.getPuntataTotalePartita();
+        }
+
+        temp.setSidePot(potEffettiva);
+    }
+
+    public void eliminaMano(int index)
+    {
+        listaMani.remove(index);
+    }
+
+    public boolean isHandAllIn(int index)
+    {
+        ManoPoker temp = (ManoPoker) getMano(index);
+        return temp.isAllIn();
+    }
+
+    public void setHandAllIn(int index, boolean value)
+    {
+        ManoPoker temp = (ManoPoker) getMano(index);
+        temp.setAllIn(value);
+    }
+
+    public void incrementaPuntataTotalePartita(int index, int valore) {
+        ManoPoker temp = (ManoPoker) getMano(index);
+        temp.incrementaPuntataTotalePartita(valore);
+    }
+
+    public int getPuntataTotalePartita(int index) {
+        ManoPoker temp = (ManoPoker) getMano(index);
+        return temp.getPuntataTotalePartita();
     }
 
     public int getAnte() {

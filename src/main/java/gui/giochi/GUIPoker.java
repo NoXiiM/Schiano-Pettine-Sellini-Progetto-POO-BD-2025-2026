@@ -5,6 +5,7 @@ import controller.poker.ControllerPoker;
 import model.gestionale.Gioco;
 import model.gestionale.Tavolo;
 import model.gestionale.utenteEFigli.Cliente;
+import model.giochi.Mano;
 import model.giochi.ManoPoker;
 
 import javax.swing.*;
@@ -15,6 +16,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 
 public class GUIPoker {
@@ -138,14 +140,19 @@ public class GUIPoker {
     //[1]
     public void pescataIniziale()
     {
+        ArrayList<Integer> giocatoriDaEliminare = new ArrayList<>();
         for(int i = 0; i < sessioniCorrenti.size(); i++)
         {
             if(!decrementa(controller.getAnte(), i))
             {
-                controller.setFolded(i);
-
-                if(i == currentHand) currentHand++;
+                giocatoriDaEliminare.add(i);
             }
+        }
+        giocatoriDaEliminare.sort(Collections.reverseOrder());
+        for(int i : giocatoriDaEliminare)
+        {
+            sessioniCorrenti.remove(i);
+            controller.eliminaMano(i);
         }
         //TODO uscita se rimane solo un giocatore che può giocare
         controller.resetPot();
@@ -166,6 +173,7 @@ public class GUIPoker {
 
         sessioneCorrente = sessioniCorrenti.get(currentHand);
 
+        //TODO bisogna gestire puntate più alte del saldo di alcuni giocatori
         vediCarteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -177,8 +185,9 @@ public class GUIPoker {
                 saldo.setVisible(true);
                 saldo.setText("saldo: " + sessioneCorrente.getSaldoGiocatore());
 
-                SpinnerNumberModel modelloSpinnerPuntata = new SpinnerNumberModel(controller.getPuntataAttuale(),
-                        controller.getPuntataAttuale(), sessioneCorrente.getSaldoGiocatore(), 1);
+                int min = controller.puntataSpinnerValue(sessioneCorrente.getSaldoGiocatore());
+                SpinnerNumberModel modelloSpinnerPuntata = new SpinnerNumberModel(min,
+                        min, sessioneCorrente.getSaldoGiocatore(), 1);
                 spinnerPuntata.setModel(modelloSpinnerPuntata);
             }
         });
@@ -207,7 +216,12 @@ public class GUIPoker {
         checkButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int input = controller.getPuntataAttuale() - controller.getMano(currentHand).getPuntata();
+                int tettoMax;
+                if(controller.getPuntataAttuale() > sessioneCorrente.getSaldoGiocatore())
+                    tettoMax = sessioneCorrente.getSaldoGiocatore();
+                else tettoMax = controller.getPuntataAttuale();
+
+                int input = tettoMax - controller.getMano(currentHand).getPuntata();
 
                 if(!decrementa(input, currentHand)) return;
 
@@ -320,8 +334,9 @@ public class GUIPoker {
                 saldo.setVisible(true);
                 saldo.setText("saldo: " + sessioneCorrente.getSaldoGiocatore());
 
-                SpinnerNumberModel modelloSpinnerPuntata = new SpinnerNumberModel(controller.getPuntataAttuale(),
-                        controller.getPuntataAttuale(), sessioneCorrente.getSaldoGiocatore(), 1);
+                int min = controller.puntataSpinnerValue(sessioneCorrente.getSaldoGiocatore());
+                SpinnerNumberModel modelloSpinnerPuntata = new SpinnerNumberModel(min,
+                        min, sessioneCorrente.getSaldoGiocatore(), 1);
                 spinnerPuntata.setModel(modelloSpinnerPuntata);
             }
         });
@@ -397,13 +412,14 @@ public class GUIPoker {
         okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mano.removeAll();
-                disegnaCarte();
-                refreshPanel(mano);
-
-                saldo.setText("saldo: " + sessioneCorrente.getSaldoGiocatore());
-
                 nextHand2(false);
+
+                if(currentHand < sessioniCorrenti.size())
+                {
+                    mano.removeAll();
+                    disegnaCarte();
+                    refreshPanel(mano);
+                }
             }
         });
     }
@@ -413,16 +429,45 @@ public class GUIPoker {
     {
         rimuoviActionListener(okButton);
 
-        ArrayList<Integer> indiciVincitori = controller.calcolaCombo();
+        //TODO parte incerta, vedi meglio la logica
+        ArrayList<Integer> indiciVincitori = controller.calcolaCombo(null);
+        ArrayList<Integer> listaEsclusi = new ArrayList<>();
 
-        int premio = controller.calcolaPremio(indiciVincitori.size());
-        String messaggioVittoria = formattaMessaggioVittoria(indiciVincitori, premio);
-
-        infoTextPane.setText(messaggioVittoria);
-
-        for(int i : indiciVincitori)
+        while(true)
         {
-            sessioniCorrenti.get(i).incrementaSaldoGiocatore(premio);
+            ArrayList<Integer> sideBetDaGestire = new ArrayList<>();
+
+            for(int i : indiciVincitori)
+            {
+                ManoPoker temp = (ManoPoker) controller.getMano(i);
+                if(temp.getSidePot() != null) sideBetDaGestire.add(i);
+            }
+
+            if(sideBetDaGestire.isEmpty()) break;
+
+            for(int i : sideBetDaGestire)
+            {
+                int sp = controller.calcolaPremio(indiciVincitori.size(),
+                        ((ManoPoker) controller.getMano(i)).getSidePot());
+                sessioniCorrenti.get(i).incrementaSaldoGiocatore(sp);
+                controller.incrementaPot(-sp);
+                listaEsclusi.add(i);
+            }
+
+            indiciVincitori = controller.calcolaCombo(listaEsclusi);
+        }
+
+        if(!indiciVincitori.isEmpty() && controller.getPot() > 0)
+        {
+            int premio = controller.calcolaPremio(indiciVincitori.size());
+            String messaggioVittoria = formattaMessaggioVittoria(indiciVincitori, premio);
+
+            infoTextPane.setText(messaggioVittoria);
+
+            for(int i : indiciVincitori)
+            {
+                sessioniCorrenti.get(i).incrementaSaldoGiocatore(premio);
+            }
         }
 
         okButton.setText("continua");
@@ -615,10 +660,11 @@ public class GUIPoker {
         try {
             sessioneCorrente.decrementaSaldoGiocatore(input);
             saldo.setText("saldo: " + sessioneCorrente.getSaldoGiocatore());
+            controller.incrementaPuntataTotalePartita(indice, input);
 
             return true;
         } catch (RuntimeException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage(),
+            JOptionPane.showMessageDialog(null, sessioniCorrenti.get(indice) + ": " + ex.getMessage(),
                     "errore", JOptionPane.ERROR_MESSAGE);
             return false;
         }
@@ -628,6 +674,8 @@ public class GUIPoker {
     //gestione cambio player
     private void nextHand1(boolean fase)
     {
+        if(sessioneCorrente.getSaldoGiocatore() == 0) controller.setHandAllIn(currentHand, true);
+
         currentHand++;
 
         while(true)
@@ -650,6 +698,13 @@ public class GUIPoker {
             mano.removeAll();
             azioniButton(false);
             relativiRilancia(false);
+
+            for(int i = 0; i < sessioniCorrenti.size(); i++)
+            {
+                ClientWelcomeController temp = sessioniCorrenti.get(i);
+                if(temp.getSaldoGiocatore() == 0) controller.sidePot(i);
+            }
+
             if(fase) rimischiata();
             else mostrareLeCarte();
             return;
@@ -722,6 +777,6 @@ public class GUIPoker {
         mano.removeAll();
         refreshPanel(mano);
         ogniBottone();
-        pescataIniziale();
+        vittoriaReset();
     }
 }

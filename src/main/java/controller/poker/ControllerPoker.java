@@ -144,22 +144,33 @@ public class ControllerPoker extends ControllerMazzo
         else return null;
     }
 
-    public boolean controlloStessePuntate()
-    {
-        ArrayList<Integer> listaPuntate = new ArrayList<>();
+    public boolean controlloStessePuntate() {
+        int maxPuntata = 0;
 
-        for(Mano i : listaMani)
-        {
+        //max puntata escludendo solo i foldati
+        for (Mano i : listaMani) {
             ManoPoker temp = (ManoPoker) i;
-
-            if(!temp.isFolded() && !temp.isAllIn()) listaPuntate.add(temp.getPuntata());
+            if (!temp.isFolded() && temp.getPuntata() > maxPuntata) {
+                maxPuntata = temp.getPuntata();
+            }
         }
 
-        int val = listaPuntate.getFirst();
+        for (Mano i : listaMani) {
+            ManoPoker temp = (ManoPoker) i;
 
-        for(Integer i : listaPuntate)
+            if (!(temp.isFolded() || temp.isAllIn()) && temp.getPuntata() < maxPuntata) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public boolean tuttiAllin()
+    {
+        for(Mano i : listaMani)
         {
-            if(val != i) return false;
+            if(!((ManoPoker) i).isAllIn()) return false;
         }
 
         return true;
@@ -248,6 +259,35 @@ public class ControllerPoker extends ControllerMazzo
         }
 
         return indiciVincitori;
+    }
+
+
+    public String nomeCombo(int index)
+    {
+        Mano mano = listaMani.get(index);
+
+        ArrayList<Integer> numbers = new ArrayList<>();
+        ArrayList<Seme> seeds = new ArrayList<>();
+
+        for(Carta i : mano.getListaMano())
+        {
+            numbers.add(getValoreNumero(i));
+            seeds.add(i.getSeme());
+        }
+
+        //scoperto grazie ai quick fixes dei warning di intellij
+        return switch (valoreCombo(numbers, seeds)[0]) {
+            case ComboPoker.scalaReale -> "scala reale";
+            case ComboPoker.scalaColore -> "scala colore";
+            case ComboPoker.poker -> "poker";
+            case ComboPoker.colore -> "colore";
+            case ComboPoker.full -> "full";
+            case ComboPoker.scala -> "scala";
+            case ComboPoker.tris -> "tris";
+            case ComboPoker.doppiaCoppia -> "doppia coppia";
+            case ComboPoker.coppia -> "coppia";
+            default -> "carta alta";
+        };
     }
 
     //ritorna array di 2 valori interi: 1) valore della combo (vedi ComboPoker), 2) tie-break

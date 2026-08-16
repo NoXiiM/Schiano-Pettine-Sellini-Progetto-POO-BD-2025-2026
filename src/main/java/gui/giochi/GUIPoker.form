@@ -172,6 +172,19 @@
         </constraints>
         <properties/>
       </component>
+      <scrollpane id="2c160">
+        <constraints>
+          <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="29eb4" class="javax.swing.JTextArea" binding="logAvvenimenti">
+            <constraints/>
+            <properties/>
+          </component>
+        </children>
+      </scrollpane>
     </children>
   </grid>
 </form>

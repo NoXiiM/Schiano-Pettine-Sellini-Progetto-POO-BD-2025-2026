@@ -78,7 +78,6 @@ public class WelcomePanel {
 
             @Override
             public void mouseClicked(MouseEvent e) {                                //quando viene cliccato
-
                 userField.setText("");
                 passwordField.setText("");
 

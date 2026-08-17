@@ -25,7 +25,7 @@ public class MainMenuAdmin {
     private JTabbedPane tabbedPane1;
     private JList listaClienti;
     private JButton bannaButton;
-    private JTextArea infoField;
+    private JTextArea textAreaInfoFieldClienti;
     private JButton logoutDaClienti;
     private JLabel userFieldAdmin;
     private JButton cercaButton;
@@ -65,7 +65,7 @@ public class MainMenuAdmin {
     private JList listaDipendenti;
     private JTextArea textAreaInfoDipendenti;
     private JList listaTavoli;
-    private JTextArea textArea1;
+    private JTextArea textAreaInfoTavoli;
     private JButton aggiornaTavoli;
     private JButton logoutDaTavoli;
     private JButton assegnaTavoloButton;
@@ -141,6 +141,13 @@ public class MainMenuAdmin {
         thisFrame.pack();
         thisFrame.setVisible(true);
         frameChiamante.setVisible(false);
+
+        textAreaInfoFieldClienti.setEditable(false);
+        textAreaInfoFieldClienti.setFocusable(false);
+        textAreaInfoDipendenti.setEditable(false);
+        textAreaInfoDipendenti.setFocusable(false);
+        textAreaInfoTavoli.setEditable(false);
+        textAreaInfoTavoli.setFocusable(false);
 
         inizializzaMenuAdmin();
 
@@ -252,7 +259,7 @@ public class MainMenuAdmin {
                         saldoMin, saldoMax, percMin, percMax, partiteMin, partiteMax, sospettoRicerca, banRicerca,
                         checkSaldo, checkPartite, checkPercentuale));
 
-                infoField.setText("");
+                textAreaInfoFieldClienti.setText("");
 
             }
         });
@@ -262,6 +269,7 @@ public class MainMenuAdmin {
         aggiornaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                textAreaInfoFieldClienti.setText(null);
                 modelloListaClienti.clear();
                 try {
                     modelloListaClienti.addAll(controller.getListaClientiDB());
@@ -405,6 +413,7 @@ public class MainMenuAdmin {
         aggiungiDipendenti.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                textAreaInfoDipendenti.setText(null);
                 new RegistrationDipendente(thisFrame, controller);
 
             }
@@ -428,6 +437,7 @@ public class MainMenuAdmin {
         aggiornaDipendenti.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                textAreaInfoDipendenti.setText(null);
                 modelloListaDipendente.clear();
                 try {
                     modelloListaDipendente.addAll(controller.getDipendentiDB());
@@ -501,45 +511,49 @@ public class MainMenuAdmin {
                         }
                     }else{
                         if(controller.getCurrentUser().getUsername().equals("root")){
-                            JPasswordField passwordField = new JPasswordField();
+                            if(!temp.getUsername().equals("root")) {
+                                JPasswordField passwordField = new JPasswordField();
 
-                            Object[] messaggio = {
-                                    "Inserisci la password per confermare il licenziamento:",
-                                    passwordField
-                            };
+                                Object[] messaggio = {
+                                        "Inserisci la password per confermare il licenziamento:",
+                                        passwordField
+                                };
 
-                            int risposta = JOptionPane.showConfirmDialog(
-                                    null,
-                                    messaggio,
-                                    "Conferma licenziamento",
-                                    JOptionPane.OK_CANCEL_OPTION,
-                                    JOptionPane.WARNING_MESSAGE
-                            );
+                                int risposta = JOptionPane.showConfirmDialog(
+                                        null,
+                                        messaggio,
+                                        "Conferma licenziamento",
+                                        JOptionPane.OK_CANCEL_OPTION,
+                                        JOptionPane.WARNING_MESSAGE
+                                );
 
-                            if (risposta == JOptionPane.OK_OPTION) {
-                                String password = new String(passwordField.getPassword());
+                                if (risposta == JOptionPane.OK_OPTION) {
+                                    String password = new String(passwordField.getPassword());
 
-                                // Controlla la password
-                                if(password.equals(controller.getCurrentUser().getPassword())) {
-                                    try {
-                                        controller.licenziaDipendente(temp);
-                                    } catch (SQLException ex) {
-                                        JOptionPane.showMessageDialog(null, ex.getMessage(),
-                                                "errore", JOptionPane.ERROR_MESSAGE);
+                                    // Controlla la password
+                                    if (password.equals(controller.getCurrentUser().getPassword())) {
+                                        try {
+                                            controller.licenziaDipendente(temp);
+                                        } catch (SQLException ex) {
+                                            JOptionPane.showMessageDialog(null, ex.getMessage(),
+                                                    "errore", JOptionPane.ERROR_MESSAGE);
+                                        }
+                                        textAreaInfoDipendenti.setText("");
+                                    } else {
+                                        JOptionPane.showMessageDialog(
+                                                null,
+                                                "Password non corretta!",
+                                                "Errore",
+                                                JOptionPane.ERROR_MESSAGE
+                                        );
                                     }
-                                    textAreaInfoDipendenti.setText("");
                                 }
-                                else {
-                                    JOptionPane.showMessageDialog(
-                                            null,
-                                            "Password non corretta!",
-                                            "Errore",
-                                            JOptionPane.ERROR_MESSAGE
-                                    );
-                                }
+                            }else{
+                                JOptionPane.showMessageDialog(null,"Non puoi cancellare te stesso","Errore",JOptionPane.ERROR_MESSAGE);
                             }
+                        }else{
+                            JOptionPane.showMessageDialog(null,"Non hai i permessi per cancellare un Supervisore","Errore",JOptionPane.ERROR_MESSAGE);
                         }
-                        JOptionPane.showMessageDialog(null,"Non hai i permessi per cancellare un Supervisore","Errore",JOptionPane.ERROR_MESSAGE);
                     }
                     modelloListaDipendente.clear();
                     modelloListaDipendente.addAll(controller.getDipendentiInLocale());
@@ -560,6 +574,7 @@ public class MainMenuAdmin {
         aggiornaTavoli.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                textAreaInfoTavoli.setText(null);
                 modelloListaTavoli.clear();
                 try {
                     modelloListaTavoli.addAll(controller.getTavoliDB());
@@ -670,7 +685,7 @@ public class MainMenuAdmin {
     }
 
     private void stampaClienteInfoField(Cliente temp){
-        infoField.setText("Username: " + temp.getUsername() +
+        textAreaInfoFieldClienti.setText("Username: " + temp.getUsername() +
                 "\n\nInformazioni anagrafiche" +
                 "\nNome: " + temp.getNome() +
                 "\nCognome: " + temp.getCognome() +

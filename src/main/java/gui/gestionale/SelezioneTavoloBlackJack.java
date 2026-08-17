@@ -38,6 +38,10 @@ public class SelezioneTavoloBlackJack
         Dimension minDim = new Dimension(700, 200);
         thisFrame.setMinimumSize(minDim);
 
+        informazioniTavolo.setEditable(false);
+        informazioniTavolo.setFocusable(false);
+
+
         controller = new TavoloController();
         try {
             controller.popolaBlackJack();

@@ -2,7 +2,7 @@ package controller.mazzo;
 
 import controller.blackjack.DeckOut;
 import model.gestionale.Gioco;
-import model.giochi.*;
+import model.giochi.Carte.*;
 
 import java.util.ArrayList;
 

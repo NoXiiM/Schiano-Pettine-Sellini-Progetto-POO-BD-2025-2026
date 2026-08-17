@@ -1,4 +1,4 @@
-package model.giochi;
+package model.giochi.Carte;
 
 import model.gestionale.Gioco;
 
@@ -8,6 +8,7 @@ import java.util.Collections;
 public class ManoPoker extends Mano
 {
     private boolean folded;
+    //carte selezionate in rimischia carte
     private ArrayList<Integer> carteSelezionate;
     private int[] valoreCombo;
     private Integer sidePot;

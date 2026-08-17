@@ -6,7 +6,7 @@ import controller.mazzo.ControllerMazzo;
 import database.implementazioneDAO.ImpDAOop;
 import model.gestionale.Gioco;
 import model.gestionale.utenteEFigli.Cliente;
-import model.giochi.*;
+import model.giochi.Carte.*;
 
 import java.sql.SQLException;
 import java.time.LocalDate;

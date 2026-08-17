@@ -5,8 +5,8 @@ import controller.poker.ControllerPoker;
 import model.gestionale.Gioco;
 import model.gestionale.Tavolo;
 import model.gestionale.utenteEFigli.Cliente;
-import model.giochi.EventiPoker;
-import model.giochi.ManoPoker;
+import model.giochi.Carte.EventiPoker;
+import model.giochi.Carte.ManoPoker;
 
 import javax.swing.*;
 import java.awt.*;
@@ -147,8 +147,10 @@ public class GUIPoker {
     public void pescataIniziale()
     {
         clearLog();
+        //puntata più alta per giro di puntata settata a 0
         controller.setPuntataAttuale(0);
-        variazioneBottoniPerPuntata();
+        //in questo caso con questa funzione si resettano i pulsanti a check e punta
+        variazionePulsantePerPuntataPuntaORilancia();
 
         //eliminazione dei giocatori con un saldo minore dell'ante
         ArrayList<Integer> giocatoriDaEliminare = new ArrayList<>();
@@ -167,7 +169,9 @@ public class GUIPoker {
         }
 
         //TODO uscita se rimane solo un giocatore che può giocare
+        //pot portata a 0
         controller.resetPot();
+        //pot aggiornata con gli ante di tutti i giocatori in partita
         aggiornaPot(controller.getAnte()*sessioniCorrenti.size());
         rimuoviActionListener(vediCarteButton);
         rimuoviActionListener(puntaButton);
@@ -175,6 +179,7 @@ public class GUIPoker {
         rimuoviActionListener(checkButton);
         rimuoviActionListener(foldButton);
 
+        //visibilità pulsanti
         startingButton(false);
         vediCarteButton.setVisible(true);
         usernameLabel.setText(sessioniCorrenti.get(currentHand).getClienteUsername());
@@ -199,17 +204,19 @@ public class GUIPoker {
 
                 displayComboName();
 
+                //se puntata attuale > del saldo min = saldo e viceversa
                 int min = controller.puntataSpinnerValue(sessioneCorrente.getSaldoGiocatore());
                 SpinnerNumberModel modelloSpinnerPuntata = new SpinnerNumberModel(min,
                         min, sessioneCorrente.getSaldoGiocatore(), 1);
-                ((JSpinner.DefaultEditor) spinnerPuntata.getEditor()).getTextField().setEditable(false);
                 spinnerPuntata.setModel(modelloSpinnerPuntata);
+                ((JSpinner.DefaultEditor) spinnerPuntata.getEditor()).getTextField().setEditable(false);
             }
         });
 
         puntaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //puntaButton è solo uno switch della visibilità dei pulsanti per il rilancio
                 if(confermaButton.isVisible()) relativiRilancia(false);
                 else relativiRilancia(true);
             }
@@ -217,13 +224,16 @@ public class GUIPoker {
         confermaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //il quantitativo da decrementare è quello del rilancio/puntata che si vuole fare - i soldi già messi
                 int input = ((int) spinnerPuntata.getValue()) - controller.getMano(currentHand).getPuntata();
                 if(!decrementa(input, currentHand)) return;
 
                 controller.getMano(currentHand).incrementaPuntata(input);
                 aggiornaPot(input);
+                //si segna nel controller la puntata più alta
                 controller.setPuntataAttuale((int) spinnerPuntata.getValue());
 
+                //in base a se è avvenuta una puntata o rilancio si scrive un messaggio diverso nel log
                 if(controller.getPuntataAttuale() == input)
                     displayBettingEvents(EventiPoker.bet);
                 else displayBettingEvents(EventiPoker.raise);
@@ -236,6 +246,7 @@ public class GUIPoker {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int tettoMax;
+                //il solito controllo per il massimo della puntata (caso dei giocatori allin)
                 if(controller.getPuntataAttuale() > sessioneCorrente.getSaldoGiocatore())
                     tettoMax = sessioneCorrente.getSaldoGiocatore();
                 else tettoMax = controller.getPuntataAttuale();
@@ -246,7 +257,6 @@ public class GUIPoker {
 
                 controller.getMano(currentHand).incrementaPuntata(input);
                 aggiornaPot(input);
-                pot.setText("pot: " + controller.getPot());
 
                 if(checkButton.getText().equals("check")) displayBettingEvents(EventiPoker.check);
                 else displayBettingEvents(EventiPoker.call);
@@ -258,11 +268,12 @@ public class GUIPoker {
         foldButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //setFolded controlla anche se è rimasto un solo giocatore non foldato e restituisce l'indice del vincitore
                 Integer vincitore = controller.setFolded(currentHand);
 
                 displayBettingEvents(EventiPoker.fold);
 
-                if (vincitore != null) {
+                if(vincitore != null){
                     vittoriaPerFold(vincitore);
                 } else {
                     nextHand1(true);
@@ -291,6 +302,7 @@ public class GUIPoker {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mano.removeAll();
+                //disegna carte selezionabili
                 disegnaCarteClickabili();
                 refreshPanel(mano);
 
@@ -518,12 +530,21 @@ public class GUIPoker {
                     sessioniCorrenti.get(i).incrementaSaldoGiocatore(premio);
                 }
             }
+
+            indietroButton.setVisible(true);
+
+            mano.removeAll();
+            refreshPanel(mano);
         }
         else
         {
             okButton.setVisible(true);
             indietroButton.setVisible(true);
         }
+
+        usernameLabel.setVisible(false);
+        saldo.setVisible(false);
+        pot.setVisible(false);
 
         okButton.setText("continua");
         okButton.addActionListener(new ActionListener() {
@@ -719,8 +740,8 @@ public class GUIPoker {
 
             return true;
         } catch (RuntimeException ex) {
-            JOptionPane.showMessageDialog(null, sessioniCorrenti.get(indice) + ": " + ex.getMessage(),
-                    "errore", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, sessioniCorrenti.get(indice).getClienteUsername()
+                            + ": " + ex.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }
@@ -731,34 +752,43 @@ public class GUIPoker {
     {
         if(sessioneCorrente.getSaldoGiocatore() == 0) controller.setHandAllIn(currentHand, true);
 
+        //per non mostrare informazioni sulle combo degli avversari
         infoTextPane.setText(null);
         currentHand++;
 
         while(true)
         {
             if(currentHand >= sessioniCorrenti.size()) {
+                //controllo perché bisogna almeno fare un giro di puntate
                 controller.setAlmenoUnGiro(true);
+                //reset
                 currentHand = 0;
+                //se tutti sono in allin si rischia il ciclo infinito quindi se dopo un giro bisogna verificare se
+                //tutti siano in allin
                 if(controller.tuttiAllin()) break;
             }
 
-            if(!controller.getFolded(currentHand) && !((ManoPoker) controller.getMano(currentHand)).isAllIn()) {
+            if(!controller.getFolded(currentHand) && !controller.isHandAllIn(currentHand)) {
                 break;
             }
 
             currentHand++;
         }
 
-        if(controller.controlloStessePuntate() && controller.isAlmenoUnGiro())
+        if(controller.isAlmenoUnGiro() && controller.controlloStessePuntate())
         {
             controller.setAlmenoUnGiro(false);
             mano.removeAll();
+            refreshPanel(mano);
             azioniButton(false);
             relativiRilancia(false);
 
+            //la side pot va settata a fine fase perché il premio a cui può aspirare un giocatore è determinato anche
+            //da se gli altri hanno chiamato
             for(int i = 0; i < sessioniCorrenti.size(); i++)
             {
                 ClientWelcomeController temp = sessioniCorrenti.get(i);
+                //setta la side pot per la mano di un giocatore in allin
                 if(temp.getSaldoGiocatore() == 0) controller.sidePot(i);
             }
 
@@ -767,7 +797,7 @@ public class GUIPoker {
             return;
         }
 
-        variazioneBottoniPerPuntata();
+        variazionePulsantePerPuntataPuntaORilancia();
 
         usernameLabel.setText(sessioniCorrenti.get(currentHand).getClienteUsername());
         sessioneCorrente = sessioniCorrenti.get(currentHand);
@@ -775,7 +805,7 @@ public class GUIPoker {
         prossimoPescata();
     }
 
-    public void variazioneBottoniPerPuntata()
+    public void variazionePulsantePerPuntataPuntaORilancia()
     {
         if(controller.getPuntataAttuale() != 0)
         {
@@ -826,8 +856,6 @@ public class GUIPoker {
     {
         if(indexVincitore == null) return;
 
-        controller.reinizializzaMazzo();
-        controller.resettaMani();
         sessioneCorrente = sessioniCorrenti.get(indexVincitore);
 
         sessioneCorrente.incrementaSaldoGiocatore(controller.getPot());

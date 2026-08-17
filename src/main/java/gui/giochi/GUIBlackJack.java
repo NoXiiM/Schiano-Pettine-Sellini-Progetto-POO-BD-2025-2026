@@ -2,8 +2,8 @@ package gui.giochi;
 
 import controller.blackjack.*;
 import controller.gestionale.ClientWelcomeController;
-import model.giochi.HandStateBJ;
-import model.giochi.ManoBlackJack;
+import model.giochi.Carte.HandStateBJ;
+import model.giochi.Carte.ManoBlackJack;
 
 import javax.swing.*;
 import java.awt.*;

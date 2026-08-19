@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
+
+//TODO 1) migliora tie-breaker
 public class GUIPoker {
     private JPanel mano;
     private JLabel indicatoreMani;
@@ -147,6 +149,7 @@ public class GUIPoker {
     public void pescataIniziale()
     {
         clearLog();
+        pot.setVisible(true);
         //puntata più alta per giro di puntata settata a 0
         controller.setPuntataAttuale(0);
         //in questo caso con questa funzione si resettano i pulsanti a check e punta
@@ -208,8 +211,8 @@ public class GUIPoker {
                 int min = controller.puntataSpinnerValue(sessioneCorrente.getSaldoGiocatore());
                 SpinnerNumberModel modelloSpinnerPuntata = new SpinnerNumberModel(min,
                         min, sessioneCorrente.getSaldoGiocatore(), 1);
+                //((JSpinner.DefaultEditor) spinnerPuntata.getEditor()).getTextField().setEditable(false);
                 spinnerPuntata.setModel(modelloSpinnerPuntata);
-                ((JSpinner.DefaultEditor) spinnerPuntata.getEditor()).getTextField().setEditable(false);
             }
         });
 
@@ -319,6 +322,7 @@ public class GUIPoker {
             @Override
             public void actionPerformed(ActionEvent e) {
                 controller.rimischiataMano(currentHand);
+                displayNCarteRimischiate(controller.getNumeroCarteSelezionate(currentHand));
 
                 mano.removeAll();
                 disegnaCarte();
@@ -382,7 +386,7 @@ public class GUIPoker {
                 int min = controller.puntataSpinnerValue(sessioneCorrente.getSaldoGiocatore());
                 SpinnerNumberModel modelloSpinnerPuntata = new SpinnerNumberModel(min,
                         min, sessioneCorrente.getSaldoGiocatore(), 1);
-                ((JSpinner.DefaultEditor) spinnerPuntata.getEditor()).getTextField().setEditable(false);
+                //((JSpinner.DefaultEditor) spinnerPuntata.getEditor()).getTextField().setEditable(false);
                 spinnerPuntata.setModel(modelloSpinnerPuntata);
             }
         });
@@ -469,6 +473,8 @@ public class GUIPoker {
         saldo.setVisible(false);
         okButton.setText("avanti");
 
+        displayComboName();
+
         okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -476,6 +482,8 @@ public class GUIPoker {
 
                 if(currentHand < sessioniCorrenti.size())
                 {
+                    displayComboName();
+
                     mano.removeAll();
                     disegnaCarte();
                     refreshPanel(mano);
@@ -489,39 +497,55 @@ public class GUIPoker {
     {
         rimuoviActionListener(okButton);
 
-        //TODO parte incerta, vedi meglio la logica
         if(!foldFlag){
+            //segmento di codice se arrivi qua da mostrareLeCarte (non è vittoria per fold)
+
+            //indici dei vincitori, possono essere più di uno in caso di pareggio
             ArrayList<Integer> indiciVincitori = controller.calcolaCombo(null);
             ArrayList<Integer> listaEsclusi = new ArrayList<>();
+
+            String messaggioVittoria = "";
 
             while(true)
             {
                 ArrayList<Integer> sideBetDaGestire = new ArrayList<>();
 
+                //mi prendo da parte tutti i vincitori che sono in allin e quindi una side pot a sè
                 for(int i : indiciVincitori)
                 {
                     ManoPoker temp = (ManoPoker) controller.getMano(i);
                     if(temp.getSidePot() != null) sideBetDaGestire.add(i);
                 }
 
+                //se non ho vincitori in allin da gestire esco
                 if(sideBetDaGestire.isEmpty()) break;
 
+                //gestione vincitori in allin
                 for(int i : sideBetDaGestire)
                 {
+                    //calcola il premio dalla side pot in base al numero di giocatori vincitori (sidepot/numero vincitori)
                     int sp = controller.calcolaPremio(indiciVincitori.size(),
                             ((ManoPoker) controller.getMano(i)).getSidePot());
                     sessioniCorrenti.get(i).incrementaSaldoGiocatore(sp);
+                    //devo andare a sottrarre la vincita del giocatore dalla pot generale
                     controller.incrementaPot(-sp);
+                    //per i giocatori a cui ho già calcolato il premio li metto in una lista di esclusione
                     listaEsclusi.add(i);
+
+                    //per aggiungere i giocatori con side pot al messaggio di vittoria
+                    ArrayList<Integer> temp = new ArrayList<>();
+                    temp.add(i);
+                    messaggioVittoria += formattaMessaggioVittoria(temp, sp);
                 }
 
+                //si continua a ricalcolare la combo con gli esclusi finché non ci sono più allin da gestire
                 indiciVincitori = controller.calcolaCombo(listaEsclusi);
             }
 
             if(!indiciVincitori.isEmpty() && controller.getPot() > 0)
             {
                 int premio = controller.calcolaPremio(indiciVincitori.size());
-                String messaggioVittoria = formattaMessaggioVittoria(indiciVincitori, premio);
+                messaggioVittoria += formattaMessaggioVittoria(indiciVincitori, premio);
 
                 infoTextPane.setText(messaggioVittoria);
 
@@ -538,9 +562,15 @@ public class GUIPoker {
         }
         else
         {
+            //nel caso di vittoria per fold il premio viene gestito nella rispettiva funzione
+
             okButton.setVisible(true);
             indietroButton.setVisible(true);
         }
+
+        //cambio di chi inizia per primo
+        sessioniCorrenti.addLast(sessioniCorrenti.getFirst());
+        sessioniCorrenti.removeFirst();
 
         usernameLabel.setVisible(false);
         saldo.setVisible(false);
@@ -590,7 +620,7 @@ public class GUIPoker {
         if(moltepliciVincitori) messaggio += "vincono ";
         else messaggio += "vince ";
 
-        messaggio += premio;
+        messaggio += premio + "\n";
 
         return messaggio;
     }
@@ -621,6 +651,7 @@ public class GUIPoker {
         confermaButton.setVisible(visibilità);
     }
 
+    //per togliere visibilità a tutti i bottoni
     private void ogniBottone()
     {
         startingButton(false);
@@ -637,7 +668,6 @@ public class GUIPoker {
         spinnerPuntata.setVisible(false);
         vediCarteButton.setVisible(true);
         saldo.setVisible(false);
-
 
         mano.removeAll();
         refreshPanel(mano);
@@ -658,6 +688,7 @@ public class GUIPoker {
         }
     }
 
+    //TODO se una label viene rimossa tutti i suoi action listener vengono rimossi in automatico?
     private void disegnaCarteClickabili()
     {
         String pathIm;
@@ -673,7 +704,6 @@ public class GUIPoker {
             //per passare variabile esterna in un listener deve essere final
             final int indexCarta = i;
 
-            //TODO vedi se c'è un modo più elegante a livello di pattern per creare questi listener
             temp.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -778,8 +808,11 @@ public class GUIPoker {
         if(controller.isAlmenoUnGiro() && controller.controlloStessePuntate())
         {
             controller.setAlmenoUnGiro(false);
+
+            //serve perché in questo caso non viene eseguito prossimo pescata che esegue queste funzioni
             mano.removeAll();
             refreshPanel(mano);
+
             azioniButton(false);
             relativiRilancia(false);
 
@@ -857,12 +890,15 @@ public class GUIPoker {
         if(indexVincitore == null) return;
 
         sessioneCorrente = sessioniCorrenti.get(indexVincitore);
+        //serve per evitare problemi nel caso in cui si ha rilancio e tutti foldano (la flag viene settata e quindi deve
+        // essere disabilitata se finisce la partita)
+        controller.setAlmenoUnGiro(false);
 
         sessioneCorrente.incrementaSaldoGiocatore(controller.getPot());
         infoTextPane.setText(null);
 
         JOptionPane.showMessageDialog(null, "il giocatore " + sessioneCorrente.getClienteUsername() +
-                " vince perchè gli altri hanno foldato");
+                " vince " + controller.getPot() + " perchè gli altri hanno foldato");
 
         mano.removeAll();
         refreshPanel(mano);
@@ -896,6 +932,11 @@ public class GUIPoker {
         }
 
         logAvvenimenti.append(sessioneCorrente.getClienteUsername() + ": " + azione + "\n");
+    }
+
+    private void displayNCarteRimischiate(int numero)
+    {
+        logAvvenimenti.append(sessioneCorrente.getClienteUsername() + " ha rimischiato " + numero + " carte\n");
     }
 
     public void clearLog()

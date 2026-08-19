@@ -53,11 +53,12 @@ public class Sabot
         }
     }
 
+    //nel poker all'italiana si gioca solo con le carte >= jack - il numero di giocatori (minimo 2)
     public void inizializzaSabotPoker(int nmani)
     {
-        Numero[] numeri = {Numero.uno, Numero.due, Numero.tre, Numero.quattro, Numero.cinque,
+        Numero[] numeri = {Numero.due, Numero.tre, Numero.quattro, Numero.cinque,
                 Numero.sei, Numero.sette, Numero.otto, Numero.nove, Numero.dieci, Numero.jack, Numero.queen,
-                Numero.king};
+                Numero.king, Numero.uno};
         Seme[] semi = {Seme.cuore, Seme.quadro, Seme.fiore, Seme.picche};
 
         for(int i = 10 - nmani; i < numeri.length; i++)

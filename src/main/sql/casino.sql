@@ -60,8 +60,8 @@ CREATE TABLE Tavolo (
     numeroPosti INT NOT NULL,
     idDealer VARCHAR(20) UNIQUE,
     FOREIGN KEY (idDealer) REFERENCES Dipendente(IdDipendente) ON DELETE CASCADE,
-    CHECK ((gioco = 'SlotMachine' AND idDealer IS NULL AND numeroPosti = 1) --vedi se fare la logica per occupato
-	OR (gioco IN ('Poker', 'Blackjack') AND idDealer IS NOT NULL)),
+    CHECK ((gioco = 'SlotMachine' AND idDealer IS NULL AND numeroPosti = 1), --vedi se fare la logica per occupato
+	--OR (gioco IN ('Poker', 'Blackjack') AND idDealer IS NOT NULL))
 	FOREIGN KEY (gioco) REFERENCES Gioco(nomeGioco)
 );
 
@@ -85,3 +85,4 @@ CREATE TABLE Sessione(
     FOREIGN KEY (idCliente) REFERENCES Cliente(IdCliente) ON DELETE CASCADE,
     FOREIGN KEY (idTavolo) REFERENCES Tavolo(Numero) ON DELETE CASCADE
 );
+

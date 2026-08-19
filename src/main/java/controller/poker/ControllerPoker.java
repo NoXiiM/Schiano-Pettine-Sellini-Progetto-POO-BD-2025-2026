@@ -30,6 +30,7 @@ public class ControllerPoker extends ControllerMazzo
         puntataAttuale = 0;
         pot = 0;
         ante = 0;
+        almenoUnGiro = false;
     }
 
     @Override
@@ -39,6 +40,7 @@ public class ControllerPoker extends ControllerMazzo
         mazzo.mischiaMazzo();
     }
 
+    //a ognuno 5 carte
     public void serviCarte() throws DeckOut
     {
         for(Mano i : listaMani)
@@ -101,6 +103,8 @@ public class ControllerPoker extends ControllerMazzo
         return null;
     }
 
+    //i listener delle carte aggiungono gli indici nell'array attributo di manoPoker, rimuovi carte effettua questa
+    //rimozione delle carte dalla mano
     public void rimischiataMano(int index)
     {
         ManoPoker mano = (ManoPoker) listaMani.get(index);
@@ -136,6 +140,7 @@ public class ControllerPoker extends ControllerMazzo
             if(!j.isFolded())
             {
                 contatore++;
+                if(contatore > 1) break;
                 indiceVincitore = i;
             }
         }
@@ -155,6 +160,7 @@ public class ControllerPoker extends ControllerMazzo
             }
         }
 
+        //adesso controllo anche tra i giocatori non in all in che abbiano tutti la stessa puntata
         for (Mano i : listaMani) {
             ManoPoker temp = (ManoPoker) i;
 
@@ -191,6 +197,7 @@ public class ControllerPoker extends ControllerMazzo
         return temp.isFolded();
     }
 
+    //rispetto al metodo di ControllerMazzo cambia solo il valore dell'asso
     public static int getValoreNumero(Carta carta) {
         int val = ControllerMazzo.getValoreNumero(carta);
 
@@ -208,13 +215,17 @@ public class ControllerPoker extends ControllerMazzo
         {
             ManoPoker j = (ManoPoker) getMano(i);
 
+            //per ogni mano che non è stata foldata e non compare nella lista di esclusione si calcola il valore della
+            //combo
             if(!j.isFolded() && (listaEsclusi == null || !listaEsclusi.contains(i)))
             {
                 ArrayList<Integer> numbers = new ArrayList<>();
                 ArrayList<Seme> seeds = new ArrayList<>();
 
+                //per ogni carta della mano prendo seme e numero
                 for(Carta z : j.getListaMano())
                 {
+                    //i valori dei numeri vanno da 2 a 14, ho considerato l'asso come 14
                     numbers.add(getValoreNumero(z));
                     seeds.add(z.getSeme());
                 }
@@ -229,6 +240,7 @@ public class ControllerPoker extends ControllerMazzo
 
         //ordine lessicografico: a > b <-> valore combo di a < valore combo di b OR (valore combo di a = valore combo
         // di b AND tie-break di a > tie-break di b)
+        //TODO potenzialmente ci possono essere 5 tie breaker diversi, quindi l'array di ritorno potrei programmarlo come uno da 6
         for(ManoPoker i : maniAttive)
         {
             if(vincitori.isEmpty()) vincitori.add(i);
@@ -293,10 +305,15 @@ public class ControllerPoker extends ControllerMazzo
     //ritorna array di 2 valori interi: 1) valore della combo (vedi ComboPoker), 2) tie-break
     private int[] valoreCombo(ArrayList<Integer> numbers, ArrayList<Seme> seeds)
     {
+        //sorting in ordine crescente
         numbers.sort(null);
 
         int[] punteggio = new int[2];
 
+        //da ora in poi si effettuano diverse verifiche per trovare una combo nella mano a partire da quelle più forti
+        //tutte le funzioni sono delle flag alla fine dei conti, anche quelle che restituiscono Integer perché considero
+        //null come false e valore come true, però così, visto che il dato è intero posso anche conservare il valore
+        //tie-breaker della combo
         Integer flagScala = scala(numbers);
         boolean flagColore = colore(seeds);
 
@@ -380,6 +397,7 @@ public class ControllerPoker extends ControllerMazzo
         return punteggio;
     }
 
+    //restituisce int[2]: 1) numero di coppie, 2) tie-breaker
     private Integer[] coppie(ArrayList<Integer> numbersSorted)
     {
         int[] occur = new int[13];
@@ -398,6 +416,8 @@ public class ControllerPoker extends ControllerMazzo
             if(occur[i] == 2)
             {
                 counter++;
+                //non mi serve calcolare il massimo in altro modo, so che l'ultima coppia registrata in occur è la più
+                //alta, indice maggiore
                 highest = i+2;
             }
         }
@@ -412,6 +432,7 @@ public class ControllerPoker extends ControllerMazzo
         else return null;
     }
 
+    //restituisce tie breaker
     private Integer tris(ArrayList<Integer> numbersSorted)
     {
         int[] occur = new int[13];
@@ -430,6 +451,7 @@ public class ControllerPoker extends ControllerMazzo
         return null;
     }
 
+    //restituisce tie breaker
     private Integer poker(ArrayList<Integer> numbersSorted)
     {
         int[] occur = new int[13];
@@ -448,11 +470,12 @@ public class ControllerPoker extends ControllerMazzo
         return null;
     }
 
-    //ritorna il valore della scala
+    //ritorna il valore più alto della scala
     private Integer scala(ArrayList<Integer> numbersSorted)
     {
         int primo = numbersSorted.get(0);
 
+        //asso fa sia scala con 10, j, q, k che con 2, 3, 4, 5; il secondo caso lo verifico meccanicamente in questo if
         if(numbersSorted.get(0) == 2
         && numbersSorted.get(1) == 3
         && numbersSorted.get(2) == 4
@@ -469,7 +492,7 @@ public class ControllerPoker extends ControllerMazzo
 
     private boolean colore(ArrayList<Seme> seeds)
     {
-        Seme seme = seeds.get(0);
+        Seme seme = seeds.getFirst();
 
         for(Seme i : seeds)
         {
@@ -501,6 +524,8 @@ public class ControllerPoker extends ControllerMazzo
         int saldoPuntato = temp.getPuntataTotalePartita();
         int potEffettiva = 0;
 
+        //aggiunge alla potEffettiva i soldi puntati da ogni giocatore a patto che siano minori uguali al saldo con cui
+        //il giocatore interessato dalla funzione ha iniziato il round
         for(Mano i : listaMani)
         {
             ManoPoker j = (ManoPoker) i;
@@ -565,5 +590,12 @@ public class ControllerPoker extends ControllerMazzo
 
     public void setAlmenoUnGiro(boolean almenoUnGiro) {
         this.almenoUnGiro = almenoUnGiro;
+    }
+
+    public int getNumeroCarteSelezionate(int index)
+    {
+        ManoPoker temp = (ManoPoker) getMano(index);
+
+        return temp.getCarteSelezionate().size();
     }
 }

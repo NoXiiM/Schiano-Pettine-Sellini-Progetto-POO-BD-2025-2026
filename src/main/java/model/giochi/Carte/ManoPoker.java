@@ -25,6 +25,7 @@ public class ManoPoker extends Mano
         sidePot = null;
         puntataTotalePartita = 0;
 
+        //TODO 6
         valoreCombo = new int[2];
     }
 

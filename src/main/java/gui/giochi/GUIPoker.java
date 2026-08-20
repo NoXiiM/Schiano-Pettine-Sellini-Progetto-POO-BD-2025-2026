@@ -19,8 +19,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
-
-//TODO 1) migliora tie-breaker
 public class GUIPoker {
     private JPanel mano;
     private JLabel indicatoreMani;
@@ -45,6 +43,7 @@ public class GUIPoker {
     private JButton okButton;
     private JTextPane infoTextPane;
     private JTextArea logAvvenimenti;
+    private JLabel risultatiLabel;
 
     //conta qual è la mano corrente
     private int currentHand = 0;
@@ -78,6 +77,7 @@ public class GUIPoker {
         vediCarteButton.setVisible(false);
         rimischiaButton.setVisible(false);
         okButton.setVisible(false);
+        risultatiLabel.setVisible(false);
 
         //TODO da modificare max con numero di posti
         SpinnerNumberModel modelloSpinnerNplayer = new SpinnerNumberModel(2, 2, 5, 1);
@@ -190,6 +190,7 @@ public class GUIPoker {
         saldo.setVisible(false);
 
         controller.serviCarte();
+        controller.calcolaComboTutti();
 
         sessioneCorrente = sessioniCorrenti.get(currentHand);
 
@@ -328,6 +329,7 @@ public class GUIPoker {
                 disegnaCarte();
                 refreshPanel(mano);
 
+                controller.calcolaComboSingolo(currentHand);
                 displayComboName();
 
                 rimischiaButton.setVisible(false);
@@ -351,7 +353,7 @@ public class GUIPoker {
     //[3]
     public void puntata2()
     {
-        resetCurrentHand();
+        resetCurrentHandNoAllIn();
         controller.setPuntataAttuale(0);
         controller.resetPuntateMani();
 
@@ -360,6 +362,14 @@ public class GUIPoker {
         rimuoviActionListener(confermaButton);
         rimuoviActionListener(checkButton);
         rimuoviActionListener(foldButton);
+
+        if(currentHand >= sessioniCorrenti.size())
+        {
+            currentHand--;
+            vediCarteButton.setVisible(false);
+            nextHand1(false);
+            return;
+        }
 
         vediCarteButton.setVisible(true);
         usernameLabel.setText(sessioniCorrenti.get(currentHand).getClienteUsername());
@@ -464,6 +474,7 @@ public class GUIPoker {
         sessioneCorrente = sessioniCorrenti.get(currentHand);
         usernameLabel.setText(sessioneCorrente.getClienteUsername());
 
+        risultatiLabel.setVisible(true);
         okButton.setVisible(true);
 
         mano.removeAll();
@@ -493,15 +504,17 @@ public class GUIPoker {
     }
 
     //[5] vincitore e reset
+    //TODO puoi renderlo più elegante se hai tempo
     public void vittoriaReset(boolean foldFlag)
     {
         rimuoviActionListener(okButton);
+        risultatiLabel.setVisible(false);
 
         if(!foldFlag){
             //segmento di codice se arrivi qua da mostrareLeCarte (non è vittoria per fold)
 
             //indici dei vincitori, possono essere più di uno in caso di pareggio
-            ArrayList<Integer> indiciVincitori = controller.calcolaCombo(null);
+            ArrayList<Integer> indiciVincitori = controller.trovaVincitori(null);
             ArrayList<Integer> listaEsclusi = new ArrayList<>();
 
             String messaggioVittoria = "";
@@ -510,7 +523,7 @@ public class GUIPoker {
             {
                 ArrayList<Integer> sideBetDaGestire = new ArrayList<>();
 
-                //mi prendo da parte tutti i vincitori che sono in allin e quindi una side pot a sè
+                //mi prendo da parte tutti i vincitori che sono in allin e quindi che hanno una side pot a sè
                 for(int i : indiciVincitori)
                 {
                     ManoPoker temp = (ManoPoker) controller.getMano(i);
@@ -518,13 +531,19 @@ public class GUIPoker {
                 }
 
                 //se non ho vincitori in allin da gestire esco
-                if(sideBetDaGestire.isEmpty()) break;
+                //System.out.println(controller.soloUnGiocatore(listaEsclusi));
+                if(sideBetDaGestire.isEmpty() || controller.soloUnGiocatore(listaEsclusi)) break;
+
+                //evento se c'è pareggio tra giocatori in all-in, molto molto raro
+                if(sideBetDaGestire.size() > 1) controller.sortPerSideBet(sideBetDaGestire);
 
                 //gestione vincitori in allin
-                for(int i : sideBetDaGestire)
+                for(int j = 0; j < sideBetDaGestire.size(); j++)
                 {
+                    int i = sideBetDaGestire.get(j);
+
                     //calcola il premio dalla side pot in base al numero di giocatori vincitori (sidepot/numero vincitori)
-                    int sp = controller.calcolaPremio(indiciVincitori.size(),
+                    int sp = controller.calcolaPremio(indiciVincitori.size() - j,
                             ((ManoPoker) controller.getMano(i)).getSidePot());
                     sessioniCorrenti.get(i).incrementaSaldoGiocatore(sp);
                     //devo andare a sottrarre la vincita del giocatore dalla pot generale
@@ -534,18 +553,23 @@ public class GUIPoker {
 
                     //per aggiungere i giocatori con side pot al messaggio di vittoria
                     ArrayList<Integer> temp = new ArrayList<>();
+                    //questa operazione di formattazione messaggio vittoria va fatta nel for perché giocatori con
+                    //side pot da gestire chiaramente possono avere sidepot diverse
                     temp.add(i);
                     messaggioVittoria += formattaMessaggioVittoria(temp, sp);
+
+                    //ricalibra sidepot
+                    controller.ricalibraSidePot(sp);
                 }
 
                 //si continua a ricalcolare la combo con gli esclusi finché non ci sono più allin da gestire
-                indiciVincitori = controller.calcolaCombo(listaEsclusi);
+                indiciVincitori = controller.trovaVincitori(listaEsclusi);
             }
 
-            if(!indiciVincitori.isEmpty() && controller.getPot() > 0)
+            if(!indiciVincitori.isEmpty() && controller.getPot() >= 0)
             {
                 int premio = controller.calcolaPremio(indiciVincitori.size());
-                messaggioVittoria += formattaMessaggioVittoria(indiciVincitori, premio);
+                if(premio != 0) messaggioVittoria += formattaMessaggioVittoria(indiciVincitori, premio);
 
                 infoTextPane.setText(messaggioVittoria);
 
@@ -571,6 +595,7 @@ public class GUIPoker {
         //cambio di chi inizia per primo
         sessioniCorrenti.addLast(sessioniCorrenti.getFirst());
         sessioniCorrenti.removeFirst();
+        controller.ruotaGiocatori();
 
         usernameLabel.setVisible(false);
         saldo.setVisible(false);
@@ -688,7 +713,8 @@ public class GUIPoker {
         }
     }
 
-    //TODO se una label viene rimossa tutti i suoi action listener vengono rimossi in automatico?
+    //visto che poi al turno successivo dal panel mano si cancellano tutti i riferimenti alle label (le carte)
+    //in automatico il garbage collector disalloca sia queste che i listener a esse associate, ho controllato
     private void disegnaCarteClickabili()
     {
         String pathIm;
@@ -780,7 +806,10 @@ public class GUIPoker {
     //gestione cambio player
     private void nextHand1(boolean fase)
     {
-        if(sessioneCorrente.getSaldoGiocatore() == 0) controller.setHandAllIn(currentHand, true);
+        if(sessioneCorrente.getSaldoGiocatore() == 0) {
+            controller.setHandAllIn(currentHand, true);
+            logAvvenimenti.append(sessioneCorrente.getClienteUsername() + " è in all-in\n");
+        }
 
         //per non mostrare informazioni sulle combo degli avversari
         infoTextPane.setText(null);
@@ -881,7 +910,16 @@ public class GUIPoker {
     {
         currentHand = 0;
 
-        while(controller.getFolded(currentHand)) currentHand++;
+        while(currentHand < sessioniCorrenti.size() && controller.getFolded(currentHand)) currentHand++;
+    }
+
+    //reset alla prima mano non foldata o in all-in
+    private void resetCurrentHandNoAllIn()
+    {
+        currentHand = 0;
+
+        while(currentHand < sessioniCorrenti.size() &&
+                (controller.getFolded(currentHand) || controller.isHandAllIn(currentHand))) currentHand++;
     }
 
     //gestione vittoria per fold

@@ -2,14 +2,14 @@ package model.giochi.Carte;
 
 public interface ComboPoker
 {
-    int scalaReale = 1;
-    int scalaColore = 2;
-    int poker = 3;
-    int colore = 4;
-    int full = 5;
-    int scala = 6;
-    int tris = 7;
-    int doppiaCoppia = 8;
-    int coppia = 9;
-    int cartaAlta = 10;
+    int scalaReale = 10;
+    int scalaColore = 9;
+    int poker = 8;
+    int colore = 7;
+    int full = 6;
+    int scala = 5;
+    int tris = 4;
+    int doppiaCoppia = 3;
+    int coppia = 2;
+    int cartaAlta = 1;
 }

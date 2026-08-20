@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class ControllerPoker extends ControllerMazzo
 {
@@ -176,7 +177,8 @@ public class ControllerPoker extends ControllerMazzo
     {
         for(Mano i : listaMani)
         {
-            if(!((ManoPoker) i).isAllIn()) return false;
+            ManoPoker j = (ManoPoker) i;
+            if(!j.isAllIn() && !j.isFolded()) return false;
         }
 
         return true;
@@ -206,8 +208,34 @@ public class ControllerPoker extends ControllerMazzo
         return val;
     }
 
-    //indici in listaMani dei vincitori
-    public ArrayList<Integer> calcolaCombo(ArrayList<Integer> listaEsclusi)
+    //essendo getValoreNumero un metodo di ControllerPoker valoreCombo l'ho lasciata in questo controller, a livello
+    //di senso comune credo che ha più senso se l'interpretazione del valore delle carte sia nel controller piuttosto che
+    //nella mano stessa, anche se devo riconoscere che se avessi scritto i metodi nelle mani sarebbe stato più elegante a
+    //livello di codice
+    public void calcolaComboTutti()
+    {
+        for(int i = 0; i < listaMani.size(); i++)
+        {
+            ManoPoker j = (ManoPoker) getMano(i);
+
+            //per ogni mano che non è stata foldata e non compare nella lista di esclusione si calcola il valore della
+            //combo
+            if(!j.isFolded())
+            {
+                j.setValoreCombo(valoreCombo(j));
+            }
+        }
+    }
+
+    public void calcolaComboSingolo(int index)
+    {
+        ManoPoker j = (ManoPoker) getMano(index);
+
+        j.setValoreCombo(valoreCombo(j));
+    }
+
+    //ritorna indici in listaMani dei vincitori
+    public ArrayList<Integer> trovaVincitori(ArrayList<Integer> listaEsclusi)
     {
         ArrayList<ManoPoker> maniAttive = new ArrayList<>();
 
@@ -219,19 +247,6 @@ public class ControllerPoker extends ControllerMazzo
             //combo
             if(!j.isFolded() && (listaEsclusi == null || !listaEsclusi.contains(i)))
             {
-                ArrayList<Integer> numbers = new ArrayList<>();
-                ArrayList<Seme> seeds = new ArrayList<>();
-
-                //per ogni carta della mano prendo seme e numero
-                for(Carta z : j.getListaMano())
-                {
-                    //i valori dei numeri vanno da 2 a 14, ho considerato l'asso come 14
-                    numbers.add(getValoreNumero(z));
-                    seeds.add(z.getSeme());
-                }
-
-                j.setValoreCombo(valoreCombo(numbers, seeds));
-
                 maniAttive.add(j);
             }
         }
@@ -239,26 +254,24 @@ public class ControllerPoker extends ControllerMazzo
         ArrayList<ManoPoker> vincitori = new ArrayList<>();
 
         //ordine lessicografico: a > b <-> valore combo di a < valore combo di b OR (valore combo di a = valore combo
-        // di b AND tie-break di a > tie-break di b)
-        //TODO potenzialmente ci possono essere 5 tie breaker diversi, quindi l'array di ritorno potrei programmarlo come uno da 6
+        // di b AND tie-break di a > tie-break di b), ci sono più tie-breaker per diverse combo
         for(ManoPoker i : maniAttive)
         {
             if(vincitori.isEmpty()) vincitori.add(i);
             else
             {
-                if(vincitori.getFirst().getValoreCombo()[0] > i.getValoreCombo()[0])
+                for(int j = 0; j < 6; j++)
                 {
-                    vincitori.clear();
-                    vincitori.add(i);
-                }
-                else if(vincitori.getFirst().getValoreCombo()[0] == i.getValoreCombo()[0])
-                {
-                    if(vincitori.getFirst().getValoreCombo()[1] < i.getValoreCombo()[1])
-                    {
+                    //appena viene determinato un vincitore tra due mani si rompe il ciclo
+                    if(vincitori.getFirst().getValoreCombo()[j] < i.getValoreCombo()[j]) {
                         vincitori.clear();
                         vincitori.add(i);
+                        break;
                     }
-                    else if(vincitori.getFirst().getValoreCombo()[1] == i.getValoreCombo()[1]) vincitori.add(i);
+                    else if(vincitori.getFirst().getValoreCombo()[j] > i.getValoreCombo()[j]) break;
+
+                    //all'ultimo giro se nessuno dei tie breaker ha funzionato ci metto i due vincitori
+                    if(j == 5) vincitori.add(i);
                 }
             }
         }
@@ -276,19 +289,10 @@ public class ControllerPoker extends ControllerMazzo
 
     public String nomeCombo(int index)
     {
-        Mano mano = listaMani.get(index);
-
-        ArrayList<Integer> numbers = new ArrayList<>();
-        ArrayList<Seme> seeds = new ArrayList<>();
-
-        for(Carta i : mano.getListaMano())
-        {
-            numbers.add(getValoreNumero(i));
-            seeds.add(i.getSeme());
-        }
+        ManoPoker mano = (ManoPoker) listaMani.get(index);
 
         //scoperto grazie ai quick fixes dei warning di intellij
-        return switch (valoreCombo(numbers, seeds)[0]) {
+        return switch (mano.getValoreCombo()[0]) {
             case ComboPoker.scalaReale -> "scala reale";
             case ComboPoker.scalaColore -> "scala colore";
             case ComboPoker.poker -> "poker";
@@ -302,60 +306,78 @@ public class ControllerPoker extends ControllerMazzo
         };
     }
 
-    //ritorna array di 2 valori interi: 1) valore della combo (vedi ComboPoker), 2) tie-break
-    private int[] valoreCombo(ArrayList<Integer> numbers, ArrayList<Seme> seeds)
+    //ritorna array che hanno 6 valori interi: 1) valore della combo (vedi ComboPoker), >2) tie-break
+    private int[] valoreCombo(ManoPoker mano)
     {
+        ArrayList<Integer> numbers = new ArrayList<>();
+        ArrayList<Seme> seeds = new ArrayList<>();
+
+        //per ogni carta della mano prendo seme e numero
+        for(Carta z : mano.getListaMano())
+        {
+            //i valori dei numeri vanno da 2 a 14, ho considerato l'asso come 14
+            numbers.add(getValoreNumero(z));
+            seeds.add(z.getSeme());
+        }
+
         //sorting in ordine crescente
         numbers.sort(null);
 
-        int[] punteggio = new int[2];
+        int[] punteggio = new int[6];
+        Arrays.fill(punteggio, 0);
 
         //da ora in poi si effettuano diverse verifiche per trovare una combo nella mano a partire da quelle più forti
-        //tutte le funzioni sono delle flag alla fine dei conti, anche quelle che restituiscono Integer perché considero
-        //null come false e valore come true, però così, visto che il dato è intero posso anche conservare il valore
+        //tutte le funzioni sono delle flag alla fine dei conti, anche quelle che restituiscono Integer o int[] perché considero
+        //null come false e valore come true, però così, visto che il dato è intero posso anche conservare i valori dei
         //tie-breaker della combo
         Integer flagScala = scala(numbers);
-        boolean flagColore = colore(seeds);
+        int[] flagColore = colore(seeds, numbers);
 
         //1) scala reale
-        if(flagScala != null && flagScala == 14 && flagColore)
+        if(flagScala != null && flagScala == 14 && flagColore != null)
         {
             punteggio[0] = ComboPoker.scalaReale;
             return punteggio;
         }
         //2) scala colore
-        if(flagScala != null && flagColore)
+        if(flagScala != null && flagColore != null)
         {
             punteggio[0] = ComboPoker.scalaColore;
             punteggio[1] = flagScala;
             return punteggio;
         }
 
-        Integer flagPoker = poker(numbers);
+        int[] flagPoker = poker(numbers);
 
         //3) poker
         if(flagPoker != null)
         {
             punteggio[0] = ComboPoker.poker;
-            punteggio[1] = flagPoker;
+            punteggio[1] = flagPoker[0];
+            punteggio[2] = flagPoker[1];
             return punteggio;
         }
         //4) colore
-        if(flagColore)
+        if(flagColore != null)
         {
             punteggio[0] = ComboPoker.colore;
-            punteggio[1] = numbers.getLast();
+            punteggio[1] = flagColore[0];
+            punteggio[2] = flagColore[1];
+            punteggio[3] = flagColore[2];
+            punteggio[4] = flagColore[3];
+            punteggio[5] = flagColore[4];
             return punteggio;
         }
 
-        Integer flagTris = tris(numbers);
-        Integer[] flagCoppie = coppie(numbers);
+        int[] flagTris = tris(numbers);
+        int[] flagCoppie = coppie(numbers);
 
         //5) full
         if(flagTris != null && flagCoppie != null)
         {
             punteggio[0] = ComboPoker.full;
-            punteggio[1] = flagTris;
+            punteggio[1] = flagTris[0];
+            punteggio[2] = flagCoppie[0];
             return punteggio;
         }
 
@@ -371,73 +393,103 @@ public class ControllerPoker extends ControllerMazzo
         if(flagTris != null)
         {
             punteggio[0] = ComboPoker.tris;
-            punteggio[1] = flagTris;
+            punteggio[1] = flagTris[0];
+            punteggio[2] = flagTris[1];
+            punteggio[3] = flagTris[2];
             return punteggio;
         }
 
         //8) doppia coppia
-        if(flagCoppie != null && flagCoppie[0] == 2)
+        if(flagCoppie != null && flagCoppie[3] == 0)
         {
             punteggio[0] = ComboPoker.doppiaCoppia;
-            punteggio[1] = flagCoppie[1];
+            punteggio[1] = flagCoppie[0];
+            punteggio[2] = flagCoppie[1];
+            punteggio[3] = flagCoppie[2];
             return punteggio;
         }
 
         //9) coppia
-        if(flagCoppie != null && flagCoppie[0] == 1)
+        //&& flagCoppie[3] != 0
+        if(flagCoppie != null)
         {
             punteggio[0] = ComboPoker.coppia;
-            punteggio[1] = flagCoppie[1];
+            punteggio[1] = flagCoppie[0];
+            punteggio[2] = flagCoppie[1];
+            punteggio[3] = flagCoppie[2];
+            punteggio[4] = flagCoppie[3];
             return punteggio;
         }
 
         //10) carta alta
         punteggio[0] = ComboPoker.cartaAlta;
-        punteggio[1] = numbers.getLast();
+        punteggio[1] = numbers.get(4);
+        punteggio[2] = numbers.get(3);
+        punteggio[3] = numbers.get(2);
+        punteggio[4] = numbers.get(1);
+        punteggio[5] = numbers.get(0);
         return punteggio;
     }
 
     //restituisce int[2]: 1) numero di coppie, 2) tie-breaker
-    private Integer[] coppie(ArrayList<Integer> numbersSorted)
+    private int[] coppie(ArrayList<Integer> numbersSorted)
     {
         int[] occur = new int[13];
+        int[] tb = new int[4];
 
         Arrays.fill(occur, 0);
+        Arrays.fill(tb, 0);
 
         for(int i : numbersSorted)
         {
             occur[i-2]++;
         }
 
-        int counter = 0, highest = 0;
+        int counter = 0;
+        ArrayList<Integer> couples = new ArrayList<>();
+        ArrayList<Integer> singles = new ArrayList<>();
 
         for(int i = 0; i < occur.length; i++)
         {
             if(occur[i] == 2)
             {
                 counter++;
-                //non mi serve calcolare il massimo in altro modo, so che l'ultima coppia registrata in occur è la più
-                //alta, indice maggiore
-                highest = i+2;
+                couples.add(i+2);
             }
+            if(occur[i] == 1) singles.add(i+2);
         }
+        singles.sort(Collections.reverseOrder());
 
-        if(counter > 0)
+        if(counter == 2)
         {
-            //numero di coppie, valore coppia più alta
-            Integer[] res = {counter, highest};
+            tb[0] = couples.getLast();
+            tb[1] = couples.getFirst();
+            tb[2] = singles.getFirst();
 
-            return res;
+            return tb;
+        }
+        else if(counter == 1)
+        {
+            tb[0] = couples.getFirst();
+            for(int i = 0; i < singles.size(); i++)
+            {
+                tb[i + 1] = singles.get(i);
+            }
+
+            return tb;
         }
         else return null;
     }
 
     //restituisce tie breaker
-    private Integer tris(ArrayList<Integer> numbersSorted)
+    private int[] tris(ArrayList<Integer> numbersSorted)
     {
         int[] occur = new int[13];
+        int[] tb = new int[3];
+        ArrayList<Integer> hc = new ArrayList<>();
 
         Arrays.fill(occur, 0);
+        Arrays.fill(tb, 0);
 
         for(int i : numbersSorted)
         {
@@ -446,17 +498,30 @@ public class ControllerPoker extends ControllerMazzo
 
         for(int i = 0; i < occur.length; i++)
         {
-            if(occur[i] == 3) return i+2;
+            if(occur[i] == 3) tb[0] = i+2;
+            if(occur[i] == 1) hc.add(i+2);
         }
-        return null;
+
+        if(tb[0] != 0)
+        {
+            hc.sort(Collections.reverseOrder());
+            for(int i = 0; i < hc.size(); i++)
+            {
+                tb[i+1] = hc.get(i);
+            }
+            return tb;
+        }
+        else return null;
     }
 
     //restituisce tie breaker
-    private Integer poker(ArrayList<Integer> numbersSorted)
+    private int[] poker(ArrayList<Integer> numbersSorted)
     {
         int[] occur = new int[13];
+        int[] tb = new int[2];
 
         Arrays.fill(occur, 0);
+        Arrays.fill(tb, 0);
 
         for(int i : numbersSorted)
         {
@@ -465,9 +530,11 @@ public class ControllerPoker extends ControllerMazzo
 
         for(int i = 0; i < occur.length; i++)
         {
-            if(occur[i] == 4) return i+2;
+            if(occur[i] == 4) tb[0] = i + 2;
+            if(occur[i] == 1) tb[1] = i + 2;
         }
-        return null;
+        if(tb[0] != 0) return tb;
+        else return null;
     }
 
     //ritorna il valore più alto della scala
@@ -490,16 +557,24 @@ public class ControllerPoker extends ControllerMazzo
         return numbersSorted.get(4);
     }
 
-    private boolean colore(ArrayList<Seme> seeds)
+    private int[] colore(ArrayList<Seme> seeds, ArrayList<Integer> numbers)
     {
         Seme seme = seeds.getFirst();
 
         for(Seme i : seeds)
         {
-            if(!i.equals(seme)) return false;
+            if(!i.equals(seme)) return null;
         }
 
-        return true;
+        numbers.sort(Collections.reverseOrder());
+        int[] tb = new int[5];
+
+        for(int i = 0; i < numbers.size(); i++)
+        {
+            tb[i] = numbers.get(i);
+        }
+
+        return tb;
     }
 
     public int calcolaPremio(int numeroVincitori)
@@ -534,6 +609,68 @@ public class ControllerPoker extends ControllerMazzo
         }
 
         temp.setSidePot(potEffettiva);
+    }
+
+    public void ruotaGiocatori()
+    {
+        listaMani.addLast(listaMani.getFirst());
+        listaMani.removeFirst();
+    }
+
+    public void ricalibraSidePot(int value)
+    {
+        for(Mano i : listaMani)
+        {
+            ManoPoker j = (ManoPoker) i;
+            Integer jSide = j.getSidePot();
+
+            if(jSide != null)
+            {
+                if(jSide > value) j.setSidePot(jSide - value);
+                else j.setSidePot(0);
+            }
+        }
+    }
+
+    public boolean soloUnGiocatore(ArrayList<Integer> esclusi)
+    {
+        int counter = 0;
+
+        for(Mano i : listaMani)
+        {
+            ManoPoker j = (ManoPoker) i;
+
+            if(!j.isFolded() && !esclusi.contains(listaMani.indexOf(j))) counter++;
+        }
+
+        return counter == 1;
+    }
+
+    public void sortPerSideBet(ArrayList<Integer> indexSB)
+    {
+        ArrayList<Integer> arrVal = new ArrayList<>();
+
+        for(int i : indexSB)
+        {
+            arrVal.add(((ManoPoker) getMano(i)).getSidePot());
+        }
+
+        for(int i = 0; i < indexSB.size() - 1; i++)
+        {
+            for(int j = i + 1; j < indexSB.size(); j++)
+            {
+                if(arrVal.get(j) < arrVal.get(i))
+                {
+                    int temp = arrVal.get(j );
+                    arrVal.set(j, arrVal.get(i));
+                    arrVal.set(i, temp);
+
+                    temp = indexSB.get(j);
+                    indexSB.set(j, indexSB.get(i));
+                    indexSB.set(i, temp);
+                }
+            }
+        }
     }
 
     public void eliminaMano(int index)

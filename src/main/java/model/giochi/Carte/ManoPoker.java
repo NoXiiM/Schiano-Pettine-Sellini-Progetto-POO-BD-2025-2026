@@ -25,8 +25,7 @@ public class ManoPoker extends Mano
         sidePot = null;
         puntataTotalePartita = 0;
 
-        //TODO 6
-        valoreCombo = new int[2];
+        valoreCombo = new int[6];
     }
 
     public boolean isFolded() {

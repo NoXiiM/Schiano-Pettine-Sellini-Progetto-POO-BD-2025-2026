@@ -134,8 +134,6 @@ public class ClientWelcomeController extends WelcomeController {
     }
 
     public boolean isBanned() {
-
-        //TODO fetch status isbanned pre partita da parte di client ( non urgente )
         return cliente.getBan() != null;
     }
 

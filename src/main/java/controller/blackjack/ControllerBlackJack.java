@@ -54,7 +54,6 @@ public class ControllerBlackJack extends ControllerMazzo
         return acc;
     }
 
-    //TODO
     //funzione di mapping numero:valore in blackJack
     public static int getValoreNumero(Carta carta) {
         Numero valCarta = carta.getNumero();

@@ -53,18 +53,23 @@ public class GUIPoker {
 
     private ArrayList<ClientWelcomeController> sessioniCorrenti;
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Poker");
-        frame.setContentPane(new GUIPoker().pokerPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-    }
+    private JFrame thisFrame;
+    private JFrame frameChiamante;
 
     //[0]
-    public GUIPoker()
+    public GUIPoker(JFrame frameChiamante, ClientWelcomeController host)
     {
+        thisFrame = new JFrame("Poker");
+        thisFrame.setContentPane(pokerPanel);
+        thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        thisFrame.pack();
+        thisFrame.setVisible(true);
+
+        this.frameChiamante = frameChiamante;
+
         sessioniCorrenti = new ArrayList<>();
+        sessioniCorrenti.add(host);
+        sessioneCorrente = host;
 
         //caricamento immagine deck
         Image img = new ImageIcon(
@@ -79,8 +84,7 @@ public class GUIPoker {
         okButton.setVisible(false);
         risultatiLabel.setVisible(false);
 
-        //TODO da modificare max con numero di posti
-        SpinnerNumberModel modelloSpinnerNplayer = new SpinnerNumberModel(2, 2, 5, 1);
+        SpinnerNumberModel modelloSpinnerNplayer = new SpinnerNumberModel(2, 2, sessioneCorrente.getPostiTavolo(), 1);
         spinnerNplayer.setModel(modelloSpinnerNplayer);
         ((JSpinner.DefaultEditor) spinnerNplayer.getEditor()).getTextField().setEditable(false);
 
@@ -97,7 +101,17 @@ public class GUIPoker {
         indietroButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                try {
+                    for(ClientWelcomeController i : sessioniCorrenti)
+                    {
+                        i.terminaSessione();
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+                }
 
+                thisFrame.dispose();
+                frameChiamante.setVisible(true);
             }
         });
         giocaButton.addActionListener(new ActionListener() {
@@ -109,6 +123,7 @@ public class GUIPoker {
                 int ante = (int) spinnerAnte.getValue();
                 controller.setAnte(ante);
 
+                int counterErrori = 0;
                 while(sessioniCorrenti.size() < nmani)
                 {
                     String username = JOptionPane.showInputDialog(null,
@@ -118,16 +133,31 @@ public class GUIPoker {
                     try {
                         Cliente cliente = controller.caricaPlayer(username, password, sessioniCorrenti);
 
-                        //TODO a 2 errori consecutivi si esce dalla schermata
-                        if(cliente == null) JOptionPane.showMessageDialog(null,
-                                "credenziali sbagliate, al 3o login fallito, si ritornerà in seleziona tavoli",
-                                "errore", JOptionPane.ERROR_MESSAGE);
+                        if(counterErrori == 2)
+                        {
+                            for(ClientWelcomeController i : sessioniCorrenti)
+                            {
+                                i.terminaSessione();
+                            }
+
+                            thisFrame.dispose();
+                            frameChiamante.setVisible(true);
+
+                            JOptionPane.showMessageDialog(null, "troppi login falliti",
+                                    "errore", JOptionPane.ERROR_MESSAGE);
+
+                            return;
+                        }
+                        if(cliente == null) {
+                            JOptionPane.showMessageDialog(null,
+                                    "credenziali sbagliate, al 3o login fallito, si ritornerà in seleziona tavoli",
+                                    "errore", JOptionPane.ERROR_MESSAGE);
+                            counterErrori++;
+                        }
                         else
                         {
                             sessioniCorrenti.add(new ClientWelcomeController(cliente));
-                            //TODO da modificare con comunicazione con altre interfacce
-                            sessioniCorrenti.getLast().creaNuovaSessioneDiGioco(new Tavolo(0, Gioco.Blackjack,
-                                    0));
+                            sessioniCorrenti.getLast().creaNuovaSessioneDiGioco(sessioneCorrente.getTavoloCorrente());
                             JOptionPane.showMessageDialog(null,
                                     "registrazione avvenuta con successo");
                         }
@@ -171,7 +201,22 @@ public class GUIPoker {
             controller.eliminaMano(i);
         }
 
-        //TODO uscita se rimane solo un giocatore che può giocare
+        //uscita se rimane solo un giocatore che può giocare
+        if(sessioniCorrenti.size() == 1)
+        {
+            JOptionPane.showMessageDialog(null, "il giocatore " + sessioneCorrente.getClienteUsername() +
+                    " è l'unico rimasto al tavolo, la sessione è stata chiusa");
+            try {
+                sessioneCorrente.terminaSessione();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, e.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
+            }
+
+            thisFrame.dispose();
+            frameChiamante.setVisible(true);
+        }
+
+
         //pot portata a 0
         controller.resetPot();
         //pot aggiornata con gli ante di tutti i giocatori in partita
@@ -620,7 +665,17 @@ public class GUIPoker {
         indietroButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                try {
+                    for(ClientWelcomeController i : sessioniCorrenti)
+                    {
+                        i.terminaSessione();
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+                }
 
+                thisFrame.dispose();
+                frameChiamante.setVisible(true);
             }
         });
     }

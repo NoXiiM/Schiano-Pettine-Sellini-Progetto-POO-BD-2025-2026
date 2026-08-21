@@ -3,7 +3,7 @@ package gui.gestionale;
 import controller.TavoloController;
 import controller.gestionale.ClientWelcomeController;
 import gui.giochi.GUIBlackJack;
-import gui.giochi.GUISlotMachine;
+import gui.giochi.GUIPoker;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -14,25 +14,25 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class SelezioneTavoloBlackJack
-{
-    private JPanel selezioneTavoloPanel;
-    private JButton giocaButton;
-    private JButton indietroButton;
+public class SelezioneTavoloPoker {
     private JList<String> listaTavoli;
     private JTextArea informazioniTavolo;
+    private JButton giocaButton;
+    private JButton indietroButton;
+    private JPanel selezionaTavoloPanel;
 
     private TavoloController controller;
 
     private static DefaultListModel<String> modellolistaTavoli;
 
-    public SelezioneTavoloBlackJack(JFrame frameChiamante, ClientWelcomeController clienteController, TabbedMenuPlayer mainMenu)
+    public SelezioneTavoloPoker(JFrame frameChiamante, ClientWelcomeController clienteController, TabbedMenuPlayer mainMenu)
     {
-        JFrame thisFrame= new JFrame("SelezioneTavoloBlackJack");
-        thisFrame.setContentPane(selezioneTavoloPanel);
+        JFrame thisFrame = new JFrame("SelezioneTavoloPoker");
+        thisFrame.setContentPane(selezionaTavoloPanel);
         thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         thisFrame.pack();
         thisFrame.setVisible(true);
+
         Dimension minDim = new Dimension(700, 200);
         thisFrame.setMinimumSize(minDim);
 
@@ -41,7 +41,7 @@ public class SelezioneTavoloBlackJack
 
         controller = new TavoloController();
         try {
-            controller.popolaBlackJack();
+            controller.popolaPoker();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
         }
@@ -53,7 +53,6 @@ public class SelezioneTavoloBlackJack
         modellolistaTavoli.addAll(tavoliDaMostrare);
 
         listaTavoli.setModel(modellolistaTavoli);
-
         giocaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -65,7 +64,7 @@ public class SelezioneTavoloBlackJack
                     thisFrame.setVisible(false);
                     try {
                         clienteController.creaNuovaSessioneDiGioco(controller.getTavoloWithId(idTavolo));
-                        new GUIBlackJack(thisFrame, clienteController);
+                        new GUIPoker(thisFrame, clienteController);
                     } catch (RuntimeException ex) {
                         ex.getMessage();
                     }

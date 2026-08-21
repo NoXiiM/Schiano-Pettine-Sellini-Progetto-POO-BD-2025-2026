@@ -63,6 +63,26 @@ public class TavoloController
         }
     }
 
+    public void popolaPoker() throws SQLException
+    {
+        ImpDAOopd db = new ImpDAOopd();
+
+        ArrayList<Integer> idTavoli = new ArrayList<>();
+        ArrayList<Integer> numeroPosti = new ArrayList<>();
+        ArrayList<String> idDealer = new ArrayList<>();
+
+        db.caricaTavoli(Gioco.Poker, idTavoli, numeroPosti, idDealer);
+
+        for(int i = 0; i < idTavoli.size(); i++)
+        {
+            String idDealerCorrente = idDealer.get(i);
+            if(idDealerCorrente != null)
+            {
+                listaTavoli.add(new Tavolo(idTavoli.get(i), Gioco.Blackjack, numeroPosti.get(i)));
+            }
+        }
+    }
+
     public int getNumeroPosti(int index)
     {
         return listaTavoli.get(index).getNumeroPosti();

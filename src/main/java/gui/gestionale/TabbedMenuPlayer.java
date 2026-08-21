@@ -116,7 +116,7 @@ public class TabbedMenuPlayer {
 
                 // si sposta al tab "Gestisci saldo"
                 for (int i = 0; i < tabbedMenuPlayer.getTabCount(); i++) {
-                    if (tabbedMenuPlayer.getTitleAt(i).equals("Gestisci saldo")) {
+                    if (tabbedMenuPlayer.getTitleAt(i).equals("Gestisci Saldo")) {
                         tabbedMenuPlayer.setSelectedIndex(i);
                         break;
                     }
@@ -172,6 +172,20 @@ public class TabbedMenuPlayer {
                     thisFrame.setVisible(false);
                     new SelezioneTavoloSlotMachine(thisFrame, controller, TabbedMenuPlayer.this);
                 } else{
+                    JOptionPane.showMessageDialog(null, "Sei stato bannato !", "Errore", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        pokerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(!controller.isBanned())
+                {
+                    thisFrame.setVisible(false);
+                    new SelezioneTavoloPoker(thisFrame, controller, TabbedMenuPlayer.this);
+                }
+                else
+                {
                     JOptionPane.showMessageDialog(null, "Sei stato bannato !", "Errore", JOptionPane.ERROR_MESSAGE);
                 }
             }

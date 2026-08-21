@@ -204,5 +204,7 @@ public class ClientWelcomeController extends WelcomeController {
     public String getClienteUsername() {
         return cliente.getUsername();
     }
+
+    public Tavolo getTavoloCorrente(){return sessione.getTavolo();}
 }
 

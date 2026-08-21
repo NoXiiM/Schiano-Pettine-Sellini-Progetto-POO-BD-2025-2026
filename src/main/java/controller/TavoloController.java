@@ -3,12 +3,9 @@ package controller;
 import database.implementazioneDAO.ImpDAOopd;
 import model.gestionale.Gioco;
 import model.gestionale.Tavolo;
-import model.gestionale.utenteEFigli.Dealer;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class TavoloController
 {
@@ -28,7 +25,7 @@ public class TavoloController
         ArrayList<Integer> numeroPosti = new ArrayList<>();
         ArrayList<String> idDealer = new ArrayList<>();
 
-        db.caricaTavoli(Gioco.Blackjack, idTavoli, numeroPosti, idDealer);
+        db.caricaTavoliGioco(Gioco.Blackjack, idTavoli, numeroPosti, idDealer);
 
         for(int i = 0; i < idTavoli.size(); i++)
         {
@@ -48,7 +45,7 @@ public class TavoloController
         ArrayList<Integer> numeroPosti = new ArrayList<>();
         ArrayList<String> idDealer = new ArrayList<>();
 
-        db.caricaTavoli(Gioco.SlotMachine, idTavoli, numeroPosti, idDealer);
+        db.caricaTavoliGioco(Gioco.SlotMachine, idTavoli, numeroPosti, idDealer);
         //System.out.println(idTavoli.size());
 
         for(int i = 0; i < idTavoli.size(); i++)
@@ -71,7 +68,7 @@ public class TavoloController
         ArrayList<Integer> numeroPosti = new ArrayList<>();
         ArrayList<String> idDealer = new ArrayList<>();
 
-        db.caricaTavoli(Gioco.Poker, idTavoli, numeroPosti, idDealer);
+        db.caricaTavoliGioco(Gioco.Poker, idTavoli, numeroPosti, idDealer);
 
         for(int i = 0; i < idTavoli.size(); i++)
         {

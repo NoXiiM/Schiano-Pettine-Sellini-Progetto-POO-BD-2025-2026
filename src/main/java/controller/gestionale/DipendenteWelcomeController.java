@@ -1,8 +1,10 @@
 package controller.gestionale;
 
 import database.implementazioneDAO.ImpDAOop;
+import database.implementazioneDAO.ImpDAOopc;
 import database.implementazioneDAO.ImpDAOopd;
 import model.gestionale.Gioco;
+import model.gestionale.Sessione;
 import model.gestionale.Tavolo;
 import model.gestionale.utenteEFigli.Cliente;
 import model.gestionale.utenteEFigli.Dealer;
@@ -10,7 +12,9 @@ import model.gestionale.utenteEFigli.Dipendente;
 import model.gestionale.utenteEFigli.Supervisore;
 
 import java.sql.SQLException;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class DipendenteWelcomeController extends WelcomeController {
@@ -50,12 +54,14 @@ public class DipendenteWelcomeController extends WelcomeController {
         ArrayList<Integer> fichesGiocate = new ArrayList<>();
         ArrayList<Integer> saldo = new ArrayList<>();
         ArrayList<Integer> partiteGiocate = new ArrayList<>();
+        ArrayList<Double> vincitaPercentualeTotale = new ArrayList<>();
         ArrayList<LocalDate> dataBan = new ArrayList<>();
         ArrayList<String> motiviBan = new ArrayList<>();
 
         ImpDAOopd db = new ImpDAOopd();
         db.recuperaDatiClienti(username, nome, cognome, codiceFiscale, dataDiNascita, password,
-                codiceTesseraGiocatore,premium,sconto_premium,sospetto,tempoDiGiocoInSec,fichesGiocate,saldo,partiteGiocate,dataBan,motiviBan);
+                codiceTesseraGiocatore,premium,sconto_premium,sospetto,tempoDiGiocoInSec,fichesGiocate,saldo,partiteGiocate,
+                vincitaPercentualeTotale, dataBan,motiviBan);
 
         for(int i = 0; i < username.size(); i++) {
 
@@ -74,6 +80,7 @@ public class DipendenteWelcomeController extends WelcomeController {
                     fichesGiocate.get(i),
                     saldo.get(i),
                     partiteGiocate.get(i),
+                    vincitaPercentualeTotale.get(i),
                     dataBan.get(i),
                     motiviBan.get(i)
             );
@@ -310,5 +317,35 @@ public class DipendenteWelcomeController extends WelcomeController {
 
         dealerSelezionato.aggiungiGiochi(giochi);
         db.aggiungiGiocoDealer(dealerSelezionato.getIdentificativoDipendente(), giochi);
+    }
+
+    public ArrayList<Sessione> visualizzaSessioni(String idCliente) throws SQLException
+    {
+        ArrayList<Sessione> sessioni = new ArrayList<>();
+
+        ArrayList<Integer> idSessione = new ArrayList<>();
+        ArrayList<Integer> idTavolo = new ArrayList<>();
+        ArrayList<Duration> durata = new ArrayList<>();
+        ArrayList<Double> vincitaPercentuale = new ArrayList<>();
+        ArrayList<Integer> partiteSvolte = new ArrayList<>();
+
+        ImpDAOopd db = new ImpDAOopd();
+
+        db.ottieniSessioniDiCliente(idSessione, idCliente, idTavolo, durata, vincitaPercentuale, partiteSvolte);
+
+        for(int i = 0; i < idSessione.size(); i++)
+        {
+            sessioni.add(new Sessione(idSessione.get(i), idTavolo.get(i), durata.get(i),
+                    vincitaPercentuale.get(i), partiteSvolte.get(i)));
+        }
+
+        return sessioni;
+    }
+
+    public void modficaGiocoTavolo(int idTavolo, Gioco gioco) throws SQLException
+    {
+        ImpDAOopd db = new ImpDAOopd();
+
+        db.cambiaGiocoTavolo(idTavolo, gioco.name());
     }
 }

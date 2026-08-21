@@ -562,6 +562,16 @@ public class GUIPoker {
             ArrayList<Integer> indiciVincitori = controller.trovaVincitori(null);
             ArrayList<Integer> listaEsclusi = new ArrayList<>();
 
+            //aggiornamento tassi di vittoria dei giocatori
+            for(int i = 0; i < sessioniCorrenti.size(); i++)
+            {
+                if(indiciVincitori.contains(i))
+                {
+                    sessioniCorrenti.get(i).aggiornaVincitaPercentuale(true);
+                }
+                else sessioniCorrenti.get(i).aggiornaVincitaPercentuale(false);
+            }
+
             String messaggioVittoria = "";
 
             while(true)

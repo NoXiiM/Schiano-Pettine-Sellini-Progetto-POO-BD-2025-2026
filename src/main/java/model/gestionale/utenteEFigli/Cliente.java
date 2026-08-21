@@ -43,7 +43,7 @@ public class Cliente extends Utente
     public Cliente(String username, String nome, String cognome, String codiceFiscale,
                    LocalDate dataDiNascita, String password, String codiceTesseraGiocatore, boolean premium,
                    double sconto_premium, boolean sospetto, long tempoDiGiocoInSec, int fichesGiocate, int saldo,
-                   int partiteGiocate, LocalDate dataBan, String motiviBan){
+                   int partiteGiocate, double vincitaPercentualeTot, LocalDate dataBan, String motiviBan){
 
         this(username, nome, cognome, codiceFiscale, dataDiNascita, password, codiceTesseraGiocatore);
         setPremium(premium, sconto_premium);
@@ -52,6 +52,7 @@ public class Cliente extends Utente
         this.fichesGiocate = fichesGiocate;
         setSaldo(saldo);
         this.partiteGiocate = partiteGiocate;
+        this.vincitaPercentualeTot = vincitaPercentualeTot;
         if(dataBan != null)
         {
             ban = new Ban(dataBan, motiviBan);

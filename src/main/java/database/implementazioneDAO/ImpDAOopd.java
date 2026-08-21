@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -22,6 +23,7 @@ public class ImpDAOopd implements DAOopd {
                                     ArrayList<Integer> fichesGiocate,
                                     ArrayList<Integer> saldo,
                                     ArrayList<Integer> partiteGiocate,
+                                    ArrayList<Double> vincitaPercentualeTotale,
                                     ArrayList<LocalDate> dataBan,
                                     ArrayList<String> motiviBan) throws SQLException {
         Connection connection = ConnessioneDatabase.getInstance().connection;
@@ -31,7 +33,7 @@ public class ImpDAOopd implements DAOopd {
                 "SELECT username, nome, cognome, codiceFiscale, " +
                         "dataDiNascita, password, idCliente, tipo, " +
                         "scontoPokerPercentuale, sospetto, tempoDiGioco, " +
-                        "fichesGiocate, saldo, partiteGiocate, " +
+                        "fichesGiocate, saldo, partiteGiocate, vincitaPercentualeTot, " +
                         "dataDiBan, motiviBan " +
                         "FROM Cliente"
         )) {
@@ -86,6 +88,10 @@ public class ImpDAOopd implements DAOopd {
 
                     partiteGiocate.add(
                             risultato.getInt("partiteGiocate")
+                    );
+
+                    vincitaPercentualeTotale.add(
+                            risultato.getDouble("vincitaPercentualeTot")
                     );
 
                     java.sql.Date sqlDate = risultato.getDate("dataDiBan");
@@ -158,8 +164,8 @@ public class ImpDAOopd implements DAOopd {
     }
 
     @Override
-    public void caricaTavoli(Gioco gioco, ArrayList<Integer> idTavolo, ArrayList<Integer> numeroPosti,
-                             ArrayList<String> idDealer) throws SQLException
+    public void caricaTavoliGioco(Gioco gioco, ArrayList<Integer> idTavolo, ArrayList<Integer> numeroPosti,
+                                  ArrayList<String> idDealer) throws SQLException
     {
         Connection connection = ConnessioneDatabase.getInstance().connection;
 
@@ -273,6 +279,48 @@ public class ImpDAOopd implements DAOopd {
 
                 inserimento.executeUpdate();
             }
+        }
+    }
+
+    @Override
+    public void ottieniSessioniDiCliente(ArrayList<Integer> idSessione, String idCliente, ArrayList<Integer> idTavolo,
+                                         ArrayList<Duration> durata, ArrayList<Double> vincitaPercentuale,
+                                         ArrayList<Integer> partiteSvolte) throws SQLException
+    {
+        Connection connection = ConnessioneDatabase.getInstance().connection;
+
+        try(PreparedStatement query = connection.prepareStatement("select * " +
+                "from Sessione " +
+                "where idCliente = ?"))
+        {
+            query.setString(1, idCliente);
+
+            try(ResultSet rs = query.executeQuery())
+            {
+                while(rs.next())
+                {
+                    idSessione.add(rs.getInt("idSessione"));
+                    idTavolo.add(rs.getInt("idTavolo"));
+                    durata.add(Duration.ofSeconds(rs.getInt("durata")));
+                    vincitaPercentuale.add(rs.getDouble("vincitaPercentuale"));
+                    partiteSvolte.add(rs.getInt("partiteSvolte"));
+                }
+            }
+        }
+    }
+
+    @Override
+    public void cambiaGiocoTavolo(int idTavolo, String gioco) throws SQLException {
+        Connection connection = ConnessioneDatabase.getInstance().connection;
+
+        try(PreparedStatement aggiornamento = connection.prepareStatement("update Tavolo " +
+                "set gioco = ? " +
+                "where numero = ?"))
+        {
+            aggiornamento.setString(1, gioco);
+            aggiornamento.setInt(2, idTavolo);
+
+            aggiornamento.executeUpdate();
         }
     }
 }

@@ -147,16 +147,11 @@ public class GUISlotMachine {
                         sessioneCorrente.aggiornaVincitaPercentuale(true);
                         guadagnatoText.setText("Hai vinto: "+creditoRisultato+"!");
                         saldoGiocatoreNumber.setText("Il saldo del giocatore è: "+saldoGiocatore);
-
-
-
                     }
                     else{
                         guadagnatoText.setText("oh no hai perso! ");
                         sessioneCorrente.aggiornaVincitaPercentuale(false);
                         saldoGiocatoreNumber.setText("Il saldo del giocatore è: "+saldoGiocatore);
-
-
                     }
 
 

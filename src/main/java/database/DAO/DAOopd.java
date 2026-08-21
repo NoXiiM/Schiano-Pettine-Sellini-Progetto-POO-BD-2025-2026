@@ -3,6 +3,7 @@ package database.DAO;
 import model.gestionale.Gioco;
 
 import java.sql.SQLException;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -16,6 +17,7 @@ public interface DAOopd {
                              ArrayList<Integer> fichesGiocate,
                              ArrayList<Integer> saldo,
                              ArrayList<Integer> partiteGiocate,
+                             ArrayList<Double> vincitaPercentualeTotale,
                              ArrayList<LocalDate> dataBan,
                              ArrayList<String> motiviBan)throws SQLException;
 
@@ -27,8 +29,8 @@ public interface DAOopd {
     void recuperaDatiTavoli(ArrayList<Integer> idTavolo, ArrayList<Gioco> gioco,
                             ArrayList<Integer> numeroPosti, ArrayList<String> idDealer) throws SQLException;
 
-    void caricaTavoli(Gioco gioco, ArrayList<Integer> idTavolo, ArrayList<Integer> numeroPosti,
-                      ArrayList<String> idDealer) throws SQLException;
+    void caricaTavoliGioco(Gioco gioco, ArrayList<Integer> idTavolo, ArrayList<Integer> numeroPosti,
+                           ArrayList<String> idDealer) throws SQLException;
 
     void salvataggioBan(String idCliente,LocalDate dataBan, String motivoBan) throws SQLException;
 
@@ -39,4 +41,10 @@ public interface DAOopd {
     void assegnaDipendenteATavolo(String idDipendente, String ruolo, int idTavolo) throws SQLException;
 
     void aggiungiGiocoDealer(String idDealer, ArrayList<Gioco> giochi) throws  SQLException;
+
+    void ottieniSessioniDiCliente(ArrayList<Integer> idSessione, String idCliente, ArrayList<Integer> idTavolo,
+                                  ArrayList<Duration> durata, ArrayList<Double> vincitaPercentuale,
+                                  ArrayList<Integer> partiteSvolte) throws SQLException;
+
+    void cambiaGiocoTavolo(int idTavolo, String gioco) throws SQLException;
 }

@@ -61,7 +61,7 @@ public class WelcomeController {
 
             currentUser= new Cliente(username, nome[0], cognome[0], codiceFiscale[0], dataDiNascita[0], password,
                     identificativo[0], flag, scontoPercentuale[0], sospetto[0], tempoDiGioco[0], fichesGiocate[0],
-                    saldo[0], partiteGiocate[0], dataDiBan[0], motiviBan[0]);
+                    saldo[0], partiteGiocate[0], vincitaPercentualeTot[0], dataDiBan[0], motiviBan[0]);
 
         } else if(tipo.equals("Dipendente")){
 

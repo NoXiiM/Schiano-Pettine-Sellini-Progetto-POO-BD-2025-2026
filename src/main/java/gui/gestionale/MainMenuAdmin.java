@@ -96,12 +96,14 @@ public class MainMenuAdmin {
     private JButton cambiaUsernameButton;
     private JButton resettaPasswordButton;
     private JLabel userDipendenteLabel;
-    private JLabel usernameClientiLabel;
-    private JLabel usernameTavoliPanel;
+    private JLabel userClientiLabel;
+    private JLabel userTavoliLabel;
+    private JButton visualizzaSessioniCliente;
+    private JButton aggiungiTavolo;
 
-    JFrame thisFrame;
-    JFrame frameChiamante;
-    WelcomeController controller;
+    private JFrame thisFrame;
+    private JFrame frameChiamante;
+    private WelcomeController controller;
 
     private static DefaultListModel<Cliente> modelloListaClienti;
     private static DefaultListModel<Dipendente> modelloListaDipendente;
@@ -135,6 +137,14 @@ public class MainMenuAdmin {
         }
         listaTavoli.setModel(modelloListaTavoli);
 
+        String usr = controller.getUserUtente();
+        userDipendenteLabel.setText(usr);
+        userClientiLabel.setText(usr);
+        userTavoliLabel.setText(usr);
+
+        modificaGiochiButton.setVisible(false);
+        assegnaTavoloButton.setVisible(false);
+
         thisFrame = new JFrame("MainMenuAdmin");
         thisFrame.setContentPane(AdminPanel);
         thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -151,6 +161,7 @@ public class MainMenuAdmin {
 
         inizializzaMenuAdmin();
 
+        //[1] Clienti
         bannaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -185,6 +196,28 @@ public class MainMenuAdmin {
             }
         });
 
+        //TODO
+        visualizzaSessioniCliente.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Cliente temp = (Cliente) listaClienti.getSelectedValue();
+
+                if(temp != null)
+                {
+                    try {
+                        new VisualizzatoreSessioni(controller.visualizzaSessioni(temp.getCodiceTesseraGiocatore()),
+                                ((Cliente) listaClienti.getSelectedValue()).getUsername());
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Cliente non selezionato", "errore", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
         listaClienti.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -193,13 +226,16 @@ public class MainMenuAdmin {
                 if(temp != null){
                     stampaClienteInfoField(temp);
                 }
+                else
+                {
+                    textAreaInfoFieldClienti.setText(null);
+                }
             }
         });
 
         logoutDaClienti.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 logoutAdmin();
             }
         });
@@ -225,7 +261,7 @@ public class MainMenuAdmin {
                 boolean checkPercentuale= controllaPercentualeCheckBox.isSelected();
                 boolean checkPartite= controllaPartiteCheckBox.isSelected();
 
-                String sospettoRicerca= "indifferente";
+                String sospettoRicerca = "indifferente";
                 if(filtraPerSospettiCheckBox.isSelected()) {
 
                     if(siSospettoRadio.isSelected()){
@@ -235,9 +271,10 @@ public class MainMenuAdmin {
                         sospettoRicerca= "no";
                     }
 
-                } else {
-                    sospettoRicerca= "indifferente";
                 }
+//                else {
+//                    sospettoRicerca= "indifferente";
+//                }
 
                 String banRicerca= "indifferente";
                 if(filtraPerBanCheckBox.isSelected()) {
@@ -249,27 +286,25 @@ public class MainMenuAdmin {
                         banRicerca= "no";
                     }
 
-                } else {
-                    banRicerca= "indifferente";
                 }
+//                else {
+//                    banRicerca= "indifferente";
+//                }
 
                 modelloListaClienti.clear();
 
                 modelloListaClienti.addAll(controller.ricercaClienti(nomeRicerca, cognomeRicerca, usernameRicerca,
                         saldoMin, saldoMax, percMin, percMax, partiteMin, partiteMax, sospettoRicerca, banRicerca,
                         checkSaldo, checkPartite, checkPercentuale));
-
-                textAreaInfoFieldClienti.setText("");
-
             }
         });
 
         //il pulsante aggiorna carica nuovamente i clienti dal database nell'ipotetica eventualità che 2 supervisori
-        //stiano modificando i clienti in contemporanea
+        //stiano modificando i clienti in contemporanea (cosa che in realtà non può succedere per come è concepito il sistema
+        //attualmente)
         aggiornaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                textAreaInfoFieldClienti.setText(null);
                 modelloListaClienti.clear();
                 try {
                     modelloListaClienti.addAll(controller.getListaClientiDB());
@@ -316,7 +351,6 @@ public class MainMenuAdmin {
                 }
             }
         });
-
         controllaPartiteCheckBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -335,22 +369,6 @@ public class MainMenuAdmin {
                 }
             }
         });
-
-        filtraPerRuoloCheckBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                if(filtraPerRuoloCheckBox.isSelected()){
-                    supervisoreRadioButton.setVisible(true);
-                    dealerRadioButton.setVisible(true);
-
-                } else {
-                    supervisoreRadioButton.setVisible(false);
-                    dealerRadioButton.setVisible(false);
-                }
-            }
-        });
-
         filtraPerSospettiCheckBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -365,7 +383,6 @@ public class MainMenuAdmin {
                 }
             }
         });
-
         filtraPerBanCheckBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -381,10 +398,19 @@ public class MainMenuAdmin {
             }
         });
 
-        logoutDaTavoli.addActionListener(new ActionListener() {
+        //[2] Dipendenti
+        filtraPerRuoloCheckBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                logoutAdmin();
+
+                if(filtraPerRuoloCheckBox.isSelected()){
+                    supervisoreRadioButton.setVisible(true);
+                    dealerRadioButton.setVisible(true);
+
+                } else {
+                    supervisoreRadioButton.setVisible(false);
+                    dealerRadioButton.setVisible(false);
+                }
             }
         });
 
@@ -395,29 +421,14 @@ public class MainMenuAdmin {
             }
         });
 
-        filtraPerGiocoCheckBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                if(filtraPerGiocoCheckBox.isSelected()){
-                    pokerRadio.setVisible(true);
-                    blackjackRadio.setVisible(true);
-
-                } else {
-                    pokerRadio.setVisible(false);
-                    blackjackRadio.setVisible(false);
-                }
-            }
-        });
-
         aggiungiDipendenti.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                textAreaInfoDipendenti.setText(null);
                 new RegistrationDipendente(thisFrame, controller);
 
             }
         });
+
         listaDipendenti.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -427,17 +438,21 @@ public class MainMenuAdmin {
                 if(temp != null){
                     stampaDipendenteInfoField(temp);
                 }
+                else
+                {
+                    textAreaInfoDipendenti.setText(null);
+                }
 
                 if(controller.isDealer(temp)) aggiungiGiocoButton.setVisible(true);
                 else aggiungiGiocoButton.setVisible(false);
             }
         });
+
         //il pulsante aggiorna carica nuovamente i dipendenti dal database nell'ipotetica eventualità che 2 supervisori
         //stiano modificando i clienti in contemporanea
         aggiornaDipendenti.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                textAreaInfoDipendenti.setText(null);
+            public void actionPerformed(ActionEvent e) {;
                 modelloListaDipendente.clear();
                 try {
                     modelloListaDipendente.addAll(controller.getDipendentiDB());
@@ -446,6 +461,7 @@ public class MainMenuAdmin {
                 }
             }
         });
+
         cercaDipendenti.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -468,8 +484,6 @@ public class MainMenuAdmin {
             public void actionPerformed(ActionEvent e) {
 
                 Dipendente temp = (Dipendente) listaDipendenti.getSelectedValue();
-
-                textAreaInfoDipendenti.setText("");
 
                 if (temp != null) {
                     if(temp instanceof Dealer){
@@ -499,7 +513,6 @@ public class MainMenuAdmin {
                                     JOptionPane.showMessageDialog(null, ex.getMessage(),
                                             "errore", JOptionPane.ERROR_MESSAGE);
                                 }
-                                textAreaInfoDipendenti.setText("");
                             } else {
                                 JOptionPane.showMessageDialog(
                                         null,
@@ -538,7 +551,6 @@ public class MainMenuAdmin {
                                             JOptionPane.showMessageDialog(null, ex.getMessage(),
                                                     "errore", JOptionPane.ERROR_MESSAGE);
                                         }
-                                        textAreaInfoDipendenti.setText("");
                                     } else {
                                         JOptionPane.showMessageDialog(
                                                 null,
@@ -562,8 +574,6 @@ public class MainMenuAdmin {
                 }
             }
         });
-
-
         aggiungiGiocoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -571,10 +581,32 @@ public class MainMenuAdmin {
             }
         });
 
+        //[3] Tavoli
+        logoutDaTavoli.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                logoutAdmin();
+            }
+        });
+
+        filtraPerGiocoCheckBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(filtraPerGiocoCheckBox.isSelected()){
+                    pokerRadio.setVisible(true);
+                    blackjackRadio.setVisible(true);
+
+                } else {
+                    pokerRadio.setVisible(false);
+                    blackjackRadio.setVisible(false);
+                }
+            }
+        });
+
         aggiornaTavoli.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                textAreaInfoTavoli.setText(null);
                 modelloListaTavoli.clear();
                 try {
                     modelloListaTavoli.addAll(controller.getTavoliDB());
@@ -597,6 +629,83 @@ public class MainMenuAdmin {
 
                 modelloListaTavoli.clear();
                 modelloListaTavoli.addAll(controller.ricercaTavolo(selezione));
+            }
+        });
+
+        listaTavoli.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                Tavolo temp = (Tavolo) listaTavoli.getSelectedValue();
+
+                if(temp != null && !temp.getGioco().equals(Gioco.SlotMachine))
+                {
+                    modificaGiochiButton.setVisible(true);
+                    assegnaTavoloButton.setVisible(true);
+                }
+                else
+                {
+                    modificaGiochiButton.setVisible(false);
+                    assegnaTavoloButton.setVisible(false);
+                    textAreaInfoTavoli.setText(null);
+                }
+            }
+        });
+
+        modificaGiochiButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Tavolo temp = (Tavolo) listaTavoli.getSelectedValue();
+
+                if(temp != null && temp.getGioco().equals(Gioco.Blackjack))
+                {
+                    int input = JOptionPane.showConfirmDialog(null,
+                            "vuoi cambiare il gioco da black jack a poker?");
+                    if(input == JOptionPane.YES_OPTION)
+                    {
+                        try {
+                            controller.modficaGiocoTavolo(temp.getIdTavolo(), Gioco.Poker);
+                        } catch (SQLException ex) {
+                            JOptionPane.showMessageDialog(null, ex.getMessage(),
+                                    "errore", JOptionPane.ERROR_MESSAGE);
+                        }
+
+                        modelloListaTavoli.clear();
+                        try {
+                            modelloListaTavoli.addAll(controller.getTavoliDB());
+                        } catch (SQLException ex) {
+                            JOptionPane.showMessageDialog(null, ex.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                    return;
+                }
+                if(temp != null && temp.getGioco().equals(Gioco.Poker))
+                {
+                    int input = JOptionPane.showConfirmDialog(null,
+                            "vuoi cambiare il gioco da poker a black jack?");
+                    if(input == JOptionPane.YES_OPTION)
+                    {
+                        try {
+                            controller.modficaGiocoTavolo(temp.getIdTavolo(), Gioco.Blackjack);
+                        } catch (SQLException ex) {
+                            JOptionPane.showMessageDialog(null, ex.getMessage(),
+                                    "errore", JOptionPane.ERROR_MESSAGE);
+                        }
+
+                        modelloListaTavoli.clear();
+                        try {
+                            modelloListaTavoli.addAll(controller.getTavoliDB());
+                        } catch (SQLException ex) {
+                            JOptionPane.showMessageDialog(null, ex.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                }
+            }
+        });
+
+        aggiungiTavolo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
             }
         });
     }
@@ -694,7 +803,9 @@ public class MainMenuAdmin {
                 "\n\nInformazioni Giocatore" +
                 "\nSaldo: " + temp.getSaldo() +
                 "\nSaldo Giocate: " + temp.getFichesGiocate() +
-                "\nTempo di gioco totale: " + temp.getTempoDiGioco().toHoursPart()+ ":" +temp.getTempoDiGioco().toMinutesPart() + ":" + temp.getTempoDiGioco().toSecondsPart() +
+                "\nTempo di gioco totale: " + temp.getTempoDiGioco().toHoursPart()+ ":" +
+                String.format("%02d", temp.getTempoDiGioco().toMinutesPart()) +
+                ":" + String.format("%02d", temp.getTempoDiGioco().toSecondsPart()) +
                 "\nTasso vincita: " + temp.getVincitaPercentualeTot() +
                 "\nPartite giocate: " + temp.getPartiteGiocate() +
                 "\nTipo: " + (temp.isPremium() ? "Premium" : "Base") +

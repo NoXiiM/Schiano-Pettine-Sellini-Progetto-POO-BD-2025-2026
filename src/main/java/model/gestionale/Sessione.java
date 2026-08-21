@@ -2,6 +2,7 @@ package model.gestionale;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalTime;
 
 public class Sessione
 {
@@ -17,6 +18,8 @@ public class Sessione
     private Giocatore giocatore;
     private Tavolo tavolo;
 
+    private int idTavolo;
+    private int idSessione;
 
     public Sessione(Giocatore giocatore, Tavolo tavolo)
     {
@@ -24,6 +27,17 @@ public class Sessione
         partiteSvolte = 0;
         this.giocatore = giocatore;
         this.tavolo = tavolo;
+        idTavolo = tavolo.getIdTavolo();
+    }
+
+    public Sessione(int idSessione, int idTavolo, Duration durata,
+                    double vincitaPercentuale, int partiteSvolte)
+    {
+        this.idSessione = idSessione;
+        this.idTavolo = idTavolo;
+        durataSessione = durata;
+        this.vincitaPercentuale = vincitaPercentuale;
+        this.partiteSvolte = partiteSvolte;
     }
 
     //timer
@@ -113,5 +127,14 @@ public class Sessione
 
     public int getPartiteSvolte() {
         return partiteSvolte;
+    }
+
+    @Override
+    public String toString() {
+        return "id Sessione: " + idSessione + " id Tavolo: " + idTavolo + " durata: " + durataSessione.toHours() + ":" +
+                String.format("%02d", durataSessione.toMinutes()) + ":" + String.format("%02d", durataSessione.toSeconds()) +
+                " vincita percentuale: " + vincitaPercentuale + " partite svolte " + partiteSvolte;
+//                idSessione idTavolo durataSes,
+//         vincitaPercentuale partiteSvolte
     }
 }

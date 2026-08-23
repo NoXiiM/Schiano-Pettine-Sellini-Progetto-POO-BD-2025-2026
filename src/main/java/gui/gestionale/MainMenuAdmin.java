@@ -842,16 +842,18 @@ public class MainMenuAdmin {
                 "\ngioco: " + temp.getGioco() +
                 "\nnumero posti: " + temp.getNumeroPosti());
         if(temp.getDealer()!=null ||temp.getSupervisori()!=null){
+            textAreaInfoTavoli.append("\n\nDipendenti:");
             if(temp.getDealer() != null)
             {
                 textAreaInfoTavoli.append("\ndealer: " + temp.getDealer().getUsername());
             }
-
-            textAreaInfoTavoli.append("\nSupervisori: ");
-
-            for(Supervisore i : temp.getSupervisori())
-            {
-                textAreaInfoTavoli.append(i.getUsername() + ", ");
+            if(temp.getSupervisori()!=null) {
+                textAreaInfoTavoli.append("\nSupervisori: ");
+                for (Supervisore i : temp.getSupervisori()) {
+                    textAreaInfoTavoli.append(i.getUsername() + ", ");
+                }
+                String testoInfoTavoli = textAreaInfoTavoli.getText();  //Così da rimuovere ', ' dopo l'ultima iterazione
+                textAreaInfoTavoli.setText(testoInfoTavoli.substring(0,testoInfoTavoli.length()-2));
             }
         }
     }

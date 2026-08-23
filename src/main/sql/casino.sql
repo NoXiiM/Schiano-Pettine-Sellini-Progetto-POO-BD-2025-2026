@@ -26,17 +26,17 @@ CREATE TABLE Cliente (
 
 -- Crea Dipendente
 CREATE TABLE Dipendente (
-    idDipendente VARCHAR(20) PRIMARY KEY, 
+    idDipendente VARCHAR(20) PRIMARY KEY, --1
     --Attributi del dipendente anagrafico
     nome VARCHAR(20) NOT NULL,
     cognome VARCHAR(20) NOT NULL,
     dataDiNascita DATE NOT NULL,
     codiceFiscale VARCHAR(16) NOT NULL unique,
     --Dati d'accesso
-    username VARCHAR(20) NOT NULL UNIQUE,
+    username VARCHAR(20) NOT NULL UNIQUE, --2
     password VARCHAR(20) NOT NULL,
     --Attributi del dipendente lavorativo
-    ruolo VARCHAR(11) NOT NULL check(ruolo in('Supervisore', 'Dealer'))
+    ruolo VARCHAR(11) NOT NULL check(ruolo in('Supervisore', 'Dealer')) --3
 );
 
 --Crea Gioco

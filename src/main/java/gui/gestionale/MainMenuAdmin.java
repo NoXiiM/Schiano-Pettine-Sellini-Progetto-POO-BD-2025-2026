@@ -637,15 +637,22 @@ public class MainMenuAdmin {
             public void valueChanged(ListSelectionEvent e) {
                 Tavolo temp = (Tavolo) listaTavoli.getSelectedValue();
 
-                if(temp != null && !temp.getGioco().equals(Gioco.SlotMachine))
+                if(temp != null)
                 {
-                    modificaGiochiButton.setVisible(true);
-                    assegnaTavoloButton.setVisible(true);
+                    if(!temp.getGioco().equals(Gioco.SlotMachine))
+                    {
+                        modificaGiochiButton.setVisible(true);
+                        assegnaTavoloButton.setVisible(true);
+                    }
+                    else
+                    {
+                        modificaGiochiButton.setVisible(false);
+                        assegnaTavoloButton.setVisible(false);
+                    }
+                    stampaTavoloInfoField(temp);
                 }
                 else
                 {
-                    modificaGiochiButton.setVisible(false);
-                    assegnaTavoloButton.setVisible(false);
                     textAreaInfoTavoli.setText(null);
                 }
             }
@@ -825,6 +832,27 @@ public class MainMenuAdmin {
                     "\nData di Nascita: " + temp.getDataDiNascita() +
                     (temp instanceof Supervisore ? "\n\nRuolo: Supervisore" :
                             "\n\nRuolo: Dealer\nGiochi a cui è abilitato: " + ((Dealer) temp).getGiochiDoveServeString()));
+        }
+    }
+
+    private void stampaTavoloInfoField(Tavolo temp)
+    {
+
+        textAreaInfoTavoli.setText("idTavolo: " + temp.getIdTavolo() +
+                "\ngioco: " + temp.getGioco() +
+                "\nnumero posti: " + temp.getNumeroPosti() +
+                "\n\ndipendenti");
+
+        if(temp.getDealer() != null)
+        {
+            textAreaInfoTavoli.append("\ndealer: " + temp.getDealer().getUsername());
+        }
+
+        textAreaInfoTavoli.append("\nSupervisori: ");
+
+        for(Supervisore i : temp.getSupervisori())
+        {
+            textAreaInfoTavoli.append(i.getUsername() + ", ");
         }
     }
 }

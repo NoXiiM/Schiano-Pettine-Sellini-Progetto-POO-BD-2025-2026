@@ -29,6 +29,8 @@ public interface DAOopd {
     void recuperaDatiTavoli(ArrayList<Integer> idTavolo, ArrayList<Gioco> gioco,
                             ArrayList<Integer> numeroPosti, ArrayList<String> idDealer) throws SQLException;
 
+    ArrayList<String> tavoliSupervisori(int idTavolo) throws SQLException;
+
     void caricaTavoliGioco(Gioco gioco, ArrayList<Integer> idTavolo, ArrayList<Integer> numeroPosti,
                            ArrayList<String> idDealer) throws SQLException;
 

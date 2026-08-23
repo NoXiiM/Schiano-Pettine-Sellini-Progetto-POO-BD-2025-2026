@@ -164,6 +164,31 @@ public class ImpDAOopd implements DAOopd {
     }
 
     @Override
+    public ArrayList<String> tavoliSupervisori(int idTavolo) throws SQLException
+    {
+        Connection connection = ConnessioneDatabase.getInstance().connection;
+
+        ArrayList<String> idSupervisori = new ArrayList<>();
+
+        try(PreparedStatement query = connection.prepareStatement("select idSupervisore " +
+                "from SupervisoreTavolo " +
+                "where idTavolo = ?"))
+        {
+            query.setInt(1, idTavolo);
+
+            try(ResultSet rs = query.executeQuery())
+            {
+                while(rs.next())
+                {
+                    idSupervisori.add(rs.getString("idSupervisore"));
+                }
+            }
+        }
+
+        return idSupervisori;
+    }
+
+    @Override
     public void caricaTavoliGioco(Gioco gioco, ArrayList<Integer> idTavolo, ArrayList<Integer> numeroPosti,
                                   ArrayList<String> idDealer) throws SQLException
     {

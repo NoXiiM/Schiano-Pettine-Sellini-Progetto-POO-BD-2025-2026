@@ -11,6 +11,7 @@ import model.gestionale.utenteEFigli.Dealer;
 import model.gestionale.utenteEFigli.Dipendente;
 import model.gestionale.utenteEFigli.Supervisore;
 
+import javax.swing.*;
 import java.sql.SQLException;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -155,7 +156,10 @@ public class DipendenteWelcomeController extends WelcomeController {
 
         for(int i = 0; i < idDealer.size(); i++)
         {
-            tavoliInLocale.add(new Tavolo(idTavolo.get(i), gioco.get(i), numeroPosti.get(i), idDealer.get(i)));
+            Tavolo temp = new Tavolo(idTavolo.get(i), gioco.get(i), numeroPosti.get(i), idDealer.get(i));
+            assegnaDealerDelTavolo(temp);
+            assegnaSupervisoriDelTavolo(temp);
+            tavoliInLocale.add(temp);
         }
 
         return tavoliInLocale;
@@ -347,5 +351,47 @@ public class DipendenteWelcomeController extends WelcomeController {
         ImpDAOopd db = new ImpDAOopd();
 
         db.cambiaGiocoTavolo(idTavolo, gioco.name());
+    }
+
+    private void assegnaDealerDelTavolo(Tavolo tavolo)
+    {
+        String idDealer = tavolo.getIdDealer();
+
+        for(Dipendente i : dipendentiInLocale)
+        {
+            if(i instanceof Dealer j)
+            {
+                if((j.getIdentificativoDipendente()).equals(idDealer)) {
+                    tavolo.setDealer(j);
+                    break;
+                }
+            }
+        }
+    }
+
+    private void assegnaSupervisoriDelTavolo(Tavolo tavolo)
+    {
+        ImpDAOopd db = new ImpDAOopd();
+        ArrayList<Supervisore> temp = new ArrayList<>();
+
+        try {
+            for(String i : db.tavoliSupervisori(tavolo.getIdTavolo()))
+            {
+                for(Dipendente j : dipendentiInLocale)
+                {
+                    if(j instanceof Supervisore k)
+                    {
+                        if(j.getIdentificativoDipendente().equals(i)) {
+                            temp.add(k);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            tavolo.setSupervisori(temp);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }

@@ -1,6 +1,7 @@
 package model.gestionale;
 
 import model.gestionale.utenteEFigli.Dealer;
+import model.gestionale.utenteEFigli.Supervisore;
 
 import java.util.ArrayList;
 
@@ -14,6 +15,7 @@ public class Tavolo
 
     private Dealer dealer;
     private String idDealer;
+    private ArrayList<Supervisore> supervisori;
     //probabilmente non serve
     //private ArrayList<Giocatore> listaGiocatori;
     //private ArrayList<Sessione> sessioniAperteSulTavolo = new ArrayList<>();
@@ -23,12 +25,14 @@ public class Tavolo
         this.gioco = gioco;
         this.numeroPosti = numeroPosti;
         dealer = null;
+        supervisori = new ArrayList<>();
     }
 
     public Tavolo(int idTavolo, Gioco gioco, int numeroPosti, String idDealer)
     {
         this(idTavolo, gioco, numeroPosti);
         this.idDealer = idDealer;
+        supervisori = new ArrayList<>();
     }
 
     public Tavolo(int idTavolo, Gioco gioco, int numeroPosti, Dealer dealer)
@@ -55,6 +59,26 @@ public class Tavolo
 
     public Gioco getGioco() {
         return gioco;
+    }
+
+    public String getIdDealer() {
+        return idDealer;
+    }
+
+    public void setDealer(Dealer dealer) {
+        this.dealer = dealer;
+    }
+
+    public void setSupervisori(ArrayList<Supervisore> supervisori) {
+        this.supervisori = supervisori;
+    }
+
+    public Dealer getDealer() {
+        return dealer;
+    }
+
+    public ArrayList<Supervisore> getSupervisori() {
+        return supervisori;
     }
 }
 

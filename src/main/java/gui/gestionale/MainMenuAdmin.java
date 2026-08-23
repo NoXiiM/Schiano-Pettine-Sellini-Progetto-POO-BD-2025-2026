@@ -840,19 +840,19 @@ public class MainMenuAdmin {
 
         textAreaInfoTavoli.setText("idTavolo: " + temp.getIdTavolo() +
                 "\ngioco: " + temp.getGioco() +
-                "\nnumero posti: " + temp.getNumeroPosti() +
-                "\n\ndipendenti");
+                "\nnumero posti: " + temp.getNumeroPosti());
+        if(temp.getDealer()!=null ||temp.getSupervisori()!=null){
+            if(temp.getDealer() != null)
+            {
+                textAreaInfoTavoli.append("\ndealer: " + temp.getDealer().getUsername());
+            }
 
-        if(temp.getDealer() != null)
-        {
-            textAreaInfoTavoli.append("\ndealer: " + temp.getDealer().getUsername());
-        }
+            textAreaInfoTavoli.append("\nSupervisori: ");
 
-        textAreaInfoTavoli.append("\nSupervisori: ");
-
-        for(Supervisore i : temp.getSupervisori())
-        {
-            textAreaInfoTavoli.append(i.getUsername() + ", ");
+            for(Supervisore i : temp.getSupervisori())
+            {
+                textAreaInfoTavoli.append(i.getUsername() + ", ");
+            }
         }
     }
 }

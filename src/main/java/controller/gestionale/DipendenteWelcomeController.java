@@ -1,7 +1,6 @@
 package controller.gestionale;
 
 import database.implementazioneDAO.ImpDAOop;
-import database.implementazioneDAO.ImpDAOopc;
 import database.implementazioneDAO.ImpDAOopd;
 import model.gestionale.Gioco;
 import model.gestionale.Sessione;
@@ -15,7 +14,6 @@ import javax.swing.*;
 import java.sql.SQLException;
 import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class DipendenteWelcomeController extends WelcomeController {
@@ -157,8 +155,8 @@ public class DipendenteWelcomeController extends WelcomeController {
         for(int i = 0; i < idDealer.size(); i++)
         {
             Tavolo temp = new Tavolo(idTavolo.get(i), gioco.get(i), numeroPosti.get(i), idDealer.get(i));
-            assegnaDealerDelTavolo(temp);
-            assegnaSupervisoriDelTavolo(temp);
+            fetchDadbAssegnaDealerDelTavolo(temp);
+            fetchDadbAssegnaSupervisoriDelTavolo(temp);
             tavoliInLocale.add(temp);
         }
 
@@ -353,7 +351,7 @@ public class DipendenteWelcomeController extends WelcomeController {
         db.cambiaGiocoTavolo(idTavolo, gioco.name());
     }
 
-    private void assegnaDealerDelTavolo(Tavolo tavolo)
+    private void fetchDadbAssegnaDealerDelTavolo(Tavolo tavolo)
     {
         String idDealer = tavolo.getIdDealer();
 
@@ -369,7 +367,7 @@ public class DipendenteWelcomeController extends WelcomeController {
         }
     }
 
-    private void assegnaSupervisoriDelTavolo(Tavolo tavolo)
+    private void fetchDadbAssegnaSupervisoriDelTavolo(Tavolo tavolo)
     {
         ImpDAOopd db = new ImpDAOopd();
         ArrayList<Supervisore> temp = new ArrayList<>();
@@ -393,5 +391,76 @@ public class DipendenteWelcomeController extends WelcomeController {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public void aggiornaInfoTavolodb(String idDipendente, String ruolo, int idTavolo) throws SQLException
+    {
+        ImpDAOopd db = new ImpDAOopd();
+
+        db.assegnaDipendenteATavolo(idDipendente, ruolo, idTavolo);
+    }
+
+    public void dividiDealerSupervisore(ArrayList<Dealer> listaDealer, ArrayList<Supervisore> listaSupervisore)
+    {
+        for(Dipendente i : dipendentiInLocale)
+        {
+            if(i instanceof Dealer j) listaDealer.add(j);
+            if(i instanceof Supervisore j) listaSupervisore.add(j);
+        }
+    }
+
+    public void dividiDealerSupervisoreTavoloAtIndex(ArrayList<Dealer> listaDealer, ArrayList<Supervisore> listaSupervisore,
+                                                     int indiceTavolo)
+    {
+        Tavolo temp = tavoliInLocale.get(indiceTavolo);
+
+        listaDealer.add(temp.getDealer());
+        listaSupervisore.addAll(temp.getSupervisori());
+    }
+
+    public int getIndexOfTavolo(Tavolo tavolo)
+    {
+        return tavoliInLocale.indexOf(tavolo);
+    }
+
+    public String infoTavoloAtIndex(int index)
+    {
+        Tavolo temp = tavoliInLocale.get(index);
+
+        return "tavolo " + temp.getIdTavolo() + " gioco: " + temp.getGioco();
+    }
+
+    public int idTavoloAtIndex(int index)
+    {
+        Tavolo temp = tavoliInLocale.get(index);
+
+        return temp.getIdTavolo();
+    }
+
+    public void aggiungiDealerAtIndex(Dealer dealer, int index)
+    {
+        tavoliInLocale.get(index).setDealer(dealer);
+    }
+
+    public void aggiungiSupervisoreAtIndex(Supervisore dealer, int index)
+    {
+        tavoliInLocale.get(index).getSupervisori().add(dealer);
+    }
+
+    public void rimuoviSupervisoreAtIndex(Supervisore dealer, int index)
+    {
+        tavoliInLocale.get(index).getSupervisori().remove(dealer);
+    }
+
+    public Gioco getGiocoAtIndex(int index)
+    {
+        return tavoliInLocale.get(index).getGioco();
+    }
+
+    public void eliminaSupervisore(int indiceTavolo, String idSupervisore) throws SQLException
+    {
+        ImpDAOopd db = new ImpDAOopd();
+
+        db.eliminaSupervisoreTavolo(idTavoloAtIndex(indiceTavolo), idSupervisore);
     }
 }

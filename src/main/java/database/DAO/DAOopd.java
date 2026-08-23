@@ -49,4 +49,6 @@ public interface DAOopd {
                                   ArrayList<Integer> partiteSvolte) throws SQLException;
 
     void cambiaGiocoTavolo(int idTavolo, String gioco) throws SQLException;
+
+    public void eliminaSupervisoreTavolo(int idTavolo, String idSupervisore) throws SQLException;
 }

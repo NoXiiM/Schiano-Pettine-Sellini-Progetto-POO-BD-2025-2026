@@ -59,7 +59,7 @@
                 </constraints>
                 <properties>
                   <font style="1"/>
-                  <foreground color="-659232"/>
+                  <foreground color="-10496"/>
                   <text value="Utente:"/>
                 </properties>
               </component>
@@ -409,7 +409,7 @@
                 </constraints>
                 <properties>
                   <font style="1"/>
-                  <foreground color="-659232"/>
+                  <foreground color="-10496"/>
                   <text value="Lista Clienti:"/>
                 </properties>
               </component>
@@ -419,7 +419,7 @@
                 </constraints>
                 <properties>
                   <font style="1"/>
-                  <foreground color="-2039584"/>
+                  <foreground color="-10496"/>
                   <text value="username"/>
                 </properties>
               </component>
@@ -617,7 +617,7 @@
                 </constraints>
                 <properties>
                   <font style="1"/>
-                  <foreground color="-2039584"/>
+                  <foreground color="-10496"/>
                   <text value="Lista Dipendenti:"/>
                 </properties>
               </component>
@@ -627,7 +627,7 @@
                 </constraints>
                 <properties>
                   <font style="1"/>
-                  <foreground color="-2039584"/>
+                  <foreground color="-10496"/>
                   <text value="Dipendente:"/>
                 </properties>
               </component>
@@ -681,13 +681,13 @@
                 </constraints>
                 <properties>
                   <font style="1"/>
-                  <foreground color="-2039584"/>
+                  <foreground color="-10496"/>
                   <text value="Username"/>
                 </properties>
               </component>
             </children>
           </grid>
-          <grid id="59289" binding="gestioneTavoli" layout-manager="GridLayoutManager" row-count="4" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="59289" binding="gestioneTavoli" layout-manager="GridLayoutManager" row-count="4" column-count="7" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <tabbedpane title="Gestione Tavoli"/>
@@ -714,20 +714,9 @@
                   </component>
                 </children>
               </scrollpane>
-              <component id="dc07a" class="javax.swing.JButton" binding="modificaGiochiButton" default-binding="true">
-                <constraints>
-                  <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <background color="-12772720"/>
-                  <font style="1"/>
-                  <foreground color="-10496"/>
-                  <text value="Modifica Giochi"/>
-                </properties>
-              </component>
               <component id="fe506" class="javax.swing.JButton" binding="filtraButton" default-binding="true">
                 <constraints>
-                  <grid row="3" column="3" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="3" column="4" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <background color="-12772720"/>
@@ -738,7 +727,7 @@
               </component>
               <component id="3810" class="javax.swing.JTextArea" binding="textAreaInfoTavoli">
                 <constraints>
-                  <grid row="1" column="1" row-span="1" col-span="5" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                  <grid row="1" column="1" row-span="1" col-span="6" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="50"/>
                   </grid>
                 </constraints>
@@ -766,12 +755,12 @@
                   <background color="-12772720"/>
                   <font style="1"/>
                   <foreground color="-10496"/>
-                  <text value="Assegna Tavolo"/>
+                  <text value="Assegna Dipendente A Tavolo"/>
                 </properties>
               </component>
               <component id="9d733" class="javax.swing.JCheckBox" binding="filtraPerGiocoCheckBox" default-binding="true">
                 <constraints>
-                  <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <background color="-15923680"/>
@@ -782,7 +771,7 @@
               </component>
               <component id="a9a2a" class="javax.swing.JRadioButton" binding="pokerRadio">
                 <constraints>
-                  <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="2" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <background color="-15923680"/>
@@ -793,7 +782,7 @@
               </component>
               <component id="3d45f" class="javax.swing.JRadioButton" binding="blackjackRadio">
                 <constraints>
-                  <grid row="2" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="2" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <background color="-15923680"/>
@@ -808,7 +797,7 @@
                 </constraints>
                 <properties>
                   <font style="1"/>
-                  <foreground color="-2039584"/>
+                  <foreground color="-10496"/>
                   <text value="Lista Tavoli:"/>
                 </properties>
               </component>
@@ -818,17 +807,17 @@
                 </constraints>
                 <properties>
                   <font style="1"/>
-                  <foreground color="-2039584"/>
+                  <foreground color="-10496"/>
                   <text value="Info Tavolo:"/>
                 </properties>
               </component>
               <component id="42289" class="javax.swing.JLabel" binding="userTavoliLabel">
                 <constraints>
-                  <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <font style="1"/>
-                  <foreground color="-2039584"/>
+                  <foreground color="-10496"/>
                   <text value="username"/>
                 </properties>
               </component>
@@ -845,7 +834,7 @@
               </component>
               <component id="1f59b" class="javax.swing.JButton" binding="aggiungiTavolo">
                 <constraints>
-                  <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <background color="-12772720"/>
@@ -856,13 +845,35 @@
               </component>
               <component id="7423f" class="javax.swing.JButton">
                 <constraints>
-                  <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <background color="-12772720"/>
                   <font style="1"/>
                   <foreground color="-10496"/>
                   <text value="Rimuovi Tavolo"/>
+                </properties>
+              </component>
+              <component id="dc07a" class="javax.swing.JButton" binding="modificaGiochiButton" default-binding="true">
+                <constraints>
+                  <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-12772720"/>
+                  <font style="1"/>
+                  <foreground color="-10496"/>
+                  <text value="Modifica Giochi"/>
+                </properties>
+              </component>
+              <component id="b852a" class="javax.swing.JButton" binding="rimuoviDipDaTavoloButton">
+                <constraints>
+                  <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-12772720"/>
+                  <font style="1"/>
+                  <foreground color="-10496"/>
+                  <text value="Rimuovi Dipendente Da Tavolo"/>
                 </properties>
               </component>
             </children>

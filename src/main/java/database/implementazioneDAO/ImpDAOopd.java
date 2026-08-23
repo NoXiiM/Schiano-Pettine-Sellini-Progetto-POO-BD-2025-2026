@@ -348,4 +348,19 @@ public class ImpDAOopd implements DAOopd {
             aggiornamento.executeUpdate();
         }
     }
+
+    @Override
+    public void eliminaSupervisoreTavolo(int idTavolo, String idSupervisore) throws SQLException
+    {
+        Connection connection = ConnessioneDatabase.getInstance().connection;
+
+        try(PreparedStatement cancellazione = connection.prepareStatement("delete from supervisoreTavolo " +
+                "where idTavolo = ? AND idSupervisore = ?"))
+        {
+            cancellazione.setInt(1, idTavolo);
+            cancellazione.setString(2, idSupervisore);
+
+            cancellazione.executeUpdate();
+        }
+    }
 }

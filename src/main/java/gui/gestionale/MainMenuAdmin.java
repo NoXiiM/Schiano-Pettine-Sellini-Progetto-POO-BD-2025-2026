@@ -100,6 +100,7 @@ public class MainMenuAdmin {
     private JLabel userTavoliLabel;
     private JButton visualizzaSessioniCliente;
     private JButton aggiungiTavolo;
+    private JButton rimuoviDipDaTavoloButton;
 
     private JFrame thisFrame;
     private JFrame frameChiamante;
@@ -144,6 +145,7 @@ public class MainMenuAdmin {
 
         modificaGiochiButton.setVisible(false);
         assegnaTavoloButton.setVisible(false);
+        rimuoviDipDaTavoloButton.setVisible(false);
 
         thisFrame = new JFrame("MainMenuAdmin");
         thisFrame.setContentPane(AdminPanel);
@@ -643,11 +645,13 @@ public class MainMenuAdmin {
                     {
                         modificaGiochiButton.setVisible(true);
                         assegnaTavoloButton.setVisible(true);
+                        rimuoviDipDaTavoloButton.setVisible(true);
                     }
                     else
                     {
                         modificaGiochiButton.setVisible(false);
                         assegnaTavoloButton.setVisible(false);
+                        rimuoviDipDaTavoloButton.setVisible(false);
                     }
                     stampaTavoloInfoField(temp);
                 }
@@ -709,10 +713,34 @@ public class MainMenuAdmin {
             }
         });
 
-        aggiungiTavolo.addActionListener(new ActionListener() {
+        assegnaTavoloButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(listaTavoli.getSelectedValue() != null)
+                {
+                    thisFrame.setVisible(false);
+                    new AssegnaDipendentiTavolo(controller, thisFrame,
+                            controller.getIndexOfTavolo((Tavolo) listaTavoli.getSelectedValue()), false);
+                }
+                else JOptionPane.showMessageDialog(null, "nessun tavolo selezionato",
+                        "errore", JOptionPane.ERROR_MESSAGE);
 
+                listaTavoli.clearSelection();
+            }
+        });
+        rimuoviDipDaTavoloButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(listaTavoli.getSelectedValue() != null)
+                {
+                    thisFrame.setVisible(false);
+                    new AssegnaDipendentiTavolo(controller, thisFrame,
+                            controller.getIndexOfTavolo((Tavolo) listaTavoli.getSelectedValue()), true);
+                }
+                else JOptionPane.showMessageDialog(null, "nessun tavolo selezionato",
+                        "errore", JOptionPane.ERROR_MESSAGE);
+
+                listaTavoli.clearSelection();
             }
         });
     }
@@ -841,13 +869,13 @@ public class MainMenuAdmin {
         textAreaInfoTavoli.setText("idTavolo: " + temp.getIdTavolo() +
                 "\ngioco: " + temp.getGioco() +
                 "\nnumero posti: " + temp.getNumeroPosti());
-        if(temp.getDealer()!=null ||temp.getSupervisori()!=null){
+        if(temp.getDealer()!=null || !temp.getSupervisori().isEmpty()){
             textAreaInfoTavoli.append("\n\nDipendenti:");
             if(temp.getDealer() != null)
             {
                 textAreaInfoTavoli.append("\ndealer: " + temp.getDealer().getUsername());
             }
-            if(temp.getSupervisori()!=null) {
+            if(!temp.getSupervisori().isEmpty()) {
                 textAreaInfoTavoli.append("\nSupervisori: ");
                 for (Supervisore i : temp.getSupervisori()) {
                     textAreaInfoTavoli.append(i.getUsername() + ", ");

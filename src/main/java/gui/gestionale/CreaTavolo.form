@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="gui.gestionale.CreaTavolo">
+  <grid id="27dc6" binding="creaTavolo" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="500" height="400"/>
+    </constraints>
+    <properties>
+      <background color="-15923680"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <component id="c546b" class="javax.swing.JComboBox" binding="giocoComboBox">
+        <constraints>
+          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="7ece1" class="javax.swing.JSpinner" binding="numeroPostiSpinner">
+        <constraints>
+          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="9cf78" class="javax.swing.JTextField" binding="codiceTavoloTextField">
+        <constraints>
+          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="6e7ef" class="javax.swing.JLabel" binding="giocoLabel">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font style="1"/>
+          <foreground color="-10496"/>
+          <text value="gioco:"/>
+        </properties>
+      </component>
+      <component id="c743b" class="javax.swing.JLabel" binding="numeroPostiLabel">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font style="1"/>
+          <foreground color="-10496"/>
+          <text value="numero di posti:"/>
+        </properties>
+      </component>
+      <component id="d4bc2" class="javax.swing.JLabel" binding="codiceTavoloLabel">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font style="1"/>
+          <foreground color="-10496"/>
+          <text value="codice tavolo (solo numerico):"/>
+        </properties>
+      </component>
+      <component id="dd31a" class="javax.swing.JButton" binding="aggiungiTavolo">
+        <constraints>
+          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-12772720"/>
+          <font style="1"/>
+          <foreground color="-10496"/>
+          <text value="Aggiungi Tavolo"/>
+        </properties>
+      </component>
+      <component id="4a2a9" class="javax.swing.JButton" binding="indietroButton">
+        <constraints>
+          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-12772720"/>
+          <font style="1"/>
+          <foreground color="-10496"/>
+          <text value="Indietro"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>

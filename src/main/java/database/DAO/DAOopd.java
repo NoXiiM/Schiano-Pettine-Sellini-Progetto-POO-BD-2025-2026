@@ -50,5 +50,7 @@ public interface DAOopd {
 
     void cambiaGiocoTavolo(int idTavolo, String gioco) throws SQLException;
 
-    public void eliminaSupervisoreTavolo(int idTavolo, String idSupervisore) throws SQLException;
+    void eliminaSupervisoreTavolo(int idTavolo, String idSupervisore) throws SQLException;
+
+    void eliminaTavolo(int idTavolo) throws SQLException;
 }

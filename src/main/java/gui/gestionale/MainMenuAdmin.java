@@ -101,6 +101,7 @@ public class MainMenuAdmin {
     private JButton visualizzaSessioniCliente;
     private JButton aggiungiTavolo;
     private JButton rimuoviDipDaTavoloButton;
+    private JButton rimuoviTavolo;
 
     private JFrame thisFrame;
     private JFrame frameChiamante;
@@ -198,7 +199,6 @@ public class MainMenuAdmin {
             }
         });
 
-        //TODO
         visualizzaSessioniCliente.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -741,6 +741,40 @@ public class MainMenuAdmin {
                         "errore", JOptionPane.ERROR_MESSAGE);
 
                 listaTavoli.clearSelection();
+            }
+        });
+
+        aggiungiTavolo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                thisFrame.setVisible(false);
+                new CreaTavolo(controller, thisFrame, modelloListaTavoli);
+            }
+        });
+
+        rimuoviTavolo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Tavolo temp = (Tavolo) listaTavoli.getSelectedValue();
+
+                if(temp != null)
+                {
+                    int input = JOptionPane.showConfirmDialog(null, "sei sicuro di voler cancellare questo tavolo?");
+
+                    if(input == JOptionPane.NO_OPTION || input == JOptionPane.CANCEL_OPTION) return;
+
+                    try {
+                        controller.cancellaTavolo(temp);
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage(),
+                                "errore", JOptionPane.ERROR_MESSAGE);
+                    }
+
+                    modelloListaTavoli.clear();
+                    modelloListaTavoli.addAll(controller.getTavoliInLocale());
+                }
+                else JOptionPane.showMessageDialog(null, "nessun tavolo selezionato",
+                        "errore", JOptionPane.ERROR_MESSAGE);
             }
         });
     }

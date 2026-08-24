@@ -167,6 +167,10 @@ public class DipendenteWelcomeController extends WelcomeController {
         return clientiInLocale;
     }
 
+    public ArrayList<Tavolo> getTavoliInLocale() {
+        return tavoliInLocale;
+    }
+
     public ArrayList<Cliente> ricercaClienti(String nome, String cognome, String username, int saldoMin, int saldoMax,
                                              double percentualeMin, double percentualeMax, int partiteMin, int partiteMax, String sospetto, String ban,
                                              boolean checkSaldo, boolean checkPartite, boolean checkPercentuale){
@@ -462,5 +466,29 @@ public class DipendenteWelcomeController extends WelcomeController {
         ImpDAOopd db = new ImpDAOopd();
 
         db.eliminaSupervisoreTavolo(idTavoloAtIndex(indiceTavolo), idSupervisore);
+    }
+
+    public boolean idGiaPreso(int id)
+    {
+        for(Tavolo i : tavoliInLocale)
+        {
+            if(id == i.getIdTavolo()) return true;
+        }
+
+        return false;
+    }
+
+    public void aggiungiTavolo(int numero, Gioco gioco, int id) throws SQLException
+    {
+        new ImpDAOopd().aggiungiTavolo(numero, gioco.toString(), id, null);
+
+        tavoliInLocale.add(new Tavolo(id, gioco, numero));
+    }
+
+    public void cancellaTavolo(Tavolo tavolo) throws SQLException
+    {
+        new ImpDAOopd().eliminaTavolo(tavolo.getIdTavolo());
+
+        tavoliInLocale.remove(tavolo);
     }
 }

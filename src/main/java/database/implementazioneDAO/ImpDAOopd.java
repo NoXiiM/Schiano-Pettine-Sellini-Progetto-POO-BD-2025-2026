@@ -363,4 +363,18 @@ public class ImpDAOopd implements DAOopd {
             cancellazione.executeUpdate();
         }
     }
+
+    @Override
+    public void eliminaTavolo(int idTavolo) throws SQLException
+    {
+        Connection connection = ConnessioneDatabase.getInstance().connection;
+
+        try(PreparedStatement cancellazione = connection.prepareStatement("delete from Tavolo " +
+                "where numero = ?"))
+        {
+            cancellazione.setInt(1, idTavolo);
+
+            cancellazione.executeUpdate();
+        }
+    }
 }

@@ -26,17 +26,17 @@ CREATE TABLE Cliente (
 
 -- Crea Dipendente
 CREATE TABLE Dipendente (
-    idDipendente VARCHAR(20) PRIMARY KEY, --1
+    idDipendente VARCHAR(20) PRIMARY KEY, 
     --Attributi del dipendente anagrafico
     nome VARCHAR(20) NOT NULL,
     cognome VARCHAR(20) NOT NULL,
     dataDiNascita DATE NOT NULL,
     codiceFiscale VARCHAR(16) NOT NULL unique,
     --Dati d'accesso
-    username VARCHAR(20) NOT NULL UNIQUE, --2
+    username VARCHAR(20) NOT NULL UNIQUE,
     password VARCHAR(20) NOT NULL,
     --Attributi del dipendente lavorativo
-    ruolo VARCHAR(11) NOT NULL check(ruolo in('Supervisore', 'Dealer')) --3
+    ruolo VARCHAR(11) NOT NULL check(ruolo in('Supervisore', 'Dealer'))
 );
 
 --Crea Gioco
@@ -59,9 +59,9 @@ CREATE TABLE Tavolo (
     gioco VARCHAR(11) NOT NULL,
     numeroPosti INT NOT NULL,
     idDealer VARCHAR(20) UNIQUE,
-    FOREIGN KEY (idDealer) REFERENCES Dipendente(IdDipendente) ON DELETE CASCADE,
-    CHECK ((gioco = 'SlotMachine' AND idDealer IS NULL AND numeroPosti = 1), --vedi se fare la logica per occupato
-	--OR (gioco IN ('Poker', 'Blackjack') AND idDealer IS NOT NULL))
+    FOREIGN KEY (idDealer) REFERENCES Dipendente(IdDipendente) ON DELETE SET NULL,
+    CHECK ((gioco = 'SlotMachine' AND idDealer IS NULL AND numeroPosti = 1) --vedi se fare la logica per occupato
+	OR (gioco IN ('Poker', 'Blackjack')),
 	FOREIGN KEY (gioco) REFERENCES Gioco(nomeGioco)
 );
 

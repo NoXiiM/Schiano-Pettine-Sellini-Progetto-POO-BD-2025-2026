@@ -1,7 +1,10 @@
 package database.DAO;
 
+import database.ConnessioneDatabase;
 import model.gestionale.Gioco;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -53,4 +56,8 @@ public interface DAOopd {
     void eliminaSupervisoreTavolo(int idTavolo, String idSupervisore) throws SQLException;
 
     void eliminaTavolo(int idTavolo) throws SQLException;
+
+    void cambioUsername(String vecchioCodiceTessera, String username, String nuovoCodiceTessera) throws SQLException;
+
+
 }

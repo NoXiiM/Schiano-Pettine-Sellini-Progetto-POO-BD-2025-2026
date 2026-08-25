@@ -81,6 +81,7 @@ public class WelcomePanel {
                 userField.setText("");
                 passwordField.setText("");
 
+                welcomeController.setCurrentUserNull();
                 new ForgotPassword(new ClientWelcomeController(welcomeController), mainframe);
             }
         });

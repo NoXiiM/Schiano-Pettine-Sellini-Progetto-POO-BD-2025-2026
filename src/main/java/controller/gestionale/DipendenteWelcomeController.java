@@ -1,6 +1,7 @@
 package controller.gestionale;
 
 import database.implementazioneDAO.ImpDAOop;
+import database.implementazioneDAO.ImpDAOopc;
 import database.implementazioneDAO.ImpDAOopd;
 import model.gestionale.Gioco;
 import model.gestionale.Sessione;
@@ -395,6 +396,41 @@ public class DipendenteWelcomeController extends WelcomeController {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public boolean changeUsername(String newUser, String pass1, String pass2) throws RuntimeException, SQLException{
+        if(newUser.isBlank() || pass1.isBlank() || pass2.isBlank()) throw new RuntimeException("Compila tutti i campi!");
+
+        ImpDAOop db_fetch_user= new ImpDAOop();
+
+        if(!pass1.equals(pass2)) throw new RuntimeException("Le 2 password non coincidono");
+        if(db_fetch_user.trovaTabella(dipendenteCorrente.getUsername(), pass1) == null) throw new RuntimeException("password errata");
+
+        ImpDAOopd db= new ImpDAOopd();
+
+        db_fetch_user.usernameUtenti(usernames);
+
+        for(String i : usernames){
+            if(i.equals(newUser)) throw new RuntimeException("username già preso");
+        }
+
+        String newCodiceTessera= generaCodiceTessera(newUser);
+        db.cambioUsername(dipendenteCorrente.getIdentificativoDipendente(), newUser, newCodiceTessera);
+
+        for(Dipendente d : dipendentiInLocale){
+            if(d.getIdentificativoDipendente().equals(dipendenteCorrente.getIdentificativoDipendente())){
+                d.setUsername(newUser);
+                break;
+            }
+        }
+
+        dipendenteCorrente.setIdentificativoDipendente(newCodiceTessera);
+        usernames.remove(dipendenteCorrente.getUsername());
+
+        dipendenteCorrente.setUsername(newUser);
+        usernames.add(newUser);
+
+        return true;
     }
 
     public void aggiornaInfoTavolodb(String idDipendente, String ruolo, int idTavolo) throws SQLException

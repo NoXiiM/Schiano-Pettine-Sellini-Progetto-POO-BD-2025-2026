@@ -1,12 +1,16 @@
 package gui.gestionale;
 
 import controller.gestionale.ClientWelcomeController;
+import controller.gestionale.DipendenteWelcomeController;
 import controller.gestionale.WelcomeController;
+import model.gestionale.utenteEFigli.Cliente;
+import model.gestionale.utenteEFigli.Dipendente;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ChangeUsername {
     private JPanel changeUserPanel;
@@ -19,7 +23,7 @@ public class ChangeUsername {
     JFrame frameChiamante;
     WelcomeController controller;
 
-    public ChangeUsername(JFrame frameChiamante, ClientWelcomeController controller, TabbedMenuPlayer parentMenu) {
+    public ChangeUsername(JFrame frameChiamante, WelcomeController controller, ArrayList<JLabel> labels) {
         this.frameChiamante= frameChiamante;
         this.controller= controller;
 
@@ -38,15 +42,33 @@ public class ChangeUsername {
                 String pass2= new String(passwordField2.getPassword());   //getPassword restituisce char[]
 
                 try {
-                    if(controller.changeUsername(newUser, pass1, pass2)){
+
+                    if(controller.getCurrentUser() instanceof Cliente && ((ClientWelcomeController)controller).changeUsername(newUser, pass1, pass2)){
                         JOptionPane.showMessageDialog(null, "Username modificato con successo !");
 
-                        parentMenu.aggiornaUsername();
                         frameChiamato.setVisible(false);
                         frameChiamante.setVisible(true);
+                        for(JLabel l : labels){
+                            l.setText(controller.getUserUtente());
+                        }
                         frameChiamato.dispose();
 
-                    } else{
+                    } else if (controller.getCurrentUser() instanceof Dipendente && ((DipendenteWelcomeController)controller).changeUsername(newUser, pass1, pass2)) {
+                        JOptionPane.showMessageDialog(null, "Username modificato con successo !");
+
+
+                        frameChiamato.setVisible(false);
+                        frameChiamante.setVisible(true);
+                        for(JLabel l : labels){
+                            l.setText(controller.getUserUtente());
+                        }
+                        MainMenuAdmin.getModelloListaDipendente().clear();
+                        MainMenuAdmin.getModelloListaDipendente().addAll(((DipendenteWelcomeController)controller).getDipendentiInLocale());
+                        MainMenuAdmin.getModelloListaTavoli().clear();
+                        MainMenuAdmin.getModelloListaTavoli().addAll(((DipendenteWelcomeController)controller).getTavoliInLocale());
+                        frameChiamato.dispose();
+                    }else
+                    {
                         JOptionPane.showMessageDialog(null, "Password errata ! Se non la ricordi prova a resettarla");
                     }
 

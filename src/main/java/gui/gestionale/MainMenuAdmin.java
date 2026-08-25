@@ -16,6 +16,7 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 //TODO 1) chiarire la questione: non mostrare dati nella text area quando nessuno è selezionato
 //manca: parte di gestione tavoli e gestione account
@@ -777,6 +778,29 @@ public class MainMenuAdmin {
                         "errore", JOptionPane.ERROR_MESSAGE);
             }
         });
+        cambiaPasswordButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ChangePass(thisFrame, controller);
+            }
+        });
+        cambiaUsernameButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ArrayList<JLabel> labels = new ArrayList<>();
+                labels.add(userClientiLabel);
+                labels.add(userDipendenteLabel);
+                labels.add(userTavoliLabel);
+                new ChangeUsername(thisFrame, controller, labels);
+            }
+        });
+
+        resettaPasswordButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ForgotPassword(controller, thisFrame);
+            }
+        });
     }
 
     private void inizializzaMenuAdmin(){
@@ -858,10 +882,13 @@ public class MainMenuAdmin {
         }
     }
 
+
     public static DefaultListModel<Dipendente> getModelloListaDipendente() {//Serve in registazione per aggiornare lista
         return modelloListaDipendente;
     }
-
+    public static DefaultListModel<Tavolo> getModelloListaTavoli() {//Serve in registazione per aggiornare lista
+        return modelloListaTavoli;
+    }
     private void stampaClienteInfoField(Cliente temp){
         textAreaInfoFieldClienti.setText("Username: " + temp.getUsername() +
                 "\n\nInformazioni anagrafiche" +

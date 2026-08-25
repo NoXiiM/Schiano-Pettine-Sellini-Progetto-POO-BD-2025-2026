@@ -68,20 +68,6 @@ public class ImpDAOopc implements DAOopc
         }
     }
 
-    @Override
-    public void cambioPassword(String nuovaPassword, String username) throws SQLException {
-        Connection connection = ConnessioneDatabase.getInstance().connection;
-
-        try(PreparedStatement inserimento = connection.prepareStatement("update cliente " +
-                "set password = ? " +
-                "where username = ?"))
-        {
-            inserimento.setString(1, nuovaPassword);
-            inserimento.setString(2, username);
-
-            inserimento.executeUpdate();
-        }
-    }
 
     @Override
     public void cancellaCliente(String codiceTessera) throws SQLException

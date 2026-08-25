@@ -35,5 +35,6 @@ public interface DAOop
     //operazione batch su username
     void usernameUtenti(ArrayList<String> usernames) throws SQLException;
 
-
+    //Operazione cambio password
+    void cambioPassword(String nuovaPassword, String username,String ruolo) throws SQLException;
 }

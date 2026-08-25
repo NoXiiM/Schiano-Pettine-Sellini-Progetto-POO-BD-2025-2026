@@ -14,7 +14,7 @@ public class ImpDAOop implements DAOop {
 
         //1 è meglio di * perchè ci basta una flag, non tutti i campi della tupla
         try (PreparedStatement query1 = connection.prepareStatement("select 1 " +
-                "from cliente " +
+                "from  Cliente " +
                 "where nome = ? AND cognome = ? AND username = ?")) {
             query1.setString(1, nome);
             query1.setString(2, cognome);
@@ -46,7 +46,7 @@ public class ImpDAOop implements DAOop {
             try (ResultSet rs2 = query2.executeQuery()) {
                 if ((rs2.next())) {
                     try (PreparedStatement updatePassword = connection.prepareStatement("UPDATE dipendente " +
-                            "set password = 'P@ssword!' " +
+                            "set password = 'P@ssw0rd!' " +
                             "where username = ?")) {
                         updatePassword.setString(1, username);
 
@@ -229,6 +229,21 @@ public class ImpDAOop implements DAOop {
                     usernames.add(rs.getString("username"));
                 }
             }
+        }
+    }
+    //Cambio Username e password, Reset password
+    @Override
+    public void cambioPassword(String nuovaPassword, String username,String ruolo) throws SQLException {
+        Connection connection = ConnessioneDatabase.getInstance().connection;
+
+        try(PreparedStatement inserimento = connection.prepareStatement("update "+ruolo+" "+
+                "set password = ? " +
+                "where username = ?"))
+        {
+            inserimento.setString(1, nuovaPassword);
+            inserimento.setString(2, username);
+
+            inserimento.executeUpdate();
         }
     }
 }

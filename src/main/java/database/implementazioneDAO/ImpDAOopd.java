@@ -377,4 +377,20 @@ public class ImpDAOopd implements DAOopd {
             cancellazione.executeUpdate();
         }
     }
+
+    @Override
+    public void cambioUsername(String vecchioCodiceTessera, String username, String nuovoCodiceTessera) throws SQLException {
+        Connection connection = ConnessioneDatabase.getInstance().connection;
+
+        try(PreparedStatement inserimento = connection.prepareStatement("update Dipendente " +
+                "set username = ?, idDipendente = ? " +
+                "where idDipendente = ?"))
+        {
+            inserimento.setString(1, username);
+            inserimento.setString(2, nuovoCodiceTessera);
+            inserimento.setString(3, vecchioCodiceTessera);
+
+            inserimento.executeUpdate();
+        }
+    }
 }

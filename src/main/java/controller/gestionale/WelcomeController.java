@@ -82,16 +82,32 @@ public class WelcomeController {
 
         if(!newPass1.equals(newPass2)) throw new RuntimeException("Le password non coincidono");
 
-        ImpDAOopc db1 = new ImpDAOopc();
-        ImpDAOop db2 = new ImpDAOop();
+        ImpDAOop db = new ImpDAOop();
 
-        if(currentUser.getPassword().equals(oldPass) && (db2.trovaTabella(currentUser.getUsername(), oldPass) != null)) {
+        String ruolo = (db.trovaTabella(currentUser.getUsername(), oldPass));
+
+        if(currentUser.getPassword().equals(oldPass) && ruolo!=null) {
             currentUser.setPassword(newPass1);
-            db1.cambioPassword(newPass1, currentUser.getUsername());
+            db.cambioPassword(newPass1, currentUser.getUsername(),ruolo);
 
             return true;
         }
-        else return false;
+         else return false;
+    }
+
+    public void resetPass(String nome, String cognome, String username) throws RuntimeException, SQLException {
+
+        if (username.isBlank() || nome.isBlank() || cognome.isBlank())
+            throw new RuntimeException("Compila tutti i campi!");
+
+        ImpDAOop db = new ImpDAOop();
+
+        if(! db.passwordDimenticata(nome, cognome, username)){
+            throw new RuntimeException("Credenziali errate");
+        }
+        if(currentUser!=null)currentUser.setPassword("P@ssw0rd!"); //Se la password non la ricordiamo in accesso
+
+
     }
 
     public String getUserUtente(){

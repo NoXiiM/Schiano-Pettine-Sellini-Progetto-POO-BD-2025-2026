@@ -98,7 +98,7 @@ public class ClientWelcomeController extends WelcomeController {
         String newCodiceTessera= generaCodiceTessera(newUser);
 
         db.cambioUsername(cliente.getCodiceTesseraGiocatore(), newUser, newCodiceTessera);
-
+        cliente.setUsername(newUser);
         return true;
     }
 
@@ -118,19 +118,6 @@ public class ClientWelcomeController extends WelcomeController {
         }
 
         return false;
-    }
-
-    //client
-    public void resetPass(String nome, String cognome, String username) throws RuntimeException, SQLException {
-
-        if (username.isBlank() || nome.isBlank() || cognome.isBlank())
-            throw new RuntimeException("Compila tutti i campi!");
-
-        ImpDAOop db = new ImpDAOop();
-
-        if(! db.passwordDimenticata(nome, cognome, username)){
-            throw new RuntimeException("Credenziali errate");
-        }
     }
 
     public boolean isBanned() {

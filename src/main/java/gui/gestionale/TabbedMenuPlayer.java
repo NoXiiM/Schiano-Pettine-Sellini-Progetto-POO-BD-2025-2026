@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class TabbedMenuPlayer {
     private JTabbedPane tabbedMenuPlayer;
@@ -134,7 +135,10 @@ public class TabbedMenuPlayer {
         cambiaUsernameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new ChangeUsername(thisFrame, controller, TabbedMenuPlayer.this);
+                ArrayList<JLabel> labels = new ArrayList<>();
+                labels.add(userFieldGamePanel);
+                labels.add(userFieldSaldoPanel);
+                new ChangeUsername(thisFrame, controller, labels);
             }
         });
 

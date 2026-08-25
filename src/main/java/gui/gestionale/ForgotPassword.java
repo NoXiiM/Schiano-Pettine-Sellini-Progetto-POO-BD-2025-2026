@@ -1,6 +1,7 @@
 package gui.gestionale;
 
 import controller.gestionale.ClientWelcomeController;
+import controller.gestionale.WelcomeController;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -16,9 +17,9 @@ public class ForgotPassword {
     private JPanel ForgotPassPanel;
 
     private JFrame frameChiamante;
-    private ClientWelcomeController controller;
+    private WelcomeController controller;
 
-    public ForgotPassword(ClientWelcomeController welcomeController, JFrame mainframe) {
+    public ForgotPassword(WelcomeController welcomeController, JFrame mainframe) {
 
         this.controller= welcomeController;
         this.frameChiamante= mainframe;

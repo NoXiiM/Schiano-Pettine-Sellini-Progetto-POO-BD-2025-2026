@@ -17,4 +17,8 @@ public abstract class Dipendente extends Utente
     public String getIdentificativoDipendente() {
         return identificativoDipendente;
     }
+
+    public void setIdentificativoDipendente(String identificativoDipendente) {
+        this.identificativoDipendente = identificativoDipendente;
+    }
 }

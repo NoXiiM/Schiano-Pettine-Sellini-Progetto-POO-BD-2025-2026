@@ -61,7 +61,7 @@ CREATE TABLE Tavolo (
     idDealer VARCHAR(20) UNIQUE,
     FOREIGN KEY (idDealer) REFERENCES Dipendente(IdDipendente) ON DELETE SET NULL,
     CHECK ((gioco = 'SlotMachine' AND idDealer IS NULL AND numeroPosti = 1) --vedi se fare la logica per occupato
-	OR (gioco IN ('Poker', 'Blackjack')),
+	OR (gioco IN ('Poker', 'Blackjack'))),
 	FOREIGN KEY (gioco) REFERENCES Gioco(nomeGioco)
 );
 

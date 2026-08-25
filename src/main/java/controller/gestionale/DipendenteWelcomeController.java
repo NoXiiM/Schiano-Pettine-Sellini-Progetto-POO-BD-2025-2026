@@ -1,7 +1,6 @@
 package controller.gestionale;
 
 import database.implementazioneDAO.ImpDAOop;
-import database.implementazioneDAO.ImpDAOopc;
 import database.implementazioneDAO.ImpDAOopd;
 import model.gestionale.Gioco;
 import model.gestionale.Sessione;
@@ -156,7 +155,7 @@ public class DipendenteWelcomeController extends WelcomeController {
         for(int i = 0; i < idDealer.size(); i++)
         {
             Tavolo temp = new Tavolo(idTavolo.get(i), gioco.get(i), numeroPosti.get(i), idDealer.get(i));
-            fetchDadbAssegnaDealerDelTavolo(temp);
+            assegnaDealerDelTavolo(temp);
             fetchDadbAssegnaSupervisoriDelTavolo(temp);
             tavoliInLocale.add(temp);
         }
@@ -356,7 +355,7 @@ public class DipendenteWelcomeController extends WelcomeController {
         db.cambiaGiocoTavolo(idTavolo, gioco.name());
     }
 
-    private void fetchDadbAssegnaDealerDelTavolo(Tavolo tavolo)
+    private void assegnaDealerDelTavolo(Tavolo tavolo)
     {
         String idDealer = tavolo.getIdDealer();
 
@@ -420,15 +419,13 @@ public class DipendenteWelcomeController extends WelcomeController {
         for(Dipendente d : dipendentiInLocale){
             if(d.getIdentificativoDipendente().equals(dipendenteCorrente.getIdentificativoDipendente())){
                 d.setUsername(newUser);
+                d.setIdentificativoDipendente(newCodiceTessera);
                 break;
             }
         }
 
         dipendenteCorrente.setIdentificativoDipendente(newCodiceTessera);
-        usernames.remove(dipendenteCorrente.getUsername());
-
         dipendenteCorrente.setUsername(newUser);
-        usernames.add(newUser);
 
         return true;
     }

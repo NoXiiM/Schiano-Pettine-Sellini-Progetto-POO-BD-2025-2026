@@ -49,7 +49,7 @@ CREATE TABLE GiochiDealer (
     idDealer VARCHAR(20) NOT NULL,
     idGioco VARCHAR(11) NOT NULL check(idGioco in('Poker', 'SlotMachine', 'Blackjack')),
     PRIMARY KEY (idDealer, idGioco),
-    FOREIGN KEY (idDealer) REFERENCES Dipendente(IdDipendente) ON DELETE CASCADE,
+    FOREIGN KEY (idDealer) REFERENCES Dipendente(IdDipendente) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (idGioco) REFERENCES Gioco(nomeGioco) ON DELETE CASCADE
 );
 
@@ -59,9 +59,9 @@ CREATE TABLE Tavolo (
     gioco VARCHAR(11) NOT NULL,
     numeroPosti INT NOT NULL,
     idDealer VARCHAR(20) UNIQUE,
-    FOREIGN KEY (idDealer) REFERENCES Dipendente(IdDipendente) ON DELETE SET NULL,
+    FOREIGN KEY (idDealer) REFERENCES Dipendente(IdDipendente) ON DELETE SET NULL ON UPDATE CASCADE,
     CHECK ((gioco = 'SlotMachine' AND idDealer IS NULL AND numeroPosti = 1) --vedi se fare la logica per occupato
-	OR (gioco IN ('Poker', 'Blackjack'))),
+	OR (gioco IN ('Poker', 'Blackjack')),
 	FOREIGN KEY (gioco) REFERENCES Gioco(nomeGioco)
 );
 
@@ -70,7 +70,7 @@ CREATE TABLE SupervisoreTavolo (
     idSupervisore VARCHAR(20) NOT NULL,
     idTavolo INT NOT NULL,
     PRIMARY KEY (idSupervisore, idTavolo),
-    FOREIGN KEY (idSupervisore) REFERENCES Dipendente(IdDipendente) ON DELETE CASCADE,
+    FOREIGN KEY (idSupervisore) REFERENCES Dipendente(IdDipendente) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (idTavolo) REFERENCES Tavolo(Numero) ON DELETE CASCADE
 );
 
@@ -82,7 +82,7 @@ CREATE TABLE Sessione(
     durata BIGINT NOT NULL DEFAULT 0,
     vincitaPercentuale float8 NOT NULL check(vincitaPercentuale >= 0 and vincitaPercentuale <= 100),
     partiteSvolte INT NOT NULL check(partiteSvolte >= 0),
-    FOREIGN KEY (idCliente) REFERENCES Cliente(IdCliente) ON DELETE CASCADE,
+    FOREIGN KEY (idCliente) REFERENCES Cliente(IdCliente) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (idTavolo) REFERENCES Tavolo(Numero) ON DELETE CASCADE
 );
 

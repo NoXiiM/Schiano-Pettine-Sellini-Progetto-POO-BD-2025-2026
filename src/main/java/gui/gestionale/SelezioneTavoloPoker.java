@@ -61,12 +61,21 @@ public class SelezioneTavoloPoker {
                 {
                     selezione = listaTavoli.getSelectedValue();
                     int idTavolo = controller.getIdFromList(selezione);
-                    thisFrame.setVisible(false);
-                    try {
-                        clienteController.creaNuovaSessioneDiGioco(controller.getTavoloWithId(idTavolo));
-                        new GUIPoker(thisFrame, clienteController);
-                    } catch (RuntimeException ex) {
-                        ex.getMessage();
+                    int sommaDaPagare = controller.pagaTavoloPoker(idTavolo, clienteController.getScontoCliente());
+
+                    int input = JOptionPane.showConfirmDialog(null, "per usufruire di questo tavolo" +
+                            " e del servizio del dealer devi pagare " + sommaDaPagare);
+
+                    if(input == JOptionPane.YES_OPTION)
+                    {
+                        try {
+                            clienteController.decrementaSaldoCliente(sommaDaPagare);
+                            clienteController.creaNuovaSessioneDiGioco(controller.getTavoloWithId(idTavolo));
+                            new GUIPoker(thisFrame, clienteController);
+                            thisFrame.setVisible(false);
+                        } catch (RuntimeException ex) {
+                            JOptionPane.showMessageDialog(null, ex.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
+                        }
                     }
                 }
                 else

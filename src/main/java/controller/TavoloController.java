@@ -117,4 +117,13 @@ public class TavoloController
 
         return info;
     }
+
+    public int pagaTavoloPoker(int id, Double sconto)
+    {
+        Tavolo tavoloScelto = getTavoloWithId(id);
+
+        int somma = 20 + tavoloScelto.getNumeroPosti() * 10;
+
+        return (int)(somma - (somma * sconto));
+    }
 }

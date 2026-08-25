@@ -44,8 +44,6 @@ public class ForgotPassword {
                     usernameTextField.setText("");
 
                     JOptionPane.showMessageDialog(null, "Password resettata a P@ssw0rd!");
-
-
                 } catch (RuntimeException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                 } catch (SQLException ex1) {

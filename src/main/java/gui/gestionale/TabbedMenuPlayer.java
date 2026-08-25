@@ -81,8 +81,10 @@ public class TabbedMenuPlayer {
 
                         aggiornaSaldo();
 
-                    } catch (NumberFormatException ex_val_depo) {
+                    } catch (NumberFormatException exValDepo) {
                         JOptionPane.showMessageDialog(null, "Inserisci un numero intero valido.", "Errore", JOptionPane.ERROR_MESSAGE);
+                    }catch (RuntimeException exNegativo){
+                        JOptionPane.showMessageDialog(null, exNegativo.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
@@ -94,8 +96,7 @@ public class TabbedMenuPlayer {
 
                 String input = JOptionPane.showInputDialog(null, "Inserisci un valore:", "Preleva", JOptionPane.QUESTION_MESSAGE);
 
-                if (input != null) {
-
+                if(input != null){
                     try {
                         int valore_prelievo = Integer.parseInt(input);
                         if(!controller.prelevaSaldoCliente(valore_prelievo)){
@@ -106,6 +107,8 @@ public class TabbedMenuPlayer {
 
                     } catch (NumberFormatException ex_val_depo) {
                         JOptionPane.showMessageDialog(null, "Inserisci un numero intero valido.", "Errore", JOptionPane.ERROR_MESSAGE);
+                    }catch (RuntimeException exNegativo){
+                        JOptionPane.showMessageDialog(null, exNegativo.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }

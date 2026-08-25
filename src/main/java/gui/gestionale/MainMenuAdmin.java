@@ -900,10 +900,10 @@ public class MainMenuAdmin {
                 "\nTempo di gioco totale: " + temp.getTempoDiGioco().toHoursPart()+ ":" +
                 String.format("%02d", temp.getTempoDiGioco().toMinutesPart()) +
                 ":" + String.format("%02d", temp.getTempoDiGioco().toSecondsPart()) +
-                "\nTasso vincita: " + temp.getVincitaPercentualeTot() +
+                "\nTasso vincita: " + temp.getVincitaPercentualeTot() + "%" +
                 "\nPartite giocate: " + temp.getPartiteGiocate() +
                 "\nTipo: " + (temp.isPremium() ? "Premium" : "Base") +
-                "\nPercentuale Sconto " + temp.getSconto_premium() +
+                "\nPercentuale Sconto " + temp.getSconto_premium()*100 + "%" +
                 (temp.getMotivoBan() == null ? "" : "\n\n Il giocatore è stato bannato\n" +
                         " Motivo di Ban: " + temp.getMotivoBan() + "\n In data: " + temp.getDataBan())
         );

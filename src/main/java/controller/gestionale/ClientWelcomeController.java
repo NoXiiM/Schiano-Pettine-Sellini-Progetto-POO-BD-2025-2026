@@ -63,12 +63,13 @@ public class ClientWelcomeController extends WelcomeController {
     }
 
     //client
-    public void depositaSaldoCliente(int deposito) {
+    public void depositaSaldoCliente(int deposito) throws RuntimeException
+    {
         cliente.deposita(deposito);
     }
 
     //client
-    public boolean prelevaSaldoCliente(int prelievo) {
+    public boolean prelevaSaldoCliente(int prelievo) throws RuntimeException {
         if (!cliente.preleva(prelievo)) {
             return false;
         }
@@ -100,6 +101,7 @@ public class ClientWelcomeController extends WelcomeController {
 
         db.cambioUsername(cliente.getCodiceTesseraGiocatore(), newUser, newCodiceTessera);
         cliente.setUsername(newUser);
+        cliente.setCodiceTesseraGiocatore(newCodiceTessera);
         return true;
     }
 
@@ -196,5 +198,12 @@ public class ClientWelcomeController extends WelcomeController {
     }
 
     public Tavolo getTavoloCorrente(){return sessione.getTavolo();}
+
+    public double getScontoCliente(){return cliente.getSconto_premium();}
+
+    public void decrementaSaldoCliente(int value) throws RuntimeException
+    {
+        cliente.decrementaSaldoCliente(value);
+    }
 }
 

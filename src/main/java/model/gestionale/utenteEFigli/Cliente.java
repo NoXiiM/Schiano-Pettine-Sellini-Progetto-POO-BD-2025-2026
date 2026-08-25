@@ -7,6 +7,7 @@ import java.sql.Time;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Random;
 
 public class Cliente extends Utente
 {
@@ -99,11 +100,16 @@ public class Cliente extends Utente
         this.saldo = saldo;
     }
 
-    public void deposita(int deposito){
+    public void deposita(int deposito) throws RuntimeException
+    {
+        Random random = new Random();
+        if(deposito < 0) throw new RuntimeException((random.nextInt(4) == 3) ? "sei serio?" : "non puoi depositare in negativo");
         this.saldo += deposito;
     }
 
-    public boolean preleva(int prelievo){
+    public boolean preleva(int prelievo) throws RuntimeException
+    {
+        if(prelievo < 0) throw new RuntimeException("non puoi prelevare in negativo");
         if(prelievo <= saldo){
             saldo -= prelievo;
             return true;
@@ -189,5 +195,18 @@ public class Cliente extends Utente
 
     public boolean isSospetto() {
         return sospetto;
+    }
+
+    public void setCodiceTesseraGiocatore(String codiceTesseraGiocatore) {
+        this.codiceTesseraGiocatore = codiceTesseraGiocatore;
+    }
+
+    public void decrementaSaldoCliente(int value) throws RuntimeException
+    {
+        if(value > saldo) throw new RuntimeException("saldo insufficiente");
+        else
+        {
+            saldo -= value;
+        }
     }
 }

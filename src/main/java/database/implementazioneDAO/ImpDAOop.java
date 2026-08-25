@@ -210,6 +210,7 @@ public class ImpDAOop implements DAOop {
     @Override
     public void usernameUtenti(ArrayList<String> usernames) throws SQLException{
         //System.out.println("fetch locale eseguita");
+        usernames.clear();
 
         Connection connection = ConnessioneDatabase.getInstance().connection;
 

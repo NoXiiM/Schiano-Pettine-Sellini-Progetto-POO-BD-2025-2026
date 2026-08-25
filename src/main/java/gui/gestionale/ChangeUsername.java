@@ -5,6 +5,7 @@ import controller.gestionale.DipendenteWelcomeController;
 import controller.gestionale.WelcomeController;
 import model.gestionale.utenteEFigli.Cliente;
 import model.gestionale.utenteEFigli.Dipendente;
+import model.gestionale.utenteEFigli.Supervisore;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -62,10 +63,12 @@ public class ChangeUsername {
                         for(JLabel l : labels){
                             l.setText(controller.getUserUtente());
                         }
-                        MainMenuAdmin.getModelloListaDipendente().clear();
-                        MainMenuAdmin.getModelloListaDipendente().addAll(((DipendenteWelcomeController)controller).getDipendentiInLocale());
-                        MainMenuAdmin.getModelloListaTavoli().clear();
-                        MainMenuAdmin.getModelloListaTavoli().addAll(((DipendenteWelcomeController)controller).getTavoliInLocale());
+                        if(controller.getCurrentUser() instanceof Supervisore) {
+                            MainMenuAdmin.getModelloListaDipendente().clear();
+                            MainMenuAdmin.getModelloListaDipendente().addAll(((DipendenteWelcomeController) controller).getDipendentiInLocale());
+                            MainMenuAdmin.getModelloListaTavoli().clear();
+                            MainMenuAdmin.getModelloListaTavoli().addAll(((DipendenteWelcomeController) controller).getTavoliInLocale());
+                        }
                         frameChiamato.dispose();
                     }else
                     {

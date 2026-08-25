@@ -27,6 +27,9 @@ public class VisualizzatoreSessioni
         thisFrame.pack();
         thisFrame.setVisible(true);
 
+        textAreaSessioni.setFocusable(false);
+        textAreaSessioni.setEditable(false);
+
         clienteSessioni.setText("Sessioni svolte da " + user + ":");
 
         modelloListaSessioni = new DefaultListModel<>();

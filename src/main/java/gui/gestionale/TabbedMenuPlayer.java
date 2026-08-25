@@ -209,7 +209,6 @@ public class TabbedMenuPlayer {
                 JOptionPane.showMessageDialog(null, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
             }
 
-            controller.setCurrentUserNull();
             frameChiamato.setVisible(false);
             frameChiamante.setVisible(true);
             frameChiamato.dispose();

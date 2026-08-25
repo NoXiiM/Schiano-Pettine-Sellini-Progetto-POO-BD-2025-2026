@@ -7,6 +7,7 @@ import model.gestionale.Tavolo;
 import model.gestionale.utenteEFigli.Cliente;
 import database.implementazioneDAO.ImpDAOop;
 
+import javax.swing.*;
 import java.sql.SQLException;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -157,7 +158,9 @@ public class ClientWelcomeController extends WelcomeController {
     }
 
     public void terminaSessione() throws SQLException{
-        sessione.terminaSessione();
+        if(sessione.terminaSessione())
+            JOptionPane.showMessageDialog(null, getClienteUsername() + " sei diventato un cliente di livello premium!",
+                    "promozione a premium", JOptionPane.INFORMATION_MESSAGE);
         salvaDatiClienteUscitaDaGIoco();
     }
 

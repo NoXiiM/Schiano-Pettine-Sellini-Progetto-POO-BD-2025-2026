@@ -77,11 +77,11 @@ public class Sessione
         giocatore.incrementaFiches(val);
     }
 
-    public void terminaSessione()//Aggiorna il saldo del giocatore in utente
+    public boolean terminaSessione()//Aggiorna il saldo del giocatore in utente
     {
         giocatore.chiudiSessione();
         stopTimer();
-        aggiornaDatiCliente();
+        return aggiornaDatiCliente();
     }
 
     //true = win, false = loss
@@ -106,14 +106,16 @@ public class Sessione
         return vincitaPercentuale + " %";
     }
 
-    public void aggiornaDatiCliente()
+    public boolean aggiornaDatiCliente()
     {
         giocatore.getClienteAssociato().aggiornaPercentualeVittoria(vincitaPercentuale, partiteSvolte);
         giocatore.getClienteAssociato().aggiornaTempoDiGioco(durataSessione);
         if(giocatore.getClienteAssociato().convertiPremium())
         {
             giocatore.getClienteAssociato().setPremium(true);
+            return true;
         }
+        return false;
     }
 
     public int getPostiTavolo()
@@ -131,10 +133,15 @@ public class Sessione
 
     @Override
     public String toString() {
-        return "id Sessione: " + idSessione + " id Tavolo: " + idTavolo + " durata: " + durataSessione.toHours() + ":" +
-                String.format("%02d", durataSessione.toMinutes()) + ":" + String.format("%02d", durataSessione.toSeconds()) +
-                " vincita percentuale: " + vincitaPercentuale + " partite svolte " + partiteSvolte;
+        return "id Sessione: " + idSessione + " id Tavolo: " + idTavolo;
 //                idSessione idTavolo durataSes,
 //         vincitaPercentuale partiteSvolte
+    }
+
+    public String infoSessione()
+    {
+        return "durata: " + durataSessione.toHours() + ":" +
+                String.format("%02d", durataSessione.toMinutes()) + ":" + String.format("%02d", durataSessione.toSeconds()) +
+                "\nvincita percentuale: " + vincitaPercentuale + "\npartite svolte " + partiteSvolte;
     }
 }

@@ -292,7 +292,7 @@ public class DipendenteWelcomeController extends WelcomeController {
         }
 
         if(ruolo.equals("Supervisore")) dipendentiInLocale.add(new Supervisore(username, nome, cognome, codiceFiscale, dataNascita, password, idTesseraDip));
-        if(ruolo.equals("Dealer")) dipendentiInLocale.add(new Dealer(username, nome, cognome, codiceFiscale, dataNascita, password, idTesseraDip));
+        if(ruolo.equals("Dealer")) dipendentiInLocale.add(new Dealer(username, nome, cognome, codiceFiscale, dataNascita, password, idTesseraDip,gioco));
 
         pulisciUsernames();
     }

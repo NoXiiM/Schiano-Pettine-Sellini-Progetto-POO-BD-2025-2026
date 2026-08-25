@@ -77,8 +77,6 @@ public class SelezioneTavoloSlotMachine {
                 String selezione;
                 if(listaTavoli.getSelectedValue() != null)
                 {
-                    //TODO ricordare di poter inserire solo tavoli con un posto per la slot
-//                  if(controller.getNumeroPosti(Integer.parseInt(selezione.replaceAll("\\D+", ""))-1) ==1) {
                     selezione = (String)listaTavoli.getSelectedValue();
                     int idTavolo = controller.getIdFromList(selezione);
                     thisFrame.setVisible(false);
@@ -88,10 +86,6 @@ public class SelezioneTavoloSlotMachine {
                     } catch (RuntimeException ex) {
                         ex.getMessage();
                     }
-//                    else{
-//                        JOptionPane.showMessageDialog(null, "Il tavolo selezionato è occupato ",
-//                                "errore", JOptionPane.ERROR_MESSAGE);
-//                    }
                 }
                 else
                 {

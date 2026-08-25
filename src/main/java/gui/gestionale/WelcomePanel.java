@@ -94,8 +94,9 @@ public class WelcomePanel {
                 userField.setText("");
                 passwordField.setText("");
 
+                //IMPORTANTE: è necessario solo qui perché per gli accessi il current user viene sovrascritto
+                welcomeController.setCurrentUserNull();
                 new RegistrationForm(new ClientWelcomeController(welcomeController), mainframe);
-
             }
         });
     }

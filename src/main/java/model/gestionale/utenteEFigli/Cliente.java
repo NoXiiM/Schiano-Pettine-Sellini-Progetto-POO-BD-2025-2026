@@ -127,7 +127,7 @@ public class Cliente extends Utente
             vincitaPercentualeTot = (vincitaPercentualeTot + vittoriaPercentualeSessione*partiteGiocate)/this.partiteGiocate;
         }
 
-        if(partiteGiocate > 50 && vincitaPercentualeTot > 50)
+        if(this.partiteGiocate > 50 && vincitaPercentualeTot > 50)
         {
             sospetto = true;
         }
@@ -162,7 +162,7 @@ public class Cliente extends Utente
     {
         Duration quarantottoh = Duration.ofHours(48);
 
-        return fichesGiocate >= 10000 && tempoDiGioco.compareTo(quarantottoh) >= 0;
+        return !premium && fichesGiocate >= 10000 && tempoDiGioco.compareTo(quarantottoh) >= 0;
     }
 
     public boolean isPremium() {

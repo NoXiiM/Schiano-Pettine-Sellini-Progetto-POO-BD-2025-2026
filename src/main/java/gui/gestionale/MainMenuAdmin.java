@@ -18,7 +18,6 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-//TODO 1) chiarire la questione: non mostrare dati nella text area quando nessuno è selezionato
 //manca: parte di gestione tavoli e gestione account
 
 public class MainMenuAdmin {
@@ -106,19 +105,19 @@ public class MainMenuAdmin {
 
     private JFrame thisFrame;
     private JFrame frameChiamante;
-    private WelcomeController controller;
+    private DipendenteWelcomeController dipendenteController;
 
     private static DefaultListModel<Cliente> modelloListaClienti;
     private static DefaultListModel<Dipendente> modelloListaDipendente;
     private static DefaultListModel<Tavolo> modelloListaTavoli;
 
     public MainMenuAdmin(DipendenteWelcomeController controller, JFrame frameChiamante) {
-        this.controller = controller;
+        dipendenteController = controller;
         this.frameChiamante= frameChiamante;
 
         modelloListaClienti= new DefaultListModel<>();
         try {
-            modelloListaClienti.addAll(controller.getListaClientiDB());
+            modelloListaClienti.addAll(dipendenteController.getListaClientiDB());
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
         }
@@ -126,7 +125,7 @@ public class MainMenuAdmin {
 
         modelloListaDipendente= new DefaultListModel<>();
         try {
-            modelloListaDipendente.addAll(controller.getDipendentiDB());
+            modelloListaDipendente.addAll(dipendenteController.getDipendentiDB());
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
         }
@@ -134,13 +133,13 @@ public class MainMenuAdmin {
 
         modelloListaTavoli = new DefaultListModel<>();
         try {
-            modelloListaTavoli.addAll(controller.getTavoliDB());
+            modelloListaTavoli.addAll(dipendenteController.getTavoliDB());
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
         }
         listaTavoli.setModel(modelloListaTavoli);
 
-        String usr = controller.getUserUtente();
+        String usr = dipendenteController.getUserUtente();
         userDipendenteLabel.setText(usr);
         userClientiLabel.setText(usr);
         userTavoliLabel.setText(usr);
@@ -208,7 +207,7 @@ public class MainMenuAdmin {
                 if(temp != null)
                 {
                     try {
-                        new VisualizzatoreSessioni(controller.visualizzaSessioni(temp.getCodiceTesseraGiocatore()),
+                        new VisualizzatoreSessioni(dipendenteController.visualizzaSessioni(temp.getCodiceTesseraGiocatore()),
                                 ((Cliente) listaClienti.getSelectedValue()).getUsername());
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(null, ex.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
@@ -296,7 +295,7 @@ public class MainMenuAdmin {
 
                 modelloListaClienti.clear();
 
-                modelloListaClienti.addAll(controller.ricercaClienti(nomeRicerca, cognomeRicerca, usernameRicerca,
+                modelloListaClienti.addAll(dipendenteController.ricercaClienti(nomeRicerca, cognomeRicerca, usernameRicerca,
                         saldoMin, saldoMax, percMin, percMax, partiteMin, partiteMax, sospettoRicerca, banRicerca,
                         checkSaldo, checkPartite, checkPercentuale));
             }
@@ -310,7 +309,7 @@ public class MainMenuAdmin {
             public void actionPerformed(ActionEvent e) {
                 modelloListaClienti.clear();
                 try {
-                    modelloListaClienti.addAll(controller.getListaClientiDB());
+                    modelloListaClienti.addAll(dipendenteController.getListaClientiDB());
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
                 }
@@ -427,7 +426,7 @@ public class MainMenuAdmin {
         aggiungiDipendenti.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new RegistrationDipendente(thisFrame, controller);
+                new RegistrationDipendente(thisFrame, dipendenteController);
 
             }
         });
@@ -446,7 +445,7 @@ public class MainMenuAdmin {
                     textAreaInfoDipendenti.setText(null);
                 }
 
-                if(controller.isDealer(temp)) aggiungiGiocoButton.setVisible(true);
+                if(dipendenteController.isDealer(temp)) aggiungiGiocoButton.setVisible(true);
                 else aggiungiGiocoButton.setVisible(false);
             }
         });
@@ -458,7 +457,7 @@ public class MainMenuAdmin {
             public void actionPerformed(ActionEvent e) {;
                 modelloListaDipendente.clear();
                 try {
-                    modelloListaDipendente.addAll(controller.getDipendentiDB());
+                    modelloListaDipendente.addAll(dipendenteController.getDipendentiDB());
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
                 }
@@ -478,7 +477,7 @@ public class MainMenuAdmin {
                     ruoloSelezionato =(dealerRadioButton.isSelected() ? "Dealer" : "Supervisore");
                 }
                 modelloListaDipendente.clear();
-                modelloListaDipendente.addAll(controller.ricercaDipendente(nome,cognome, username, checkRuolo, ruoloSelezionato));
+                modelloListaDipendente.addAll(dipendenteController.ricercaDipendente(nome,cognome, username, checkRuolo, ruoloSelezionato));
             }
         });
 
@@ -509,9 +508,9 @@ public class MainMenuAdmin {
                             String password = new String(passwordField.getPassword());
 
                             // Controlla la password
-                            if(password.equals(controller.getCurrentUser().getPassword())) {
+                            if(password.equals(dipendenteController.getCurrentUser().getPassword())) {
                                 try {
-                                    controller.licenziaDipendente(temp);
+                                    dipendenteController.licenziaDipendente(temp);
                                 } catch (SQLException ex) {
                                     JOptionPane.showMessageDialog(null, ex.getMessage(),
                                             "errore", JOptionPane.ERROR_MESSAGE);
@@ -526,7 +525,7 @@ public class MainMenuAdmin {
                             }
                         }
                     }else{
-                        if(controller.getCurrentUser().getUsername().equals("root")){
+                        if(dipendenteController.getCurrentUser().getUsername().equals("root")){
                             if(!temp.getUsername().equals("root")) {
                                 JPasswordField passwordField = new JPasswordField();
 
@@ -547,9 +546,9 @@ public class MainMenuAdmin {
                                     String password = new String(passwordField.getPassword());
 
                                     // Controlla la password
-                                    if (password.equals(controller.getCurrentUser().getPassword())) {
+                                    if (password.equals(dipendenteController.getCurrentUser().getPassword())) {
                                         try {
-                                            controller.licenziaDipendente(temp);
+                                            dipendenteController.licenziaDipendente(temp);
                                         } catch (SQLException ex) {
                                             JOptionPane.showMessageDialog(null, ex.getMessage(),
                                                     "errore", JOptionPane.ERROR_MESSAGE);
@@ -571,7 +570,7 @@ public class MainMenuAdmin {
                         }
                     }
                     modelloListaDipendente.clear();
-                    modelloListaDipendente.addAll(controller.getDipendentiInLocale());
+                    modelloListaDipendente.addAll(dipendenteController.getDipendentiInLocale());
                 } else {
                     JOptionPane.showMessageDialog(null,"Nessun dipendente selezionato","Errore",JOptionPane.ERROR_MESSAGE);
                 }
@@ -580,7 +579,7 @@ public class MainMenuAdmin {
         aggiungiGiocoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new AggiungiGiocoDealer(controller, thisFrame, (Dealer) listaDipendenti.getSelectedValue());
+                new AggiungiGiocoDealer(dipendenteController, thisFrame, (Dealer) listaDipendenti.getSelectedValue());
             }
         });
 
@@ -612,7 +611,7 @@ public class MainMenuAdmin {
             public void actionPerformed(ActionEvent e) {
                 modelloListaTavoli.clear();
                 try {
-                    modelloListaTavoli.addAll(controller.getTavoliDB());
+                    modelloListaTavoli.addAll(dipendenteController.getTavoliDB());
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
                 }
@@ -631,7 +630,7 @@ public class MainMenuAdmin {
                 }
 
                 modelloListaTavoli.clear();
-                modelloListaTavoli.addAll(controller.ricercaTavolo(selezione));
+                modelloListaTavoli.addAll(dipendenteController.ricercaTavolo(selezione));
             }
         });
 
@@ -675,7 +674,7 @@ public class MainMenuAdmin {
                     if(input == JOptionPane.YES_OPTION)
                     {
                         try {
-                            controller.modficaGiocoTavolo(temp.getIdTavolo(), Gioco.Poker);
+                            dipendenteController.modficaGiocoTavolo(temp.getIdTavolo(), Gioco.Poker);
                         } catch (SQLException ex) {
                             JOptionPane.showMessageDialog(null, ex.getMessage(),
                                     "errore", JOptionPane.ERROR_MESSAGE);
@@ -683,7 +682,7 @@ public class MainMenuAdmin {
 
                         modelloListaTavoli.clear();
                         try {
-                            modelloListaTavoli.addAll(controller.getTavoliDB());
+                            modelloListaTavoli.addAll(dipendenteController.getTavoliDB());
                         } catch (SQLException ex) {
                             JOptionPane.showMessageDialog(null, ex.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
                         }
@@ -697,7 +696,7 @@ public class MainMenuAdmin {
                     if(input == JOptionPane.YES_OPTION)
                     {
                         try {
-                            controller.modficaGiocoTavolo(temp.getIdTavolo(), Gioco.Blackjack);
+                            dipendenteController.modficaGiocoTavolo(temp.getIdTavolo(), Gioco.Blackjack);
                         } catch (SQLException ex) {
                             JOptionPane.showMessageDialog(null, ex.getMessage(),
                                     "errore", JOptionPane.ERROR_MESSAGE);
@@ -705,7 +704,7 @@ public class MainMenuAdmin {
 
                         modelloListaTavoli.clear();
                         try {
-                            modelloListaTavoli.addAll(controller.getTavoliDB());
+                            modelloListaTavoli.addAll(dipendenteController.getTavoliDB());
                         } catch (SQLException ex) {
                             JOptionPane.showMessageDialog(null, ex.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
                         }
@@ -720,8 +719,8 @@ public class MainMenuAdmin {
                 if(listaTavoli.getSelectedValue() != null)
                 {
                     thisFrame.setVisible(false);
-                    new AssegnaDipendentiTavolo(controller, thisFrame,
-                            controller.getIndexOfTavolo((Tavolo) listaTavoli.getSelectedValue()), false);
+                    new AssegnaDipendentiTavolo(dipendenteController, thisFrame,
+                            dipendenteController.getIndexOfTavolo((Tavolo) listaTavoli.getSelectedValue()), false);
                 }
                 else JOptionPane.showMessageDialog(null, "nessun tavolo selezionato",
                         "errore", JOptionPane.ERROR_MESSAGE);
@@ -735,8 +734,8 @@ public class MainMenuAdmin {
                 if(listaTavoli.getSelectedValue() != null)
                 {
                     thisFrame.setVisible(false);
-                    new AssegnaDipendentiTavolo(controller, thisFrame,
-                            controller.getIndexOfTavolo((Tavolo) listaTavoli.getSelectedValue()), true);
+                    new AssegnaDipendentiTavolo(dipendenteController, thisFrame,
+                            dipendenteController.getIndexOfTavolo((Tavolo) listaTavoli.getSelectedValue()), true);
                 }
                 else JOptionPane.showMessageDialog(null, "nessun tavolo selezionato",
                         "errore", JOptionPane.ERROR_MESSAGE);
@@ -749,7 +748,7 @@ public class MainMenuAdmin {
             @Override
             public void actionPerformed(ActionEvent e) {
                 thisFrame.setVisible(false);
-                new CreaTavolo(controller, thisFrame, modelloListaTavoli);
+                new CreaTavolo(dipendenteController, thisFrame, modelloListaTavoli);
             }
         });
 
@@ -765,14 +764,14 @@ public class MainMenuAdmin {
                     if(input == JOptionPane.NO_OPTION || input == JOptionPane.CANCEL_OPTION) return;
 
                     try {
-                        controller.cancellaTavolo(temp);
+                        dipendenteController.cancellaTavolo(temp);
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(null, ex.getMessage(),
                                 "errore", JOptionPane.ERROR_MESSAGE);
                     }
 
                     modelloListaTavoli.clear();
-                    modelloListaTavoli.addAll(controller.getTavoliInLocale());
+                    modelloListaTavoli.addAll(dipendenteController.getTavoliInLocale());
                 }
                 else JOptionPane.showMessageDialog(null, "nessun tavolo selezionato",
                         "errore", JOptionPane.ERROR_MESSAGE);
@@ -861,8 +860,8 @@ public class MainMenuAdmin {
     }
 
     private void aggiornaUsername(){
-        userFieldAdmin.setText(controller.getUserUtente() + "\t");
-        userFieldAdmin.setText(controller.getUserUtente() + "\t");
+        userFieldAdmin.setText(dipendenteController.getUserUtente() + "\t");
+        userFieldAdmin.setText(dipendenteController.getUserUtente() + "\t");
     }
 
     private void logoutAdmin(){
@@ -875,7 +874,6 @@ public class MainMenuAdmin {
         );
 
         if (risposta == JOptionPane.YES_OPTION) {
-            controller.setCurrentUserNull();
             thisFrame.setVisible(false);
             frameChiamante.setVisible(true);
             thisFrame.dispose();

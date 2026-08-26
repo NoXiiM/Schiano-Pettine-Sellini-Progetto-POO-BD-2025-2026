@@ -82,4 +82,17 @@ public class ImpDAOopc implements DAOopc
             cancellazione.executeUpdate();
         }
     }
+
+    @Override
+    public void updateSospetto(String username) throws SQLException
+    {
+        Connection connection = ConnessioneDatabase.getInstance().connection;
+        try(PreparedStatement updateSospetto = connection.prepareStatement("UPDATE cliente SET sospetto = true " +
+                "where username = ?"))
+        {
+            updateSospetto.setString(1, username);
+
+            updateSospetto.executeUpdate();
+        }
+    }
 }

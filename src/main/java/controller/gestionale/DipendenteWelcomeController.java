@@ -1,6 +1,7 @@
 package controller.gestionale;
 
 import database.implementazioneDAO.ImpDAOop;
+import database.implementazioneDAO.ImpDAOopc;
 import database.implementazioneDAO.ImpDAOopd;
 import model.gestionale.Gioco;
 import model.gestionale.Sessione;
@@ -15,6 +16,7 @@ import java.sql.SQLException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DipendenteWelcomeController extends WelcomeController {
 
@@ -348,7 +350,8 @@ public class DipendenteWelcomeController extends WelcomeController {
         return sessioni;
     }
 
-    public ArrayList<Sessione> visualizzaSessioniTavolo(int[] identificativoTavoloDaPrendere) throws SQLException
+    public ArrayList<Sessione> visualizzaSessioniTavolo(int[] identificativoTavoloDaPrendere, HashMap<String,Boolean> userSuspect,
+                                                        HashMap<Integer,String> userSessione) throws SQLException
     {
         ArrayList<Sessione> sessioni = new ArrayList<>();
 
@@ -366,9 +369,12 @@ public class DipendenteWelcomeController extends WelcomeController {
         db.ottieniSessioniDiTavolo(idSessione, dipendenteCorrente.getIdentificativoDipendente(), idTavolo, durata,
                 vincitaPercentuale, partiteSvolte, username, sospetto);
 
+        userSuspect.clear();
         for(int i = 0; i < idSessione.size(); i++) {
             sessioni.add(new Sessione(idSessione.get(i), idTavolo.get(i), durata.get(i),
                     vincitaPercentuale.get(i), partiteSvolte.get(i)));
+            userSuspect.put(username.get(i),sospetto.get(i));
+            userSessione.put(idSessione.get(i),username.get(i));
         }
 
         if(identificativoTavoloDaPrendere != null && !idSessione.isEmpty())
@@ -554,5 +560,50 @@ public class DipendenteWelcomeController extends WelcomeController {
         new ImpDAOopd().eliminaTavolo(tavolo.getIdTavolo());
 
         tavoliInLocale.remove(tavolo);
+    }
+    public ArrayList<Sessione>ricercaSessioni(String usernameRicerca, boolean controllaUsername, int percMin, int percMax,
+                                              boolean controllaPercentuale, int durMin, int durMax, boolean controllaDurata,
+                                              int partMin,int partMax,boolean controllaPartite){
+
+        ArrayList<Sessione> sessioniLocali = new ArrayList<>();
+        ArrayList<Sessione> sessioniRicercate = new ArrayList<>();
+        HashMap<String,Boolean> userSuspect = new HashMap();
+        HashMap<Integer,String> userSessioni = new HashMap<>();
+
+        try {
+            sessioniLocali.addAll(visualizzaSessioniTavolo(null,userSuspect,userSessioni));
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "errore",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+
+        for(Sessione temp : sessioniLocali) {
+
+            if (controllaUsername && !usernameRicerca.isBlank()) {
+                if (!usernameRicerca.equals(userSessioni.get(temp.getIdSessione()))) continue;
+            }
+
+            if(controllaPercentuale){
+                if(!(temp.getVincitaPercentuale() >= percMin && temp.getVincitaPercentuale() <= percMax)) continue;
+            }
+
+            if(controllaDurata){
+                if(!(temp.getDurataSessione().getSeconds() >= durMin && temp.getDurataSessione().getSeconds() <= durMax)) continue;
+            }
+
+            if(controllaPartite){
+                if(!(temp.getPartiteSvolte() >= partMin &&temp.getPartiteSvolte() <= partMax)) continue;
+            }
+
+
+            sessioniRicercate.add(temp);
+            }
+
+
+        return sessioniRicercate;
+    }
+    public void updateSospetto(String username)throws SQLException{
+        ImpDAOopc db = new ImpDAOopc();
+        db.updateSospetto(username);
     }
 }

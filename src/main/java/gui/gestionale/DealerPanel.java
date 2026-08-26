@@ -1,15 +1,20 @@
 package gui.gestionale;
 
 import controller.gestionale.DipendenteWelcomeController;
+import database.implementazioneDAO.ImpDAOopc;
+import database.implementazioneDAO.ImpDAOopd;
 import model.gestionale.Sessione;
 import model.gestionale.utenteEFigli.Cliente;
 import model.gestionale.utenteEFigli.Dipendente;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DealerPanel {
     private JPanel dealer;
@@ -97,8 +102,12 @@ public class DealerPanel {
 
         int[] idTavoloAssociato = new int[1];
         idTavoloAssociato[0] = -1;
+
+        HashMap<String,Boolean> userSuspect = new HashMap<>();
+        HashMap<Integer,String>  userSessione = new HashMap<>();
+
         try {
-            modelloListaSessioni.addAll(controller.visualizzaSessioniTavolo(idTavoloAssociato));
+            modelloListaSessioni.addAll(controller.visualizzaSessioniTavolo(idTavoloAssociato,userSuspect,userSessione));
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
         }
@@ -210,11 +219,94 @@ public class DealerPanel {
             public void actionPerformed(ActionEvent e) {
                 modelloListaSessioni.clear();
                 try {
-                    modelloListaSessioni.addAll(controller.visualizzaSessioniTavolo(null));
+                    modelloListaSessioni.addAll(controller.visualizzaSessioniTavolo(null,userSuspect,userSessione));
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "errore",
                             JOptionPane.ERROR_MESSAGE);
                 }
+            }
+        });
+        listaSessioni.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                Sessione temp= (Sessione) listaSessioni.getSelectedValue();
+                if(temp != null){
+                    textAreaSessioni.setText("Sessione: "+temp.getIdSessione()+
+                                            "\nUtente: "+userSessione.get(temp.getIdSessione())+
+                                            "\nSospetto: "+(userSuspect.get(userSessione.get(temp.getIdSessione())) ? "Si" : "No")+
+                                            "\nDurata sessione: "+temp.getDurataSessione().getSeconds()+ " secondi"+
+                                            "\nPartite svolte: "+temp.getPartiteSvolte()+
+                                            "\nPercentuale vittoria: "+temp.getVincitaPercentuale());
+                }
+                else
+                {
+                    textAreaSessioni.setText(null);
+                }
+            }
+        });
+        cercaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                String usernameRicerca = textFieldUsername.getText();
+                boolean controllaUsername = controllaUsernameCheckBox.isSelected();
+
+                int percMin= (int) spinnerPercMin.getValue();
+                int percMax = (int) spinnerPercMax.getValue();
+                boolean controllaPercentuale = controllaPercentualeCheckBox.isSelected();
+
+                int durMin= (int) spinnerDurMin.getValue();
+                int durMax= (int) spinnerDurMax.getValue();
+                boolean controllaDurata = controllaDurataCheckBox.isSelected();
+
+                int partMin = (int) spinnerParMin.getValue();
+                int partMax = (int) spinnerParMax.getValue();
+                boolean controllaPartite = controllaPartiteCheckBox.isSelected();
+
+                modelloListaSessioni.clear();
+                modelloListaSessioni.addAll(controller.ricercaSessioni(usernameRicerca, controllaUsername, percMin, percMax,
+                                                                        controllaPercentuale, durMin, durMax,
+                                                                        controllaDurata,partMin,partMax,controllaPartite));
+            }
+        });
+        attivaSospettoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Sessione temp = (Sessione) listaSessioni.getSelectedValue();
+
+                if(temp != null) {
+                    if(!userSuspect.get(userSessione.get(temp.getIdSessione()))) {
+                        int input = JOptionPane.showConfirmDialog(null, "Sei sicuro di voler flaggare questo Utente come sospetto?");
+                        if (input == JOptionPane.YES_OPTION) {
+
+
+
+                            try {
+                                controller.updateSospetto(userSessione.get(temp.getIdSessione()));
+                                JOptionPane.showMessageDialog(null, "sospetto aggiornato con successo");
+                            } catch (SQLException ex) {
+                                JOptionPane.showMessageDialog(null, "errore nell'impostare il sospetto",
+                                        "errore", JOptionPane.ERROR_MESSAGE);
+                            }
+
+                            modelloListaSessioni.clear();
+                            try {
+                                modelloListaSessioni.addAll(controller.visualizzaSessioniTavolo(null,userSuspect,userSessione));
+                            } catch (SQLException ex) {
+                                JOptionPane.showMessageDialog(null, ex.getMessage(), "errore",
+                                        JOptionPane.ERROR_MESSAGE);
+                            }
+
+
+                        }
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Utente già sospetto", "Errore", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "Sessione non selezionata", "Errore", JOptionPane.ERROR_MESSAGE);
+                }
+
             }
         });
     }

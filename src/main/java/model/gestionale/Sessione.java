@@ -148,4 +148,8 @@ public class Sessione
     public int getIdTavolo() {
         return idTavolo;
     }
+
+    public int getIdSessione() {
+        return idSessione;
+    }
 }

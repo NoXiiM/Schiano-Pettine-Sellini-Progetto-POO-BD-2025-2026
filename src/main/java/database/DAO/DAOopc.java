@@ -28,4 +28,6 @@ public interface DAOopc
 
     //OPC5
     void cancellaCliente(String codiceTessera) throws SQLException;
+
+    void updateSospetto(String username) throws SQLException;
 }

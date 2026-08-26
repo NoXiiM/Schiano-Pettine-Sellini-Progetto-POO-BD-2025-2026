@@ -1,7 +1,6 @@
 package gui.gestionale;
 
 import controller.gestionale.DipendenteWelcomeController;
-import controller.gestionale.WelcomeController;
 import database.implementazioneDAO.ImpDAOopd;
 import model.gestionale.Gioco;
 import model.gestionale.Tavolo;
@@ -207,7 +206,7 @@ public class MainMenuAdmin {
                 if(temp != null)
                 {
                     try {
-                        new VisualizzatoreSessioni(dipendenteController.visualizzaSessioni(temp.getCodiceTesseraGiocatore()),
+                        new VisualizzatoreSessioni(dipendenteController.visualizzaSessioniCliente(temp.getCodiceTesseraGiocatore()),
                                 ((Cliente) listaClienti.getSelectedValue()).getUsername());
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(null, ex.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
@@ -823,11 +822,11 @@ public class MainMenuAdmin {
         spinnerPercMin.setModel(new SpinnerNumberModel(0, 0, 100, 1));
         spinnerPercMax.setModel(new SpinnerNumberModel(0, 0, 100, 1));
 
-        spinnerSaldoMin.setModel(new SpinnerNumberModel(0, -10000, 10000, 1));
-        spinnerSaldoMax.setModel(new SpinnerNumberModel(0, -10000, 10000, 1));
+        spinnerSaldoMin.setModel(new SpinnerNumberModel(0, 0, null, 1));
+        spinnerSaldoMax.setModel(new SpinnerNumberModel(0, 0, null, 1));
 
-        spinnerPartMin.setModel(new SpinnerNumberModel(0, 0, 10000, 1));
-        spinnerPartMax.setModel(new SpinnerNumberModel(0, 0, 10000, 1));
+        spinnerPartMin.setModel(new SpinnerNumberModel(0, 0, null, 1));
+        spinnerPartMax.setModel(new SpinnerNumberModel(0, 0, null, 1));
 
         aggiungiGiocoButton.setVisible(false);
 

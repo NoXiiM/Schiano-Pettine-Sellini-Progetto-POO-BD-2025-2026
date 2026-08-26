@@ -19,7 +19,7 @@
         </properties>
         <border type="none"/>
         <children>
-          <grid id="c801d" layout-manager="GridLayoutManager" row-count="4" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="c801d" layout-manager="GridLayoutManager" row-count="4" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <tabbedpane title="Gestione Sessioni"/>
@@ -83,7 +83,7 @@
               </component>
               <component id="d3feb" class="javax.swing.JButton" binding="cercaButton" default-binding="true">
                 <constraints>
-                  <grid row="2" column="2" row-span="2" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <grid row="2" column="2" row-span="2" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <background color="-12772720"/>
@@ -127,18 +127,18 @@
               </component>
               <component id="b2dd2" class="javax.swing.JLabel" binding="usernameSessionePanel">
                 <constraints>
-                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <font style="1"/>
                   <foreground color="-2039584"/>
-                  <text value="Label"/>
+                  <text value=""/>
                 </properties>
               </component>
               <grid id="4fc60" binding="ricercaPanel" layout-manager="GridLayoutManager" row-count="4" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
-                  <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="2" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <background color="-15923680"/>
@@ -200,7 +200,7 @@
                       <background color="-15923680"/>
                       <font style="1"/>
                       <foreground color="-10496"/>
-                      <text value="Filtra per durata"/>
+                      <text value="Filtra per durata (secondi)"/>
                     </properties>
                   </component>
                   <component id="827e5" class="javax.swing.JLabel" binding="durataTotaleTextMin">
@@ -275,7 +275,7 @@
                     <properties>
                       <font style="1"/>
                       <foreground color="-10496"/>
-                      <text value="Percentuale massima:"/>
+                      <text value="Partite massime:"/>
                     </properties>
                   </component>
                   <component id="cb9dc" class="javax.swing.JSpinner" binding="spinnerParMax">
@@ -299,7 +299,7 @@
                   </component>
                   <component id="db884" class="javax.swing.JTextField" binding="textFieldUsername">
                     <constraints>
-                      <grid row="3" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                      <grid row="3" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                         <preferred-size width="150" height="-1"/>
                       </grid>
                     </constraints>
@@ -320,6 +320,15 @@
                   </component>
                 </children>
               </grid>
+              <component id="29b0c" class="javax.swing.JLabel" binding="tavoloAssociatoLabel">
+                <constraints>
+                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <foreground color="-6935"/>
+                  <text value=""/>
+                </properties>
+              </component>
             </children>
           </grid>
           <grid id="4cffb" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">

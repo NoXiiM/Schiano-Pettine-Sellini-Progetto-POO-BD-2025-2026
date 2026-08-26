@@ -144,4 +144,8 @@ public class Sessione
                 String.format("%02d", durataSessione.toMinutes()) + ":" + String.format("%02d", durataSessione.toSeconds()) +
                 "\nvincita percentuale: " + vincitaPercentuale + "\npartite svolte " + partiteSvolte;
     }
+
+    public int getIdTavolo() {
+        return idTavolo;
+    }
 }

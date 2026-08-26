@@ -59,5 +59,8 @@ public interface DAOopd {
 
     void cambioUsername(String vecchioCodiceTessera, String username, String nuovoCodiceTessera) throws SQLException;
 
-
+    void ottieniSessioniDiTavolo(ArrayList<Integer> idSessione, String idDealer, ArrayList<Integer> idTavolo,
+                                 ArrayList<Duration> durata, ArrayList<Double> vincitaPercentuale,
+                                 ArrayList<Integer> partiteSvolte, ArrayList<String> username,
+                                 ArrayList<Boolean> sospetto) throws SQLException;
 }

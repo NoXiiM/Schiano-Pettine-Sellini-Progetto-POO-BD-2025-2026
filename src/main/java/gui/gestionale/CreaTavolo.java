@@ -90,10 +90,16 @@ public class CreaTavolo {
                         return;
                     }
 
-                    if(controller.idGiaPreso(numero))
-                    {
-                        JOptionPane.showMessageDialog(null, "codice assegnato già ad un altro" +
-                                "tavolo", "errore", JOptionPane.ERROR_MESSAGE);
+                    try {
+                        if(controller.idGiaPreso(numero))
+                        {
+                            JOptionPane.showMessageDialog(null, "codice assegnato già ad un altro" +
+                                    "tavolo", "errore", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+                    } catch (RuntimeException ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage(), "errore",
+                                JOptionPane.ERROR_MESSAGE);
                         return;
                     }
 

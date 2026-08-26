@@ -1,10 +1,14 @@
 package gui.gestionale;
 
 import controller.gestionale.DipendenteWelcomeController;
+import model.gestionale.Sessione;
+import model.gestionale.utenteEFigli.Cliente;
+import model.gestionale.utenteEFigli.Dipendente;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class DealerPanel {
@@ -42,9 +46,11 @@ public class DealerPanel {
     private JTextField textFieldUsername;
     private JLabel usernameText;
     private JCheckBox controllaUsernameCheckBox;
+    private JLabel tavoloAssociatoLabel;
 
     private DipendenteWelcomeController controller;
 
+    private static DefaultListModel<Sessione> modelloListaSessioni;
 
     public DealerPanel(DipendenteWelcomeController controller, JFrame frameChiamante)
     {
@@ -79,6 +85,25 @@ public class DealerPanel {
 
         usernameText.setVisible(false);
         textFieldUsername.setVisible(false);
+
+        spinnerPercMin.setModel(new SpinnerNumberModel(0, 0, 100, 1));
+        spinnerPercMax.setModel(new SpinnerNumberModel(0, 0, 100, 1));
+        spinnerDurMin.setModel(new SpinnerNumberModel(0, 0, null, 1));
+        spinnerDurMax.setModel(new SpinnerNumberModel(0, 0, null, 1));
+        spinnerParMin.setModel(new SpinnerNumberModel(0, 0, null, 1));
+        spinnerParMax.setModel(new SpinnerNumberModel(0, 0, null, 1));
+
+        modelloListaSessioni = new DefaultListModel<>();
+
+        int[] idTavoloAssociato = new int[1];
+        idTavoloAssociato[0] = -1;
+        try {
+            modelloListaSessioni.addAll(controller.visualizzaSessioniTavolo(idTavoloAssociato));
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
+        }
+        listaSessioni.setModel(modelloListaSessioni);
+        tavoloAssociatoLabel.setText("tavolo a cui lavori: " + (idTavoloAssociato[0] == -1 ? "nessuno" : idTavoloAssociato[0]));
 
         logoutButton.addActionListener(new ActionListener() {
             @Override
@@ -178,6 +203,18 @@ public class DealerPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new ForgotPassword(controller, thisFrame);
+            }
+        });
+        aggiornaListaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                modelloListaSessioni.clear();
+                try {
+                    modelloListaSessioni.addAll(controller.visualizzaSessioniTavolo(null));
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "errore",
+                            JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
     }

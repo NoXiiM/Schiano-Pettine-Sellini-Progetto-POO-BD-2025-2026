@@ -325,7 +325,7 @@ public class DipendenteWelcomeController extends WelcomeController {
         db.aggiungiGiocoDealer(dealerSelezionato.getIdentificativoDipendente(), giochi);
     }
 
-    public ArrayList<Sessione> visualizzaSessioni(String idCliente) throws SQLException
+    public ArrayList<Sessione> visualizzaSessioniCliente(String idCliente) throws SQLException
     {
         ArrayList<Sessione> sessioni = new ArrayList<>();
 
@@ -344,6 +344,35 @@ public class DipendenteWelcomeController extends WelcomeController {
             sessioni.add(new Sessione(idSessione.get(i), idTavolo.get(i), durata.get(i),
                     vincitaPercentuale.get(i), partiteSvolte.get(i)));
         }
+
+        return sessioni;
+    }
+
+    public ArrayList<Sessione> visualizzaSessioniTavolo(int[] identificativoTavoloDaPrendere) throws SQLException
+    {
+        ArrayList<Sessione> sessioni = new ArrayList<>();
+
+        ArrayList<Integer> idSessione = new ArrayList<>();
+        ArrayList<Integer> idTavolo = new ArrayList<>();
+        ArrayList<Duration> durata = new ArrayList<>();
+        ArrayList<Double> vincitaPercentuale = new ArrayList<>();
+        ArrayList<Integer> partiteSvolte = new ArrayList<>();
+
+        ArrayList<String> username = new ArrayList<>();
+        ArrayList<Boolean> sospetto = new ArrayList<>();
+
+        ImpDAOopd db = new ImpDAOopd();
+
+        db.ottieniSessioniDiTavolo(idSessione, dipendenteCorrente.getIdentificativoDipendente(), idTavolo, durata,
+                vincitaPercentuale, partiteSvolte, username, sospetto);
+
+        for(int i = 0; i < idSessione.size(); i++) {
+            sessioni.add(new Sessione(idSessione.get(i), idTavolo.get(i), durata.get(i),
+                    vincitaPercentuale.get(i), partiteSvolte.get(i)));
+        }
+
+        if(identificativoTavoloDaPrendere != null && !idSessione.isEmpty())
+            identificativoTavoloDaPrendere[0] = sessioni.getFirst().getIdTavolo();
 
         return sessioni;
     }
@@ -501,8 +530,10 @@ public class DipendenteWelcomeController extends WelcomeController {
         db.eliminaSupervisoreTavolo(idTavoloAtIndex(indiceTavolo), idSupervisore);
     }
 
-    public boolean idGiaPreso(int id)
+    public boolean idGiaPreso(int id) throws RuntimeException
     {
+        if(id < 0) throw new RuntimeException("l'id del tavolo non può essere minore di 0");
+
         for(Tavolo i : tavoliInLocale)
         {
             if(id == i.getIdTavolo()) return true;

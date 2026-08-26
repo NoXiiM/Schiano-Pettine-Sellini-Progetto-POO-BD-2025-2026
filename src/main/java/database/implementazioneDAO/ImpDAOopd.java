@@ -393,4 +393,38 @@ public class ImpDAOopd implements DAOopd {
             inserimento.executeUpdate();
         }
     }
+
+    @Override
+    public void ottieniSessioniDiTavolo(ArrayList<Integer> idSessione, String idDealer, ArrayList<Integer> idTavolo,
+                                         ArrayList<Duration> durata, ArrayList<Double> vincitaPercentuale,
+                                         ArrayList<Integer> partiteSvolte, ArrayList<String> username,
+                                        ArrayList<Boolean> sospetto) throws SQLException
+    {
+        Connection connection = ConnessioneDatabase.getInstance().connection;
+
+        try(PreparedStatement query = connection.prepareStatement("select s.idSessione, s.idTavolo, s.durata, " +
+                "s.vincitaPercentuale, s.partiteSvolte, c.username, c.sospetto " +
+                "from Sessione as s " +
+                "join tavolo as t on s.idTavolo = t.numero " +
+                "join Cliente as c on c.idCliente = s.idCliente " +
+                "where t.idDealer = ?"))
+        {
+            query.setString(1, idDealer);
+
+            try(ResultSet rs = query.executeQuery())
+            {
+                while(rs.next())
+                {
+                    idSessione.add(rs.getInt("idSessione"));
+                    idTavolo.add(rs.getInt("idTavolo"));
+                    durata.add(Duration.ofSeconds(rs.getInt("durata")));
+                    vincitaPercentuale.add(rs.getDouble("vincitaPercentuale"));
+                    partiteSvolte.add(rs.getInt("partiteSvolte"));
+
+                    username.add(rs.getString("username"));
+                    sospetto.add(rs.getBoolean("sospetto"));
+                }
+            }
+        }
+    }
 }

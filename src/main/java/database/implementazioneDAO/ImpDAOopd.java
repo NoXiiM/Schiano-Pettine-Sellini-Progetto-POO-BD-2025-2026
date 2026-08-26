@@ -316,7 +316,8 @@ public class ImpDAOopd implements DAOopd {
 
         try(PreparedStatement query = connection.prepareStatement("select * " +
                 "from Sessione " +
-                "where idCliente = ?"))
+                "where idCliente = ? " +
+                "order by idSessione desc"))
         {
             query.setString(1, idCliente);
 
@@ -407,7 +408,8 @@ public class ImpDAOopd implements DAOopd {
                 "from Sessione as s " +
                 "join tavolo as t on s.idTavolo = t.numero " +
                 "join Cliente as c on c.idCliente = s.idCliente " +
-                "where t.idDealer = ?"))
+                "where t.idDealer = ? " +
+                "order by idSessione desc"))
         {
             query.setString(1, idDealer);
 

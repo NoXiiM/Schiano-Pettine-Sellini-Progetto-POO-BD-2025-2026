@@ -21,4 +21,13 @@ public abstract class Dipendente extends Utente
     public void setIdentificativoDipendente(String identificativoDipendente) {
         this.identificativoDipendente = identificativoDipendente;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Dipendente dip)
+        {
+            return dip.identificativoDipendente.equals(identificativoDipendente);
+        }
+        else return false;
+    }
 }

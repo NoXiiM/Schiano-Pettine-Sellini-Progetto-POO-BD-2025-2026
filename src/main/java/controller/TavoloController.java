@@ -1,5 +1,6 @@
 package controller;
 
+import database.implementazioneDAO.ImpDAOopc;
 import database.implementazioneDAO.ImpDAOopd;
 import model.gestionale.Gioco;
 import model.gestionale.Tavolo;
@@ -19,7 +20,7 @@ public class TavoloController
 
     public void popolaBlackJack() throws SQLException
     {
-        ImpDAOopd db = new ImpDAOopd();
+        ImpDAOopc db = new ImpDAOopc();
 
         ArrayList<Integer> idTavoli = new ArrayList<>();
         ArrayList<Integer> numeroPosti = new ArrayList<>();
@@ -39,7 +40,7 @@ public class TavoloController
 
     public void popolaSlotMachine() throws SQLException
     {
-        ImpDAOopd db = new ImpDAOopd();
+        ImpDAOopc db = new ImpDAOopc();
 
         ArrayList<Integer> idTavoli = new ArrayList<>();
         ArrayList<Integer> numeroPosti = new ArrayList<>();
@@ -62,7 +63,7 @@ public class TavoloController
 
     public void popolaPoker() throws SQLException
     {
-        ImpDAOopd db = new ImpDAOopd();
+        ImpDAOopc db = new ImpDAOopc();
 
         ArrayList<Integer> idTavoli = new ArrayList<>();
         ArrayList<Integer> numeroPosti = new ArrayList<>();

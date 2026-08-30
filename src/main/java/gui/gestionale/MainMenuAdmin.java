@@ -483,6 +483,7 @@ public class MainMenuAdmin {
         licenziaDipendenti.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                listaTavoli.clearSelection();
 
                 Dipendente temp = (Dipendente) listaDipendenti.getSelectedValue();
 

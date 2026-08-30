@@ -12,6 +12,9 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+/**
+ * Implementazione delle funzioni per dipendenti (DAOopd)
+ */
 public class ImpDAOopd implements DAOopd {
     @Override
     public void recuperaDatiClienti(ArrayList<String> username, ArrayList<String> nome, ArrayList<String> cognome,
@@ -189,30 +192,6 @@ public class ImpDAOopd implements DAOopd {
     }
 
     @Override
-    public void caricaTavoliGioco(Gioco gioco, ArrayList<Integer> idTavolo, ArrayList<Integer> numeroPosti,
-                                  ArrayList<String> idDealer) throws SQLException
-    {
-        Connection connection = ConnessioneDatabase.getInstance().connection;
-
-        try(PreparedStatement query = connection.prepareStatement("select * " +
-                "from tavolo as t " +
-                "where gioco = ?"))
-        {
-            query.setString(1, gioco.name());
-
-            try(ResultSet rs = query.executeQuery())
-            {
-                while (rs.next())
-                {
-                    idTavolo.add(rs.getInt("numero"));
-                    numeroPosti.add(rs.getInt("numeroPosti"));
-                    idDealer.add(rs.getString("idDealer"));
-                }
-            }
-        }
-    }
-
-    @Override
     public void salvataggioBan(String idCliente,LocalDate dataDiBan, String motiviBan) throws SQLException
     {
         Connection connection = ConnessioneDatabase.getInstance().connection;
@@ -243,17 +222,16 @@ public class ImpDAOopd implements DAOopd {
     }
 
     @Override
-    public void aggiungiTavolo(int idTavolo, String gioco, int numeroPosti, String idDealer) throws SQLException
+    public void aggiungiTavolo(int idTavolo, String gioco, int numeroPosti) throws SQLException
     {
         Connection connection = ConnessioneDatabase.getInstance().connection;
 
         try(PreparedStatement inserimento = connection.prepareStatement("insert into tavolo " +
-                "values(?,?,?,?)"))
+                "values(?,?,?, null)"))
         {
             inserimento.setInt(1, idTavolo);
             inserimento.setString(2, gioco);
             inserimento.setInt(3, numeroPosti);
-            inserimento.setString(4, idDealer);
 
             inserimento.executeUpdate();
         }
@@ -429,4 +407,18 @@ public class ImpDAOopd implements DAOopd {
             }
         }
     }
+
+    @Override
+    public void updateSospetto(String username) throws SQLException
+    {
+        Connection connection = ConnessioneDatabase.getInstance().connection;
+        try(PreparedStatement updateSospetto = connection.prepareStatement("UPDATE cliente SET sospetto = true " +
+                "where username = ?"))
+        {
+            updateSospetto.setString(1, username);
+
+            updateSospetto.executeUpdate();
+        }
+    }
+
 }

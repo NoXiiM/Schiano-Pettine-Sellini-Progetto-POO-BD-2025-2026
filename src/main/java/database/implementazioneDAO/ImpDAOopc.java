@@ -2,10 +2,15 @@ package database.implementazioneDAO;
 
 import database.ConnessioneDatabase;
 import database.DAO.DAOopc;
+import model.gestionale.Gioco;
 
 import java.sql.*;
 import java.time.Duration;
+import java.util.ArrayList;
 
+/**
+ * Implementazione delle funzioni per Clienti (DAOopc)
+ */
 public class ImpDAOopc implements DAOopc
 {
     @Override
@@ -84,15 +89,26 @@ public class ImpDAOopc implements DAOopc
     }
 
     @Override
-    public void updateSospetto(String username) throws SQLException
+    public void caricaTavoliGioco(Gioco gioco, ArrayList<Integer> idTavolo, ArrayList<Integer> numeroPosti,
+                                  ArrayList<String> idDealer) throws SQLException
     {
         Connection connection = ConnessioneDatabase.getInstance().connection;
-        try(PreparedStatement updateSospetto = connection.prepareStatement("UPDATE cliente SET sospetto = true " +
-                "where username = ?"))
-        {
-            updateSospetto.setString(1, username);
 
-            updateSospetto.executeUpdate();
+        try(PreparedStatement query = connection.prepareStatement("select * " +
+                "from tavolo as t " +
+                "where gioco = ?"))
+        {
+            query.setString(1, gioco.name());
+
+            try(ResultSet rs = query.executeQuery())
+            {
+                while (rs.next())
+                {
+                    idTavolo.add(rs.getInt("numero"));
+                    numeroPosti.add(rs.getInt("numeroPosti"));
+                    idDealer.add(rs.getString("idDealer"));
+                }
+            }
         }
     }
 }

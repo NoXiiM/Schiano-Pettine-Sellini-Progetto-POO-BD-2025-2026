@@ -302,6 +302,12 @@ public class DipendenteWelcomeController extends WelcomeController {
         String idDipendente = dipendente.getIdentificativoDipendente();
         dipendentiInLocale.remove(dipendente);
 
+        for(Tavolo i : tavoliInLocale)
+        {
+            if(dipendente instanceof Supervisore) i.getSupervisori().remove(dipendente);
+            else if(dipendente.equals(i.getDealer())) i.setDealer(null);
+        }
+
         ImpDAOopd db = new ImpDAOopd();
 
         db.eliminaDipendente(idDipendente);
@@ -550,7 +556,7 @@ public class DipendenteWelcomeController extends WelcomeController {
 
     public void aggiungiTavolo(int numero, Gioco gioco, int id) throws SQLException
     {
-        new ImpDAOopd().aggiungiTavolo(numero, gioco.toString(), id, null);
+        new ImpDAOopd().aggiungiTavolo(numero, gioco.toString(), id);
 
         tavoliInLocale.add(new Tavolo(id, gioco, numero));
     }
@@ -603,7 +609,7 @@ public class DipendenteWelcomeController extends WelcomeController {
         return sessioniRicercate;
     }
     public void updateSospetto(String username)throws SQLException{
-        ImpDAOopc db = new ImpDAOopc();
+        ImpDAOopd db = new ImpDAOopd();
         db.updateSospetto(username);
     }
 }

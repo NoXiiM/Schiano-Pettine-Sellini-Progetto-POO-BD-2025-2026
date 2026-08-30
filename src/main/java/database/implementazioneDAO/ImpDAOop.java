@@ -7,6 +7,9 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+/**
+ * Implementazione delle funzioni generiche su db (DAOop)
+ */
 public class ImpDAOop implements DAOop {
     @Override
     public boolean passwordDimenticata(String nome, String cognome, String username) throws SQLException {

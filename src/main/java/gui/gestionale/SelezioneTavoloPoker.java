@@ -71,7 +71,7 @@ public class SelezioneTavoloPoker {
                         try {
                             clienteController.decrementaSaldoCliente(sommaDaPagare);
                             clienteController.creaNuovaSessioneDiGioco(controller.getTavoloWithId(idTavolo));
-                            new GUIPoker(thisFrame, clienteController);
+                            new GUIPoker(thisFrame, clienteController, sommaDaPagare);
                             thisFrame.setVisible(false);
                         } catch (RuntimeException ex) {
                             JOptionPane.showMessageDialog(null, ex.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);

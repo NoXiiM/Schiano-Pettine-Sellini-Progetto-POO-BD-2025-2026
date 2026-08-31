@@ -2,8 +2,6 @@ package gui.giochi;
 
 import controller.gestionale.ClientWelcomeController;
 import controller.poker.ControllerPoker;
-import model.gestionale.Gioco;
-import model.gestionale.Tavolo;
 import model.gestionale.utenteEFigli.Cliente;
 import model.giochi.Carte.EventiPoker;
 import model.giochi.Carte.ManoPoker;
@@ -19,9 +17,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
+/**
+ * Per la programmazione di questo gioco, l'operazione che è stata fatta è: sintetizzare gli stati del gioco del Poker
+ * e successivamente tradurli in funzione. Quindi il ciclo di gioco viene inteso come macchina a stati in cui ogni
+ * funzione rappresenta uno stato, queste funzioni sono numerate da [0] a [5]. L'area di testo in alto a sinistra mostra
+ * che combo ha il giocatore, l'area di testo in alto a destra invece è un log di tutte le azioni svolte dai giocatori nel match
+ * corrente.
+ * [0] GUIPoker
+ * [1] pescataIniziale
+ * [2] rimischiata
+ * [3] puntata2
+ * [4] mostrareLeCarte
+ * [5] vittoriaReset
+ * Solo [0] è eseguito solo una volta in ingresso, gli altri 5 stati vanno in loop finchè il giocatore non sceglie di uscire
+ * in fase [5]
+ */
 public class GUIPoker {
     private JPanel mano;
-    private JLabel indicatoreMani;
     private JPanel pokerPanel;
     private JLabel mazzo;
     private JButton puntaButton;
@@ -51,13 +63,26 @@ public class GUIPoker {
     private ControllerPoker controller;
     private ClientWelcomeController sessioneCorrente;
 
-    private ArrayList<ClientWelcomeController> sessioniCorrenti;
+    private final ArrayList<ClientWelcomeController> sessioniCorrenti;
 
-    private JFrame thisFrame;
-    private JFrame frameChiamante;
+    private final JFrame thisFrame;
+    private final JFrame frameChiamante;
 
-    //[0]
-    public GUIPoker(JFrame frameChiamante, ClientWelcomeController host)
+    /**
+     * Il costruttore funge come funzione di setup per il gioco, oltre a svolgere le classiche mansioni da costruttore,
+     * in questa fase l'host può scegliere il valore dell'ante (puntata di ingresso a buio, vedi 'regolePoker') (da 0 a massimo 1000) e
+     * il numero di giocatori (da 2 al numero di posti). Una volta clickato il gioca button gli altri utenti potranno effettuare
+     * il login al loro account per unirsi al tavolo, se 3 tentativi di login di fila vengono falliti si ritorna nella
+     * schermata di selezione del tavolo.
+     *
+     * @param frameChiamante frameChiamante serve per gestire visibilità dei Frame
+     * @param host           serve per lo scambio di dati relativi a giocatore con questo controller, in particolare questo
+     *                       è il controller relativo all'host della partita di Poker, altri giocatori possono effettuare
+     *                       il login per unirsi alla sessione e quindi ci sono più ClientWelcomeController
+     * @param soldiTavolo    per restituire i soldi del tavolo all'host in cui non si vada oltre la fase 1
+     */
+//[0]
+    public GUIPoker(JFrame frameChiamante, ClientWelcomeController host, int soldiTavolo)
     {
         thisFrame = new JFrame("Poker");
         thisFrame.setContentPane(pokerPanel);
@@ -73,7 +98,7 @@ public class GUIPoker {
 
         //caricamento immagine deck
         Image img = new ImageIcon(
-                getClass().getResource("/carte2/42_kerenel_Cards.png")
+                Objects.requireNonNull(getClass().getResource("/carte2/42_kerenel_Cards.png"))
         ).getImage();
         mazzo.setIcon(new ImageIcon(img));
 
@@ -102,6 +127,7 @@ public class GUIPoker {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    host.incrementaSaldoGiocatore(soldiTavolo);
                     for(ClientWelcomeController i : sessioniCorrenti)
                     {
                         i.terminaSessione();
@@ -135,6 +161,7 @@ public class GUIPoker {
 
                         if(counterErrori == 2)
                         {
+                            host.incrementaSaldoGiocatore(soldiTavolo);
                             for(ClientWelcomeController i : sessioniCorrenti)
                             {
                                 i.terminaSessione();
@@ -160,12 +187,10 @@ public class GUIPoker {
                             sessioniCorrenti.getLast().creaNuovaSessioneDiGioco(sessioneCorrente.getTavoloCorrente());
                             JOptionPane.showMessageDialog(null,
                                     "registrazione avvenuta con successo");
+                            counterErrori = 0;
                         }
-                    } catch (SQLException ex) {
+                    } catch (SQLException | RuntimeException ex) {
                         JOptionPane.showMessageDialog(null, ex.getMessage(),
-                                "errore", JOptionPane.ERROR_MESSAGE);
-                    } catch (RuntimeException ex2) {
-                        JOptionPane.showMessageDialog(null, ex2.getMessage(),
                                 "errore", JOptionPane.ERROR_MESSAGE);
                     }
                 }
@@ -175,7 +200,15 @@ public class GUIPoker {
         });
     }
 
-    //[1]
+    /**
+     * In questa fase del gioco i giocatori a turno visualizzano le loro carte e decidono che azione intraprendere.
+     * Prima di ciò un ciclo prende tutti i giocatori con fiches < dell'ante (giocatori che non possono più giocare) e
+     * li elimina da sessioniCorrenti dopo averne chiuso le sessioni, dopo di ciò viene effettuato un altro controllo,
+     * se sessioniCorrenti ha un solo giocatore la sessione si conclude perché non c'è più nessuno. Quando si è compiuto
+     * almeno un giro di puntate e tutti i giocatori hanno la stessa puntata si va allo stato di gioco [2], se tutti hanno
+     * foldato si va direttamente allo stato di gioco [5]
+     */
+//[1]
     public void pescataIniziale()
     {
         clearLog();
@@ -197,6 +230,11 @@ public class GUIPoker {
         giocatoriDaEliminare.sort(Collections.reverseOrder());
         for(int i : giocatoriDaEliminare)
         {
+            try {
+                sessioniCorrenti.get(i).terminaSessione();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, e.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
+            }
             sessioniCorrenti.remove(i);
             controller.eliminaMano(i);
         }
@@ -239,100 +277,17 @@ public class GUIPoker {
 
         sessioneCorrente = sessioniCorrenti.get(currentHand);
 
-        vediCarteButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mano.removeAll();
-                disegnaCarte();
-                refreshPanel(mano);
-
-                vediCarteButton.setVisible(false);
-                azioniButton(true);
-                saldo.setVisible(true);
-                saldo.setText("saldo: " + sessioneCorrente.getSaldoGiocatore());
-
-                displayComboName();
-
-                //se puntata attuale > del saldo min = saldo e viceversa
-                int min = controller.puntataSpinnerValue(sessioneCorrente.getSaldoGiocatore());
-                SpinnerNumberModel modelloSpinnerPuntata = new SpinnerNumberModel(min,
-                        min, sessioneCorrente.getSaldoGiocatore(), 1);
-                //((JSpinner.DefaultEditor) spinnerPuntata.getEditor()).getTextField().setEditable(false);
-                spinnerPuntata.setModel(modelloSpinnerPuntata);
-            }
-        });
-
-        puntaButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //puntaButton è solo uno switch della visibilità dei pulsanti per il rilancio
-                if(confermaButton.isVisible()) relativiRilancia(false);
-                else relativiRilancia(true);
-            }
-        });
-        confermaButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //il quantitativo da decrementare è quello del rilancio/puntata che si vuole fare - i soldi già messi
-                int input = ((int) spinnerPuntata.getValue()) - controller.getMano(currentHand).getPuntata();
-                if(!decrementa(input, currentHand)) return;
-
-                controller.getMano(currentHand).incrementaPuntata(input);
-                aggiornaPot(input);
-                //si segna nel controller la puntata più alta
-                controller.setPuntataAttuale((int) spinnerPuntata.getValue());
-
-                //in base a se è avvenuta una puntata o rilancio si scrive un messaggio diverso nel log
-                if(controller.getPuntataAttuale() == input)
-                    displayBettingEvents(EventiPoker.bet);
-                else displayBettingEvents(EventiPoker.raise);
-
-                nextHand1(true);
-            }
-        });
-
-        checkButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int tettoMax;
-                //il solito controllo per il massimo della puntata (caso dei giocatori allin)
-                if(controller.getPuntataAttuale() > sessioneCorrente.getSaldoGiocatore())
-                    tettoMax = sessioneCorrente.getSaldoGiocatore();
-                else tettoMax = controller.getPuntataAttuale();
-
-                int input = tettoMax - controller.getMano(currentHand).getPuntata();
-
-                if(!decrementa(input, currentHand)) return;
-
-                controller.getMano(currentHand).incrementaPuntata(input);
-                aggiornaPot(input);
-
-                if(checkButton.getText().equals("check")) displayBettingEvents(EventiPoker.check);
-                else displayBettingEvents(EventiPoker.call);
-
-                nextHand1(true);
-            }
-        });
-
-        foldButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //setFolded controlla anche se è rimasto un solo giocatore non foldato e restituisce l'indice del vincitore
-                Integer vincitore = controller.setFolded(currentHand);
-
-                displayBettingEvents(EventiPoker.fold);
-
-                if(vincitore != null){
-                    vittoriaPerFold(vincitore);
-                } else {
-                    nextHand1(true);
-                }
-
-            }
-        });
+        listenerFasePuntata(true);
     }
 
-    //[2]
+    /**
+     * In questa fase i giocatori a turno possono selezionare da 0 a 4 carte della mano e poi clickare sul pulsante
+     * 'rimischia carte' per rimischiare le carte selezionate, il giocatore sia prima che dopo avere mischiato le carte
+     * può visualizzare il valore della combo attuale in alto a sinistra, dopo aver rimischiato il giocatore può visualizzare
+     * le carte ottenute finché non clicka sull'apposito bottone per andare avanti. Quando l'ultimo giocatore ha finito di
+     * rimischiare e visualizzare le carte viene chiamata la funzione dello stato [3]
+     */
+//[2]
     public void rimischiata()
     {
         //System.out.println("sono qui");
@@ -368,6 +323,7 @@ public class GUIPoker {
             @Override
             public void actionPerformed(ActionEvent e) {
                 controller.rimischiataMano(currentHand);
+                //messaggio log
                 displayNCarteRimischiate(controller.getNumeroCarteSelezionate(currentHand));
 
                 mano.removeAll();
@@ -395,7 +351,13 @@ public class GUIPoker {
         });
     }
 
-    //[3]
+    /**
+     * Questa fase è quasi identica alla fase 1, i giocatori adesso con le nuove mani possono effettuare un altro giro di
+     * puntate ripartendo da 0 come puntata più alta attuale, quando anche questo finisce però si va allo stato [4].
+     * In più c'è un controllo all'inizio che verifica se tutti i giocatori sono in all-in, se è così si salta direttamente
+     * alla fase [4].
+     */
+//[3]
     public void puntata2()
     {
         resetCurrentHandNoAllIn();
@@ -408,6 +370,7 @@ public class GUIPoker {
         rimuoviActionListener(checkButton);
         rimuoviActionListener(foldButton);
 
+        //per quando tutti i giocatori sono in all-in, per andare alla fase successiva
         if(currentHand >= sessioniCorrenti.size())
         {
             currentHand--;
@@ -425,92 +388,14 @@ public class GUIPoker {
 
         sessioneCorrente = sessioniCorrenti.get(currentHand);
 
-        vediCarteButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mano.removeAll();
-                disegnaCarte();
-                refreshPanel(mano);
-                vediCarteButton.setVisible(false);
-                azioniButton(true);
-                saldo.setVisible(true);
-                saldo.setText("saldo: " + sessioneCorrente.getSaldoGiocatore());
-
-                displayComboName();
-
-                int min = controller.puntataSpinnerValue(sessioneCorrente.getSaldoGiocatore());
-                SpinnerNumberModel modelloSpinnerPuntata = new SpinnerNumberModel(min,
-                        min, sessioneCorrente.getSaldoGiocatore(), 1);
-                //((JSpinner.DefaultEditor) spinnerPuntata.getEditor()).getTextField().setEditable(false);
-                spinnerPuntata.setModel(modelloSpinnerPuntata);
-            }
-        });
-
-        puntaButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(confermaButton.isVisible()) relativiRilancia(false);
-                else relativiRilancia(true);
-            }
-        });
-        confermaButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int input = ((int) spinnerPuntata.getValue()) - controller.getMano(currentHand).getPuntata();
-                if(!decrementa(input, currentHand)) return;
-
-                controller.getMano(currentHand).incrementaPuntata(input);
-                aggiornaPot(input);
-                controller.setPuntataAttuale((int) spinnerPuntata.getValue());
-
-                if(controller.getPuntataAttuale() == input)
-                    displayBettingEvents(EventiPoker.bet);
-                else displayBettingEvents(EventiPoker.raise);
-
-                nextHand1(false);
-            }
-        });
-
-        checkButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int tettoMax;
-                if(controller.getPuntataAttuale() > sessioneCorrente.getSaldoGiocatore())
-                    tettoMax = sessioneCorrente.getSaldoGiocatore();
-                else tettoMax = controller.getPuntataAttuale();
-
-                int input = tettoMax - controller.getMano(currentHand).getPuntata();
-
-                if(!decrementa(input, currentHand)) return;
-
-                controller.getMano(currentHand).incrementaPuntata(input);
-                aggiornaPot(input);
-                pot.setText("pot: " + controller.getPot());
-
-                if(checkButton.getText().equals("check")) displayBettingEvents(EventiPoker.check);
-                else displayBettingEvents(EventiPoker.call);
-
-                nextHand1(false);
-            }
-        });
-
-        foldButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Integer vincitore = controller.setFolded(currentHand);
-
-                displayBettingEvents(EventiPoker.fold);
-
-                if (vincitore != null) {
-                    vittoriaPerFold(vincitore);
-                } else {
-                    nextHand1(false);
-                }
-            }
-        });
+        listenerFasePuntata(false);
     }
 
-    //[4]
+    /**
+     * In questa fase tutte le carte sono scoperte e tutti i giocatori possono vederle, i giocatori possono clickare il
+     * pulsante apposito per visualizzare la mano del giocatore successivo
+     */
+//[4]
     public void mostrareLeCarte()
     {
         rimuoviActionListener(okButton);
@@ -548,11 +433,34 @@ public class GUIPoker {
         });
     }
 
-    //[5] vincitore e reset
-    //TODO puoi renderlo più elegante se hai tempo
+    /**
+     * 1) Se si arriva a questa funzione da [4]: l'algoritmo per gestire le vincite gira così, vengono calcolati i vincitori
+     * tra tutte le mani non foldate e ne si prendono gli indici, vengono incrementate le percentuali di vincita di questi
+     * giocatori, si entra in un ciclo while(true), tra i vincitori si prendono tutti quelli che sono in allin, se non ci
+     * sono giocatori in allin o il giocatore in allin è l'ultimo e unico giocatore di cui si sta calcolando la vincita si
+     * esce dal ciclo while. Se si prosegue nel ciclo, se ci sono più giocatori in allin che hanno vinto da gestire li si
+     * ordina nell'arrayList in ordine crescente tramite la funzione del ControllerPoker (serve per l'algoritmo che calcola
+     * la vincita per i giocatori in allin), si calcola la vincita per ognuno di questi giocatori e poi si calcolano nuovamente
+     * i vincitori escludendo quelli in allin che sono già stati premiati, dopo di chè si ripete il ciclo finché non ci sono più
+     * giocatori in allin nella lista dei vincitori. La complessità di questa funzione è dovuta al fatto che nel poker, se
+     * un giocatore è in allin e altri giocatori continuano a puntare, giustamente il giocatore in allin non potrà aspirare
+     * al piatto completo, ma a solo una sua parte equivalente alla somma delle puntate di tutti i giocatori a patto che non
+     * superino i soldi che effettivamente il giocatore in allin ha puntato in tutto il match corrente. Questo comporta che
+     * oltre al piatto principali si possano formare più sidepot da gestire per giocatori in allin che hanno pareggiato e
+     * bisogna gestire anche questi casi limite, pure se è quasi impossibile che avvengano.
+     * 2) Se si arriva a questa funzione da [1] o [3] per fold: non succede nulla visto che il premio per il giocatore rimasto
+     * è gestito stesso in 'vittoriaPerFold', viene cambiata giusto la visibilità di alcuni pulsanti.
+     * Successivamente i giocatori possono decidere se continuare a giocare o finire la sessione
+     *
+     * @param foldFlag questa variabile serve a indicare alla funzione come si è arrivati qui: true: tutti i giocatori tranne
+     *                 uno hanno foldato e quindi si salta direttamente alla fase di reset false: ci sono 2 o più giocatori
+     *                 che hanno puntato la stessa cifra e hanno scoperto le carte
+     */
+//[5] vincitore e reset
     public void vittoriaReset(boolean foldFlag)
     {
         rimuoviActionListener(okButton);
+        rimuoviActionListener(indietroButton);
         risultatiLabel.setVisible(false);
 
         if(!foldFlag){
@@ -565,11 +473,7 @@ public class GUIPoker {
             //aggiornamento tassi di vittoria dei giocatori
             for(int i = 0; i < sessioniCorrenti.size(); i++)
             {
-                if(indiciVincitori.contains(i))
-                {
-                    sessioniCorrenti.get(i).aggiornaVincitaPercentuale(true);
-                }
-                else sessioniCorrenti.get(i).aggiornaVincitaPercentuale(false);
+                sessioniCorrenti.get(i).aggiornaVincitaPercentuale(indiciVincitori.contains(i));
             }
 
             String messaggioVittoria = "";
@@ -585,8 +489,7 @@ public class GUIPoker {
                     if(temp.getSidePot() != null) sideBetDaGestire.add(i);
                 }
 
-                //se non ho vincitori in allin da gestire esco
-                //System.out.println(controller.soloUnGiocatore(listaEsclusi));
+                //se non ho vincitori in allin da gestire o è rimasto un solo giocatore da gestire esco
                 if(sideBetDaGestire.isEmpty() || controller.soloUnGiocatore(listaEsclusi)) break;
 
                 //evento se c'è pareggio tra giocatori in all-in, molto molto raro
@@ -690,6 +593,15 @@ public class GUIPoker {
         });
     }
 
+
+    /**
+     * Funzione che formatta messaggio di vittoria mostrato nella text area sinistra a fine partita
+     *
+     * @param indiciVincitori indici dei vincitori
+     * @param premio premio a loro assegnato
+     * @return parte di messaggio formattato, il messaggio finale visualizzato può essere dato da queste funzioni eseguite
+     * più volte
+     */
     //formattazione messaggio di vittoria
     private String formattaMessaggioVittoria(ArrayList<Integer> indiciVincitori, int premio)
     {
@@ -717,28 +629,28 @@ public class GUIPoker {
 
     //funzioni di utility
     //gestione visibilità componenti
-    private void startingButton(boolean visibilità)
+    private void startingButton(boolean visibilita)
     {
-        indietroButton.setVisible(visibilità);
-        labelNplayer.setVisible(visibilità);
-        spinnerNplayer.setVisible(visibilità);
-        giocaButton.setVisible(visibilità);
-        spinnerAnte.setVisible(visibilità);
-        labelAnte.setVisible(visibilità);
+        indietroButton.setVisible(visibilita);
+        labelNplayer.setVisible(visibilita);
+        spinnerNplayer.setVisible(visibilita);
+        giocaButton.setVisible(visibilita);
+        spinnerAnte.setVisible(visibilita);
+        labelAnte.setVisible(visibilita);
     }
 
-    private void azioniButton(boolean visibilità)
+    private void azioniButton(boolean visibilita)
     {
-        puntaButton.setVisible(visibilità);
-        checkButton.setVisible(visibilità);
-        foldButton.setVisible(visibilità);
+        puntaButton.setVisible(visibilita);
+        checkButton.setVisible(visibilita);
+        foldButton.setVisible(visibilita);
         //usernameLabel.setVisible(visibilità);
     }
 
-    private void relativiRilancia(boolean visibilità)
+    private void relativiRilancia(boolean visibilita)
     {
-        spinnerPuntata.setVisible(visibilità);
-        confermaButton.setVisible(visibilità);
+        spinnerPuntata.setVisible(visibilita);
+        confermaButton.setVisible(visibilita);
     }
 
     //per togliere visibilità a tutti i bottoni
@@ -763,6 +675,9 @@ public class GUIPoker {
         refreshPanel(mano);
     }
 
+    /**
+     * Funzione che aggiunge al panel mano le immagini (label con png) delle 5 carte che ha il giocatore corrente
+     */
     //funzioni che disegnano le carte
     private void disegnaCarte()
     {
@@ -778,6 +693,16 @@ public class GUIPoker {
         }
     }
 
+    /**
+     * Funzione simile a disegnaCarte, ma in più si occupa di associare un mouse listener alle label che è in grado di:
+     * una volta che avviene il click sulla carta si prende il riferimento alla label rispettiva, si prende la mano corrente
+     * e si accede al suo attributo ArrayList che contiene le informazioni su quali carte sono state toccate un numero dispari
+     * di volte (l'idea è che le carte siano una sorta di switch on/off, un click le selziona, un secondo click le deseleziona)
+     * e quindi sono candidate per essere rimischiate, sulla carta clickata che fa scattare il mouse listener concettualmente
+     * viene controllato lo stato e si passa a quello inverso on -> off od off -> on. Essere on realmente vuol dire che l'indice,
+     * associato alla carta alla creazione del listener, compare nell'ArrayList della mano e inoltre graficamente la carta
+     * è contornata da un bordo rosso, essere off vuol dire l'inverso.
+     */
     //visto che poi al turno successivo dal panel mano si cancellano tutti i riferimenti alle label (le carte)
     //in automatico il garbage collector disalloca sia queste che i listener a esse associate, ho controllato
     private void disegnaCarteClickabili()
@@ -809,6 +734,7 @@ public class GUIPoker {
                         //set border per creare o togliere bordo intorno alla carta
                         cartaCliccata.setBorder(null);
 
+                        //per togliere l'oggetto effettivamente e non a un indice
                         indexList.remove((Object) indexCarta);
                     }
                     else
@@ -834,6 +760,7 @@ public class GUIPoker {
         }
     }
 
+    //per tutte le seguenti funzioni documentazione più precisa in GUIBlackJack
     private void refreshPanel(JPanel pannello)
     {
         //ricalcola la posizione delle componenti nel pannello
@@ -867,6 +794,17 @@ public class GUIPoker {
         }
     }
 
+    /**
+     * Questa funzione serve per gestire il passaggio del turno da un giocatore all'altro, prima di tutto si preoccupa
+     * di settare lo stato di un giocatore in allin se questo non ha più fiches, poi viene incrementato l'indice che
+     * indica la mano corrente. Il ciclo while true serve per continuare a verificare un numero indefinito di volte se
+     * effettivamente la mano a cui si è avanzato può svolgere azioni (mano non foldata e non in allin) sennò si continua
+     * ad andare avanti. Dopo il while se è avvenuto almeno un giro tra tutti i giocatori e tutti hanno la stessa puntata
+     * si avanza di fase.
+     *
+     * @param fase true: se avviene un avanzamento di fase si va nello stato [2]
+     *             false: se avviene un avanzamento di fase si va nello stato [4]
+     */
     //aggiornamenti
     //gestione cambio player
     private void nextHand1(boolean fase)
@@ -932,6 +870,9 @@ public class GUIPoker {
         prossimoPescata();
     }
 
+    /**
+     * In base alla puntata più alta attuale cambia il nome dei pulsanti
+     */
     public void variazionePulsantePerPuntataPuntaORilancia()
     {
         if(controller.getPuntataAttuale() != 0)
@@ -946,6 +887,13 @@ public class GUIPoker {
         }
     }
 
+    /**
+     * Questa funzione serve per gestire il passaggio del turno da un giocatore all'altro, lo fa incrementando l'indice
+     * che indica la mano corrente. Ci sono controlli che mandano avanti questo indice finché non c'è una mano non foldata
+     *
+     * @param fase true: se avviene un avanzamento di fase si va nello stato [3]
+     *             false: se avviene un avanzamento di fase si va nello stato [5]
+     */
     private void nextHand2(boolean fase)
     {
         do {
@@ -987,6 +935,13 @@ public class GUIPoker {
                 (controller.getFolded(currentHand) || controller.isHandAllIn(currentHand))) currentHand++;
     }
 
+
+    //TODO gestione per allin che vince
+    /**
+     * Si occupa di premiare l'ultimo giocatore rimasto con tutta la pot rimasta
+     *
+     * @param indexVincitore indice del vincitore in sessioniCorrenti
+     */
     //gestione vittoria per fold
     private void vittoriaPerFold(Integer indexVincitore)
     {
@@ -1027,7 +982,7 @@ public class GUIPoker {
             case raise -> azione = "ha rilanciato a ";
             case fold -> azione = "ha foldato";
             default -> azione = "stato indefinito";
-        };
+        }
 
         if(x == EventiPoker.bet || x == EventiPoker.raise)
         {
@@ -1042,8 +997,111 @@ public class GUIPoker {
         logAvvenimenti.append(sessioneCorrente.getClienteUsername() + " ha rimischiato " + numero + " carte\n");
     }
 
+    /**
+     * Pulisce il log text area in alto a destra
+     */
     public void clearLog()
     {
         logAvvenimenti.setText(null);
+    }
+
+    /**
+     * Attiva i listener per tutte le azioni che un giocatore può svolgere nella fase [1] e [3]
+     *
+     * @param fase true: fase [1], false: fase [3]. Fase è utilizzato solo per essere passato come parametro di nextHand1
+     */
+    public void listenerFasePuntata(boolean fase)
+    {
+        vediCarteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mano.removeAll();
+                disegnaCarte();
+                refreshPanel(mano);
+
+                vediCarteButton.setVisible(false);
+                azioniButton(true);
+                saldo.setVisible(true);
+                saldo.setText("saldo: " + sessioneCorrente.getSaldoGiocatore());
+
+                displayComboName();
+
+                //se puntata attuale > del saldo: min = saldo e viceversa
+                int min = controller.puntataSpinnerValue(sessioneCorrente.getSaldoGiocatore());
+                SpinnerNumberModel modelloSpinnerPuntata = new SpinnerNumberModel(min,
+                        min, sessioneCorrente.getSaldoGiocatore(), 1);
+                //((JSpinner.DefaultEditor) spinnerPuntata.getEditor()).getTextField().setEditable(false);
+                spinnerPuntata.setModel(modelloSpinnerPuntata);
+            }
+        });
+
+        puntaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //puntaButton è solo uno switch della visibilità dei pulsanti per il rilancio
+                relativiRilancia(!confermaButton.isVisible());
+            }
+        });
+        confermaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //il quantitativo da decrementare è quello del rilancio/puntata che si vuole fare - i soldi già messi
+                int input = ((int) spinnerPuntata.getValue()) - controller.getMano(currentHand).getPuntata();
+                if(!decrementa(input, currentHand)) return;
+
+                controller.getMano(currentHand).incrementaPuntata(input);
+                aggiornaPot(input);
+                //si segna nel controller la puntata più alta
+                controller.setPuntataAttuale((int) spinnerPuntata.getValue());
+
+                //in base a se è avvenuta una puntata o rilancio si scrive un messaggio diverso nel log
+                if(controller.getPuntataAttuale() == input)
+                    displayBettingEvents(EventiPoker.bet);
+                else displayBettingEvents(EventiPoker.raise);
+
+                nextHand1(fase);
+            }
+        });
+
+        checkButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int tettoMax;
+                //il solito controllo per il massimo della puntata (caso dei giocatori allin)
+                if(controller.getPuntataAttuale() > sessioneCorrente.getSaldoGiocatore())
+                    tettoMax = sessioneCorrente.getSaldoGiocatore();
+                else tettoMax = controller.getPuntataAttuale();
+
+                int input = tettoMax - controller.getMano(currentHand).getPuntata();
+
+                if(!decrementa(input, currentHand)) return;
+
+                controller.getMano(currentHand).incrementaPuntata(input);
+                aggiornaPot(input);
+                pot.setText("pot: " + controller.getPot());
+
+                if(checkButton.getText().equals("check")) displayBettingEvents(EventiPoker.check);
+                else displayBettingEvents(EventiPoker.call);
+
+                nextHand1(fase);
+            }
+        });
+
+        foldButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //setFolded controlla anche se è rimasto un solo giocatore non foldato e restituisce l'indice del vincitore
+                Integer vincitore = controller.setFolded(currentHand);
+
+                displayBettingEvents(EventiPoker.fold);
+
+                if(vincitore != null){
+                    vittoriaPerFold(vincitore);
+                } else {
+                    nextHand1(fase);
+                }
+
+            }
+        });
     }
 }

@@ -141,7 +141,7 @@ public class Sessione
     public String infoSessione()
     {
         return "durata: " + durataSessione.toHours() + ":" +
-                String.format("%02d", durataSessione.toMinutes()) + ":" + String.format("%02d", durataSessione.toSeconds()) +
+                String.format("%02d", durataSessione.toMinutes() % 60) + ":" + String.format("%02d", durataSessione.toSeconds() % 60) +
                 "\nvincita percentuale: " + vincitaPercentuale + "\npartite svolte " + partiteSvolte;
     }
 

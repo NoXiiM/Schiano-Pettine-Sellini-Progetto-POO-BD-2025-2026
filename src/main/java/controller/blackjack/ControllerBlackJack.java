@@ -5,7 +5,6 @@ import model.gestionale.Gioco;
 import model.giochi.Carte.*;
 
 import javax.swing.*;
-import java.util.ArrayList;
 
 /**
  * Controller realizzato per gestire la logica del black jack
@@ -136,27 +135,19 @@ public class ControllerBlackJack extends ControllerMazzo
     public String displayCardDealer(int icarta)
     {
         String path = "/Carte2/";
-        int num = 0;
+        int num;
 
         Carta carta = banco.getCarta(icarta);
         Seme seme = banco.getCarta(icarta).getSeme();
 
 
-        switch(seme)
-        {
-            case Seme.cuore:
-                num = 0;
-                break;
-            case Seme.picche:
-                num = 14;
-                break;
-            case Seme.quadro:
-                num = 28;
-                break;
-            case Seme.fiore:
-                num = 42;
-                break;
-        }
+        //suggerito da quick fixes di intellij
+        num = switch (seme) {
+            case Seme.cuore -> 0;
+            case Seme.picche -> 14;
+            case Seme.quadro -> 28;
+            case Seme.fiore -> 42;
+        };
 
         num += ControllerMazzo.getValoreNumero(carta);
         String numString = String.format("%02d", num);

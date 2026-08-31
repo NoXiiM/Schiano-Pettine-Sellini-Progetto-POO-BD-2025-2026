@@ -78,7 +78,7 @@ public class GUIBlackJack {
      * funzione, l'indietro button ti fa tornare alla selezione dei tavoli
      *
      * @param frameChiamante   frameChiamante serve per gestire visibilità dei Frame
-     * @param sessioneCorrente scambio di relativi a giocatore con questo controller
+     * @param sessioneCorrente scambio di dati relativi a giocatore con questo controller
      */
     //[0]
     public GUIBlackJack(JFrame frameChiamante, ClientWelcomeController sessioneCorrente) {
@@ -681,8 +681,12 @@ public class GUIBlackJack {
                 rifiutaButton.setVisible(true);
                 break;
             case assicurazione:
-                assicuraButton.setVisible(true);
-                rifiutaButton.setVisible(true);
+                //sennò appare assicura e rifiuta dopo lo split
+                if(controller.getIndiceRiduzioneMano() == 0)
+                {
+                    assicuraButton.setVisible(true);
+                    rifiutaButton.setVisible(true);
+                }
                 break;
             case bj:
                 JOptionPane.showMessageDialog(null, "Black Jack!");

@@ -6,11 +6,27 @@ import model.giochi.Carte.*;
 
 import java.util.ArrayList;
 
+/**
+ * Controller realizzato per gestire genericamente la logica di tutti i giochi di carte
+ */
 public abstract class ControllerMazzo
 {
+    /**
+     * Un Sabot è composto da molteplici mazzi, per comodità l'attributo lo chiamo mazzo
+     */
     protected Sabot mazzo;
+    /**
+     * Lista delle mani dei giocatori
+     */
     protected ArrayList<Mano> listaMani = new ArrayList<>();
 
+    /**
+     * Instantiates a new Controller mazzo.
+     *
+     * @param nmazzi quanti mazzi contiene il sabot
+     * @param nmani  numero di giocatori/mani
+     * @param gioco  gioco per il quale è istanziato il controller
+     */
     public ControllerMazzo(int nmazzi, int nmani, Gioco gioco)
     {
         //System.out.println(nmazzi);
@@ -22,13 +38,28 @@ public abstract class ControllerMazzo
         }
     }
 
+    /**
+     * Verifica se la cutting card è stata raggiunta e quindi se bisogna rimischiare il mazzo, controllo effettuato
+     * solitamente a fine round
+     *
+     * @return true: cutting card raggiunta, false: non raggiunta
+     */
     public boolean controlloCuttingCard()
     {
         return mazzo.controlloRimischiaMazzo();
     }
 
+    /**
+     * Funzione per resettare mazzo
+     */
     public abstract void reinizializzaMazzo();
 
+    /**
+     * Funzione per istanziare mano di un gioco
+     *
+     * @param gioco the gioco
+     * @return mano istanziata
+     */
     protected Mano creaMano(Gioco gioco)
     {
         if(gioco.equals(Gioco.Blackjack)) return new ManoBlackJack(gioco);
@@ -36,11 +67,22 @@ public abstract class ControllerMazzo
         return null;
     }
 
+    /**
+     * Aggiunge mano a lista mano
+     *
+     * @param nuova nuova mano
+     */
     protected void addMano(Mano nuova)
     {
         listaMani.add(nuova);
     }
 
+    /**
+     * Serve una carta dal mazzo al giocatore
+     *
+     * @param ricevitore mano giocatore
+     * @throws DeckOut the deck out
+     */
     public void serviCarta(Mano ricevitore) throws DeckOut
     {
         try {
@@ -51,7 +93,13 @@ public abstract class ControllerMazzo
         }
     }
 
-    //funzione di mapping delle carte generica
+    /**
+     * Funzione generica che associa un valore intero al numero della carta
+     *
+     * @param carta the carta
+     * @return valore numero
+     */
+//funzione di mapping delle carte generica
     protected static int getValoreNumero(Carta carta) {
         Numero valCarta = carta.getNumero();
 
@@ -71,7 +119,14 @@ public abstract class ControllerMazzo
         return -1;
     }
 
-    //funzione display card per giocatori
+    /**
+     * Funzione che calcola il path dell'immagine di una determinata carta in base al seme e al numero della carta
+     *
+     * @param imano  indice mano
+     * @param icarta indice carta
+     * @return path immagine rispettiva
+     */
+//funzione display card per giocatori
     public String displayCard(int imano, int icarta)
     {
         String path = "/Carte2/";
@@ -84,7 +139,6 @@ public abstract class ControllerMazzo
         switch(seme)
         {
             case Seme.cuore:
-                num = 0;
                 break;
             case Seme.picche:
                 num = 14;
@@ -105,14 +159,31 @@ public abstract class ControllerMazzo
         return path;
     }
 
+    /**
+     * Ritorna la mano a un certo indice da listaMani
+     *
+     * @param index indice
+     * @return mano
+     */
     public Mano getMano(int index)
     {
         return listaMani.get(index);
     }
 
-    //per debug
-    public void stampaCarte()
+
+    /**
+     * Funzione che effettua un reset delle mani generico, si cancella il vecchio Arraylist di Mano
+     *
+     * @param gioco gioco interessato
+     */
+    public void resettaMani(Gioco gioco)
     {
-        mazzo.stampaCarte();
+        int nmani = listaMani.size();
+        listaMani = new ArrayList<>();
+
+        for(int i = 0; i < nmani; i++)
+        {
+            this.addMano(creaMano(gioco));
+        }
     }
 }

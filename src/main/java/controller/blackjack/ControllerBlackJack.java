@@ -7,11 +7,20 @@ import model.giochi.Carte.*;
 import javax.swing.*;
 import java.util.ArrayList;
 
+/**
+ * Controller realizzato per gestire la logica del black jack
+ */
 public class ControllerBlackJack extends ControllerMazzo
 {
     private ManoBlackJack banco;
     private int indiceRiduzioneMano;
 
+    /**
+     * Instantiates a new Controller black jack.
+     *
+     * @param nmazzi quanti mazzi contiene il sabot
+     * @param nmani  numero di giocatori/mani
+     */
     public ControllerBlackJack(int nmazzi, int nmani) {
         super(nmazzi, nmani, Gioco.Blackjack);
 
@@ -34,7 +43,12 @@ public class ControllerBlackJack extends ControllerMazzo
         return new ManoBlackJack(gioco);
     }
 
-    //funzione che calcola punteggio di una mano
+    /**
+     * Calcola il punteggio numerico di una mano di black jack
+     *
+     * @param mano mano
+     * @return punteggio
+     */
     public int getPoints(ManoBlackJack mano)
     {
         int acc = 0;
@@ -54,24 +68,23 @@ public class ControllerBlackJack extends ControllerMazzo
         return acc;
     }
 
-    //funzione di mapping numero:valore in blackJack
+    /**
+     * Funzione di mapping numero:valore in blackJack
+     *
+     * @param carta carta
+     * @return valore carta
+     */
     public static int getValoreNumero(Carta carta) {
-        Numero valCarta = carta.getNumero();
-        //in blackjack l'1 può valere 1 o 11
-        if(valCarta.equals(Numero.uno)) return 1;
-        if(valCarta.equals(Numero.due)) return 2;
-        if(valCarta.equals(Numero.tre)) return 3;
-        if(valCarta.equals(Numero.quattro)) return 4;
-        if(valCarta.equals(Numero.cinque)) return 5;
-        if(valCarta.equals(Numero.sei)) return 6;
-        if(valCarta.equals(Numero.sette)) return 7;
-        if(valCarta.equals(Numero.otto)) return 8;
-        if(valCarta.equals(Numero.nove)) return 9;
-        return 10;
+        int valore = ControllerMazzo.getValoreNumero(carta);
+
+        if(valore >= 10) return 10;
+        else return valore;
     }
 
-    //funzione che serve le carte
-    public int serviCarte()
+    /**
+     * Funzione che serve 2 carte a ogni giocatore e al banco
+     */
+    public void serviCarte()
     {
         for(Mano i: listaMani)
         {
@@ -99,21 +112,27 @@ public class ControllerBlackJack extends ControllerMazzo
         } catch (DeckOut e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "errore", JOptionPane.WARNING_MESSAGE);
         }
-
-        return listaMani.size();
     }
 
-    public int getNumMani()
-    {
-        return listaMani.size();
-    }
-
+    /**
+     * Restituisce la size della mano in listaMani di indice index
+     *
+     * @param index indice
+     * @return size mano
+     */
     public int getManoSize(int index)
     {
         return listaMani.get(index).getDimensioneMano();
     }
 
-    //come la display card per il giocatore ma per il dealer
+    /**
+     * Funzione che calcola il path dell'immagine di una determinata carta del dealer in base al seme e al numero della
+     * carta
+     *
+     * @param icarta indice carta
+     * @return path immagine rispettiva
+     */
+//come la display card per il giocatore ma per il dealer
     public String displayCardDealer(int icarta)
     {
         String path = "/Carte2/";
@@ -147,49 +166,73 @@ public class ControllerBlackJack extends ControllerMazzo
         return path;
     }
 
-    public Mano getManoBanco()
-    {
-        return banco;
-    }
-
     @Override
     public ManoBlackJack getMano(int index) {
         return (ManoBlackJack) super.getMano(index);
     }
 
-    //setta la mano nello stato di gioco corretto
+    /**
+     * Determina l'interazione tra la carta del dealer e la carta del giocatore corrente e ne restituisce un valore di
+     * HandStateBJ, è strettamente interconnessa con la funzione pulsantiera in GUIBlackJack
+     *
+     * @param iManoGiocatore indice mano corrente
+     * @return stato interazioni mani
+     */
     public HandStateBJ statoPartitaIniziale(int iManoGiocatore)
     {
         ManoBlackJack corrente = (ManoBlackJack) listaMani.get(iManoGiocatore);
 
-        if(getValoreNumero(banco.getCarta(0)) == 1 && getPoints(corrente) == 21) return HandStateBJ.evenmoney;
-        if(getValoreNumero(banco.getCarta(0)) == 1) return HandStateBJ.assicurazione;
-        if(getPoints(corrente) == 21) return HandStateBJ.bj;
+        if(bancoHaAsso() && getPoints(corrente) == 21) return HandStateBJ.evenmoney;
+        if(bancoHaAsso()) return HandStateBJ.assicurazione;
+        if(getPoints(corrente) == 21)
+        {
+            corrente.setFlag(HandStateBJ.bj);
+            return HandStateBJ.bj;
+        }
 
         return HandStateBJ.normale;
     }
 
+    /**
+     * Funzione che setta la flag bj o normale alla mano del banco
+     */
     public void setStatoBanco()
     {
         if(getPoints(banco) == 21) banco.setFlag(HandStateBJ.bj);
         else banco.setFlag(HandStateBJ.normale);
     }
 
-    //verifica se una mano è divisibile
+    /**
+     * Funzione che ti dice se una mano è splittabile oppure no
+     *
+     * @param i indice mano
+     * @return true: la mano è divisibile, false: la mano non è divisibile
+     */
     public boolean isSplittable(int i)
     {
         Mano mano = getMano(i);
-        if(mano.getListaMano().size() == 2 &&
-                mano.getCarta(0).getNumero().equals(mano.getCarta(1).getNumero())) return true;
-        return false;
+        return mano.getListaMano().size() == 2 &&
+                mano.getCarta(0).getNumero().equals(mano.getCarta(1).getNumero());
     }
 
+    /**
+     * Gets mano banco size.
+     *
+     * @return size della mano del banco
+     */
     public int getManoBancoSize()
     {
         return banco.getDimensioneMano();
     }
 
-    //regola secondo cui il banco continua a pescare finchè non supera 17
+    /**
+     * Funzione che regola l'algoritmo di pescata del banco, se il banco ha un punteggio minore di 17 prende un'altra
+     * carta e il valore di ritorno fa in maniera tale che in GUIBlackJack non si passi alla fase successiva, altrimenti
+     * il banco non pesca e si va alla fase successiva
+     *
+     * @return true: banco ha pescato, false: banco non può pescare
+     */
+//regola secondo cui il banco continua a pescare finchè non supera 17
     public boolean algoritmoPescataBanco()
     {
         if(getPoints(banco) < 17)
@@ -205,7 +248,12 @@ public class ControllerBlackJack extends ControllerMazzo
         else return false;
     }
 
-    //calcolo della vincita in base a tutti i casi di gioco possibili
+    /**
+     * Funzione che calcola la vincita in base a tutti i casi di gioco possibili
+     *
+     * @param indexMano the index mano
+     * @return the int
+     */
     public int calcolaVincita(int indexMano)
     {
         int punteggioBanco = getPoints(banco);
@@ -227,34 +275,44 @@ public class ControllerBlackJack extends ControllerMazzo
         else return manoCorrente.getPuntata();
     }
 
+    /**
+     * Funzione che controlla se l'insurance è stata vinta dalla carta di indice index
+     *
+     * @param index indice carta
+     * @return true: insurance vinta, false: insurance non vinta
+     */
     public boolean insuranceVinta(int index)
     {
-        if(getFlagMano(index).equals(HandStateBJ.assicurazione) && getFlagBanco().equals(HandStateBJ.bj)) {
-            return true;
-        }
-        else return false;
+        return getFlagMano(index).equals(HandStateBJ.assicurazione) && getFlagBanco().equals(HandStateBJ.bj);
     }
 
-    //pulisce mani giocatore e banco
-    public void resetAll(int nmani)
+    /**
+     * Funzione che resetta le mani dei giocatori e del banco nel blackjack
+     */
+    public void resettaMani()
     {
-        listaMani = new ArrayList<>();
-        for(int i = 0; i < nmani; i++)
-        {
-            this.addMano(creaMano(Gioco.Blackjack));
-        }
+        super.resettaMani(Gioco.Blackjack);
 
         banco = new ManoBlackJack(Gioco.Blackjack);
     }
 
+    /**
+     * Funzione che effettua la meccanica dello split: prende la mano di indice index, crea una nuova mano di BlackJack,
+     * viene traslata una carta dalla vecchia mano alla nuova mano, entrambe le mani pescano una carta, la nuova mano è
+     * inserita nell'Arraylist subito dopo la vecchia, viene incrementato l'attributo indiceRiduzione mano in maniera tale
+     * che alla fine del match si possa ripristinare la corretta capienza dell'Arraylist di mani
+     *
+     * @param index indice mano su cui effettuare lo split
+     */
     public void divisione(int index)
     {
-        ManoBlackJack manoCorrente = (ManoBlackJack) listaMani.get(index);
+        ManoBlackJack manoCorrente = getMano(index);
 
         ManoBlackJack nuovaMano = new ManoBlackJack(Gioco.Blackjack);
 
         nuovaMano.setPuntata(manoCorrente.getPuntata());
 
+        //eliminazione da mano corrente e return della carta
         Carta cartaTrasferita = manoCorrente.traslaCarta();
         nuovaMano.addCarta(cartaTrasferita);
 
@@ -277,20 +335,22 @@ public class ControllerBlackJack extends ControllerMazzo
         indiceRiduzioneMano += 1;
     }
 
-    public boolean bancoHaAsso()
+    /**
+     * Verifica se banco ha un asso
+     *
+     * @return true: banco ha asso, false: banco non ha asso
+     */
+    private boolean bancoHaAsso()
     {
         return (banco.getCarta(0).getNumero() == Numero.uno);
     }
 
-    public int getIndiceRiduzioneMano() {
-        return indiceRiduzioneMano;
-    }
-
-    public void setIndiceRiduzioneMano(int indiceRiduzioneMano) {
-        this.indiceRiduzioneMano = indiceRiduzioneMano;
-    }
-
-    //funzione per quando il giocatore sceglie di uscire dal gioco pur avendo messo qualche puntata
+    /**
+     * Funzione che restituisce tutte le puntate piazzate al giocatore in maniera tale da non smarrire i soldi del giocatore,
+     * serve per quando il giocatore sceglie di uscire dal gioco pur avendo messo qualche puntata
+     *
+     * @return somma di tutte le puntate piazzate dal giocatore
+     */
     public int restituisciPuntate()
     {
         int soldi = 0;
@@ -305,6 +365,12 @@ public class ControllerBlackJack extends ControllerMazzo
         return soldi;
     }
 
+    /**
+     * Gets flag mano.
+     *
+     * @param index index
+     * @return flag mano
+     */
     public HandStateBJ getFlagMano(int index)
     {
         ManoBlackJack mano = (ManoBlackJack) listaMani.get(index);
@@ -312,8 +378,31 @@ public class ControllerBlackJack extends ControllerMazzo
         return mano.getFlag();
     }
 
+    /**
+     * Gets flag banco.
+     *
+     * @return flag banco
+     */
     public HandStateBJ getFlagBanco()
     {
         return banco.getFlag();
+    }
+
+    /**
+     * Gets indice riduzione mano.
+     *
+     * @return indice riduzione mano
+     */
+    public int getIndiceRiduzioneMano() {
+        return indiceRiduzioneMano;
+    }
+
+    /**
+     * Sets indice riduzione mano.
+     *
+     * @param indiceRiduzioneMano indice riduzione mano
+     */
+    public void setIndiceRiduzioneMano(int indiceRiduzioneMano) {
+        this.indiceRiduzioneMano = indiceRiduzioneMano;
     }
 }

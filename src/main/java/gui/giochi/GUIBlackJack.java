@@ -13,7 +13,17 @@ import java.sql.SQLException;
 import java.util.Objects;
 
 /**
- * The type Gui black jack.
+ * Per la programmazione di questo gioco, l'operazione che è stata fatta è: sintetizzare gli stati del gioco del BlackJack
+ * e successivamente tradurli in funzione. Quindi il ciclo di gioco viene inteso come macchina a stati in cui ogni
+ * funzione rappresenta uno stato, queste funzioni sono numerate da [0] a [5].
+ * [0] GUIBlackJack
+ * [1] puntare
+ * [2] iniziaPartita
+ * [3] turnoBanco
+ * [4] risultatiGioco
+ * [5] reset
+ * Solo [0] è eseguito solo una volta in ingresso, gli altri 5 stati vanno in loop finchè il giocatore non sceglie
+ * di uscire in fase [1] o [5]
  */
 public class GUIBlackJack {
     //deck
@@ -59,13 +69,16 @@ public class GUIBlackJack {
     private final JFrame thisFrame;
 
     private final JFrame frameChiamante;
-    private ClientWelcomeController sessioneCorrente;
+    private final ClientWelcomeController sessioneCorrente;
 
     /**
-     * Instantiates a new Gui black jack.
+     * Il costruttore funge come funzione di setup per il gioco, oltre a svolgere le classiche mansioni da costruttore,
+     * in questa fase del gioco è possibile scegliere il numero di mazzi (da 1 a 16) con cui giocare e quante mani
+     * giocare da (da 1 al numero di posti del tavolo). Lo start button ti fa avanzare allo stato successivo chiamando la
+     * funzione, l'indietro button ti fa tornare alla selezione dei tavoli
      *
-     * @param frameChiamante   the frame chiamante
-     * @param sessioneCorrente the sessione corrente
+     * @param frameChiamante   frameChiamante serve per gestire visibilità dei Frame
+     * @param sessioneCorrente scambio di relativi a giocatore con questo controller
      */
     //[0]
     public GUIBlackJack(JFrame frameChiamante, ClientWelcomeController sessioneCorrente) {
@@ -86,7 +99,7 @@ public class GUIBlackJack {
 
         //deck
         Image img = new ImageIcon(
-                getClass().getResource("/carte2/42_kerenel_Cards.png")
+                Objects.requireNonNull(getClass().getResource("/carte2/42_kerenel_Cards.png"))
         ).getImage();
         deck.setIcon(new ImageIcon(img));
 
@@ -152,7 +165,10 @@ public class GUIBlackJack {
     }
 
     /**
-     * Puntare.
+     * In questa fase del gioco si può scegliere quanto puntare per ognuna delle tue mani. Il pulsante immetti ti permette
+     * di confermare la puntata per la mano, se la puntata è valida si procede alla mano successiva (currentHand++), se
+     * currentHand che è l'indice della mano è uguale al numero di mani (sono finite le mani su cui puntare) viene chiamata
+     * la funzione dello stato [2]
      */
     //[1]
     public void puntare()
@@ -219,7 +235,10 @@ public class GUIBlackJack {
     }
 
     /**
-     * Inizia partita.
+     * In questa fase inizia la partita, il giocatore vede la prima carta del banco e le carte delle sue mani in ordine
+     * e decide che azioni svolgere, vedesi il file 'regoleBlackJack' nella cartella documentazione.
+     * Se l'azione intrapresa dal giocatore termina il turno della mano currentHand viene incrementato, come prima se
+     * si va oltre l'ultima mano viene chiamata la funzione per andare alla fase successiva, in questo caso la [3]
      */
     //[2]
     public void iniziaPartita()
@@ -370,6 +389,9 @@ public class GUIBlackJack {
 
                 controller.divisione(currentHand);
 
+                //per gestire il setting delle flag se si fa un blackjack dopo lo split
+                pulsantiera();
+
 //                controller.serviCarta(controller.getMano(currentHand));
 //                controller.serviCarta(controller.getMano(currentHand + 1));
 
@@ -383,7 +405,9 @@ public class GUIBlackJack {
     }
 
     /**
-     * Turno banco.
+     * In questa fase viene rivelata la carta coperta del banco e poi a ogni ok pigiato dall'utente questo svolge una mossa,
+     * la maniera in cui gioca il banco è algoritmica, il dealer non può realmente scegliere che mossa intraprendere.
+     * Quando il banco termina il suo turno viene chiamata la funzione per andare alla fase 4.
      */
     //[3]
     public void turnoBanco()
@@ -413,7 +437,9 @@ public class GUIBlackJack {
     }
 
     /**
-     * Risultati gioco.
+     * In questa fase ripartendo dalla prima mano del giocatore, l'utente può visualizzare i risultati delle sue mani
+     * andando avanti a suon di ok, quando si va oltre l'indice dell'ultima mano viene chiamata la funzione per andare
+     * alla fase [4]. In questa fase chiaramente vengono ritornate anche le vincite per ogni puntata.
      */
     //[4]
     public void risultatiGioco()
@@ -453,7 +479,9 @@ public class GUIBlackJack {
     }
 
     /**
-     * Reset.
+     * Nella fase di reset vengono resettate tutte le mani e viene data l'opzione al giocatore di continuare o di tornare
+     * alla schermata di selezione del tavolo. Se si continua viene richiamata la funzione della fase [1] e tutto inizia
+     * da capo
      */
     //[5]
     public void reset()
@@ -472,7 +500,7 @@ public class GUIBlackJack {
         refreshPanel(manoBancoPanel);
 
         currentHand = 0;
-        controller.resetAll(mani);
+        controller.resettaMani();
 
         continuaButton.addActionListener(new ActionListener() {
             @Override
@@ -509,10 +537,11 @@ public class GUIBlackJack {
     }
 
     /**
-     * Decrementa boolean.
+     * Funzione che decrementa input dalle fiches del giocatore se possibile, ed eventualmente modifica il campo di testo
+     * che mostra il saldo
      *
-     * @param input the input
-     * @return the boolean
+     * @param input decrmenento
+     * @return vero se questo valore è decrementabile dal giocatore, altrimenti falso
      */
 //puntata con gestione saldo insufficiente
     public boolean decrementa(int input)
@@ -530,9 +559,10 @@ public class GUIBlackJack {
     }
 
     /**
-     * Gestione premio.
+     * Questa funzione si occupa di costruire i messaggi in base alla vincita della mano, di aggiornare le fiches del
+     * giocatore e di cambiare il valore nel saldo nella label
      */
-//gestione del messaggio nella fase 4 risultatiGioco
+//gestione del messaggio nella fase [4] risultatiGioco
     public void gestionePremio()
     {
         String testoAssicurazione = "";
@@ -566,9 +596,9 @@ public class GUIBlackJack {
     }
 
     /**
-     * Sets visibility pulsanti speciali.
+     * Macro per impostare la visibilità di tutti i pulsanti speciali
      *
-     * @param stato the stato
+     * @param stato true: visibile, false: non visibile
      */
 //funzioni visibilità pulsanti
     public void setVisibilityPulsantiSpeciali(boolean stato)
@@ -579,9 +609,9 @@ public class GUIBlackJack {
     }
 
     /**
-     * Sets visibility pulsanti normali.
+     * Macro per impostare la visibilità di tutti i pulsanti normali
      *
-     * @param stato the stato
+     * @param stato true: visibile, false: non visibile
      */
     public void setVisibilityPulsantiNormali(boolean stato)
     {
@@ -592,19 +622,19 @@ public class GUIBlackJack {
     }
 
     /**
-     * Pulsanti punt visibilita.
+     * Macro per impostare la visibilità di tutti i pulsanti relativi alla puntata
      *
-     * @param val the val
+     * @param stato true: visibile, false: non visibile
      */
-    public void pulsantiPuntVisibilita(boolean val)
+    public void pulsantiPuntVisibilita(boolean stato)
     {
-        puntata.setVisible(val);
-        textFieldPuntata.setVisible(val);
-        immettiButton.setVisible(val);
+        puntata.setVisible(stato);
+        textFieldPuntata.setVisible(stato);
+        immettiButton.setVisible(stato);
     }
 
     /**
-     * Rimuovi action listener.
+     * Funzione che rimuove tutti gli action listener associati a un pulsante
      *
      * @param pulsante the pulsante
      */
@@ -617,7 +647,7 @@ public class GUIBlackJack {
     }
 
     /**
-     * Refresh panel.
+     * Macro per fare revalidate e repaint di un pannello insieme
      *
      * @param pannello the pannello
      */
@@ -631,7 +661,7 @@ public class GUIBlackJack {
     }
 
     /**
-     * Refresh mano tag.
+     * Macro per aggiornare la label che tiene il conto delle mani
      */
     public void refreshManoTag()
     {
@@ -639,9 +669,9 @@ public class GUIBlackJack {
     }
 
     /**
-     * Pulsantiera.
+     * Funzione che gestisce in base allo stato della mano corrente i pulsanti da mostrare all'inizio della fase [2] e
+     * quando si ha una nuova mano
      */
-//sacrosantissima funzione che gestisce in base allo stato della mano corrente i pulsanti da mostrare all'inizio
     public void pulsantiera()
     {
         switch(controller.statoPartitaIniziale(currentHand))
@@ -667,7 +697,8 @@ public class GUIBlackJack {
     }
 
     /**
-     * Paint cards dealer 1.
+     * Funzione che aggiunge a manoBancoPanel l'immagine della prima carta (indice 0) del dealer e l'immagine di una
+     * carta coperta
      */
 //funzioni che "disegnano" le carte
     //dealer con seconda carta coperta
@@ -683,7 +714,7 @@ public class GUIBlackJack {
     }
 
     /**
-     * Paint cards dealer 2.
+     * Funzione che aggiunge a manoBancoPanel l'immagine di tutte le carte del dealer
      */
     //dealer con carte scoperte
     public void paintCardsDealer2()
@@ -701,7 +732,8 @@ public class GUIBlackJack {
     }
 
     /**
-     * Paint cards player.
+     * Funzione che aggiunge a manoGiocatorePanel l'immagine di tutte le carte della mano corrente del giocatore (di indice
+     * currentHand)
      */
     public void paintCardsPlayer()
     {
@@ -720,12 +752,12 @@ public class GUIBlackJack {
     }
 
     /**
-     * Next hand.
+     * Incrementa l'indice della mano corrente di 1 e si occupa anche di pulire la label dei risultati
      */
 //funzione per passare alla mano successiva
     public void nextHand()
     {
-        risultati.setText("");
+        risultati.setText(null);
         currentHand += 1;
     }
 }

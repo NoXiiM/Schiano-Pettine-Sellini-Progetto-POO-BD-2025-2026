@@ -1,10 +1,7 @@
 package database.DAO;
 
-import database.ConnessioneDatabase;
 import model.gestionale.Gioco;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.Duration;
 import java.time.LocalDate;

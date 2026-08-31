@@ -182,8 +182,8 @@ public class ImpDAOop implements DAOop {
     }
 
     @Override
-    public boolean loginDipendente(String[] identificativo, String[] nome, String[] cognome, String[] codiceFiscale, LocalDate[] dataDiNascita,
-                                   String[] ruolo, String username, String password) throws SQLException {
+    public void loginDipendente(String[] identificativo, String[] nome, String[] cognome, String[] codiceFiscale, LocalDate[] dataDiNascita,
+                                String[] ruolo, String username, String password) throws SQLException {
         Connection connection = ConnessioneDatabase.getInstance().connection;
 
         try (PreparedStatement query = connection.prepareStatement("select idDipendente, nome, cognome, codiceFiscale," +
@@ -201,9 +201,7 @@ public class ImpDAOop implements DAOop {
                     codiceFiscale[0] = rs.getString(4);
                     dataDiNascita[0] = rs.getDate(5).toLocalDate();
                     ruolo[0] = rs.getString(6);
-                    return true;
                 }
-                else return false;
             }
         }
     }
@@ -237,10 +235,11 @@ public class ImpDAOop implements DAOop {
     }
     //Cambio Username e password, Reset password
     @Override
-    public void cambioPassword(String nuovaPassword, String username,String ruolo) throws SQLException {
+    public void cambioPassword(String nuovaPassword, String username, String ruolo) throws SQLException {
         Connection connection = ConnessioneDatabase.getInstance().connection;
 
-        try(PreparedStatement inserimento = connection.prepareStatement("update "+ruolo+" "+
+        //ruolo non prende input da utente, non è realmente pericoloso
+        try(PreparedStatement inserimento = connection.prepareStatement("update " + ruolo + " " +
                 "set password = ? " +
                 "where username = ?"))
         {

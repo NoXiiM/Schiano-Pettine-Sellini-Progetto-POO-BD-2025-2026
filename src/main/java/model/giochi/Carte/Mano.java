@@ -43,10 +43,6 @@ public class Mano
         return gioco;
     }
 
-    public Integer getLarghezzaMano() {
-        return larghezzaMano;
-    }
-
     public ArrayList<Carta> getListaMano() {
         return listaMano;
     }

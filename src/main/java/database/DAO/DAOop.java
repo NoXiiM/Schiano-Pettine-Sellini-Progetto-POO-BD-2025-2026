@@ -112,11 +112,10 @@ public interface DAOop
      * @param ruolo          the ruolo
      * @param username       the username
      * @param password       the password
-     * @return in questo caso non ha utilità il ritorno di boolean
      * @throws SQLException the sql exception
      */
-    boolean loginDipendente(String[] identificativo, String[] nome, String[] cognome, String[] codiceFiscale, LocalDate[] dataDiNascita,
-                                String[] ruolo, String username, String password) throws SQLException;
+    void loginDipendente(String[] identificativo, String[] nome, String[] cognome, String[] codiceFiscale, LocalDate[] dataDiNascita,
+                         String[] ruolo, String username, String password) throws SQLException;
 
     /**
      * Funzione che preleva tutti gli usernames già assegnati in maniera tale da poter effettuare controlli quando

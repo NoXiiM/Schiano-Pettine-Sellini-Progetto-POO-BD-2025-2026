@@ -52,13 +52,7 @@ public class ControllerPoker extends ControllerMazzo
 
     public void resettaMani()
     {
-        int nmani = listaMani.size();
-        listaMani = new ArrayList<>();
-
-        for(int i = 0; i < nmani; i++)
-        {
-            this.addMano(creaMano(Gioco.Poker));
-        }
+        super.resettaMani(Gioco.Poker);
     }
 
     public Cliente caricaPlayer(String username, String password, ArrayList<ClientWelcomeController> loggedYet)

@@ -63,9 +63,8 @@ public class Sabot
 
         for(int i = 10 - nmani; i < numeri.length; i++)
         {
-            for(int j = 0; j < semi.length; j++)
-            {
-                listaCarte.add(new Carta(numeri[i], semi[j]));
+            for (Seme seme : semi) {
+                listaCarte.add(new Carta(numeri[i], seme));
             }
         }
     }

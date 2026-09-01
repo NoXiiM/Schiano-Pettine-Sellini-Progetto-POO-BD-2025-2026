@@ -647,10 +647,10 @@ public class GUIPoker {
         //usernameLabel.setVisible(visibilità);
     }
 
-    private void relativiRilancia(boolean visibilita)
+    private void relativiRilancia(boolean visibilità)
     {
-        spinnerPuntata.setVisible(visibilita);
-        confermaButton.setVisible(visibilita);
+        spinnerPuntata.setVisible(visibilità);
+        confermaButton.setVisible(visibilità);
     }
 
     //per togliere visibilità a tutti i bottoni

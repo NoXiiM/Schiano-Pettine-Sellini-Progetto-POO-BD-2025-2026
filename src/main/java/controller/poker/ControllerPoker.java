@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
+/**
+ * Controller realizzato per gestire la logica del Poker
+ */
 public class ControllerPoker extends ControllerMazzo
 {
     private int puntataAttuale;
@@ -21,6 +24,12 @@ public class ControllerPoker extends ControllerMazzo
     private int ante;
     private boolean almenoUnGiro;
 
+    /**
+     * Istanzia un nuovo ControllerPoker di nmani mani e con un sabot di un solo mazzo che verrà inizializzato con un
+     * numero di carte <= 52.
+     *
+     * @param nmani numero di mani
+     */
     public ControllerPoker(int nmani)
     {
         super(1, nmani, Gioco.Poker);
@@ -41,7 +50,12 @@ public class ControllerPoker extends ControllerMazzo
         mazzo.mischiaMazzo();
     }
 
-    //a ognuno 5 carte
+    /**
+     * Funzione che serve 5 carte a ogni giocatore
+     *
+     * @throws DeckOut the deck out
+     */
+//a ognuno 5 carte
     public void serviCarte() throws DeckOut
     {
         for(Mano i : listaMani)
@@ -50,11 +64,25 @@ public class ControllerPoker extends ControllerMazzo
         }
     }
 
+    /**
+     * Funzione che effettua un reset delle mani di Poker
+     */
     public void resettaMani()
     {
         super.resettaMani(Gioco.Poker);
     }
 
+    /**
+     * Funzione per effettuare il login di cliente quando vuole unirsi a una partita hostata di poker, un giocatore già
+     * loggato non può rifare il login
+     *
+     * @param username  username
+     * @param password  password
+     * @param loggedYet lista dei giocatori che hanno già compiuto il login
+     * @return null se il login è fallito, un'istanza di cliente se il login ha avuto successo
+     * @throws RuntimeException errore se il cliente è già loggato
+     * @throws SQLException     the sql exception
+     */
     public Cliente caricaPlayer(String username, String password, ArrayList<ClientWelcomeController> loggedYet)
             throws RuntimeException, SQLException
     {
@@ -98,7 +126,13 @@ public class ControllerPoker extends ControllerMazzo
         return null;
     }
 
-    //i listener delle carte aggiungono gli indici nell'array attributo di manoPoker, rimuovi carte effettua questa
+    /**
+     * Data una mano di un certo indice in lista mani si rimuovono le carte che sono state selezionate e poi a questa mano
+     * vengono riaggiunte lo stesso numero di carte
+     *
+     * @param index the index
+     */
+//i listener delle carte aggiungono gli indici nell'array attributo di manoPoker, rimuovi carte effettua questa
     //rimozione delle carte dalla mano
     public void rimischiataMano(int index)
     {
@@ -112,15 +146,33 @@ public class ControllerPoker extends ControllerMazzo
         }
     }
 
+    /**
+     * Gets puntata attuale.
+     *
+     * @return the puntata attuale
+     */
     public int getPuntataAttuale() {
         return puntataAttuale;
     }
 
+    /**
+     * Sets puntata attuale.
+     *
+     * @param puntataAttuale the puntata attuale
+     */
     public void setPuntataAttuale(int puntataAttuale) {
         this.puntataAttuale = puntataAttuale;
     }
 
-    //se rimane un solo giocatore ne restituisce la posizione
+    /**
+     * Questa funzione imposta la flag di fold della mano del giocatore come true, ma si occupa anche di verificare quanti
+     * giocatori sono rimasti in gioco, se n'è rimasto solo uno ne si restituisce l'indice in maniera tale che possa essere
+     * gestita la sua vittoria
+     *
+     * @param index the index
+     * @return the folded
+     */
+//se rimane un solo giocatore ne restituisce la posizione
     public Integer setFolded(int index)
     {
         ManoPoker temp = (ManoPoker) getMano(index);
@@ -144,6 +196,13 @@ public class ControllerPoker extends ControllerMazzo
         else return null;
     }
 
+    /**
+     * Funzione che verifica che tutti i giocatori abbiano puntato lo stesso numero di fiches nel turno corrente. Verifica
+     * prima quale sia la puntata più alta, poi si controlla fra tutte le mani non in allin e non foldate se c'è un una
+     * puntata minore della massima, in caso affermativo viene ritornato false, altrimenti true
+     *
+     * @return true: puntate uguali, false: puntate diverse
+     */
     public boolean controlloStessePuntate() {
         int maxPuntata = 0;
 
@@ -167,6 +226,11 @@ public class ControllerPoker extends ControllerMazzo
         return true;
     }
 
+    /**
+     * Controlla se tutti sono in allin
+     *
+     * @return true: tutti i giocatori sono in allin, false: alcuni giocatori non sono in allin
+     */
     public boolean tuttiAllin()
     {
         for(Mano i : listaMani)
@@ -178,6 +242,9 @@ public class ControllerPoker extends ControllerMazzo
         return true;
     }
 
+    /**
+     * Reset puntate mani.
+     */
     public void resetPuntateMani()
     {
         for(Mano i : listaMani)
@@ -186,6 +253,12 @@ public class ControllerPoker extends ControllerMazzo
         }
     }
 
+    /**
+     * Funzione che dice se la mano di indice index in listaMani è foldato oppure no
+     *
+     * @param index indice in lista mani
+     * @return true: giocatore foldato, false: giocatore non foldato
+     */
     public boolean getFolded(int index)
     {
         ManoPoker temp = (ManoPoker) getMano(index);
@@ -193,7 +266,13 @@ public class ControllerPoker extends ControllerMazzo
         return temp.isFolded();
     }
 
-    //rispetto al metodo di ControllerMazzo cambia solo il valore dell'asso
+    /**
+     * Funzione di mapping numero:valore in poker
+     *
+     * @param carta carta
+     * @return valore carta
+     */
+//rispetto al metodo di ControllerMazzo cambia solo il valore dell'asso
     public static int getValoreNumero(Carta carta) {
         int val = ControllerMazzo.getValoreNumero(carta);
 
@@ -202,7 +281,10 @@ public class ControllerPoker extends ControllerMazzo
         return val;
     }
 
-    //essendo getValoreNumero un metodo di ControllerPoker valoreCombo l'ho lasciata in questo controller, a livello
+    /**
+     * Calcola la combo di ogni mano non foldata e registra il punteggio nella mano
+     */
+//essendo getValoreNumero un metodo di ControllerPoker valoreCombo l'ho lasciata in questo controller, a livello
     //di senso comune credo che ha più senso se l'interpretazione del valore delle carte sia nel controller piuttosto che
     //nella mano stessa, anche se devo riconoscere che se avessi scritto i metodi nelle mani sarebbe stato più elegante a
     //livello di codice
@@ -221,6 +303,11 @@ public class ControllerPoker extends ControllerMazzo
         }
     }
 
+    /**
+     * Calcola la combo solo della mano in lista mani a indice index
+     *
+     * @param index indice
+     */
     public void calcolaComboSingolo(int index)
     {
         ManoPoker j = (ManoPoker) getMano(index);
@@ -228,7 +315,16 @@ public class ControllerPoker extends ControllerMazzo
         j.setValoreCombo(valoreCombo(j));
     }
 
-    //ritorna indici in listaMani dei vincitori
+    /**
+     * Questa funzione trova i vincitori fra tutte le mani non foldate e non messe in listaEsclusi. Un giocatore vince se
+     * ha la combo più alta o tie-breaker più forti dell'avversario, nel rarissimo caso di un pareggio i giocatori vengono
+     * messi entrambi nella lista dei vincitori
+     *
+     * @see ComboPoker
+     * @param listaEsclusi lista dei giocatori da non considerare
+     * @return lista vincitori
+     */
+//ritorna indici in listaMani dei vincitori
     public ArrayList<Integer> trovaVincitori(ArrayList<Integer> listaEsclusi)
     {
         ArrayList<ManoPoker> maniAttive = new ArrayList<>();
@@ -281,6 +377,12 @@ public class ControllerPoker extends ControllerMazzo
     }
 
 
+    /**
+     * Funzione che trova il nome della combo
+     *
+     * @param index indice in listaMani
+     * @return la stringa del nome della combo del giocatore all'indice index
+     */
     public String nomeCombo(int index)
     {
         ManoPoker mano = (ManoPoker) listaMani.get(index);
@@ -300,6 +402,17 @@ public class ControllerPoker extends ControllerMazzo
         };
     }
 
+    /**
+     * Questa funzione restituisce il valore della combo come array di 6 interi, il 1o valore è una costante di ComboPoker,
+     * gli altri sono tutti valori di tie-break, non tutte le combo hanno 5 tie-breaker quindi gli ultimi valori non utilizzati
+     * dell'array sono 0. La presenza di una combo in una mano è verificata facendo check dalla combo più forte a quella
+     * più debole, quando viene trovata una combo si ha un return. I vari controlli delle combo sono effettuate in altre
+     * funzioni private che seguono questa
+     *
+     * @see ComboPoker
+     * @param mano mano interessata
+     * @return valore combo int[6]
+     */
     //ritorna array che hanno 6 valori interi: 1) valore della combo (vedi ComboPoker), >2) tie-break
     private int[] valoreCombo(ManoPoker mano)
     {
@@ -571,22 +684,48 @@ public class ControllerPoker extends ControllerMazzo
         return tb;
     }
 
+    /**
+     * Il premio è da spartire tra tutti i vincitori in egual modo se non ci sono side pot dovute a degli allin
+     *
+     * @param numeroVincitori numero di vincitori
+     * @return premio
+     */
     public int calcolaPremio(int numeroVincitori)
     {
         return pot/numeroVincitori;
     }
 
+    /**
+     * Calcolo del premio in caso ci sia una sidePot per un giocatore in allin
+     *
+     * @param numeroVincitori numero di vincitori
+     * @param sidePot         side pot
+     * @return premio
+     */
     public int calcolaPremio(int numeroVincitori, int sidePot)
     {
         return sidePot/numeroVincitori;
     }
 
+    /**
+     * Per impostare correttamente il valore minimo dello spinner in base al saldo del giocatore, serve per gestire il caso
+     * in cui la puntata per giocare supera il saldo del giocatore, il giocatore può comunque andare in allin e continuare
+     * a giocare quindi min e max grazie a questa funzione combaciano e il giocatore può puntare
+     *
+     * @param saldoGiocatore saldo del giocatore
+     * @return puntata minima
+     */
     public int puntataSpinnerValue(int saldoGiocatore)
     {
         if(puntataAttuale > saldoGiocatore) return saldoGiocatore;
         else return puntataAttuale;
     }
 
+    /**
+     * Calcola la sidePot della mano in listaMani all'indice index
+     *
+     * @param index indice
+     */
     public void sidePot(int index)
     {
         ManoPoker temp = (ManoPoker) listaMani.get(index);
@@ -605,12 +744,22 @@ public class ControllerPoker extends ControllerMazzo
         temp.setSidePot(potEffettiva);
     }
 
+    /**
+     * Ruota l'ordine delle mani in lista mani in maniera tale che il primo giocatore sia l'ultimo a parlare e il secondo
+     * il primo nel prossimo turno
+     */
     public void ruotaGiocatori()
     {
         listaMani.addLast(listaMani.getFirst());
         listaMani.removeFirst();
     }
 
+    /**
+     * Funzione che serve nel caso in cui ci sono più giocatori in allin da gestire per le vincite, dopo che l'n-esimo ha
+     * ritirato la sua vincita a quelli successivi deve essere sottratta dalla side pot il valore vinto dall'n-esimo giocatore
+     *
+     * @param value vincita del giocatore in allin
+     */
     public void ricalibraSidePot(int value)
     {
         for(Mano i : listaMani)
@@ -626,6 +775,12 @@ public class ControllerPoker extends ControllerMazzo
         }
     }
 
+    /**
+     * Controlla se c'è un solo giocatore non foldato in listamani - lista di esclusione
+     *
+     * @param esclusi lista di esclusione
+     * @return true: c'è un solo giocatore attivo, false: più di un giocatore attivo
+     */
     public boolean soloUnGiocatore(ArrayList<Integer> esclusi)
     {
         int counter = 0;
@@ -640,6 +795,11 @@ public class ControllerPoker extends ControllerMazzo
         return counter == 1;
     }
 
+    /**
+     * Algoritmo di sorting per valore di side bet
+     *
+     * @param indexSB indici delle mani che hanno sideBet interessate
+     */
     public void sortPerSideBet(ArrayList<Integer> indexSB)
     {
         ArrayList<Integer> arrVal = new ArrayList<>();
@@ -667,62 +827,120 @@ public class ControllerPoker extends ControllerMazzo
         }
     }
 
+    /**
+     * Elimina mano.
+     *
+     * @param index the index
+     */
     public void eliminaMano(int index)
     {
         listaMani.remove(index);
     }
 
+    /**
+     * Is hand all in boolean.
+     *
+     * @param index the index
+     * @return the boolean
+     */
     public boolean isHandAllIn(int index)
     {
         ManoPoker temp = (ManoPoker) getMano(index);
         return temp.isAllIn();
     }
 
+    /**
+     * Sets hand all in.
+     *
+     * @param index the index
+     * @param value the value
+     */
     public void setHandAllIn(int index, boolean value)
     {
         ManoPoker temp = (ManoPoker) getMano(index);
         temp.setAllIn(value);
     }
 
+    /**
+     * Incrementa l'attributo che registra la puntata totale che ha effettuato un giocatore nella partita. Questo dato serve
+     * fondamentalmente per calcolare le side pot in caso di necessità
+     *
+     * @param index  indice giocatore
+     * @param valore incremento
+     */
     public void incrementaPuntataTotalePartita(int index, int valore) {
         ManoPoker temp = (ManoPoker) getMano(index);
         temp.incrementaPuntataTotalePartita(valore);
     }
 
-    public int getPuntataTotalePartita(int index) {
-        ManoPoker temp = (ManoPoker) getMano(index);
-        return temp.getPuntataTotalePartita();
-    }
-
+    /**
+     * Gets ante.
+     *
+     * @return the ante
+     */
     public int getAnte() {
         return ante;
     }
 
+    /**
+     * Sets ante.
+     *
+     * @param ante the ante
+     */
     public void setAnte(int ante) {
         this.ante = ante;
     }
 
+    /**
+     * Gets pot.
+     *
+     * @return the pot
+     */
     public int getPot() {
         return pot;
     }
 
+    /**
+     * Incrementa pot.
+     *
+     * @param incremento the incremento
+     */
     public void incrementaPot(int incremento) {
         pot += incremento;
     }
 
+    /**
+     * Reset pot.
+     */
     public void resetPot()
     {
         pot = 0;
     }
 
+    /**
+     * Is almeno un giro boolean.
+     *
+     * @return the boolean
+     */
     public boolean isAlmenoUnGiro() {
         return almenoUnGiro;
     }
 
+    /**
+     * Sets almeno un giro.
+     *
+     * @param almenoUnGiro the almeno un giro
+     */
     public void setAlmenoUnGiro(boolean almenoUnGiro) {
         this.almenoUnGiro = almenoUnGiro;
     }
 
+    /**
+     * Restituisce il numero di carte selezionate in una mano nella fase di rimischiata
+     *
+     * @param index indice
+     * @return numero carte selezionate
+     */
     public int getNumeroCarteSelezionate(int index)
     {
         ManoPoker temp = (ManoPoker) getMano(index);

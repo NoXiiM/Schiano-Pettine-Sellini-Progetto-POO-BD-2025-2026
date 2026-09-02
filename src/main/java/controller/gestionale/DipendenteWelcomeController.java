@@ -1,7 +1,6 @@
 package controller.gestionale;
 
 import database.implementazioneDAO.ImpDAOop;
-import database.implementazioneDAO.ImpDAOopc;
 import database.implementazioneDAO.ImpDAOopd;
 import model.gestionale.Gioco;
 import model.gestionale.Sessione;
@@ -165,10 +164,6 @@ public class DipendenteWelcomeController extends WelcomeController {
         return tavoliInLocale;
     }
 
-    public ArrayList<Cliente> getClientiInLocale() {
-        return clientiInLocale;
-    }
-
     public ArrayList<Tavolo> getTavoliInLocale() {
         return tavoliInLocale;
     }
@@ -311,10 +306,6 @@ public class DipendenteWelcomeController extends WelcomeController {
         ImpDAOopd db = new ImpDAOopd();
 
         db.eliminaDipendente(idDipendente);
-    }
-
-    public Dipendente getDipendenteCorrente(){
-        return dipendenteCorrente;
     }
 
     public ArrayList<Dipendente> getDipendentiInLocale() {

@@ -7,6 +7,8 @@ import javax.swing.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -43,7 +45,7 @@ public class TabbedMenuPlayer {
 
         thisFrame = new JFrame("TabbedMenuPlayer");
         thisFrame.setContentPane(tabbedMenuPlayer);
-        thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        thisFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         thisFrame.pack();
         thisFrame.setVisible(true);
 
@@ -132,6 +134,7 @@ public class TabbedMenuPlayer {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new ChangePass(thisFrame, controller);
+                thisFrame.setVisible(false);
             }
         });
 
@@ -142,6 +145,7 @@ public class TabbedMenuPlayer {
                 labels.add(userFieldGamePanel);
                 labels.add(userFieldSaldoPanel);
                 new ChangeUsername(thisFrame, controller, labels);
+                thisFrame.setVisible(false);
             }
         });
 
@@ -157,6 +161,7 @@ public class TabbedMenuPlayer {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new CancellaAccount(controller, thisFrame, frameChiamante);
+                thisFrame.setVisible(false);
             }
         });
         //collegamento
@@ -197,6 +202,21 @@ public class TabbedMenuPlayer {
                 }
             }
         });
+
+        thisFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                try {
+                    controller.salvaDatiClienteUscitaDaGestione();
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+                }
+
+                thisFrame.dispose();
+                frameChiamante.dispose();
+                System.exit(0);
+            }
+        });
     }
 
     private void logout(JFrame frameChiamato){
@@ -215,8 +235,7 @@ public class TabbedMenuPlayer {
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
             }
-
-            frameChiamato.setVisible(false);
+            ;
             frameChiamante.setVisible(true);
             frameChiamato.dispose();
         }

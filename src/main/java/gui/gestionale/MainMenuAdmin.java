@@ -206,8 +206,9 @@ public class MainMenuAdmin {
                 if(temp != null)
                 {
                     try {
-                        new VisualizzatoreSessioni(dipendenteController.visualizzaSessioniCliente(temp.getCodiceTesseraGiocatore()),
+                        new VisualizzatoreSessioni(thisFrame, dipendenteController.visualizzaSessioniCliente(temp.getCodiceTesseraGiocatore()),
                                 ((Cliente) listaClienti.getSelectedValue()).getUsername());
+                        thisFrame.setVisible(false);
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(null, ex.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
                     }
@@ -781,6 +782,7 @@ public class MainMenuAdmin {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new ChangePass(thisFrame, controller);
+                thisFrame.setVisible(false);
             }
         });
         cambiaUsernameButton.addActionListener(new ActionListener() {
@@ -791,6 +793,7 @@ public class MainMenuAdmin {
                 labels.add(userDipendenteLabel);
                 labels.add(userTavoliLabel);
                 new ChangeUsername(thisFrame, controller, labels);
+                thisFrame.setVisible(false);
             }
         });
 
@@ -874,7 +877,6 @@ public class MainMenuAdmin {
         );
 
         if (risposta == JOptionPane.YES_OPTION) {
-            thisFrame.setVisible(false);
             frameChiamante.setVisible(true);
             thisFrame.dispose();
         }

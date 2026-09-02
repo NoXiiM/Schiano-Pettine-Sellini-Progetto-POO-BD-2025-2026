@@ -8,9 +8,7 @@ import model.gestionale.utenteEFigli.Supervisore;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
+import java.awt.event.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -30,7 +28,7 @@ public class AssegnaDipendentiTavolo {
     {
         JFrame thisFrame = new JFrame("AssegnaDipendentiTavolo");
         thisFrame.setContentPane(panelAssegnaDipendenti);
-        thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        thisFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         thisFrame.pack();
         thisFrame.setVisible(true);
 
@@ -183,6 +181,14 @@ public class AssegnaDipendentiTavolo {
                 }
             });
         }
+
+        thisFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                thisFrame.dispose();
+                frameChiamante.setVisible(true);
+            }
+        });
     }
 
     public void stampaDipendenteInfoField(Dipendente temp)

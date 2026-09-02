@@ -8,10 +8,7 @@ import model.giochi.Carte.ManoPoker;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -86,7 +83,7 @@ public class GUIPoker {
     {
         thisFrame = new JFrame("Poker");
         thisFrame.setContentPane(pokerPanel);
-        thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        thisFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         thisFrame.pack();
         thisFrame.setVisible(true);
 
@@ -159,7 +156,27 @@ public class GUIPoker {
                     try {
                         Cliente cliente = controller.caricaPlayer(username, password, sessioniCorrenti);
 
-                        if(counterErrori == 2)
+                        if(cliente == null) {
+                            JOptionPane.showMessageDialog(null,
+                                    "credenziali sbagliate, al 3o login fallito, si ritornerà in seleziona tavoli",
+                                    "errore", JOptionPane.ERROR_MESSAGE);
+                            counterErrori++;
+                        }
+                        else
+                        {
+                            if(cliente.getSaldo() > ante)
+                            {
+                                sessioniCorrenti.add(new ClientWelcomeController(cliente));
+                                sessioniCorrenti.getLast().creaNuovaSessioneDiGioco(sessioneCorrente.getTavoloCorrente());
+                                JOptionPane.showMessageDialog(null,
+                                        "registrazione avvenuta con successo");
+                                counterErrori = 0;
+                            }
+                            else JOptionPane.showMessageDialog(null,
+                                    "il giocatore ha troppe poche fiches per giocare con l'ante di questo tavolo",
+                                    "errore", JOptionPane.ERROR_MESSAGE);
+                        }
+                        if(counterErrori == 3)
                         {
                             host.incrementaSaldoGiocatore(soldiTavolo);
                             for(ClientWelcomeController i : sessioniCorrenti)
@@ -175,20 +192,6 @@ public class GUIPoker {
 
                             return;
                         }
-                        if(cliente == null) {
-                            JOptionPane.showMessageDialog(null,
-                                    "credenziali sbagliate, al 3o login fallito, si ritornerà in seleziona tavoli",
-                                    "errore", JOptionPane.ERROR_MESSAGE);
-                            counterErrori++;
-                        }
-                        else
-                        {
-                            sessioniCorrenti.add(new ClientWelcomeController(cliente));
-                            sessioniCorrenti.getLast().creaNuovaSessioneDiGioco(sessioneCorrente.getTavoloCorrente());
-                            JOptionPane.showMessageDialog(null,
-                                    "registrazione avvenuta con successo");
-                            counterErrori = 0;
-                        }
                     } catch (SQLException | RuntimeException ex) {
                         JOptionPane.showMessageDialog(null, ex.getMessage(),
                                 "errore", JOptionPane.ERROR_MESSAGE);
@@ -196,6 +199,23 @@ public class GUIPoker {
                 }
 
                 pescataIniziale();
+            }
+        });
+        thisFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                try {
+                    host.incrementaSaldoGiocatore(soldiTavolo);
+                    for(ClientWelcomeController i : sessioniCorrenti)
+                    {
+                        i.terminaSessione();
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+                }
+
+                thisFrame.dispose();
+                frameChiamante.setVisible(true);
             }
         });
     }
@@ -217,6 +237,7 @@ public class GUIPoker {
         controller.setPuntataAttuale(0);
         //in questo caso con questa funzione si resettano i pulsanti a check e punta
         variazionePulsantePerPuntataPuntaORilancia();
+        rimuoviWindowListener(thisFrame);
 
         //eliminazione dei giocatori con un saldo minore dell'ante
         ArrayList<Integer> giocatoriDaEliminare = new ArrayList<>();
@@ -278,6 +299,23 @@ public class GUIPoker {
         sessioneCorrente = sessioniCorrenti.get(currentHand);
 
         listenerFasePuntata(true);
+
+        thisFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                try {
+                    for(ClientWelcomeController i : sessioniCorrenti)
+                    {
+                        i.terminaSessione();
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+                }
+
+                thisFrame.dispose();
+                frameChiamante.setVisible(true);
+            }
+        });
     }
 
     /**
@@ -647,10 +685,10 @@ public class GUIPoker {
         //usernameLabel.setVisible(visibilità);
     }
 
-    private void relativiRilancia(boolean visibilità)
+    private void relativiRilancia(boolean visibilita)
     {
-        spinnerPuntata.setVisible(visibilità);
-        confermaButton.setVisible(visibilità);
+        spinnerPuntata.setVisible(visibilita);
+        confermaButton.setVisible(visibilita);
     }
 
     //per togliere visibilità a tutti i bottoni
@@ -774,6 +812,13 @@ public class GUIPoker {
     {
         for (ActionListener i : pulsante.getActionListeners()) {
             pulsante.removeActionListener(i);
+        }
+    }
+
+    private void rimuoviWindowListener(JFrame frame)
+    {
+        for (WindowListener i : frame.getWindowListeners()) {
+            frame.removeWindowListener(i);
         }
     }
 
@@ -936,9 +981,10 @@ public class GUIPoker {
     }
 
 
-    //TODO gestione per allin che vince
     /**
-     * Si occupa di premiare l'ultimo giocatore rimasto con tutta la pot rimasta
+     * Si occupa di premiare l'ultimo giocatore rimasto con tutta la pot rimasta. Nota importante, nel caso limite in cui
+     * un giocatore in allin vince per fold degli altri (è assurdo foldare contro un giocatore che non può più puntarti contro)
+     * il giocatore in allin prende tutti i soldi, anche quelli a cui non potrebbe aspirare,
      *
      * @param indexVincitore indice del vincitore in sessioniCorrenti
      */
@@ -952,7 +998,7 @@ public class GUIPoker {
         // essere disabilitata se finisce la partita)
         controller.setAlmenoUnGiro(false);
 
-        sessioneCorrente.incrementaSaldoGiocatore(controller.getPot());
+        if(controller.isHandAllIn(indexVincitore)) sessioneCorrente.incrementaSaldoGiocatore(controller.getPot());
         infoTextPane.setText(null);
 
         JOptionPane.showMessageDialog(null, "il giocatore " + sessioneCorrente.getClienteUsername() +

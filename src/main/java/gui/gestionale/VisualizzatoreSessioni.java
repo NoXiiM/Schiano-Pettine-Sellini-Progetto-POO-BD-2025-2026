@@ -7,6 +7,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 public class VisualizzatoreSessioni
@@ -19,11 +21,11 @@ public class VisualizzatoreSessioni
 
     private static DefaultListModel<Sessione> modelloListaSessioni;
 
-    public VisualizzatoreSessioni(ArrayList<Sessione> sessioni, String user)
+    public VisualizzatoreSessioni(JFrame frameChiamante, ArrayList<Sessione> sessioni, String user)
     {
         JFrame thisFrame = new JFrame("VisualizzatoreSessioni");
         thisFrame.setContentPane(visualizzatoreSessioniPanel);
-        thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        thisFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         thisFrame.pack();
         thisFrame.setVisible(true);
 
@@ -40,6 +42,7 @@ public class VisualizzatoreSessioni
             @Override
             public void actionPerformed(ActionEvent e) {
                 thisFrame.dispose();
+                frameChiamante.setVisible(true);
             }
         });
 
@@ -53,6 +56,14 @@ public class VisualizzatoreSessioni
                     textAreaSessioni.setText(temp.infoSessione());
                 }
                 else textAreaSessioni.setText(null);
+            }
+        });
+
+        thisFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                thisFrame.dispose();
+                frameChiamante.setVisible(true);
             }
         });
     }

@@ -7,8 +7,7 @@ import model.giochi.Carte.ManoBlackJack;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.sql.SQLException;
 import java.util.Objects;
 
@@ -87,7 +86,7 @@ public class GUIBlackJack {
 
         thisFrame = new JFrame("GUIBlackJack");
         thisFrame.setContentPane(blackjackPanel);
-        thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        thisFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         thisFrame.pack();
         thisFrame.setVisible(true);
         Dimension minDim = new Dimension(900, 500);
@@ -162,6 +161,19 @@ public class GUIBlackJack {
                 frameChiamante.setVisible(true);
             }
         });
+        thisFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                try {
+                    sessioneCorrente.terminaSessione();
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+                }
+
+                thisFrame.dispose();
+                frameChiamante.setVisible(true);
+            }
+        });
     }
 
     /**
@@ -176,6 +188,7 @@ public class GUIBlackJack {
         rimuoviActionListener(startButton);
         rimuoviActionListener(immettiButton);
         rimuoviActionListener(indietroButton);
+        rimuoviWindowListener(thisFrame);
 
         pulsantiPuntVisibilita(true);
         indietroButton.setVisible(true);
@@ -232,6 +245,21 @@ public class GUIBlackJack {
                 frameChiamante.setVisible(true);
             }
         });
+        thisFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                sessioneCorrente.incrementaSaldoGiocatore(controller.restituisciPuntate());
+
+                try {
+                    sessioneCorrente.terminaSessione();
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+                }
+
+                thisFrame.dispose();
+                frameChiamante.setVisible(true);
+            }
+        });
     }
 
     /**
@@ -250,6 +278,7 @@ public class GUIBlackJack {
         rimuoviActionListener(chiediButton);
         rimuoviActionListener(raddoppiaButton);
         rimuoviActionListener(dividiButton);
+        rimuoviWindowListener(thisFrame);
 
         indietroButton.setVisible(false);
 
@@ -400,6 +429,18 @@ public class GUIBlackJack {
                 dividiButton.setVisible(false);
                 refreshManoTag();
                 mani += 1;
+            }
+        });
+        thisFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                try {
+                    sessioneCorrente.terminaSessione();
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+                }
+                thisFrame.dispose();
+                frameChiamante.setVisible(true);
             }
         });
     }
@@ -643,6 +684,19 @@ public class GUIBlackJack {
     {
         for (ActionListener i : pulsante.getActionListeners()) {
             pulsante.removeActionListener(i);
+        }
+    }
+
+    /**
+     * Funzione che rimuove tutti i window listener associati a un pulsante
+     *
+     * @param frame the frame
+     */
+//funzione per pulire tutti gli action listener di un jbutton
+    public void rimuoviWindowListener(JFrame frame)
+    {
+        for (WindowListener i : frame.getWindowListeners()) {
+            frame.removeWindowListener(i);
         }
     }
 

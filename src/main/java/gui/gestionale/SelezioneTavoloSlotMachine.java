@@ -12,6 +12,8 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -34,7 +36,7 @@ public class SelezioneTavoloSlotMachine {
     {
         thisFrame= new JFrame("SelezioneTavoloSlotMachine");
         thisFrame.setContentPane(selezioneTavoloPanel);
-        thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        thisFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         thisFrame.pack();
         thisFrame.setVisible(true);
         Dimension dimensioniMinime = new Dimension(700,200);
@@ -103,6 +105,14 @@ public class SelezioneTavoloSlotMachine {
                 int idTavolo = controller.getIdFromList(tavoloSelezionato);
                 selezioneListaLabel.setText(controller.getTavoloWithId(idTavolo).toString());
                 selezioneListaLabel.setVisible(true);
+            }
+        });
+
+        thisFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                thisFrame.dispose();
+                frameChiamante.setVisible(true);
             }
         });
     }

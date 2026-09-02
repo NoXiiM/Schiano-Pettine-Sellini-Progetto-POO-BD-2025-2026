@@ -39,7 +39,7 @@ public class RegistrationDipendente {
 
         JFrame frameChiamato = new JFrame("RegistrationDipendente");
         frameChiamato.setContentPane(registrationPanel);
-        frameChiamato.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frameChiamato.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frameChiamato.pack();
         frameChiamato.setVisible(true);
 

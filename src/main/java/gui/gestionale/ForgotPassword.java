@@ -6,6 +6,8 @@ import controller.gestionale.WelcomeController;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 
 public class ForgotPassword {
@@ -24,11 +26,11 @@ public class ForgotPassword {
         this.controller= welcomeController;
         this.frameChiamante= mainframe;
 
-        JFrame frameChiamato = new JFrame("TabbedMenuPlayer");
-        frameChiamato.setContentPane(ForgotPassPanel);
-        frameChiamato.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frameChiamato.pack();
-        frameChiamato.setVisible(true);
+        JFrame thisFrame = new JFrame("TabbedMenuPlayer");
+        thisFrame.setContentPane(ForgotPassPanel);
+        thisFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        thisFrame.pack();
+        thisFrame.setVisible(true);
 
         frameChiamante.setVisible(false);
 
@@ -56,10 +58,18 @@ public class ForgotPassword {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                frameChiamato.setVisible(false);
+                thisFrame.setVisible(false);
                 frameChiamante.setVisible(true);
-                frameChiamato.dispose();
+                thisFrame.dispose();
 
+            }
+        });
+
+        thisFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                thisFrame.dispose();
+                frameChiamante.setVisible(true);
             }
         });
     }

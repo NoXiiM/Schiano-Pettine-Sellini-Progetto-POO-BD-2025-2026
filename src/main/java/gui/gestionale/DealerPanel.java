@@ -198,6 +198,7 @@ public class DealerPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new ChangePass(thisFrame, controller);
+                thisFrame.setVisible(false);
             }
         });
         cambiaUsernameButton.addActionListener(new ActionListener() {
@@ -206,6 +207,7 @@ public class DealerPanel {
                 ArrayList<JLabel> labels = new ArrayList<>();
                 labels.add(usernameSessionePanel);
                 new ChangeUsername(thisFrame, controller, labels);
+                thisFrame.setVisible(false);
             }
         });
         resettaPasswordButton.addActionListener(new ActionListener() {

@@ -9,6 +9,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 
 public class GUISlotMachine {
@@ -41,7 +43,7 @@ public class GUISlotMachine {
 
         thisFrame = new JFrame("GUISlotMachine");
         thisFrame.setContentPane(slotMachinePanel);
-        thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        thisFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         thisFrame.pack();
         thisFrame.setVisible(true);
         //Personalizzazione finestra
@@ -79,7 +81,7 @@ public class GUISlotMachine {
 
         a10RadioButton.setSelected(true);
         controller = new slotMachineController();
-        /// settaggio foto
+        //Settaggio foto
         Image img = new ImageIcon(
                 getClass().getResource(controller.getPathSette())
         ).getImage().getScaledInstance(75, 75, Image.SCALE_SMOOTH);
@@ -166,7 +168,19 @@ public class GUISlotMachine {
         tornaIndietroButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                try {
+                    sessioneCorrente.terminaSessione();
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+                }
 
+                thisFrame.dispose();
+                frameChiamante.setVisible(true);
+            }
+        });
+        thisFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
                 try {
                     sessioneCorrente.terminaSessione();
                 } catch (SQLException ex) {

@@ -5,6 +5,8 @@ import controller.gestionale.ClientWelcomeController;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 
@@ -30,11 +32,11 @@ public class RegistrationForm {
         this.controller= controller;
         this.frameChiamante= mainframe;
 
-        JFrame frameChiamato = new JFrame("RegistrationForm");
-        frameChiamato.setContentPane(registrationPanel);
-        frameChiamato.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frameChiamato.pack();
-        frameChiamato.setVisible(true);
+        JFrame thisFrame = new JFrame("RegistrationForm");
+        thisFrame.setContentPane(registrationPanel);
+        thisFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        thisFrame.pack();
+        thisFrame.setVisible(true);
 
         frameChiamante.setVisible(false);
 
@@ -58,9 +60,9 @@ public class RegistrationForm {
                     controller.registrazioneCliente(usernameRegField.getText(), nameRegField.getText(), surnameRegField.getText(), codFisRegField.getText(), dataNascita, password, deposito);
                     JOptionPane.showMessageDialog(null, "Registrazione completata con successo");
 
-                    frameChiamato.setVisible(false);
+                    thisFrame.setVisible(false);
                     frameChiamante.setVisible(true);
-                    frameChiamato.dispose();
+                    thisFrame.dispose();
 
                 } catch (DateTimeException ex) {        //combinazioni come 31 Febbraio sono selezionabili ma non esistono, LocalDate.of le rifiuta
                     JOptionPane.showMessageDialog(null, "Data non valida.", "Errore", JOptionPane.ERROR_MESSAGE);
@@ -86,10 +88,18 @@ public class RegistrationForm {
                 );
 
                 if (risposta == JOptionPane.YES_OPTION) {
-                    frameChiamato.setVisible(false);
+                    thisFrame.setVisible(false);
                     frameChiamante.setVisible(true);
-                    frameChiamato.dispose();
+                    thisFrame.dispose();
                 }
+            }
+        });
+
+        thisFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                thisFrame.dispose();
+                frameChiamante.setVisible(true);
             }
         });
     }

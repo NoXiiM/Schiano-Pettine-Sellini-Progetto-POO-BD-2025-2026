@@ -1,0 +1,5 @@
+#per non inviare file di target che possono causare anomalie facendo merge con file compilati di altre versioni del codice
+target/
+#per evitare push di file iml, di configurazione personale
+.idea/
+*.iml

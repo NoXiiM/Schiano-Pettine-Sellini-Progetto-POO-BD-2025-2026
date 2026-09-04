@@ -6,11 +6,11 @@ import java.sql.SQLException;
 
 public class ConnessioneDatabase {
 	private static ConnessioneDatabase instance;
-	public Connection connection = null;
-	private String nome = "postgres";
-	private String password = "Mirko7";
-	private String url = "jdbc:postgresql://localhost:5432/progettocasinò";
-	private String driver = "org.postgresql.Driver";
+    public Connection connection;
+	private final String nome = "postgres";
+	private final String password = "Tigrocane";
+	private final String url = "jdbc:postgresql://localhost:5432/progettocasinò";
+	private final String driver = "org.postgresql.Driver";
 
 	private ConnessioneDatabase() throws SQLException {
 		try {
@@ -18,15 +18,12 @@ public class ConnessioneDatabase {
 			connection = DriverManager.getConnection(url, nome, password);
 
 		} catch (ClassNotFoundException e) {
-			System.out.println("Driver non trovato: " + e.getMessage());
-		} catch (SQLException e) {
-			System.out.println("Errore di connessione SQL effettivo:");
-			e.printStackTrace();
+			throw new SQLException("driver non trovato");
 		}
 	}
 
 
-	public static ConnessioneDatabase getInstance() throws SQLException {
+    public static ConnessioneDatabase getInstance() throws SQLException {
 		if (instance == null) instance = new ConnessioneDatabase();
 		else if (instance.connection.isClosed()) instance = new ConnessioneDatabase();
 		return instance;

@@ -62,8 +62,8 @@ public abstract class ControllerMazzo
      */
     protected Mano creaMano(Gioco gioco)
     {
-        if(gioco.equals(Gioco.Blackjack)) return new ManoBlackJack(gioco);
-        if(gioco.equals(Gioco.Poker)) return new ManoPoker(gioco);
+        if(gioco.equals(Gioco.Blackjack)) return new ManoBlackJack();
+        if(gioco.equals(Gioco.Poker)) return new ManoPoker();
         return null;
     }
 

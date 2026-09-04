@@ -26,7 +26,7 @@ public class ControllerBlackJack extends ControllerMazzo
         mazzo.inizializzaSabot();
         mazzo.mischiaMazzo();
 
-        banco = new ManoBlackJack(Gioco.Blackjack);
+        banco = new ManoBlackJack();
         indiceRiduzioneMano = 0;
     }
 
@@ -39,7 +39,7 @@ public class ControllerBlackJack extends ControllerMazzo
 
     @Override
     public ManoBlackJack creaMano(Gioco gioco) {
-        return new ManoBlackJack(gioco);
+        return new ManoBlackJack();
     }
 
     /**
@@ -284,7 +284,7 @@ public class ControllerBlackJack extends ControllerMazzo
     {
         super.resettaMani(Gioco.Blackjack);
 
-        banco = new ManoBlackJack(Gioco.Blackjack);
+        banco = new ManoBlackJack();
     }
 
     /**
@@ -299,7 +299,7 @@ public class ControllerBlackJack extends ControllerMazzo
     {
         ManoBlackJack manoCorrente = getMano(index);
 
-        ManoBlackJack nuovaMano = new ManoBlackJack(Gioco.Blackjack);
+        ManoBlackJack nuovaMano = new ManoBlackJack();
 
         nuovaMano.setPuntata(manoCorrente.getPuntata());
 

@@ -291,6 +291,7 @@ public class DealerPanel {
                                         "errore", JOptionPane.ERROR_MESSAGE);
                             }
 
+                            //TODO potrebbe essere anti pattern
                             modelloListaSessioni.clear();
                             try {
                                 modelloListaSessioni.addAll(controller.visualizzaSessioniTavolo(null,userSuspect,userSessione));

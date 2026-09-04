@@ -7,18 +7,16 @@ import java.util.ArrayList;
 
 public class Tavolo
 {
-    private int idTavolo;
+    private final int idTavolo;
     private Gioco gioco;
-    private int numeroPosti;
+    private final int numeroPosti;
 
     //attributi da associazioni
 
     private Dealer dealer;
     private String idDealer;
     private ArrayList<Supervisore> supervisori;
-    //probabilmente non serve
-    //private ArrayList<Giocatore> listaGiocatori;
-    //private ArrayList<Sessione> sessioniAperteSulTavolo = new ArrayList<>();
+
     public Tavolo(int idTavolo, Gioco gioco, int numeroPosti)
     {
         this.idTavolo = idTavolo;
@@ -79,6 +77,10 @@ public class Tavolo
 
     public ArrayList<Supervisore> getSupervisori() {
         return supervisori;
+    }
+
+    public void setGioco(Gioco gioco) {
+        this.gioco = gioco;
     }
 }
 

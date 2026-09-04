@@ -23,8 +23,8 @@ public class ClientWelcomeController extends WelcomeController {
 
     /**
      * Costruttore che istanzia un nuovo ClientWelcomeController a partire dal WelcomeController, questo comporta l'esistenza
-     * di 2 controller, questo tipo di logica comporta il dover gestire la pulizia dei dati di WelcomeController quando un
-     * utente effettua il logout
+     * di 2 controller, questo tipo di logica comporta il dover gestire la pulizia dei dati di WelcomeController in
+     * alcuni casi
      *
      * @param controller WelcomeController
      */
@@ -124,8 +124,8 @@ public class ClientWelcomeController extends WelcomeController {
      * @param pass1   password
      * @param pass2   conferma password
      * @return true: cambio username effettuato con successo, false: cambio username fallito
-     * @throws RuntimeException errore lanciato se le 2 password non coincidono, se le password coincidono ma non sono corrette,
-     * se l'username è già stato preso
+     * @throws RuntimeException errore lanciato se non sono stati compilati tutti i campi, se le 2 password non coincidono
+     *  se le password coincidono ma sono errate, se l'username è già stato preso
      * @throws SQLException     the sql exception
      */
     public boolean changeUsername(String newUser, String pass1, String pass2) throws RuntimeException, SQLException{

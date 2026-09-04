@@ -95,7 +95,7 @@ public class CreaTavolo {
                     try {
                         if(controller.idGiaPreso(numero))
                         {
-                            JOptionPane.showMessageDialog(null, "codice assegnato già ad un altro" +
+                            JOptionPane.showMessageDialog(null, "codice assegnato già ad un altro " +
                                     "tavolo", "errore", JOptionPane.ERROR_MESSAGE);
                             return;
                         }

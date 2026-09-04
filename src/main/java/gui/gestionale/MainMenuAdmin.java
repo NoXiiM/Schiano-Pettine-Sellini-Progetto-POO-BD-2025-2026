@@ -171,21 +171,22 @@ public class MainMenuAdmin {
                 Cliente temp= (Cliente) listaClienti.getSelectedValue();
 
                 if(temp != null) {
+                    if(temp.getBan() != null)
+                    {
+                        JOptionPane.showMessageDialog(null, "il cliente è già stato bannato",
+                                "errore", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+
                     String input = JOptionPane.showInputDialog(null, "Inserisci motivo ban:", "Ban utente", JOptionPane.QUESTION_MESSAGE);
 
                     if (input != null && !input.isBlank()) {
-
-                        temp.creaBan(input);
-
-                        stampaClienteInfoField(temp);
-
-                        ImpDAOopd db = new ImpDAOopd();
-
                         try {
-                            db.salvataggioBan(temp.getCodiceTesseraGiocatore(), temp.getDataBan(), temp.getMotivoBan());
+                            controller.creazioneBan(temp, input);
                             JOptionPane.showMessageDialog(null, "ban registrato con successo");
+                            stampaClienteInfoField(temp);
                         } catch (SQLException ex) {
-                            JOptionPane.showMessageDialog(null, "errore salvataggio ban",
+                            JOptionPane.showMessageDialog(null, ex,
                                     "errore", JOptionPane.ERROR_MESSAGE);
                         }
                     } else {
@@ -682,11 +683,7 @@ public class MainMenuAdmin {
                         }
 
                         modelloListaTavoli.clear();
-                        try {
-                            modelloListaTavoli.addAll(dipendenteController.getTavoliDB());
-                        } catch (SQLException ex) {
-                            JOptionPane.showMessageDialog(null, ex.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
-                        }
+                        modelloListaTavoli.addAll(dipendenteController.getTavoliInLocale());
                     }
                     return;
                 }
@@ -704,11 +701,7 @@ public class MainMenuAdmin {
                         }
 
                         modelloListaTavoli.clear();
-                        try {
-                            modelloListaTavoli.addAll(dipendenteController.getTavoliDB());
-                        } catch (SQLException ex) {
-                            JOptionPane.showMessageDialog(null, ex.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
-                        }
+                        modelloListaTavoli.addAll(dipendenteController.getTavoliInLocale());
                     }
                 }
             }

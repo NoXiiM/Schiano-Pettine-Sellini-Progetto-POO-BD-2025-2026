@@ -1,6 +1,20 @@
 package model.gestionale;
 
+/**
+ * Enumeration sui tipi di gioco che fornisce il casinò
+ */
 public enum Gioco
 {
-    Blackjack, Poker, SlotMachine
+    /**
+     * Blackjack
+     */
+    Blackjack,
+    /**
+     * Poker
+     */
+    Poker,
+    /**
+     * Slot machine
+     */
+    SlotMachine
 }

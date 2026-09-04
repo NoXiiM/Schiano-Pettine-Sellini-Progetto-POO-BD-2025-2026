@@ -38,7 +38,7 @@ public class AssegnaDipendentiTavolo {
         if(!deleteMode) controller.dividiDealerSupervisore(dealers, supervisori);
         else controller.dividiDealerSupervisoreTavoloAtIndex(dealers, supervisori, indiceTavolo);
 
-        modelloListaDealer= new DefaultListModel<>();
+        modelloListaDealer = new DefaultListModel<>();
         modelloListaDealer.addAll(dealers);
         listaDealer.setModel(modelloListaDealer);
 
@@ -163,9 +163,8 @@ public class AssegnaDipendentiTavolo {
                         }
                     } else if ((temp = (Dipendente) listaSupervisori.getSelectedValue()) != null) {
                         try {
-                            controller.eliminaSupervisore(indiceTavolo, temp.getIdentificativoDipendente());
+                            controller.eliminaSupervisore(indiceTavolo, (Supervisore) temp);
 
-                            controller.rimuoviSupervisoreAtIndex((Supervisore) temp, indiceTavolo);
                             supervisori.remove(temp);
 
                             modelloListaSupervisore.clear();

@@ -16,6 +16,10 @@ import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * Interfaccia di selezione per tavoli da BlackJack.
+ */
+
 public class SelezioneTavoloBlackJack
 {
     private JPanel selezioneTavoloPanel;
@@ -28,6 +32,13 @@ public class SelezioneTavoloBlackJack
 
     private static DefaultListModel<String> modellolistaTavoli;
 
+    /**
+     * Costruttore di SelezioneTavoloBlackJack, popola e rende visibile la lista dei tavoli disponibili per il BlackJack.
+     *
+     * @param frameChiamante    interfaccia principale per clienti: {@link TabbedMenuPlayer}, resa nuovamente visibile alla fine della sessione di gioco
+     * @param clienteController controller contenente le info necessarie per la gestione del cliente: {@link ClientWelcomeController}
+     * @param mainMenu          riferimento al menu principale, usato per aggiornare il saldo del giocatore al ritorno: {@link TabbedMenuPlayer}
+     */
     public SelezioneTavoloBlackJack(JFrame frameChiamante, ClientWelcomeController clienteController, TabbedMenuPlayer mainMenu)
     {
         JFrame thisFrame= new JFrame("SelezioneTavoloBlackJack");

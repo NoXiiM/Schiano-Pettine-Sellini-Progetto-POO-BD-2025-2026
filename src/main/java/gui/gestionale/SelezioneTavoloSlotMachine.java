@@ -33,17 +33,14 @@ public class SelezioneTavoloSlotMachine {
 
     private TavoloController controller;
 
-    /**
-     * The Modellolista tavoli.
-     */
     public static DefaultListModel<String> modellolistaTavoli;
 
     /**
-     * Costruttore di SelezioneTavoloSlotMachine,
+     * Costruttore di SelezioneTavoloSlotMachine, popola e rende visibile la lista dei tavoli disponibili per le Slot Machines
      *
-     * @param frameChiamante    interfaccia principale per clienti: {@link TabbedMenuPlayer}
-     * @param clienteController controller per clienti: {@link ClientWelcomeController}
-     * @param mainMenu          riferimento a {@link TabbedMenuPlayer} necessario per aggiornare il saldo nella scheramata principale
+     * @param frameChiamante    interfaccia principale per clienti: {@link TabbedMenuPlayer}, resa nuovamente visibile alla fine della sessione di gioco
+     * @param clienteController controller contenente le info necessarie per la gestione del cliente: {@link ClientWelcomeController}
+     * @param mainMenu          riferimento al menu principale, usato per aggiornare il saldo del giocatore al ritorno: {@link TabbedMenuPlayer}
      */
     public SelezioneTavoloSlotMachine(JFrame frameChiamante, ClientWelcomeController clienteController, TabbedMenuPlayer mainMenu)
     {
@@ -97,7 +94,7 @@ public class SelezioneTavoloSlotMachine {
                         clienteController.creaNuovaSessioneDiGioco(controller.getTavoloWithId(idTavolo));
                         new GUISlotMachine(thisFrame, clienteController);
                     } catch (RuntimeException ex) {
-                        ex.getMessage();
+                        JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                     }
                 }
                 else

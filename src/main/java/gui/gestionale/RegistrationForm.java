@@ -10,6 +10,9 @@ import java.awt.event.WindowEvent;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 
+/**
+ * Form per la registrazione di un nuovo cliente.
+ */
 public class RegistrationForm {
     private JPanel registrationPanel;
     private JTextField usernameRegField;
@@ -28,6 +31,12 @@ public class RegistrationForm {
     private JFrame frameChiamante;
     private ClientWelcomeController controller;
 
+    /**
+     * Costruttore di RegistrationForm, richiede che vengano inseriti i dati per la registrazione di un CLIENTE e un deposito minimo obbligatorio.
+     *
+     * @param controller controller contenente le info necessarie per la gestione del cliente: {@link ClientWelcomeController}
+     * @param mainframe  interfaccia di login al quale tornare alla fine della registrazione
+     */
     public RegistrationForm(ClientWelcomeController controller, JFrame mainframe) {
         this.controller= controller;
         this.frameChiamante= mainframe;

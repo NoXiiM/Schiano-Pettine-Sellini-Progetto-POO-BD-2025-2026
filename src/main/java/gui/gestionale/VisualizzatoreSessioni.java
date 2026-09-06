@@ -11,6 +11,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
+/**
+ * Interfaccia che mostra tutte le sessioni svolte da un utente con le relative info.
+ */
 public class VisualizzatoreSessioni
 {
     private JList listaSessioni;
@@ -21,6 +24,13 @@ public class VisualizzatoreSessioni
 
     private static DefaultListModel<Sessione> modelloListaSessioni;
 
+    /**
+     * Instantiates a new Visualizzatore sessioni.
+     *
+     * @param frameChiamante the frame chiamante
+     * @param sessioni       the sessioni
+     * @param user           the user
+     */
     public VisualizzatoreSessioni(JFrame frameChiamante, ArrayList<Sessione> sessioni, String user)
     {
         JFrame thisFrame = new JFrame("VisualizzatoreSessioni");

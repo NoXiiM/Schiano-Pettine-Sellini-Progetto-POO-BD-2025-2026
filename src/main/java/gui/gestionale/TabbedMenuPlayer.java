@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * Intercaccia principale per il cliente, dal quale è possibile avviare i giochi (tranne in caso di ban), gestire il saldo e modificare/eliminare il proprio account.
+ * Intercaccia principale per il {@link model.gestionale.utenteEFigli.Cliente}, dal quale è possibile avviare i giochi (tranne in caso di ban), gestire il saldo e modificare/eliminare il proprio account.
  */
 public class TabbedMenuPlayer {
     private JTabbedPane tabbedMenuPlayer;
@@ -43,11 +43,10 @@ public class TabbedMenuPlayer {
     private ClientWelcomeController controller;
 
     /**
-     * Costruttore di TabbedMenuPlayer, passati come parametri il {@link ClientWelcomeController} ed il mainframe (static).
-     * <p>
-     * Dal costruttore vengono chiamate le interfacce dei giochi e di modifica/eliminazione, la gestione del saldo avviene invece tramite JOptionPane
-     * @param controller versione di {@link controller.gestionale.WelcomeController} specifica per gestione di {@link model.gestionale.utenteEFigli.Cliente}
-     * @param mainframe interfaccia di login
+     * Costruttore di TabbedMenuPlayer, vengono chiamati i frame dei giochi e di modifica/eliminazione account, la gestione del saldo avviene invece tramite JOptionPane
+     *
+     * @param controller controller contenente le info necessarie per la gestione del cliente: {@link ClientWelcomeController}
+     * @param mainframe interfaccia di login al quale tornare quando si esegue il logout
      */
     public TabbedMenuPlayer(ClientWelcomeController controller, JFrame mainframe) {
         this.frameChiamante = mainframe;

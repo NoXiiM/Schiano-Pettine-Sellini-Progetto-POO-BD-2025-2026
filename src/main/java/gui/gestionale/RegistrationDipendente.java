@@ -1,5 +1,6 @@
 package gui.gestionale;
 
+import controller.gestionale.ClientWelcomeController;
 import controller.gestionale.DipendenteWelcomeController;
 import model.gestionale.Gioco;
 import model.gestionale.utenteEFigli.Dealer;
@@ -12,6 +13,9 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+/**
+ * Form per l'aggiunta di un nuovo dipendente (solo un supervisore può aggiungere un nuovo dipendente).
+ */
 public class RegistrationDipendente {
     private JPanel registrationPanel;
     private JTextField usernameRegField;
@@ -32,6 +36,12 @@ public class RegistrationDipendente {
     private JFrame frameChiamante;
     private DipendenteWelcomeController controller;
 
+    /**
+     * Costruttore di RegistrationDipendente, richiede che vengano inseriti i dati per la registrazione di un DIPENDENTE, il ruolo e, se é un dealer, i giochi a cui è adibito .
+     *
+     * @param frameChiamante interfaccia principale dei supervisori: {@link MainMenuAdmin}, resa nuovamente visibile alla fine della registrazione del nuovo dipendente
+     * @param controller     controller contenente le info necessarie per la gestione del dipendente: {@link DipendenteWelcomeController}
+     */
     public RegistrationDipendente(JFrame frameChiamante, DipendenteWelcomeController controller) {
 
         this.frameChiamante= frameChiamante;

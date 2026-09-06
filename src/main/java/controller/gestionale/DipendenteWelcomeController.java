@@ -383,6 +383,7 @@ public class DipendenteWelcomeController extends WelcomeController {
             new ImpDAOopd().aggiungiGiocoDealer(idTesseraDip, gioco);
         }
 
+        //se le operazioni sul db vanno a buon fine aggiunge localmente
         if(ruolo.equals("Supervisore")) dipendentiInLocale.add(new Supervisore(username, nome, cognome, codiceFiscale, dataNascita, password, idTesseraDip));
         if(ruolo.equals("Dealer")) dipendentiInLocale.add(new Dealer(username, nome, cognome, codiceFiscale, dataNascita, password, idTesseraDip,gioco));
 

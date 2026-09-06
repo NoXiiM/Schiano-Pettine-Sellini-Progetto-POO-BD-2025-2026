@@ -16,6 +16,10 @@ import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * Interfaccia di selezione per tavoli da poker.
+ */
+
 public class SelezioneTavoloPoker {
     private JList<String> listaTavoli;
     private JTextArea informazioniTavolo;
@@ -27,6 +31,13 @@ public class SelezioneTavoloPoker {
 
     private static DefaultListModel<String> modellolistaTavoli;
 
+    /**
+     * Costruttore di SelezioneTavoloPoker, popola e rende visibile la lista dei tavoli disponibili per il Poker.
+     *
+     * @param frameChiamante    interfaccia principale per clienti: {@link TabbedMenuPlayer}, resa nuovamente visibile alla fine della sessione di gioco
+     * @param clienteController controller contenente le info necessarie per la gestione del cliente: {@link ClientWelcomeController}
+     * @param mainMenu          riferimento al menu principale, usato per aggiornare il saldo del giocatore al ritorno: {@link TabbedMenuPlayer}
+     */
     public SelezioneTavoloPoker(JFrame frameChiamante, ClientWelcomeController clienteController, TabbedMenuPlayer mainMenu)
     {
         JFrame thisFrame = new JFrame("SelezioneTavoloPoker");

@@ -1,7 +1,7 @@
 package gui.gestionale;
 
+import controller.gestionale.ClientWelcomeController;
 import controller.gestionale.DipendenteWelcomeController;
-import database.implementazioneDAO.ImpDAOopd;
 import model.gestionale.Gioco;
 import model.gestionale.Tavolo;
 import model.gestionale.utenteEFigli.Cliente;
@@ -17,7 +17,9 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-//manca: parte di gestione tavoli e gestione account
+/**
+ * Intercaccia principale per il {@link Supervisore}, dal quale è possibile gestire clienti, dipendenti, tavoli e modificare il proprio account.
+ */
 
 public class MainMenuAdmin {
     private JPanel AdminPanel;
@@ -110,9 +112,17 @@ public class MainMenuAdmin {
     private static DefaultListModel<Dipendente> modelloListaDipendente;
     private static DefaultListModel<Tavolo> modelloListaTavoli;
 
-    public MainMenuAdmin(DipendenteWelcomeController controller, JFrame frameChiamante) {
+    /**
+     * Costruttore di MainMenuAdmin, popola e rende visibile la lista dei Clienti, permettendo di visualizzarne le sessioni e di bannare,
+     * di Dipendenti, permettendo di aggiungerne nuovi e di modificare i giochi di un Dealer,
+     * e dei Tavoli, permettendone l'aggiunta/rimozione e l'assegnazione/rimozione di un Supervisore.
+     *
+     * @param controller    controller contenente le info necessarie per la gestione del dipendente: {@link DipendenteWelcomeController}
+     * @param mainframe     interfaccia di login al quale tornare quando si esegue il logout
+     */
+    public MainMenuAdmin(DipendenteWelcomeController controller, JFrame mainframe) {
         dipendenteController = controller;
-        this.frameChiamante= frameChiamante;
+        this.frameChiamante= mainframe;
 
         modelloListaClienti= new DefaultListModel<>();
         try {
@@ -152,7 +162,7 @@ public class MainMenuAdmin {
         thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         thisFrame.pack();
         thisFrame.setVisible(true);
-        frameChiamante.setVisible(false);
+        mainframe.setVisible(false);
 
         textAreaInfoFieldClienti.setEditable(false);
         textAreaInfoFieldClienti.setFocusable(false);
@@ -877,9 +887,20 @@ public class MainMenuAdmin {
     }
 
 
+    /**
+     * Gets modello lista dipendente.
+     *
+     * @return the modello lista dipendente
+     */
     public static DefaultListModel<Dipendente> getModelloListaDipendente() {//Serve in registazione per aggiornare lista
         return modelloListaDipendente;
     }
+
+    /**
+     * Gets modello lista tavoli.
+     *
+     * @return the modello lista tavoli
+     */
     public static DefaultListModel<Tavolo> getModelloListaTavoli() {//Serve in registazione per aggiornare lista
         return modelloListaTavoli;
     }

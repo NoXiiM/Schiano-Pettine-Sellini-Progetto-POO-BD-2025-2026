@@ -1,6 +1,7 @@
 package gui.gestionale;
 
 import controller.gestionale.ClientWelcomeController;
+import controller.gestionale.DipendenteWelcomeController;
 import controller.gestionale.WelcomeController;
 
 import javax.swing.*;
@@ -10,6 +11,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 
+/**
+ * Interfaccia per resettare la password, valida sia per {@link model.gestionale.utenteEFigli.Dipendente} che per {@link model.gestionale.utenteEFigli.Cliente}.
+ */
 public class ForgotPassword {
     private JTextField nameTextField;
     private JTextField surnameTextField;
@@ -21,10 +25,16 @@ public class ForgotPassword {
     private JFrame frameChiamante;
     private WelcomeController controller;
 
-    public ForgotPassword(WelcomeController welcomeController, JFrame mainframe) {
+    /**
+     * Costruttore di ForgotPassword, richiede che vengano inseriti nome, cognome ed username dell'utente di cui resettare la password.
+     *
+     * @param welcomeController controller contenente le info generali per la gestione di {@link model.gestionale.utenteEFigli.Utente}: {@link DipendenteWelcomeController}
+     * @param frameChiamante    frame chiamante, reso nuovamente visibile alla fine del reset della password
+     */
+    public ForgotPassword(WelcomeController welcomeController, JFrame frameChiamante) {
 
         this.controller= welcomeController;
-        this.frameChiamante= mainframe;
+        this.frameChiamante= frameChiamante;
 
         JFrame thisFrame = new JFrame("TabbedMenuPlayer");
         thisFrame.setContentPane(ForgotPassPanel);

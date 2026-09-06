@@ -16,6 +16,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * The type Dealer panel.
+ */
 public class DealerPanel {
     private JPanel dealer;
     private JTabbedPane dealerPanel;
@@ -57,6 +60,12 @@ public class DealerPanel {
 
     private static DefaultListModel<Sessione> modelloListaSessioni;
 
+    /**
+     * Instantiates a new Dealer panel.
+     *
+     * @param controller     the controller
+     * @param frameChiamante the frame chiamante
+     */
     public DealerPanel(DipendenteWelcomeController controller, JFrame frameChiamante)
     {
         JFrame thisFrame = new JFrame("dealerPanel");

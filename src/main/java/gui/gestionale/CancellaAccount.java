@@ -9,6 +9,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 
+/**
+ * GUI tramite cui un utente può cambiare username
+ */
 public class CancellaAccount {
     private JPanel delUserPanel;
     private JTextField userField;
@@ -17,16 +20,15 @@ public class CancellaAccount {
     private JButton cancellaAccountButton;
     private JButton backButton;
 
-    ClientWelcomeController controller;
-    JFrame frameChiamante;
-    JFrame frameLogin;
-
+    /**
+     * Bisogna riempire correttamente i campi di testo con username, password e parola di conferma per cancellare correttamente
+     * l'account
+     *
+     * @param controller     the controller
+     * @param frameChiamante the frame chiamante
+     * @param loginFrame     the login frame, primo frame
+     */
     public CancellaAccount(ClientWelcomeController controller, JFrame frameChiamante, JFrame loginFrame) {
-
-        this.controller= controller;
-        this.frameLogin= loginFrame;
-        this.frameChiamante= frameChiamante;
-
         JFrame thisFrame = new JFrame("CancellaAccount");
         thisFrame.setContentPane(delUserPanel);
         thisFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -40,6 +42,7 @@ public class CancellaAccount {
 
                 try{
                     String user= userField.getText();
+                    //una getText più sicura per le password
                     String pass= new String(passwordField.getPassword());
                     String conferma= confirmField.getText();
 
@@ -50,7 +53,7 @@ public class CancellaAccount {
                         thisFrame.dispose();
                         frameChiamante.setVisible(false);
                         frameChiamante.dispose();
-                        frameLogin.setVisible(true);
+                        loginFrame.setVisible(true);
 
                     } else{
                         JOptionPane.showMessageDialog(null, "I campi non corrispondono !", "Errore", JOptionPane.ERROR_MESSAGE);
@@ -61,11 +64,8 @@ public class CancellaAccount {
                     passwordField.setText("");
                     confirmField.setText("");
 
-                } catch(RuntimeException e1){
+                } catch(RuntimeException | SQLException e1){
                     JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-                } catch(SQLException e2)
-                {
-                    JOptionPane.showMessageDialog(null, e2.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

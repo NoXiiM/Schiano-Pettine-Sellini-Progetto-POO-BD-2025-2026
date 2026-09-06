@@ -8,6 +8,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+/**
+ * GUI tramite cui un utente può cambiare la password
+ */
 public class ChangePass {
     private JPanel changePassPanel;
     private JPasswordField passwordNuovaField;
@@ -16,13 +19,14 @@ public class ChangePass {
     private JButton confermaCambioPasswordButton;
     private JButton backButton;
 
-    JFrame frameChiamante;
-    WelcomeController controller;
-
+    /**
+     * Bisogna riempire correttamente i campi di testo con vecchia password e 2 volte la nuova password per poter cambiare
+     * la password
+     *
+     * @param frameChiamante the frame chiamante
+     * @param controller     the controller
+     */
     public ChangePass(JFrame frameChiamante, WelcomeController controller) {
-        this.frameChiamante= frameChiamante;
-        this.controller= controller;
-
         JFrame thisFrame = new JFrame("ChangePass");
         thisFrame.setContentPane(changePassPanel);
         thisFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -42,9 +46,8 @@ public class ChangePass {
                     if(controller.changePass(oldPass, newPass1, newPass2)){
                         JOptionPane.showMessageDialog(null, "Password modificata con successo !");
 
-                        thisFrame.setVisible(false);
-                        frameChiamante.setVisible(true);
                         thisFrame.dispose();
+                        frameChiamante.setVisible(true);
 
                     } else{
                         JOptionPane.showMessageDialog(null, "Password errata ! Se non la ricordi prova a resettarla");

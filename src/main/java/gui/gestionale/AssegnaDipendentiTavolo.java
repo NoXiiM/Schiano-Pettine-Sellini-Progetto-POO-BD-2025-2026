@@ -12,9 +12,12 @@ import java.awt.event.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * GUI che permette al supervisore di assegnare o rimuovere dei dipendenti a un tavolo
+ */
 public class AssegnaDipendentiTavolo {
-    private JList listaDealer;
-    private JList listaSupervisori;
+    private JList<Dealer> listaDealer;
+    private JList<Supervisore> listaSupervisori;
     private JButton assegnaTavoloButton;
     private JTextArea textAreaInfoDipendenti;
     private JPanel panelAssegnaDipendenti;
@@ -24,6 +27,20 @@ public class AssegnaDipendentiTavolo {
     private static DefaultListModel<Dealer> modelloListaDealer;
     private static DefaultListModel<Supervisore> modelloListaSupervisore;
 
+    /**
+     * Delete mode: in questa modalità nelle due liste (dealer e supervisori) vengono mostrati solo i dipendenti associati
+     * al tavolo, se selezioni un dipendente e poi clicki il pulsante rimuovi viene rimosso il dipendente dall'assegnazione
+     * al tavolo e conseguentemente viene rimosso dalla jlist.
+     * Assign mode: in questa modalità i dipendenti vengono mostrati tutti, anche quelli che sono già assegnati a un altro
+     * tavolo, però viene dato un errore se si prova ad assegnare nuovamente uno di essi. Per assegnare un dipendente a
+     * un tavolo lo si seleziona e si clicka assegna
+     *
+     * @param controller     the controller
+     * @param frameChiamante the frame chiamante
+     * @param indiceTavolo   the indice tavolo
+     * @param deleteMode     true: l'interfaccia funziona per poter eliminare i dipendenti già associati al tavolo,
+     *                       false: l'interfaccia funziona per poter aggiungere dipendenti a tavolo
+     */
     public AssegnaDipendentiTavolo(DipendenteWelcomeController controller, JFrame frameChiamante, int indiceTavolo, boolean deleteMode)
     {
         JFrame thisFrame = new JFrame("AssegnaDipendentiTavolo");
@@ -56,7 +73,7 @@ public class AssegnaDipendentiTavolo {
             public void valueChanged(ListSelectionEvent e) {
                 listaSupervisori.clearSelection();
 
-                Dipendente temp= (Dipendente) listaDealer.getSelectedValue();
+                Dipendente temp= listaDealer.getSelectedValue();
 
                 if(temp != null){
                     stampaDipendenteInfoField(temp);
@@ -72,7 +89,7 @@ public class AssegnaDipendentiTavolo {
             public void valueChanged(ListSelectionEvent e) {
                 listaDealer.clearSelection();
 
-                Dipendente temp= (Dipendente) listaSupervisori.getSelectedValue();
+                Dipendente temp= listaSupervisori.getSelectedValue();
 
                 if(temp != null){
                     stampaDipendenteInfoField(temp);
@@ -98,18 +115,21 @@ public class AssegnaDipendentiTavolo {
                 public void actionPerformed(ActionEvent e) {
                     Dipendente temp;
 
-                    if ((temp = (Dipendente) listaDealer.getSelectedValue()) != null) {
+                    if ((temp = listaDealer.getSelectedValue()) != null) {
                         Dealer dealer = (Dealer) temp;
 
                         if (dealer.getGiochiDealer().contains(controller.getGiocoAtIndex(indiceTavolo))) {
+                            if(controller.controllaSeGiaAlTavoloSelezionato(dealer, indiceTavolo))
+                            {
+                                JOptionPane.showMessageDialog(null, "il dealer è già assegnato a questo tavolo",
+                                        "errore", JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
                             try {
-                                controller.aggiornaInfoTavolodb(temp.getIdentificativoDipendente(), "Dealer",
+                                controller.aggiornaInfoTavolodb(dealer.getIdentificativoDipendente(), "Dealer",
                                         controller.idTavoloAtIndex(indiceTavolo));
 
-                                controller.aggiungiDealerAtIndex((Dealer) temp, indiceTavolo);
-
-                                modelloListaDealer.clear();
-                                modelloListaDealer.addAll(dealers);
+                                controller.aggiungiDealerAtIndex(dealer, indiceTavolo);
 
                                 JOptionPane.showMessageDialog(null, "operazione completata con successo");
                             } catch (SQLException ex) {
@@ -118,15 +138,12 @@ public class AssegnaDipendentiTavolo {
                             }
                         } else JOptionPane.showMessageDialog(null, "il dealer non è abilitato a servire a questo gioco",
                                 "errore", JOptionPane.ERROR_MESSAGE);
-                    } else if ((temp = (Dipendente) listaSupervisori.getSelectedValue()) != null) {
+                    } else if ((temp = listaSupervisori.getSelectedValue()) != null) {
                         try {
                             controller.aggiornaInfoTavolodb(temp.getIdentificativoDipendente(), "Supervisore",
                                     controller.idTavoloAtIndex(indiceTavolo));
 
                             controller.aggiungiSupervisoreAtIndex((Supervisore) temp, indiceTavolo);
-
-                            modelloListaSupervisore.clear();
-                            modelloListaSupervisore.addAll(supervisori);
 
                             JOptionPane.showMessageDialog(null, "operazione completata con successo");
                         } catch (SQLException ex) {
@@ -145,7 +162,7 @@ public class AssegnaDipendentiTavolo {
             assegnaTavoloButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    Dipendente temp;
+                    Supervisore temp;
 
                     if (listaDealer.getSelectedValue() != null) {
                         try {
@@ -161,9 +178,9 @@ public class AssegnaDipendentiTavolo {
                             JOptionPane.showMessageDialog(null, ex.getMessage(),
                                     "errore", JOptionPane.ERROR_MESSAGE);
                         }
-                    } else if ((temp = (Dipendente) listaSupervisori.getSelectedValue()) != null) {
+                    } else if ((temp = listaSupervisori.getSelectedValue()) != null) {
                         try {
-                            controller.eliminaSupervisore(indiceTavolo, (Supervisore) temp);
+                            controller.eliminaSupervisore(indiceTavolo, temp);
 
                             supervisori.remove(temp);
 
@@ -190,6 +207,11 @@ public class AssegnaDipendentiTavolo {
         });
     }
 
+    /**
+     * Stampa dipendente info field.
+     *
+     * @param temp the temp
+     */
     public void stampaDipendenteInfoField(Dipendente temp)
     {
         textAreaInfoDipendenti.setText("username: " + temp.getUsername());

@@ -15,6 +15,9 @@ import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * GUI tramite cui gli utenti possono cambiare il proprio username
+ */
 public class ChangeUsername {
     private JPanel changeUserPanel;
     private JPasswordField passwordField;
@@ -23,13 +26,16 @@ public class ChangeUsername {
     private JButton backButton;
     private JTextField newUserField;
 
-    JFrame frameChiamante;
-    WelcomeController controller;
-
+    /**
+     * Bisogna riempire correttamente i campi di testo con username e 2 volte la password per modificare correttamente
+     * l'username
+     *
+     * @param frameChiamante the frame chiamante
+     * @param controller     the controller
+     * @param labels         labels che mostrano il nome dell'utente nella schermata precendente e che quindi devono essere
+     *                       aggiornate
+     */
     public ChangeUsername(JFrame frameChiamante, WelcomeController controller, ArrayList<JLabel> labels) {
-        this.frameChiamante= frameChiamante;
-        this.controller= controller;
-
         JFrame thisFrame = new JFrame("ChangeUsername");
         thisFrame.setContentPane(changeUserPanel);
         thisFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -49,7 +55,6 @@ public class ChangeUsername {
                     if(controller.getCurrentUser() instanceof Cliente && ((ClientWelcomeController)controller).changeUsername(newUser, pass1, pass2)){
                         JOptionPane.showMessageDialog(null, "Username modificato con successo !");
 
-                        thisFrame.setVisible(false);
                         frameChiamante.setVisible(true);
                         for(JLabel l : labels){
                             l.setText(controller.getUserUtente());
@@ -58,9 +63,6 @@ public class ChangeUsername {
 
                     } else if (controller.getCurrentUser() instanceof Dipendente && ((DipendenteWelcomeController)controller).changeUsername(newUser, pass1, pass2)) {
                         JOptionPane.showMessageDialog(null, "Username modificato con successo !");
-
-
-                        thisFrame.setVisible(false);
                         frameChiamante.setVisible(true);
                         for(JLabel l : labels){
                             l.setText(controller.getUserUtente());
@@ -78,11 +80,8 @@ public class ChangeUsername {
                     }
 
 
-                } catch (RuntimeException ex) {
+                } catch (RuntimeException | SQLException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-                }catch (SQLException e1)
-                {
-                    JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

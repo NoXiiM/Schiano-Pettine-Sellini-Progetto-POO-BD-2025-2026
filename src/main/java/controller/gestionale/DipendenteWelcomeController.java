@@ -569,7 +569,7 @@ public class DipendenteWelcomeController extends WelcomeController {
     /**
      * Funzione che prende da db le relazioni tra supervisore e tavolo e le riproduce in locale
      *
-     * @param tavolo
+     * @param tavolo tavolo
      */
     private void fetchDadbAssegnaSupervisoriDelTavolo(Tavolo tavolo)
     {
@@ -672,12 +672,12 @@ public class DipendenteWelcomeController extends WelcomeController {
     /**
      * Funzione che aggiunge in locale supervisore a tavolo
      *
-     * @param dealer dealer
+     * @param supervisore supervisore
      * @param index  indice
      */
-    public void aggiungiSupervisoreAtIndex(Supervisore dealer, int index)
+    public void aggiungiSupervisoreAtIndex(Supervisore supervisore, int index)
     {
-        tavoliInLocale.get(index).getSupervisori().add(dealer);
+        tavoliInLocale.get(index).getSupervisori().add(supervisore);
     }
 
     /**
@@ -909,5 +909,20 @@ public class DipendenteWelcomeController extends WelcomeController {
         cliente.creaBan(motivo);
 
         new ImpDAOopd().salvataggioBan(cliente.getCodiceTesseraGiocatore(), cliente.getDataBan(), cliente.getMotivoBan());
+    }
+
+    /**
+     * Funzione che verifica se il dealer è già assegnato al tavolo di indice indiceTavolo
+     *
+     * @param dealer dealer
+     * @param indiceTavolo indice del tavolo
+     * @return true: dealer già assegnato a questo tavolo, false: non assegnato a questo tavolo
+     */
+    public boolean controllaSeGiaAlTavoloSelezionato(Dealer dealer, int indiceTavolo)
+    {
+        Dealer temp;
+
+        if((temp = tavoliInLocale.get(indiceTavolo).getDealer()) != null) return temp.equals(dealer);
+        else return false;
     }
 }

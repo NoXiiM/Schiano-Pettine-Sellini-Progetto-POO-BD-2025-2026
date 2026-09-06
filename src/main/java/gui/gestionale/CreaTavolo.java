@@ -1,9 +1,8 @@
 package gui.gestionale;
 
 import controller.gestionale.DipendenteWelcomeController;
-import controller.gestionale.WelcomeController;
-import database.implementazioneDAO.ImpDAOopd;
 import model.gestionale.Gioco;
+import model.gestionale.Tavolo;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -12,18 +11,27 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 
+/**
+ * GUI tramite cui i supervisori possono creare nuovi tavoli
+ */
 public class CreaTavolo {
-    private JComboBox giocoComboBox;
+    private JComboBox<Gioco> giocoComboBox;
     private JSpinner numeroPostiSpinner;
     private JTextField codiceTavoloTextField;
     private JButton aggiungiTavolo;
     private JPanel creaTavolo;
     private JLabel numeroPostiLabel;
-    private JLabel giocoLabel;
-    private JLabel codiceTavoloLabel;
     private JButton indietroButton;
 
-    public CreaTavolo(DipendenteWelcomeController controller, JFrame frameChiamante, DefaultListModel modelloListaTavoli)
+    /**
+     * Se si vuole creare un tavolo bisogna sceglierne il gioco e l'identificativo, se il tavolo è di blackjack puoi sceglierne
+     * il numero di posti (da 1 a 5) se è di poker stessa cosa (numero di posti da 2 a 5)
+     *
+     * @param controller         the controller
+     * @param frameChiamante     the frame chiamante
+     * @param modelloListaTavoli per modificare la lista dei tavoli della schermata precedente
+     */
+    public CreaTavolo(DipendenteWelcomeController controller, JFrame frameChiamante, DefaultListModel<Tavolo> modelloListaTavoli)
     {
         JFrame thisFrame = new JFrame("CreaTavolo");
         thisFrame.setContentPane(creaTavolo);
@@ -105,29 +113,19 @@ public class CreaTavolo {
                         return;
                     }
 
-                    if (selezione.equals(Gioco.SlotMachine)) {
-                        try {
-                            controller.aggiungiTavolo(numero, selezione, 1);
-                            JOptionPane.showMessageDialog(null, "tavolo aggiunto correttamente");
-                            modelloListaTavoli.clear();
-                            modelloListaTavoli.addAll(controller.getTavoliInLocale());
-                            uscita(frameChiamante, thisFrame);
-                        } catch (SQLException ex) {
-                            JOptionPane.showMessageDialog(null, ex.getMessage(), "errore",
-                                    JOptionPane.ERROR_MESSAGE);
-                        }
-                    }
-                    else {
-                        try {
-                            controller.aggiungiTavolo(numero, selezione, (int) numeroPostiSpinner.getValue());
-                            modelloListaTavoli.clear();
-                            modelloListaTavoli.addAll(controller.getTavoliInLocale());
-                            JOptionPane.showMessageDialog(null, "tavolo aggiunto correttamente");
-                            uscita(frameChiamante, thisFrame);
-                        } catch (SQLException ex) {
-                            JOptionPane.showMessageDialog(null, ex.getMessage(), "errore",
-                                    JOptionPane.ERROR_MESSAGE);
-                        }
+                    int numeroPosti;
+                    if(selezione.equals(Gioco.SlotMachine)) numeroPosti = 1;
+                    else numeroPosti = (int) numeroPostiSpinner.getValue();
+
+                    try {
+                        controller.aggiungiTavolo(numero, selezione, numeroPosti);
+                        modelloListaTavoli.clear();
+                        modelloListaTavoli.addAll(controller.getTavoliInLocale());
+                        JOptionPane.showMessageDialog(null, "tavolo aggiunto correttamente");
+                        uscita(frameChiamante, thisFrame);
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage(), "errore",
+                                JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
@@ -148,13 +146,13 @@ public class CreaTavolo {
         });
     }
 
-    public void visibilitaPulsantiPosti(boolean val)
+    private void visibilitaPulsantiPosti(boolean val)
     {
         numeroPostiLabel.setVisible(val);
         numeroPostiSpinner.setVisible(val);
     }
 
-    public void uscita(JFrame frameChiamante, JFrame thisFrame)
+    private void uscita(JFrame frameChiamante, JFrame thisFrame)
     {
         frameChiamante.setVisible(true);
         thisFrame.dispose();

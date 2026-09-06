@@ -755,17 +755,18 @@ public class MainMenuAdmin {
                 {
                     int input = JOptionPane.showConfirmDialog(null, "sei sicuro di voler cancellare questo tavolo?");
 
-                    if(input == JOptionPane.NO_OPTION || input == JOptionPane.CANCEL_OPTION) return;
+                    if(input == JOptionPane.YES_OPTION)
+                    {
+                        try {
+                            dipendenteController.cancellaTavolo(temp);
+                        } catch (SQLException ex) {
+                            JOptionPane.showMessageDialog(null, ex.getMessage(),
+                                    "errore", JOptionPane.ERROR_MESSAGE);
+                        }
 
-                    try {
-                        dipendenteController.cancellaTavolo(temp);
-                    } catch (SQLException ex) {
-                        JOptionPane.showMessageDialog(null, ex.getMessage(),
-                                "errore", JOptionPane.ERROR_MESSAGE);
+                        modelloListaTavoli.clear();
+                        modelloListaTavoli.addAll(dipendenteController.getTavoliInLocale());
                     }
-
-                    modelloListaTavoli.clear();
-                    modelloListaTavoli.addAll(dipendenteController.getTavoliInLocale());
                 }
                 else JOptionPane.showMessageDialog(null, "nessun tavolo selezionato",
                         "errore", JOptionPane.ERROR_MESSAGE);

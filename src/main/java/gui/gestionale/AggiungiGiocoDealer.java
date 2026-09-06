@@ -12,6 +12,9 @@ import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * GUI che permette al supervisore di selezionare quali giochi aggiungere a un dealer
+ */
 public class AggiungiGiocoDealer {
     private JPanel aggiungiGiocoPanel;
     private JCheckBox pokerCheckBox;
@@ -19,9 +22,15 @@ public class AggiungiGiocoDealer {
     private JButton confermaGiochi;
     private JButton tornaIndietroButton;
 
-    DipendenteWelcomeController controller;
-    JFrame frameChiamante;
-
+    /**
+     * Se il dealer conosce già tutti i giochi la finestra si chiude e viene mostrato un messaggio di errore, se il dealer
+     * non conosce almeno un gioco vengono mostrate le checkbox di ogni gioco non conosciuto, si può spuntare le checkbox
+     * e poi premere conferma per aggiunger quei giochi al dealer
+     *
+     * @param controller        the controller
+     * @param frameChiamante    the frame chiamante
+     * @param dealerSelezionato the dealer selezionato
+     */
     public AggiungiGiocoDealer(DipendenteWelcomeController controller, JFrame frameChiamante, Dealer dealerSelezionato) {
 
         ArrayList<Gioco> giochi = dealerSelezionato.getGiochiDealer();
@@ -43,9 +52,6 @@ public class AggiungiGiocoDealer {
 
         pokerCheckBox.setVisible(giochiMancanti.contains(Gioco.Poker));
         blackJackCheckBox.setVisible(giochiMancanti.contains(Gioco.Blackjack));
-
-        this.frameChiamante = frameChiamante;
-        this.controller = controller;
 
         frameChiamante.setVisible(false);
         thisFrame.setVisible(true);

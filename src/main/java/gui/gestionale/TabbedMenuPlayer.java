@@ -12,6 +12,9 @@ import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * Intercaccia principale per il cliente, dal quale è possibile avviare i giochi (tranne in caso di ban), gestire il saldo e modificare/eliminare il proprio account.
+ */
 public class TabbedMenuPlayer {
     private JTabbedPane tabbedMenuPlayer;
     private JPanel mainMultiTabbedPanel;
@@ -39,6 +42,13 @@ public class TabbedMenuPlayer {
     private JFrame frameChiamante;
     private ClientWelcomeController controller;
 
+    /**
+     * Costruttore di TabbedMenuPlayer, passati come parametri il {@link ClientWelcomeController} ed il mainframe (static).
+     * <p>
+     * Dal costruttore vengono chiamate le interfacce dei giochi e di modifica/eliminazione, la gestione del saldo avviene invece tramite JOptionPane
+     * @param controller versione di {@link controller.gestionale.WelcomeController} specifica per gestione di {@link model.gestionale.utenteEFigli.Cliente}
+     * @param mainframe interfaccia di login
+     */
     public TabbedMenuPlayer(ClientWelcomeController controller, JFrame mainframe) {
         this.frameChiamante = mainframe;
         this.controller= controller;
@@ -241,11 +251,17 @@ public class TabbedMenuPlayer {
         }
     }
 
+    /**
+     * Aggiorna username nell'interfaccia.
+     */
     public void aggiornaUsername(){
         userFieldGamePanel.setText(controller.getUserUtente() + "\t");
         userFieldSaldoPanel.setText(controller.getUserUtente() + "\t");
     }
 
+    /**
+     * Aggiorna saldo nell'interfaccia.
+     */
     public void aggiornaSaldo()
     {
         saldoInGameText.setText("Saldo disponibile: " + controller.getSaldoCliente());

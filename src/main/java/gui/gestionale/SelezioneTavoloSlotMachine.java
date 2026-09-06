@@ -17,6 +17,9 @@ import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * Interfaccia di selezione per le slot machines.
+ */
 public class SelezioneTavoloSlotMachine {
 
 
@@ -30,8 +33,18 @@ public class SelezioneTavoloSlotMachine {
 
     private TavoloController controller;
 
+    /**
+     * The Modellolista tavoli.
+     */
     public static DefaultListModel<String> modellolistaTavoli;
 
+    /**
+     * Costruttore di SelezioneTavoloSlotMachine,
+     *
+     * @param frameChiamante    interfaccia principale per clienti: {@link TabbedMenuPlayer}
+     * @param clienteController controller per clienti: {@link ClientWelcomeController}
+     * @param mainMenu          riferimento a {@link TabbedMenuPlayer} necessario per aggiornare il saldo nella scheramata principale
+     */
     public SelezioneTavoloSlotMachine(JFrame frameChiamante, ClientWelcomeController clienteController, TabbedMenuPlayer mainMenu)
     {
         thisFrame= new JFrame("SelezioneTavoloSlotMachine");
@@ -42,9 +55,6 @@ public class SelezioneTavoloSlotMachine {
         Dimension dimensioniMinime = new Dimension(700,200);
         thisFrame.setMinimumSize(dimensioniMinime);
         thisFrame.setLocationRelativeTo(null);
-
-
-
 
         controller = new TavoloController();
 
@@ -73,6 +83,7 @@ public class SelezioneTavoloSlotMachine {
 
             }
         });
+
         entraTavoloButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -96,6 +107,7 @@ public class SelezioneTavoloSlotMachine {
                 }
             }
         });
+
         listaTavoli.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {

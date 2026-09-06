@@ -13,6 +13,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 
+/**
+ * Schermata di Login sia per clienti che per dipendenti, presenti pulsanti di Registrazione e Reset Password.
+ */
 public class WelcomePanel {
 
     private JPanel WelcomePanel;
@@ -28,6 +31,9 @@ public class WelcomePanel {
     private static JFrame mainframe;    //FRAME PRINCIPALE STATIC
 
 
+    /**
+     * Costruttore di WelcomePanel che, in base al tipo di Utente riconosciuto al login, chiama i rispettivi pannelli istanziando dei nuovi controller specifici.
+     */
     public WelcomePanel() {
 
         welcomeController= new WelcomeController();
@@ -102,6 +108,11 @@ public class WelcomePanel {
         });
     }
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     public static void main(String[] args) {
         mainframe = new JFrame("SSP Casino");
         mainframe.setContentPane(new WelcomePanel().WelcomePanel);

@@ -226,13 +226,13 @@ public class ImpDAOopd implements DAOopd {
     {
         Connection connection = ConnessioneDatabase.getInstance().connection;
 
-        try(PreparedStatement inserimento = connection.prepareStatement("insert into tavolo " +
-                "values(?,?,?, null)"))
+        try(PreparedStatement inserimento = connection.prepareStatement(
+                "insert into tavolo (numero, numeroPosti, gioco, idDealer) values (?, ?, ?, ?)"))
         {
             inserimento.setInt(1, idTavolo);
-            inserimento.setString(2, gioco);
-            inserimento.setInt(3, numeroPosti);
-
+            inserimento.setInt(2, numeroPosti);
+            inserimento.setString(3, gioco);
+            inserimento.setNull(4, java.sql.Types.VARCHAR);
             inserimento.executeUpdate();
         }
     }

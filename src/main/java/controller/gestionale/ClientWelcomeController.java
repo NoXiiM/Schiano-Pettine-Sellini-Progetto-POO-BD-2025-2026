@@ -346,5 +346,8 @@ public class ClientWelcomeController extends WelcomeController {
     {
         cliente.decrementaSaldoCliente(value);
     }
+    public boolean isClientePremium(){
+        return cliente.isPremium();
+    }
 }
 

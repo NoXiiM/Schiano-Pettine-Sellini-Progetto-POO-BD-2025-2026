@@ -187,7 +187,9 @@
             <preferred-size width="150" height="50"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <background color="-15923680"/>
+        </properties>
       </component>
       <scrollpane id="2c160">
         <constraints>
@@ -198,7 +200,10 @@
         <children>
           <component id="29eb4" class="javax.swing.JTextArea" binding="logAvvenimenti">
             <constraints/>
-            <properties/>
+            <properties>
+              <background color="-15923680"/>
+              <enabled value="false"/>
+            </properties>
           </component>
         </children>
       </scrollpane>

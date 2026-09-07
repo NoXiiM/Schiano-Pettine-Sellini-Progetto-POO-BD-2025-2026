@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
+import java.util.Objects;
 
 /**
  * Schermata di Login sia per clienti che per dipendenti, presenti pulsanti di Registrazione e Reset Password.
@@ -35,6 +36,10 @@ public class WelcomePanel {
     public WelcomePanel() {
 
         welcomeController= new WelcomeController();
+
+        //Setting icon
+        ImageIcon iconaWelcomePanel = new ImageIcon(Objects.requireNonNull(getClass().getResource("/IconeSlotmachin/ssp_casino_welcome_v2.png")));
+        mainframe.setIconImage(iconaWelcomePanel.getImage().getScaledInstance(2156, 1531, Image.SCALE_SMOOTH));
 
         accediButton.addActionListener(new ActionListener() {
             @Override
@@ -117,5 +122,6 @@ public class WelcomePanel {
         mainframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainframe.pack();
         mainframe.setVisible(true);
+
     }
 }

@@ -102,6 +102,10 @@ public class GUIBlackJack {
         ).getImage();
         deck.setIcon(new ImageIcon(img));
 
+        //Icona App
+        ImageIcon iconaBlackJack = new ImageIcon(Objects.requireNonNull(getClass().getResource("/carte2/53_kerenel_Cards.png")));
+        thisFrame.setIconImage(iconaBlackJack.getImage().getScaledInstance(75, 100, Image.SCALE_SMOOTH));
+
         //spinner
         //spinner per numero di mazzi
         SpinnerNumberModel modelloSpinnerMazzi = new SpinnerNumberModel(1, 1, 16, 1);

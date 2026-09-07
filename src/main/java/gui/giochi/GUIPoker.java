@@ -99,6 +99,10 @@ public class GUIPoker {
         ).getImage();
         mazzo.setIcon(new ImageIcon(img));
 
+        //caricamento icona
+        ImageIcon iconaPoker = new ImageIcon(Objects.requireNonNull(getClass().getResource("/carte/Carte_française_pique_14.png")));
+        thisFrame.setIconImage(iconaPoker.getImage().getScaledInstance(75, 100, Image.SCALE_SMOOTH));
+
         azioniButton(false);
         relativiRilancia(false);
         vediCarteButton.setVisible(false);

@@ -261,7 +261,7 @@ public class TabbedMenuPlayer {
     /**
      * Aggiorna saldo nell'interfaccia.
      */
-    private void aggiornaSaldo()
+    public void aggiornaSaldo()
     {
         saldoInGameText.setText("Saldo disponibile: " + controller.getSaldoCliente());
         saldoInSaldoText.setText("Saldo disponibile: " + controller.getSaldoCliente());

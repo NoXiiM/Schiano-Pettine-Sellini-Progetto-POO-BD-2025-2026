@@ -1,7 +1,7 @@
 package gui.giochi;
 
 import controller.gestionale.ClientWelcomeController;
-import controller.slotMachine.slotMachineController;
+import controller.slotMachine.SlotMachineController;
 
 import model.giochi.NonCarte.Simboli;
 
@@ -12,7 +12,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
+import java.util.Objects;
 
+/**
+ *  Gui slot machine emula il funzionamento di una classica slot con diamanti e frutta come simboli.
+ *  In alto a sinistra sono presenti i simboli restituiti dalla slot (Al primo avvio saranno sempre 3 sette);
+ *  Al di sotto dei simboli sono presenti le possibili puntate che si possono inserire nella slot;
+ *  In alto a destra è presente il saldo del giocatore che solo se è raggiunge una delle puntate minime, è possibile giocare;
+ *  Sotto il saldo è presente il guadagno / perdita del giocatore che si aggiorna a ogni spoin;
+ *  Il pulsante spin fa iniziare lo spin della macchina.
+ */
 public class GUISlotMachine {
     private JPanel slotMachinePanel;
     private JLabel simbolo1;
@@ -32,12 +41,18 @@ public class GUISlotMachine {
     private JLabel guadagnatoText;
     private JButton tornaIndietroButton;
 
-    private slotMachineController controller;
+    private final SlotMachineController controller;
     private float saldoGiocatore;
 
     //comunicazione tra frame
     private static JFrame thisFrame;
 
+    /**
+     * Instantiates a new Gui slot machine.
+     *
+     * @param frameChiamante   the frame chiamante
+     * @param sessioneCorrente the sessione corrente
+     */
     public GUISlotMachine(JFrame frameChiamante, ClientWelcomeController sessioneCorrente) {
         //settaggio frame
 
@@ -52,7 +67,7 @@ public class GUISlotMachine {
         thisFrame.setLocationRelativeTo(null);
 
         //Setto una immagine icona della finestra
-        ImageIcon iconaSlotMachine = new ImageIcon(getClass().getResource("/IconeSlotmachin/SfondoSlotMachine.png"));
+        ImageIcon iconaSlotMachine = new ImageIcon(Objects.requireNonNull(getClass().getResource("/IconeSlotmachin/SfondoSlotMachine.png")));
         thisFrame.setIconImage(iconaSlotMachine.getImage().getScaledInstance(75, 75, Image.SCALE_SMOOTH));
         // Settaggio delle box scelta
         ButtonGroup puntate = new ButtonGroup();
@@ -80,10 +95,10 @@ public class GUISlotMachine {
 
 
         a10RadioButton.setSelected(true);
-        controller = new slotMachineController();
+        controller = new SlotMachineController();
         //Settaggio foto
         Image img = new ImageIcon(
-                getClass().getResource(controller.getPathSette())
+                Objects.requireNonNull(getClass().getResource(controller.getPathSette()))
         ).getImage().getScaledInstance(75, 75, Image.SCALE_SMOOTH);
         simbolo1.setIcon(new ImageIcon(img));
         simbolo1.setText("");
@@ -99,8 +114,6 @@ public class GUISlotMachine {
         //default di guadagno
         guadagnatoText.setText("");
 
-        //Avvio timer
-        //controller.startTimer();
 
         spinButton.addActionListener(new ActionListener() {
             @Override
@@ -123,13 +136,13 @@ public class GUISlotMachine {
 
                     //recuperiamo le foto per i simboli
                     Image img1 = new ImageIcon(
-                            getClass().getResource(controller.getCollegamento(colonna1))
+                            Objects.requireNonNull(getClass().getResource(controller.getCollegamento(colonna1)))
                     ).getImage().getScaledInstance(75, 75, Image.SCALE_SMOOTH);
                     Image img2 = new ImageIcon(
-                            getClass().getResource(controller.getCollegamento(colonna2))
+                            Objects.requireNonNull(getClass().getResource(controller.getCollegamento(colonna2)))
                     ).getImage().getScaledInstance(75, 75, Image.SCALE_SMOOTH);
                     Image img3 = new ImageIcon(
-                            getClass().getResource(controller.getCollegamento(colonna3))
+                            Objects.requireNonNull(getClass().getResource(controller.getCollegamento(colonna3)))
                     ).getImage().getScaledInstance(75, 75, Image.SCALE_SMOOTH);
 
                     //aggiorniamo i simboli

@@ -6,12 +6,19 @@ import java.util.Random;
 
 import static model.giochi.NonCarte.Simboli.*;
 
+/**
+ * Slot Machine
+ */
 public class SlotMachine {
 
-    private HashMap<Simboli, String> collegamentoSimboli;
-    private ArrayList<Simboli> simboli;
-    private int numeroSimboli;
+    private final HashMap<Simboli, String> collegamentoSimboli;
+    private final ArrayList<Simboli> simboli;
+    private final int numeroSimboli;
 
+    /**
+     * Instantiates a new Slot machine
+     * Instanzia Hashmap di corripospondenza tra simbolo e rispettivo path dell'immagine
+     */
     public SlotMachine(){
         simboli = new ArrayList<>();
         collegamentoSimboli =  new HashMap<>();
@@ -34,10 +41,26 @@ public class SlotMachine {
         numeroSimboli = simboli.size();
 
     }
+
+    /**
+     * Get simbolo casuale simboli.
+     * Tramite questa funzione restituiamo un simbolo randomicamente
+     * @return the simboli
+     */
     public Simboli getSimboloCasuale(){
         Random random = new Random();
         return (simboli.get(random.nextInt(numeroSimboli)));
     }
+
+    /**
+     * Getsaldopartita int.
+     *
+     * @param s1    simbolo 1
+     * @param s2    simbolo 2
+     * @param s3    simbolo 3
+     * @param saldo il saldo inserito e restituito
+     * @return the int
+     */
     public int getsaldopartita(Simboli s1, Simboli s2, Simboli s3, int saldo){
         if(s1==s2 && s2==s3){// la proprietà transitiva dell'uguale garantisce in questo modo che siano tutti e 3 uguali
             if(s1==triplodiamante){// Ultimo simbolo di cui index corrisponde la grandezza, il triplodiamante
@@ -72,6 +95,11 @@ public class SlotMachine {
     }
 
 
+    /**
+     * Gets collegamento simboli.
+     *
+     * @return the collegamento simboli
+     */
     public HashMap<Simboli,String> getCollegamentoSimboli() {
         return collegamentoSimboli;
     }

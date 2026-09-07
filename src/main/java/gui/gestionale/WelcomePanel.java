@@ -3,7 +3,6 @@ package gui.gestionale;
 import controller.gestionale.ClientWelcomeController;
 import controller.gestionale.DipendenteWelcomeController;
 import controller.gestionale.WelcomeController;
-import model.gestionale.utenteEFigli.Dipendente;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,10 +23,9 @@ public class WelcomePanel {
     private JButton accediButton;
     private JTextField userField;
     private JLabel ForgotPass;
-    private JComboBox userType;
     private JButton registratiButton;
 
-    private WelcomeController welcomeController;
+    private final WelcomeController welcomeController;
     private static JFrame mainframe;    //FRAME PRINCIPALE STATIC
 
 
@@ -113,7 +111,7 @@ public class WelcomePanel {
      *
      * @param args the input arguments
      */
-    public static void main(String[] args) {
+    static void main(String[] args) {
         mainframe = new JFrame("SSP Casino");
         mainframe.setContentPane(new WelcomePanel().WelcomePanel);
         mainframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

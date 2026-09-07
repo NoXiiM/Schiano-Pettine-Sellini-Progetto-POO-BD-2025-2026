@@ -12,11 +12,11 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 /**
- * Interfaccia che mostra tutte le sessioni svolte da un utente con le relative info.
+ * Interfaccia che mostra a un Supervisore tutte le sessioni svolte da un Cliente con le relative info.
  */
 public class VisualizzatoreSessioni
 {
-    private JList listaSessioni;
+    private JList<Sessione> listaSessioni;
     private JPanel visualizzatoreSessioniPanel;
     private JButton indietroButton;
     private JLabel clienteSessioni;
@@ -25,11 +25,12 @@ public class VisualizzatoreSessioni
     private static DefaultListModel<Sessione> modelloListaSessioni;
 
     /**
-     * Instantiates a new Visualizzatore sessioni.
+     * Alla sinistra della schermata sono mostrate tutte le sessioni svolte dal Cliente, se selezioni una sessione ne appaiono
+     * le info nella text area a destra
      *
      * @param frameChiamante the frame chiamante
      * @param sessioni       the sessioni
-     * @param user           the user
+     * @param user           username del cliente di cui stai visualizzando le sessioni
      */
     public VisualizzatoreSessioni(JFrame frameChiamante, ArrayList<Sessione> sessioni, String user)
     {
@@ -59,7 +60,7 @@ public class VisualizzatoreSessioni
         listaSessioni.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                Sessione temp = (Sessione) listaSessioni.getSelectedValue();
+                Sessione temp = listaSessioni.getSelectedValue();
 
                 if(temp != null)
                 {

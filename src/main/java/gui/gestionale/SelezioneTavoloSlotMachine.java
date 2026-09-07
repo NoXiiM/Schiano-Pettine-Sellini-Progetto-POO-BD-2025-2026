@@ -21,22 +21,21 @@ import java.util.ArrayList;
  * Interfaccia di selezione per le slot machines.
  */
 public class SelezioneTavoloSlotMachine {
-
-
-
     private static JFrame thisFrame;
     private JPanel selezioneTavoloPanel;
     private JButton tornaIndietroButton;
     private JButton entraTavoloButton;
-    private JList listaTavoli;
+    private JList<String> listaTavoli;
     private JLabel selezioneListaLabel;
 
-    private TavoloController controller;
+    private final TavoloController controller;
 
     public static DefaultListModel<String> modellolistaTavoli;
 
     /**
-     * Costruttore di SelezioneTavoloSlotMachine, popola e rende visibile la lista dei tavoli disponibili per le Slot Machines
+     * Costruttore di SelezioneTavoloSlotMachine, popola e rende visibile la lista dei tavoli disponibili per le Slot Machines,
+     * per accedere a un tavolo e giocare bisogna selezionare il tavolo dalla lista e premere il pulsante: 'entra tavolo'.
+     * Nella text area a destra vengono mostrate ulteriori informazioni sul tavolo selezionato.
      *
      * @param frameChiamante    interfaccia principale per clienti: {@link TabbedMenuPlayer}, resa nuovamente visibile alla fine della sessione di gioco
      * @param clienteController controller contenente le info necessarie per la gestione del cliente: {@link ClientWelcomeController}
@@ -61,7 +60,7 @@ public class SelezioneTavoloSlotMachine {
             JOptionPane.showMessageDialog(null, e.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
         }
 
-        modellolistaTavoli = new DefaultListModel<String>();
+        modellolistaTavoli = new DefaultListModel<>();
 
         ArrayList<String> tavoliDaMostrare = controller.getTavoliId();
 
@@ -87,7 +86,7 @@ public class SelezioneTavoloSlotMachine {
                 String selezione;
                 if(listaTavoli.getSelectedValue() != null)
                 {
-                    selezione = (String)listaTavoli.getSelectedValue();
+                    selezione = listaTavoli.getSelectedValue();
                     int idTavolo = controller.getIdFromList(selezione);
                     thisFrame.setVisible(false);
                     try {
@@ -108,9 +107,7 @@ public class SelezioneTavoloSlotMachine {
         listaTavoli.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-
-
-                String tavoloSelezionato = (String)listaTavoli.getSelectedValue();
+                String tavoloSelezionato = listaTavoli.getSelectedValue();
                 int idTavolo = controller.getIdFromList(tavoloSelezionato);
                 selezioneListaLabel.setText(controller.getTavoloWithId(idTavolo).toString());
                 selezioneListaLabel.setVisible(true);

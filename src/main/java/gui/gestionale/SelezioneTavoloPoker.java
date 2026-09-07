@@ -2,7 +2,6 @@ package gui.gestionale;
 
 import controller.TavoloController;
 import controller.gestionale.ClientWelcomeController;
-import gui.giochi.GUIBlackJack;
 import gui.giochi.GUIPoker;
 
 import javax.swing.*;
@@ -27,12 +26,14 @@ public class SelezioneTavoloPoker {
     private JButton indietroButton;
     private JPanel selezionaTavoloPanel;
 
-    private TavoloController controller;
+    private final TavoloController controller;
 
     private static DefaultListModel<String> modellolistaTavoli;
 
     /**
-     * Costruttore di SelezioneTavoloPoker, popola e rende visibile la lista dei tavoli disponibili per il Poker.
+     * Costruttore di SelezioneTavoloPoker, popola e rende visibile la lista dei tavoli disponibili per il Poker,
+     * per accedere a un tavolo e giocare bisogna selezionare il tavolo dalla lista e premere il pulsante: 'entra tavolo'.
+     * Nella text area a destra vengono mostrate ulteriori informazioni sul tavolo selezionato.
      *
      * @param frameChiamante    interfaccia principale per clienti: {@link TabbedMenuPlayer}, resa nuovamente visibile alla fine della sessione di gioco
      * @param clienteController controller contenente le info necessarie per la gestione del cliente: {@link ClientWelcomeController}

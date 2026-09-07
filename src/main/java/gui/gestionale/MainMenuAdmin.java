@@ -1,6 +1,5 @@
 package gui.gestionale;
 
-import controller.gestionale.ClientWelcomeController;
 import controller.gestionale.DipendenteWelcomeController;
 import model.gestionale.Gioco;
 import model.gestionale.Tavolo;
@@ -18,13 +17,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * Intercaccia principale per il {@link Supervisore}, dal quale è possibile gestire clienti, dipendenti, tavoli e modificare il proprio account.
+ * Interfaccia principale per il {@link Supervisore}, dal quale è possibile gestire clienti, dipendenti, tavoli e modificare
+ * il proprio account.
  */
 
 public class MainMenuAdmin {
     private JPanel AdminPanel;
     private JTabbedPane tabbedPane1;
-    private JList listaClienti;
+    private JList<Cliente> listaClienti;
     private JButton bannaButton;
     private JTextArea textAreaInfoFieldClienti;
     private JButton logoutDaClienti;
@@ -63,9 +63,9 @@ public class MainMenuAdmin {
     private JButton licenziaDipendenti;
     private JButton cercaDipendenti;
     private JButton aggiungiDipendenti;
-    private JList listaDipendenti;
+    private JList<Dipendente> listaDipendenti;
     private JTextArea textAreaInfoDipendenti;
-    private JList listaTavoli;
+    private JList<Tavolo> listaTavoli;
     private JTextArea textAreaInfoTavoli;
     private JButton aggiornaTavoli;
     private JButton logoutDaTavoli;
@@ -104,9 +104,9 @@ public class MainMenuAdmin {
     private JButton rimuoviDipDaTavoloButton;
     private JButton rimuoviTavolo;
 
-    private JFrame thisFrame;
-    private JFrame frameChiamante;
-    private DipendenteWelcomeController dipendenteController;
+    private final JFrame thisFrame;
+    private final JFrame frameChiamante;
+    private final DipendenteWelcomeController dipendenteController;
 
     private static DefaultListModel<Cliente> modelloListaClienti;
     private static DefaultListModel<Dipendente> modelloListaDipendente;
@@ -177,8 +177,7 @@ public class MainMenuAdmin {
         bannaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                Cliente temp= (Cliente) listaClienti.getSelectedValue();
+                Cliente temp= listaClienti.getSelectedValue();
 
                 if(temp != null) {
                     if(temp.getBan() != null)
@@ -212,13 +211,13 @@ public class MainMenuAdmin {
         visualizzaSessioniCliente.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Cliente temp = (Cliente) listaClienti.getSelectedValue();
+                Cliente temp = listaClienti.getSelectedValue();
 
                 if(temp != null)
                 {
                     try {
                         new VisualizzatoreSessioni(thisFrame, dipendenteController.visualizzaSessioniCliente(temp.getCodiceTesseraGiocatore()),
-                                ((Cliente) listaClienti.getSelectedValue()).getUsername());
+                                temp.getUsername());
                         thisFrame.setVisible(false);
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(null, ex.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
@@ -235,7 +234,7 @@ public class MainMenuAdmin {
             @Override
             public void valueChanged(ListSelectionEvent e) {
 
-                Cliente temp= (Cliente) listaClienti.getSelectedValue();
+                Cliente temp= listaClienti.getSelectedValue();
                 if(temp != null){
                     stampaClienteInfoField(temp);
                 }
@@ -285,9 +284,6 @@ public class MainMenuAdmin {
                     }
 
                 }
-//                else {
-//                    sospettoRicerca= "indifferente";
-//                }
 
                 String banRicerca= "indifferente";
                 if(filtraPerBanCheckBox.isSelected()) {
@@ -300,9 +296,6 @@ public class MainMenuAdmin {
                     }
 
                 }
-//                else {
-//                    banRicerca= "indifferente";
-//                }
 
                 modelloListaClienti.clear();
 
@@ -336,7 +329,6 @@ public class MainMenuAdmin {
                     saldoTextMax.setVisible(true);
                     spinnerSaldoMin.setVisible(true);
                     spinnerSaldoMax.setVisible(true);
-
                 } else {
                     saldoTextMin.setVisible(false);
                     saldoTextMax.setVisible(false);
@@ -438,7 +430,6 @@ public class MainMenuAdmin {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new RegistrationDipendente(thisFrame, dipendenteController);
-
             }
         });
 
@@ -446,7 +437,7 @@ public class MainMenuAdmin {
             @Override
             public void valueChanged(ListSelectionEvent e) {
 
-                Dipendente temp= (Dipendente) listaDipendenti.getSelectedValue();
+                Dipendente temp= listaDipendenti.getSelectedValue();
 
                 if(temp != null){
                     stampaDipendenteInfoField(temp);
@@ -456,8 +447,7 @@ public class MainMenuAdmin {
                     textAreaInfoDipendenti.setText(null);
                 }
 
-                if(dipendenteController.isDealer(temp)) aggiungiGiocoButton.setVisible(true);
-                else aggiungiGiocoButton.setVisible(false);
+                aggiungiGiocoButton.setVisible(dipendenteController.isDealer(temp));
             }
         });
 
@@ -465,7 +455,7 @@ public class MainMenuAdmin {
         //stiano modificando i clienti in contemporanea
         aggiornaDipendenti.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {;
+            public void actionPerformed(ActionEvent e) {
                 modelloListaDipendente.clear();
                 try {
                     modelloListaDipendente.addAll(dipendenteController.getDipendentiDB());
@@ -497,7 +487,7 @@ public class MainMenuAdmin {
             public void actionPerformed(ActionEvent e) {
                 listaTavoli.clearSelection();
 
-                Dipendente temp = (Dipendente) listaDipendenti.getSelectedValue();
+                Dipendente temp = listaDipendenti.getSelectedValue();
 
                 if (temp != null) {
                     if(temp instanceof Dealer){
@@ -649,7 +639,7 @@ public class MainMenuAdmin {
         listaTavoli.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                Tavolo temp = (Tavolo) listaTavoli.getSelectedValue();
+                Tavolo temp = listaTavoli.getSelectedValue();
 
                 if(temp != null)
                 {
@@ -677,7 +667,7 @@ public class MainMenuAdmin {
         modificaGiochiButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Tavolo temp = (Tavolo) listaTavoli.getSelectedValue();
+                Tavolo temp = listaTavoli.getSelectedValue();
 
                 if(temp != null && temp.getGioco().equals(Gioco.Blackjack))
                 {
@@ -724,7 +714,7 @@ public class MainMenuAdmin {
                 {
                     thisFrame.setVisible(false);
                     new AssegnaDipendentiTavolo(dipendenteController, thisFrame,
-                            dipendenteController.getIndexOfTavolo((Tavolo) listaTavoli.getSelectedValue()), false);
+                            dipendenteController.getIndexOfTavolo(listaTavoli.getSelectedValue()), false);
                 }
                 else JOptionPane.showMessageDialog(null, "nessun tavolo selezionato",
                         "errore", JOptionPane.ERROR_MESSAGE);
@@ -739,7 +729,7 @@ public class MainMenuAdmin {
                 {
                     thisFrame.setVisible(false);
                     new AssegnaDipendentiTavolo(dipendenteController, thisFrame,
-                            dipendenteController.getIndexOfTavolo((Tavolo) listaTavoli.getSelectedValue()), true);
+                            dipendenteController.getIndexOfTavolo(listaTavoli.getSelectedValue()), true);
                 }
                 else JOptionPane.showMessageDialog(null, "nessun tavolo selezionato",
                         "errore", JOptionPane.ERROR_MESSAGE);
@@ -759,7 +749,7 @@ public class MainMenuAdmin {
         rimuoviTavolo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Tavolo temp = (Tavolo) listaTavoli.getSelectedValue();
+                Tavolo temp = listaTavoli.getSelectedValue();
 
                 if(temp != null)
                 {
@@ -960,7 +950,7 @@ public class MainMenuAdmin {
                 for (Supervisore i : temp.getSupervisori()) {
                     textAreaInfoTavoli.append(i.getUsername() + ", ");
                 }
-                String testoInfoTavoli = textAreaInfoTavoli.getText();  //Così da rimuovere ', ' dopo l'ultima iterazione
+                String testoInfoTavoli = textAreaInfoTavoli.getText();  //Così da rimuovere ',' dopo l'ultima iterazione
                 textAreaInfoTavoli.setText(testoInfoTavoli.substring(0,testoInfoTavoli.length()-2));
             }
         }

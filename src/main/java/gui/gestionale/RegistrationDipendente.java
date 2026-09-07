@@ -1,9 +1,7 @@
 package gui.gestionale;
 
-import controller.gestionale.ClientWelcomeController;
 import controller.gestionale.DipendenteWelcomeController;
 import model.gestionale.Gioco;
-import model.gestionale.utenteEFigli.Dealer;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -25,26 +23,24 @@ public class RegistrationDipendente {
     private JTextField codFisRegField;
     private JButton registratiButton;
     private JButton tornaIndietroButton;
-    private JComboBox comboBoxDay;
-    private JComboBox comboBoxMonth;
-    private JComboBox comboBoxYear;
-    private JComboBox ruoloComboBox;
+    private JComboBox<Integer> comboBoxDay;
+    private JComboBox<String> comboBoxMonth;
+    private JComboBox<Integer> comboBoxYear;
+    private JComboBox<String> ruoloComboBox;
     private JCheckBox blackJackCheckBox;
     private JCheckBox pokerCheckBox;
     private JLabel giochiLabel;
 
-    private JFrame frameChiamante;
-    private DipendenteWelcomeController controller;
+    private final DipendenteWelcomeController controller;
 
     /**
-     * Costruttore di RegistrationDipendente, richiede che vengano inseriti i dati per la registrazione di un DIPENDENTE, il ruolo e, se é un dealer, i giochi a cui è adibito .
+     * Costruttore di RegistrationDipendente, richiede che vengano inseriti i dati per la registrazione di un DIPENDENTE,
+     * il ruolo e, se é un dealer, i giochi a cui è adibito.
      *
      * @param frameChiamante interfaccia principale dei supervisori: {@link MainMenuAdmin}, resa nuovamente visibile alla fine della registrazione del nuovo dipendente
      * @param controller     controller contenente le info necessarie per la gestione del dipendente: {@link DipendenteWelcomeController}
      */
     public RegistrationDipendente(JFrame frameChiamante, DipendenteWelcomeController controller) {
-
-        this.frameChiamante= frameChiamante;
         this.controller= controller;
 
         JFrame frameChiamato = new JFrame("RegistrationDipendente");
@@ -65,12 +61,12 @@ public class RegistrationDipendente {
             public void actionPerformed(ActionEvent e) {
 
                 try {
-                    int giorno = (int) comboBoxDay.getSelectedItem();
+                    int giorno = comboBoxDay.getSelectedItem() == null ? -1 : (int) comboBoxDay.getSelectedItem();
                     int mese = comboBoxMonth.getSelectedIndex() + 1; // getSelectedIndex parte da 0, la funzione LocalDate.of parte da 1 per i mesi
-                    int anno = (int) comboBoxYear.getSelectedItem();
+                    int anno = comboBoxYear.getSelectedItem() == null ? -1 : (int) comboBoxYear.getSelectedItem();
 
                     LocalDate dataNascita = LocalDate.of(anno, mese, giorno);
-                    String password = new String("P@ssw0rd!");
+                    String password = "P@ssw0rd!";
 
                     String ruolo= (String) ruoloComboBox.getSelectedItem();
 

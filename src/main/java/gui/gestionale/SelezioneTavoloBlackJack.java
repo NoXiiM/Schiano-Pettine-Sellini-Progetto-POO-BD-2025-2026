@@ -3,7 +3,6 @@ package gui.gestionale;
 import controller.TavoloController;
 import controller.gestionale.ClientWelcomeController;
 import gui.giochi.GUIBlackJack;
-import gui.giochi.GUISlotMachine;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -28,12 +27,14 @@ public class SelezioneTavoloBlackJack
     private JList<String> listaTavoli;
     private JTextArea informazioniTavolo;
 
-    private TavoloController controller;
+    private final TavoloController controller;
 
     private static DefaultListModel<String> modellolistaTavoli;
 
     /**
-     * Costruttore di SelezioneTavoloBlackJack, popola e rende visibile la lista dei tavoli disponibili per il BlackJack.
+     * Costruttore di SelezioneTavoloBlackJack, popola e rende visibile la lista dei tavoli disponibili per il BlackJack,
+     * per accedere a un tavolo e giocare bisogna selezionare il tavolo dalla lista e premere il pulsante: 'entra tavolo'.
+     * Nella text area a destra vengono mostrate ulteriori informazioni sul tavolo selezionato.
      *
      * @param frameChiamante    interfaccia principale per clienti: {@link TabbedMenuPlayer}, resa nuovamente visibile alla fine della sessione di gioco
      * @param clienteController controller contenente le info necessarie per la gestione del cliente: {@link ClientWelcomeController}
@@ -80,7 +81,7 @@ public class SelezioneTavoloBlackJack
                         clienteController.creaNuovaSessioneDiGioco(controller.getTavoloWithId(idTavolo));
                         new GUIBlackJack(thisFrame, clienteController);
                     } catch (RuntimeException ex) {
-                        ex.getMessage();
+                        JOptionPane.showMessageDialog(null, ex.getMessage(),"errore", JOptionPane.ERROR_MESSAGE);
                     }
                 }
                 else

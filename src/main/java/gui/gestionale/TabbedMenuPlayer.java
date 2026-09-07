@@ -129,7 +129,6 @@ public class TabbedMenuPlayer {
         gestisciSaldoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 // si sposta al tab "Gestisci saldo"
                 for (int i = 0; i < tabbedMenuPlayer.getTabCount(); i++) {
                     if (tabbedMenuPlayer.getTitleAt(i).equals("Gestisci Saldo")) {

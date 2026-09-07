@@ -160,9 +160,12 @@ public class DipendenteWelcomeController extends WelcomeController {
                 dipendentiInLocale.add(d);
             }
             else{
-                d = new Supervisore(username.get(i), nome.get(i), cognome.get(i), codiceFiscale.get(i),
-                        dataDiNascita.get(i), password.get(i), idDipendenti.get(i));
-                dipendentiInLocale.add(d);
+                if(!username.get(i).equals("root"))
+                {
+                    d = new Supervisore(username.get(i), nome.get(i), cognome.get(i), codiceFiscale.get(i),
+                            dataDiNascita.get(i), password.get(i), idDipendenti.get(i));
+                    dipendentiInLocale.add(d);
+                }
             }
 
         }

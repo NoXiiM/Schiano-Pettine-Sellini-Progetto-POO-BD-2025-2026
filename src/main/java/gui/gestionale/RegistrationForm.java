@@ -22,24 +22,23 @@ public class RegistrationForm {
     private JPasswordField passRegField;
     private JButton registratiButton;
     private JButton tornaAlLoginRegButton;
-    private JComboBox comboBoxDay;
-    private JComboBox comboBoxMonth;
-    private JComboBox comboBoxYear;
+    private JComboBox<Integer> comboBoxDay;
+    private JComboBox<String> comboBoxMonth;
+    private JComboBox<Integer> comboBoxYear;
     private JTextField depositoObblField;
     private JLabel depositoObbligatorio;
 
-    private JFrame frameChiamante;
-    private ClientWelcomeController controller;
+    private final ClientWelcomeController controller;
 
     /**
-     * Costruttore di RegistrationForm, richiede che vengano inseriti i dati per la registrazione di un CLIENTE e un deposito minimo obbligatorio.
+     * Costruttore di RegistrationForm, richiede che vengano inseriti i dati per la registrazione di un CLIENTE e un deposito
+     * minimo obbligatorio.
      *
      * @param controller controller contenente le info necessarie per la gestione del cliente: {@link ClientWelcomeController}
-     * @param mainframe  interfaccia di login al quale tornare alla fine della registrazione
+     * @param frameChiamante  interfaccia di login al quale tornare alla fine della registrazione
      */
-    public RegistrationForm(ClientWelcomeController controller, JFrame mainframe) {
+    public RegistrationForm(ClientWelcomeController controller, JFrame frameChiamante) {
         this.controller= controller;
-        this.frameChiamante= mainframe;
 
         JFrame thisFrame = new JFrame("RegistrationForm");
         thisFrame.setContentPane(registrationPanel);
@@ -57,9 +56,9 @@ public class RegistrationForm {
             public void actionPerformed(ActionEvent e) {
 
                 try {
-                    int giorno = (int) comboBoxDay.getSelectedItem();
+                    int giorno = comboBoxDay.getSelectedItem() == null ? -1 : (int) comboBoxDay.getSelectedItem();
                     int mese = comboBoxMonth.getSelectedIndex() + 1; // getSelectedIndex parte da 0, la funzione LocalDate.of parte da 1 per i mesi
-                    int anno = (int) comboBoxYear.getSelectedItem();
+                    int anno = comboBoxYear.getSelectedItem() == null ? -1 : (int) comboBoxYear.getSelectedItem();
 
                     LocalDate dataNascita = LocalDate.of(anno, mese, giorno);
                     String password = new String(passRegField.getPassword());   //getPassword restituisce char[]

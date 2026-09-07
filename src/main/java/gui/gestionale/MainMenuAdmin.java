@@ -171,7 +171,7 @@ public class MainMenuAdmin {
         textAreaInfoTavoli.setEditable(false);
         textAreaInfoTavoli.setFocusable(false);
 
-        inizializzaMenuAdmin();
+        inizializzaMenuAdmin(controller);
 
         //[1] Clienti
         bannaButton.addActionListener(new ActionListener() {
@@ -809,7 +809,7 @@ public class MainMenuAdmin {
         });
     }
 
-    private void inizializzaMenuAdmin(){
+    private void inizializzaMenuAdmin(DipendenteWelcomeController controller){
 
         ButtonGroup sospettiButtons= new ButtonGroup();
         sospettiButtons.add(siSospettoRadio);
@@ -864,6 +864,10 @@ public class MainMenuAdmin {
 
         pokerRadio.setVisible(false);
         blackjackRadio.setVisible(false);
+
+        if(controller.getUserUtente().equals("root")){
+            cambiaUsernameButton.setVisible(false);
+        }
     }
 
     private void aggiornaUsername(){

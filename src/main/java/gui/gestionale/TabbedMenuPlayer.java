@@ -1,7 +1,6 @@
 package gui.gestionale;
 
 import controller.gestionale.ClientWelcomeController;
-import database.implementazioneDAO.ImpDAOopc;
 
 import javax.swing.*;
 
@@ -13,7 +12,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * Intercaccia principale per il {@link model.gestionale.utenteEFigli.Cliente}, dal quale è possibile avviare i giochi (tranne in caso di ban), gestire il saldo e modificare/eliminare il proprio account.
+ * Interfaccia principale per il {@link model.gestionale.utenteEFigli.Cliente}, dal quale è possibile avviare i giochi
+ * (tranne in caso di ban), gestire il saldo e modificare/eliminare il proprio account.
  */
 public class TabbedMenuPlayer {
     private JTabbedPane tabbedMenuPlayer;
@@ -37,13 +37,14 @@ public class TabbedMenuPlayer {
     private JButton resettaPasswordButton;
     private JButton blackJack;
     private JButton SlotMachine;
-    private JFrame thisFrame;
+    private final JFrame thisFrame;
 
-    private JFrame frameChiamante;
-    private ClientWelcomeController controller;
+    private final JFrame frameChiamante;
+    private final ClientWelcomeController controller;
 
     /**
-     * Costruttore di TabbedMenuPlayer, vengono chiamati i frame dei giochi e di modifica/eliminazione account, la gestione del saldo avviene invece tramite JOptionPane
+     * Costruttore di TabbedMenuPlayer, vengono chiamati i frame dei giochi e di modifica/eliminazione account, la gestione
+     * del saldo avviene invece tramite JOptionPane
      *
      * @param controller controller contenente le info necessarie per la gestione del cliente: {@link ClientWelcomeController}
      * @param mainframe interfaccia di login al quale tornare quando si esegue il logout
@@ -244,7 +245,6 @@ public class TabbedMenuPlayer {
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
             }
-            ;
             frameChiamante.setVisible(true);
             frameChiamato.dispose();
         }
@@ -253,7 +253,7 @@ public class TabbedMenuPlayer {
     /**
      * Aggiorna username nell'interfaccia.
      */
-    public void aggiornaUsername(){
+    private void aggiornaUsername(){
         userFieldGamePanel.setText(controller.getUserUtente() + "\t");
         userFieldSaldoPanel.setText(controller.getUserUtente() + "\t");
     }
@@ -261,7 +261,7 @@ public class TabbedMenuPlayer {
     /**
      * Aggiorna saldo nell'interfaccia.
      */
-    public void aggiornaSaldo()
+    private void aggiornaSaldo()
     {
         saldoInGameText.setText("Saldo disponibile: " + controller.getSaldoCliente());
         saldoInSaldoText.setText("Saldo disponibile: " + controller.getSaldoCliente());

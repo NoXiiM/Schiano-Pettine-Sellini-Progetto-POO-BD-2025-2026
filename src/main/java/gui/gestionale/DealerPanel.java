@@ -112,8 +112,8 @@ public class DealerPanel {
         int[] idTavoloAssociato = new int[1];
         idTavoloAssociato[0] = -1;
 
-        HashMap<String,Boolean> userSuspect = new HashMap<>();
         HashMap<Integer,String>  userSessione = new HashMap<>();
+        HashMap<String,Boolean> userSuspect = new HashMap<>();
 
         try {
             modelloListaSessioni.addAll(controller.visualizzaSessioniTavolo(idTavoloAssociato,userSuspect,userSessione));
@@ -289,9 +289,6 @@ public class DealerPanel {
                     if(!userSuspect.get(userSessione.get(temp.getIdSessione()))) {
                         int input = JOptionPane.showConfirmDialog(null, "Sei sicuro di voler flaggare questo Utente come sospetto?");
                         if (input == JOptionPane.YES_OPTION) {
-
-
-
                             try {
                                 controller.updateSospetto(userSessione.get(temp.getIdSessione()));
                                 JOptionPane.showMessageDialog(null, "sospetto aggiornato con successo");
@@ -300,7 +297,6 @@ public class DealerPanel {
                                         "errore", JOptionPane.ERROR_MESSAGE);
                             }
 
-                            //TODO potrebbe essere anti pattern
                             modelloListaSessioni.clear();
                             try {
                                 modelloListaSessioni.addAll(controller.visualizzaSessioniTavolo(null,userSuspect,userSessione));
@@ -308,8 +304,6 @@ public class DealerPanel {
                                 JOptionPane.showMessageDialog(null, ex.getMessage(), "errore",
                                         JOptionPane.ERROR_MESSAGE);
                             }
-
-
                         }
                     }else{
                         JOptionPane.showMessageDialog(null, "Utente già sospetto", "Errore", JOptionPane.ERROR_MESSAGE);

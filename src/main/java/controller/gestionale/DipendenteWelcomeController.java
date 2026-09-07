@@ -26,7 +26,7 @@ public class DipendenteWelcomeController extends WelcomeController {
     private ArrayList<Cliente> clientiInLocale;
     private ArrayList<Dipendente> dipendentiInLocale;
     private ArrayList<Tavolo> tavoliInLocale;
-    private ArrayList<String> usernames;
+    private final ArrayList<String> usernames;
 
     /**
      * Costruttore che istanzia un nuovo DipendenteWelcomeController a partire dal WelcomeController, questo comporta
@@ -511,6 +511,7 @@ public class DipendenteWelcomeController extends WelcomeController {
                 vincitaPercentuale, partiteSvolte, username, sospetto);
 
         userSuspect.clear();
+        userSessione.clear();
         for(int i = 0; i < idSessione.size(); i++) {
             sessioni.add(new Sessione(idSessione.get(i), idTavolo.get(i), durata.get(i),
                     vincitaPercentuale.get(i), partiteSvolte.get(i)));
@@ -816,7 +817,7 @@ public class DipendenteWelcomeController extends WelcomeController {
     }
 
     /**
-     * Funzione che rimuove tavolo da db ed in locale
+     * Funzione che rimuove tavolo da db e in locale
      *
      * @param tavolo tavolo
      * @throws SQLException the sql exception
@@ -851,7 +852,7 @@ public class DipendenteWelcomeController extends WelcomeController {
 
         ArrayList<Sessione> sessioniLocali = new ArrayList<>();
         ArrayList<Sessione> sessioniRicercate = new ArrayList<>();
-        HashMap<String,Boolean> userSuspect = new HashMap();
+        HashMap<String,Boolean> userSuspect = new HashMap<>();
         HashMap<Integer,String> userSessioni = new HashMap<>();
 
         try {

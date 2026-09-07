@@ -1,11 +1,7 @@
 package gui.gestionale;
 
 import controller.gestionale.DipendenteWelcomeController;
-import database.implementazioneDAO.ImpDAOopc;
-import database.implementazioneDAO.ImpDAOopd;
 import model.gestionale.Sessione;
-import model.gestionale.utenteEFigli.Cliente;
-import model.gestionale.utenteEFigli.Dipendente;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -13,6 +9,7 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -23,7 +20,7 @@ public class DealerPanel {
     private JPanel dealer;
     private JTabbedPane dealerPanel;
     private JTextArea textAreaSessioni;
-    private JList listaSessioni;
+    private JList<Sessione> listaSessioni;
     private JButton cercaButton;
     private JButton logoutButton;
     private JButton aggiornaListaButton;
@@ -56,7 +53,7 @@ public class DealerPanel {
     private JCheckBox controllaUsernameCheckBox;
     private JLabel tavoloAssociatoLabel;
 
-    private DipendenteWelcomeController controller;
+    private final DipendenteWelcomeController controller;
 
     private static DefaultListModel<Sessione> modelloListaSessioni;
 
@@ -240,14 +237,9 @@ public class DealerPanel {
         listaSessioni.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                Sessione temp= (Sessione) listaSessioni.getSelectedValue();
+                Sessione temp= listaSessioni.getSelectedValue();
                 if(temp != null){
-                    textAreaSessioni.setText("Sessione: "+temp.getIdSessione()+
-                                            "\nUtente: "+userSessione.get(temp.getIdSessione())+
-                                            "\nSospetto: "+(userSuspect.get(userSessione.get(temp.getIdSessione())) ? "Si" : "No")+
-                                            "\nDurata sessione: "+temp.getDurataSessione().getSeconds()+ " secondi"+
-                                            "\nPartite svolte: "+temp.getPartiteSvolte()+
-                                            "\nPercentuale vittoria: "+temp.getVincitaPercentuale());
+                    stampaSessione(temp, userSessione, userSuspect);
                 }
                 else
                 {
@@ -283,27 +275,21 @@ public class DealerPanel {
         attivaSospettoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Sessione temp = (Sessione) listaSessioni.getSelectedValue();
+                Sessione temp = listaSessioni.getSelectedValue();
 
                 if(temp != null) {
                     if(!userSuspect.get(userSessione.get(temp.getIdSessione()))) {
                         int input = JOptionPane.showConfirmDialog(null, "Sei sicuro di voler flaggare questo Utente come sospetto?");
                         if (input == JOptionPane.YES_OPTION) {
                             try {
-                                controller.updateSospetto(userSessione.get(temp.getIdSessione()));
+                                controller.updateSospetto(userSessione.get(temp.getIdSessione()), userSuspect);
                                 JOptionPane.showMessageDialog(null, "sospetto aggiornato con successo");
                             } catch (SQLException ex) {
                                 JOptionPane.showMessageDialog(null, "errore nell'impostare il sospetto",
                                         "errore", JOptionPane.ERROR_MESSAGE);
                             }
 
-                            modelloListaSessioni.clear();
-                            try {
-                                modelloListaSessioni.addAll(controller.visualizzaSessioniTavolo(null,userSuspect,userSessione));
-                            } catch (SQLException ex) {
-                                JOptionPane.showMessageDialog(null, ex.getMessage(), "errore",
-                                        JOptionPane.ERROR_MESSAGE);
-                            }
+                            stampaSessione(temp, userSessione, userSuspect);
                         }
                     }else{
                         JOptionPane.showMessageDialog(null, "Utente già sospetto", "Errore", JOptionPane.ERROR_MESSAGE);
@@ -315,5 +301,18 @@ public class DealerPanel {
 
             }
         });
+    }
+
+    private void stampaSessione(Sessione temp, HashMap<Integer, String> userSessione, HashMap<String, Boolean> userSuspect)
+    {
+        Duration durata = temp.getDurataSessione();
+
+        textAreaSessioni.setText("Sessione: "+temp.getIdSessione()+
+                "\nUtente: "+ userSessione.get(temp.getIdSessione())+
+                "\nSospetto: "+ (userSuspect.get(userSessione.get(temp.getIdSessione())) ? "Si" : "No")+
+                "\nDurata sessione: "+ durata.toHours() + ":" + String.format("%02d", durata.toMinutes() % 60) + ":"
+                + String.format("%02d", durata.toSeconds() % 60) +
+                "\nPartite svolte: "+temp.getPartiteSvolte()+
+                "\nPercentuale vittoria: "+temp.getVincitaPercentuale());
     }
 }

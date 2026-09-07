@@ -113,9 +113,15 @@ public class MainMenuAdmin {
     private static DefaultListModel<Tavolo> modelloListaTavoli;
 
     /**
-     * Costruttore di MainMenuAdmin, popola e rende visibile la lista dei Clienti, permettendo di visualizzarne le sessioni e di bannare,
-     * di Dipendenti, permettendo di aggiungerne nuovi e di modificare i giochi di un Dealer,
-     * e dei Tavoli, permettendone l'aggiunta/rimozione e l'assegnazione/rimozione di un Supervisore.
+     * Costruttore di MainMenuAdmin, popola e rende visibile:
+     * 1) la lista dei Clienti, il supervisore può visualizzare tutte le sessioni di un cliente ed eventualmente può bannarlo
+     * 2) la lista di Dipendenti, il supervisore può aggiungerne di nuovi, modificare i giochi di un Dealer ed eventualmente
+     * licenziare alcuni dealer
+     * 3) la lista dei Tavoli, il supervisore può aggiungere o rimuovere tavoli, assegnare a questi dealer o supervisori a
+     * patto che non siano slot machines che non hanno nè dealer nè supervisori ed eventualmente cambiare il gioco di un tavolo
+     * di black jack in poker o viceversa.
+     * Si possono anche applicare filtri di ricerca sulle liste per ottenere solo le tuple di interesse. Da questa schermata
+     * il supervisore può anche cambiare password o username (il root non può cambiare username).
      *
      * @param controller    controller contenente le info necessarie per la gestione del dipendente: {@link DipendenteWelcomeController}
      * @param mainframe     interfaccia di login al quale tornare quando si esegue il logout
@@ -490,7 +496,7 @@ public class MainMenuAdmin {
                 Dipendente temp = listaDipendenti.getSelectedValue();
 
                 if (temp != null) {
-                    if(temp instanceof Dealer){
+                    if(temp instanceof Dealer || (temp instanceof Supervisore && controller.getUserUtente().equals("root"))){
                         JPasswordField passwordField = new JPasswordField();
 
                         Object[] messaggio = {
@@ -509,7 +515,6 @@ public class MainMenuAdmin {
                         if (risposta == JOptionPane.OK_OPTION) {
                             String password = new String(passwordField.getPassword());
 
-                            // Controlla la password
                             if(password.equals(dipendenteController.getCurrentUser().getPassword())) {
                                 try {
                                     dipendenteController.licenziaDipendente(temp);
@@ -527,49 +532,7 @@ public class MainMenuAdmin {
                             }
                         }
                     }else{
-                        if(dipendenteController.getCurrentUser().getUsername().equals("root")){
-                            if(!temp.getUsername().equals("root")) {
-                                JPasswordField passwordField = new JPasswordField();
-
-                                Object[] messaggio = {
-                                        "Inserisci la password per confermare il licenziamento:",
-                                        passwordField
-                                };
-
-                                int risposta = JOptionPane.showConfirmDialog(
-                                        null,
-                                        messaggio,
-                                        "Conferma licenziamento",
-                                        JOptionPane.OK_CANCEL_OPTION,
-                                        JOptionPane.WARNING_MESSAGE
-                                );
-
-                                if (risposta == JOptionPane.OK_OPTION) {
-                                    String password = new String(passwordField.getPassword());
-
-                                    // Controlla la password
-                                    if (password.equals(dipendenteController.getCurrentUser().getPassword())) {
-                                        try {
-                                            dipendenteController.licenziaDipendente(temp);
-                                        } catch (SQLException ex) {
-                                            JOptionPane.showMessageDialog(null, ex.getMessage(),
-                                                    "errore", JOptionPane.ERROR_MESSAGE);
-                                        }
-                                    } else {
-                                        JOptionPane.showMessageDialog(
-                                                null,
-                                                "Password non corretta!",
-                                                "Errore",
-                                                JOptionPane.ERROR_MESSAGE
-                                        );
-                                    }
-                                }
-                            }else{
-                                JOptionPane.showMessageDialog(null,"Non puoi cancellare te stesso","Errore",JOptionPane.ERROR_MESSAGE);
-                            }
-                        }else{
-                            JOptionPane.showMessageDialog(null,"Non hai i permessi per cancellare un Supervisore","Errore",JOptionPane.ERROR_MESSAGE);
-                        }
+                        JOptionPane.showMessageDialog(null,"Non hai i permessi per cancellare un Supervisore","Errore",JOptionPane.ERROR_MESSAGE);
                     }
                     modelloListaDipendente.clear();
                     modelloListaDipendente.addAll(dipendenteController.getDipendentiInLocale());
@@ -898,6 +861,7 @@ public class MainMenuAdmin {
     public static DefaultListModel<Tavolo> getModelloListaTavoli() {//Serve in registazione per aggiornare lista
         return modelloListaTavoli;
     }
+
     private void stampaClienteInfoField(Cliente temp){
         textAreaInfoFieldClienti.setText("Username: " + temp.getUsername() +
                 "\n\nInformazioni anagrafiche" +

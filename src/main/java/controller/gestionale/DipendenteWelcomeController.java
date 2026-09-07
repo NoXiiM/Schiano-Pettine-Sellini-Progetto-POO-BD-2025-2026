@@ -897,8 +897,11 @@ public class DipendenteWelcomeController extends WelcomeController {
      * @param username the username
      * @throws SQLException the sql exception
      */
-    public void updateSospetto(String username)throws SQLException{
+    public void updateSospetto(String username, HashMap<String, Boolean> userSospetto)throws SQLException{
         ImpDAOopd db = new ImpDAOopd();
+
+        userSospetto.put(username, true);
+
         db.updateSospetto(username);
     }
 

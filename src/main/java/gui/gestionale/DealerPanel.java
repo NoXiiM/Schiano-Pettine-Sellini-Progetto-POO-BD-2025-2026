@@ -6,12 +6,14 @@ import model.gestionale.Sessione;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * The type Dealer panel.
@@ -71,6 +73,11 @@ public class DealerPanel {
         thisFrame.pack();
         thisFrame.setVisible(true);
         frameChiamante.setVisible(false);
+
+        //setting icon
+        ImageIcon iconaBlackJack = new ImageIcon(Objects.requireNonNull(getClass().getResource("/icone/iconaD.png")));
+        thisFrame.setIconImage(iconaBlackJack.getImage().getScaledInstance(54, 54, Image.SCALE_SMOOTH));
+
 
         this.controller = controller;
 

@@ -11,10 +11,12 @@ import model.gestionale.utenteEFigli.Supervisore;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Interfaccia principale per il {@link Supervisore}, dal quale è possibile gestire clienti, dipendenti, tavoli e modificare
@@ -169,6 +171,17 @@ public class MainMenuAdmin {
         thisFrame.pack();
         thisFrame.setVisible(true);
         mainframe.setVisible(false);
+
+        //Setting icon
+        ImageIcon iconaSupervisore;
+        if(controller.getUserUtente().equals("root")){
+            iconaSupervisore = new ImageIcon(Objects.requireNonNull(getClass().getResource("/icone/iconaRoot.png")));
+        }
+        else{
+            iconaSupervisore = new ImageIcon(Objects.requireNonNull(getClass().getResource("/icone/iconaS.png")));
+        }
+        thisFrame.setIconImage(iconaSupervisore.getImage().getScaledInstance(54, 54, Image.SCALE_SMOOTH));
+
 
         textAreaInfoFieldClienti.setEditable(false);
         textAreaInfoFieldClienti.setFocusable(false);

@@ -1,0 +1,1198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>C:/Users/gsell/OneDrive/Desktop/blackjack/Schiano-Pettine-Sellini-Progetto-POO-BD-2025-2026/src</OriginalElement>
+  <nodes>
+    <node x="1823.5" y="384.0">model.giochi.Carte.Mano</node>
+    <node x="1410.25" y="2082.0">gui.gestionale.TabbedMenuPlayer</node>
+    <node x="432.0" y="1802.0">gui.gestionale.AggiungiGiocoDealer</node>
+    <node x="1832.0" y="581.0">model.giochi.Carte.ManoPoker</node>
+    <node x="1797.75" y="1705.0">gui.gestionale.SelezioneTavoloBlackJack</node>
+    <node x="1041.5" y="983.0">database.implementazioneDAO.ImpDAOopd</node>
+    <node x="820.0" y="315.0">model.gestionale.utenteEFigli.Cliente</node>
+    <node x="2166.0" y="1080.0">model.giochi.NonCarte.SlotMachine</node>
+    <node x="512.5" y="1237.0">controller.gestionale.DipendenteWelcomeController</node>
+    <node x="1512.0" y="-14.0">model.giochi.Carte.Seme</node>
+    <node x="612.0" y="480.0">model.gestionale.utenteEFigli.Supervisore</node>
+    <node x="906.5" y="810.0">database.DAO.DAOopc</node>
+    <node x="1665.0" y="480.0">controller.blackjack.DeckOut</node>
+    <node x="1569.5" y="83.0">model.giochi.Carte.Numero</node>
+    <node x="906.5" y="1080.0">database.implementazioneDAO.ImpDAOopc</node>
+    <node x="1433.0" y="640.0">model.gestionale.Tavolo</node>
+    <node x="1175.0" y="1802.0">gui.gestionale.ChangePass</node>
+    <node x="882.0" y="1544.0">gui.gestionale.RegistrationDipendente</node>
+    <node x="152.5" y="983.0">controller.gestionale.WelcomeController</node>
+    <node x="-144.0" y="2232.0">database.ConnessioneDatabase</node>
+    <node x="2185.0" y="762.0">model.giochi.NonCarte.Simboli</node>
+    <node x="277.0" y="762.0">model.gestionale.Giocatore</node>
+    <node x="492.5" y="2130.0">gui.gestionale.RegistrationForm</node>
+    <node x="590.0" y="1651.0">gui.gestionale.CreaTavolo</node>
+    <node x="472.5" y="919.0">model.gestionale.Sessione</node>
+    <node x="717.5" y="262.0">database.DAO.DAOop</node>
+    <node x="1059.75" y="2328.0">model.giochi.Carte.EventiPoker</node>
+    <node x="1903.5" y="1320.0">controller.blackjack.ControllerBlackJack</node>
+    <node x="1351.0" y="1447.0">gui.giochi.GUIPoker</node>
+    <node x="2033.75" y="1544.0">gui.giochi.GUISlotMachine</node>
+    <node x="1692.5" y="1032.0">controller.mazzo.ControllerMazzo</node>
+    <node x="307.5" y="199.0">model.gestionale.utenteEFigli.Dipendente</node>
+    <node x="2178.5" y="1368.0">controller.slotMachine.SlotMachineController</node>
+    <node x="1570.0" y="1802.0">gui.gestionale.CancellaAccount</node>
+    <node x="238.75" y="34.0">model.gestionale.utenteEFigli.Utente</node>
+    <node x="1351.0" y="1802.0">gui.gestionale.ChangeUsername</node>
+    <node x="1926.75" y="2033.0">gui.gestionale.DealerPanel</node>
+    <node x="2099.75" y="2184.0">model.giochi.Carte.ComboPoker</node>
+    <node x="1587.0" y="713.0">model.giochi.Carte.Sabot</node>
+    <node x="674.0" y="1802.0">gui.gestionale.ForgotPassword</node>
+    <node x="703.5" y="762.0">database.implementazioneDAO.ImpDAOop</node>
+    <node x="1544.5" y="1173.0">controller.poker.ControllerPoker</node>
+    <node x="2018.5" y="1802.0">gui.gestionale.SelezioneTavoloSlotMachine</node>
+    <node x="1668.0" y="1603.0">controller.TavoloController</node>
+    <node x="1544.0" y="151.0">model.giochi.Carte.Carta</node>
+    <node x="1055.5" y="640.0">database.DAO.DAOopd</node>
+    <node x="902.0" y="1802.0">gui.gestionale.VisualizzatoreSessioni</node>
+    <node x="1952.25" y="262.0">model.giochi.Carte.HandStateBJ</node>
+    <node x="150.0" y="1753.0">gui.gestionale.AssegnaDipendentiTavolo</node>
+    <node x="1799.0" y="1970.0">gui.gestionale.MainMenuAdmin</node>
+    <node x="130.0" y="1320.0">controller.gestionale.ClientWelcomeController</node>
+    <node x="1391.5" y="432.0">model.gestionale.utenteEFigli.Dealer</node>
+    <node x="813.25" y="199.0">model.gestionale.Ban</node>
+    <node x="1545.75" y="1705.0">gui.gestionale.SelezioneTavoloPoker</node>
+    <node x="54.0" y="2280.0">gui.gestionale.WelcomePanel</node>
+    <node x="1900.5" y="528.0">model.giochi.Carte.ManoBlackJack</node>
+    <node x="1481.0" y="199.0">model.gestionale.Gioco</node>
+    <node x="1848.75" y="1496.0">gui.giochi.GUIBlackJack</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="gui.gestionale.TabbedMenuPlayer" target="gui.gestionale.ChangeUsername" relationship="CREATE">
+      <point x="48.25" y="-14.0" />
+      <point x="1555.0" y="2057.0" />
+      <point x="1515.0" y="2057.0" />
+      <point x="1515.0" y="1875.0" />
+      <point x="597.5" y="1875.0" />
+      <point x="597.5" y="1845.0" />
+      <point x="1445.5" y="1845.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="gui.gestionale.WelcomePanel" target="controller.gestionale.DipendenteWelcomeController" relationship="CREATE">
+      <point x="41.0" y="-14.0" />
+      <point x="177.0" y="2270.0" />
+      <point x="497.5" y="2270.0" />
+      <point x="497.5" y="2256.0" />
+      <point x="2084.75" y="2256.0" />
+      <point x="2084.75" y="1855.0" />
+      <point x="1336.0" y="1855.0" />
+      <point x="1336.0" y="1207.0" />
+      <point x="752.5" y="1207.0" />
+      <point x="96.0" y="-14.0" />
+    </edge>
+    <edge source="model.gestionale.Tavolo" target="model.gestionale.Gioco" relationship="TO_ONE">
+      <point x="0.0" y="-14.0" />
+      <point x="1484.0" y="615.0" />
+      <point x="1487.5" y="615.0" />
+      <point x="1487.5" y="605.0" />
+      <point x="1528.0" y="605.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="gui.gestionale.TabbedMenuPlayer" target="gui.gestionale.SelezioneTavoloPoker" relationship="CREATE">
+      <point x="48.25" y="-14.0" />
+      <point x="1555.0" y="1757.0" />
+      <point x="1530.75" y="1757.0" />
+      <point x="1530.75" y="1690.0" />
+      <point x="1601.25" y="1690.0" />
+      <point x="-55.5" y="-14.0" />
+    </edge>
+    <edge source="gui.gestionale.SelezioneTavoloPoker" target="controller.TavoloController" relationship="CREATE">
+      <point x="-55.5" y="-14.0" />
+      <point x="1601.25" y="1645.0" />
+      <point x="1998.25" y="1645.0" />
+      <point x="1998.25" y="1578.0" />
+      <point x="1712.5" y="1578.0" />
+      <point x="-44.5" y="-14.0" />
+    </edge>
+    <edge source="gui.gestionale.MainMenuAdmin" target="controller.gestionale.DipendenteWelcomeController" relationship="TO_ONE">
+      <point x="-45.0" y="-14.0" />
+      <point x="1844.0" y="1915.0" />
+      <point x="1140.0" y="1915.0" />
+      <point x="1140.0" y="1217.0" />
+      <point x="656.5" y="1217.0" />
+      <point x="0.0" y="-14.0" />
+    </edge>
+    <edge source="gui.gestionale.DealerPanel" target="controller.gestionale.DipendenteWelcomeController" relationship="TO_ONE">
+      <point x="-35.75" y="-14.0" />
+      <point x="1962.5" y="2008.0" />
+      <point x="1994.0" y="2008.0" />
+      <point x="1994.0" y="1895.0" />
+      <point x="1160.0" y="1895.0" />
+      <point x="1160.0" y="1324.0" />
+      <point x="1140.0" y="1324.0" />
+      <point x="1140.0" y="1217.0" />
+      <point x="656.5" y="1217.0" />
+      <point x="0.0" y="-14.0" />
+    </edge>
+    <edge source="model.gestionale.Tavolo" target="model.gestionale.utenteEFigli.Dealer" relationship="TO_ONE">
+      <point x="0.0" y="-14.0" />
+      <point x="1484.0" y="615.0" />
+      <point x="1487.5" y="615.0" />
+      <point x="1487.5" y="605.0" />
+      <point x="1507.5" y="605.0" />
+      <point x="1507.5" y="417.0" />
+      <point x="1467.25" y="417.0" />
+      <point x="25.25" y="-14.0" />
+    </edge>
+    <edge source="controller.gestionale.WelcomeController" target="model.gestionale.utenteEFigli.Utente" relationship="TO_ONE">
+      <point x="-49.5" y="-14.0" />
+      <point x="202.0" y="87.0" />
+      <point x="264.25" y="87.0" />
+      <point x="-25.5" y="14.0" />
+    </edge>
+    <edge source="gui.gestionale.MainMenuAdmin" target="gui.gestionale.AggiungiGiocoDealer" relationship="CREATE">
+      <point x="45.0" y="-14.0" />
+      <point x="1934.0" y="1945.0" />
+      <point x="659.0" y="1945.0" />
+      <point x="659.0" y="1865.0" />
+      <point x="538.0" y="1865.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="controller.gestionale.DipendenteWelcomeController" target="model.gestionale.Tavolo" relationship="CREATE">
+      <point x="96.0" y="-14.0" />
+      <point x="752.5" y="1227.0" />
+      <point x="1139.5" y="1227.0" />
+      <point x="1139.5" y="1197.0" />
+      <point x="1279.5" y="1197.0" />
+      <point x="1279.5" y="1138.0" />
+      <point x="1424.5" y="1138.0" />
+      <point x="1424.5" y="923.0" />
+      <point x="1549.5" y="923.0" />
+      <point x="1549.5" y="717.0" />
+      <point x="1529.5" y="717.0" />
+      <point x="1529.5" y="683.0" />
+      <point x="1484.0" y="683.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="gui.gestionale.MainMenuAdmin" target="gui.gestionale.ChangeUsername" relationship="CREATE">
+      <point x="45.0" y="-14.0" />
+      <point x="1934.0" y="1945.0" />
+      <point x="659.0" y="1945.0" />
+      <point x="659.0" y="1895.0" />
+      <point x="597.5" y="1895.0" />
+      <point x="597.5" y="1845.0" />
+      <point x="1445.5" y="1845.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="gui.gestionale.TabbedMenuPlayer" target="gui.gestionale.SelezioneTavoloBlackJack" relationship="CREATE">
+      <point x="48.25" y="-14.0" />
+      <point x="1555.0" y="2057.0" />
+      <point x="1764.0" y="2057.0" />
+      <point x="1764.0" y="1757.0" />
+      <point x="2065.75" y="1757.0" />
+      <point x="2065.75" y="1685.0" />
+      <point x="1987.5" y="1685.0" />
+      <point x="63.25" y="-14.0" />
+    </edge>
+    <edge source="controller.mazzo.ControllerMazzo" target="model.giochi.Carte.ManoBlackJack" relationship="CREATE">
+      <point x="44.5" y="-14.0" />
+      <point x="1826.0" y="1007.0" />
+      <point x="1985.0" y="1007.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="gui.gestionale.RegistrationDipendente" target="controller.gestionale.DipendenteWelcomeController" relationship="TO_ONE">
+      <point x="0.0" y="-14.0" />
+      <point x="998.0" y="1324.0" />
+      <point x="1140.0" y="1324.0" />
+      <point x="1140.0" y="1217.0" />
+      <point x="656.5" y="1217.0" />
+      <point x="0.0" y="-14.0" />
+    </edge>
+    <edge source="model.gestionale.Giocatore" target="model.gestionale.utenteEFigli.Cliente" relationship="TO_ONE">
+      <point x="0.0" y="-14.0" />
+      <point x="339.5" y="737.0" />
+      <point x="397.5" y="737.0" />
+      <point x="397.5" y="388.0" />
+      <point x="417.5" y="388.0" />
+      <point x="417.5" y="339.0" />
+      <point x="790.0" y="339.0" />
+      <point x="790.0" y="300.0" />
+      <point x="837.5" y="300.0" />
+      <point x="-35.0" y="-14.0" />
+    </edge>
+    <edge source="gui.gestionale.SelezioneTavoloSlotMachine" target="controller.TavoloController" relationship="CREATE">
+      <point x="67.75" y="-14.0" />
+      <point x="2221.75" y="1777.0" />
+      <point x="2201.75" y="1777.0" />
+      <point x="2201.75" y="1645.0" />
+      <point x="1998.25" y="1645.0" />
+      <point x="1998.25" y="1578.0" />
+      <point x="1712.5" y="1578.0" />
+      <point x="-44.5" y="-14.0" />
+    </edge>
+    <edge source="controller.slotMachine.SlotMachineController" target="model.giochi.NonCarte.SlotMachine" relationship="CREATE">
+      <point x="-55.5" y="-14.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="model.gestionale.utenteEFigli.Dealer" target="model.gestionale.utenteEFigli.Dipendente" relationship="GENERALIZATION">
+      <point x="-25.25" y="-14.0" />
+      <point x="1416.75" y="252.0" />
+      <point x="683.5" y="252.0" />
+      <point x="683.5" y="184.0" />
+      <point x="377.5" y="184.0" />
+      <point x="0.0" y="-14.0" />
+    </edge>
+    <edge source="controller.mazzo.ControllerMazzo" target="model.giochi.Carte.Sabot" relationship="CREATE">
+      <point x="44.5" y="-14.0" />
+      <point x="1826.0" y="1007.0" />
+      <point x="1777.0" y="1007.0" />
+      <point x="1777.0" y="766.0" />
+      <point x="1737.0" y="766.0" />
+      <point x="1737.0" y="698.0" />
+      <point x="1658.25" y="698.0" />
+      <point x="23.75" y="-14.0" />
+    </edge>
+    <edge source="controller.TavoloController" target="database.implementazioneDAO.ImpDAOopc" relationship="CREATE">
+      <point x="-44.5" y="-14.0" />
+      <point x="1712.5" y="1568.0" />
+      <point x="1509.5" y="1568.0" />
+      <point x="1509.5" y="1177.0" />
+      <point x="977.5" y="1177.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="model.gestionale.Sessione" target="model.gestionale.Tavolo" relationship="TO_ONE">
+      <point x="0.0" y="-14.0" />
+      <point x="533.0" y="894.0" />
+      <point x="709.0" y="894.0" />
+      <point x="709.0" y="834.0" />
+      <point x="851.5" y="834.0" />
+      <point x="851.5" y="717.0" />
+      <point x="871.5" y="717.0" />
+      <point x="871.5" y="625.0" />
+      <point x="1484.0" y="625.0" />
+      <point x="0.0" y="-14.0" />
+    </edge>
+    <edge source="controller.mazzo.ControllerMazzo" target="model.giochi.Carte.Mano" relationship="TO_MANY">
+      <point x="-44.5" y="-14.0" />
+      <point x="1737.0" y="1022.0" />
+      <point x="1757.0" y="1022.0" />
+      <point x="1757.0" y="923.0" />
+      <point x="1797.0" y="923.0" />
+      <point x="1797.0" y="369.0" />
+      <point x="1865.5" y="369.0" />
+      <point x="0.0" y="-14.0" />
+    </edge>
+    <edge source="gui.giochi.GUISlotMachine" target="controller.slotMachine.SlotMachineController" relationship="TO_ONE">
+      <point x="-43.25" y="-14.0" />
+      <point x="2077.0" y="1451.0" />
+      <point x="2415.5" y="1451.0" />
+      <point x="2415.5" y="1353.0" />
+      <point x="2345.0" y="1353.0" />
+      <point x="55.5" y="-14.0" />
+    </edge>
+    <edge source="model.giochi.Carte.Mano" target="model.giochi.Carte.Carta" relationship="TO_MANY">
+      <point x="0.0" y="-14.0" />
+      <point x="1865.5" y="359.0" />
+      <point x="1609.5" y="359.0" />
+      <point x="1609.5" y="339.0" />
+      <point x="1610.0" y="339.0" />
+      <point x="1610.0" y="203.0" />
+      <point x="1611.0" y="203.0" />
+      <point x="1611.0" y="189.0" />
+      <point x="1529.0" y="189.0" />
+      <point x="1529.0" y="136.0" />
+      <point x="1590.0" y="136.0" />
+      <point x="0.0" y="-14.0" />
+    </edge>
+    <edge source="controller.gestionale.DipendenteWelcomeController" target="model.gestionale.utenteEFigli.Cliente" relationship="TO_MANY">
+      <point x="0.0" y="-14.0" />
+      <point x="656.5" y="1197.0" />
+      <point x="608.5" y="1197.0" />
+      <point x="608.5" y="884.0" />
+      <point x="437.5" y="884.0" />
+      <point x="437.5" y="388.0" />
+      <point x="417.5" y="388.0" />
+      <point x="417.5" y="339.0" />
+      <point x="790.0" y="339.0" />
+      <point x="790.0" y="300.0" />
+      <point x="837.5" y="300.0" />
+      <point x="-35.0" y="-14.0" />
+    </edge>
+    <edge source="gui.gestionale.RegistrationForm" target="controller.gestionale.ClientWelcomeController" relationship="TO_ONE">
+      <point x="0.0" y="-14.0" />
+      <point x="583.5" y="2120.0" />
+      <point x="517.5" y="2120.0" />
+      <point x="517.5" y="1885.0" />
+      <point x="867.0" y="1885.0" />
+      <point x="867.0" y="1372.0" />
+      <point x="887.0" y="1372.0" />
+      <point x="887.0" y="1344.0" />
+      <point x="1180.0" y="1344.0" />
+      <point x="1180.0" y="1285.0" />
+      <point x="170.5" y="1285.0" />
+      <point x="-81.0" y="-14.0" />
+    </edge>
+    <edge source="controller.poker.ControllerPoker" target="model.giochi.Carte.Sabot" relationship="CREATE">
+      <point x="-43.0" y="-14.0" />
+      <point x="1587.5" y="1148.0" />
+      <point x="1319.5" y="1148.0" />
+      <point x="1319.5" y="1118.0" />
+      <point x="1677.5" y="1118.0" />
+      <point x="1677.5" y="1022.0" />
+      <point x="1717.0" y="1022.0" />
+      <point x="1717.0" y="766.0" />
+      <point x="1737.0" y="766.0" />
+      <point x="1737.0" y="698.0" />
+      <point x="1658.25" y="698.0" />
+      <point x="23.75" y="-14.0" />
+    </edge>
+    <edge source="gui.gestionale.TabbedMenuPlayer" target="gui.gestionale.ForgotPassword" relationship="CREATE">
+      <point x="48.25" y="-14.0" />
+      <point x="1555.0" y="2057.0" />
+      <point x="1495.0" y="2057.0" />
+      <point x="1495.0" y="1935.0" />
+      <point x="555.5" y="1935.0" />
+      <point x="555.5" y="1855.0" />
+      <point x="763.0" y="1855.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="controller.poker.ControllerPoker" target="database.implementazioneDAO.ImpDAOop" relationship="CREATE">
+      <point x="-43.0" y="-14.0" />
+      <point x="1587.5" y="1148.0" />
+      <point x="1319.5" y="1148.0" />
+      <point x="1319.5" y="1118.0" />
+      <point x="891.5" y="1118.0" />
+      <point x="891.5" y="987.0" />
+      <point x="668.5" y="987.0" />
+      <point x="668.5" y="884.0" />
+      <point x="790.0" y="884.0" />
+      <point x="790.0" y="814.0" />
+      <point x="770.0" y="814.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="database.implementazioneDAO.ImpDAOopc" target="database.DAO.DAOopc" relationship="REALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="977.5" y="1070.0" />
+      <point x="968.25" y="1070.0" />
+      <point x="968.25" y="923.0" />
+      <point x="959.0" y="923.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="gui.gestionale.SelezioneTavoloSlotMachine" target="gui.giochi.GUISlotMachine" relationship="CREATE">
+      <point x="67.75" y="-14.0" />
+      <point x="2221.75" y="1529.0" />
+      <point x="2163.5" y="1529.0" />
+      <point x="43.25" y="-14.0" />
+    </edge>
+    <edge source="controller.mazzo.ControllerMazzo" target="controller.blackjack.DeckOut" relationship="CREATE">
+      <point x="44.5" y="-14.0" />
+      <point x="1826.0" y="1007.0" />
+      <point x="1817.0" y="1007.0" />
+      <point x="1817.0" y="571.0" />
+      <point x="1723.5" y="571.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="gui.gestionale.WelcomePanel" target="gui.gestionale.ForgotPassword" relationship="CREATE">
+      <point x="41.0" y="-14.0" />
+      <point x="177.0" y="2270.0" />
+      <point x="497.5" y="2270.0" />
+      <point x="497.5" y="2256.0" />
+      <point x="477.5" y="2256.0" />
+      <point x="477.5" y="1935.0" />
+      <point x="555.5" y="1935.0" />
+      <point x="555.5" y="1855.0" />
+      <point x="763.0" y="1855.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="gui.giochi.GUIPoker" target="controller.poker.ControllerPoker" relationship="TO_ONE">
+      <point x="-30.75" y="-14.0" />
+      <point x="1381.75" y="1437.0" />
+      <point x="396.5" y="1437.0" />
+      <point x="396.5" y="1412.0" />
+      <point x="1671.5" y="1412.0" />
+      <point x="1671.5" y="1324.0" />
+      <point x="1630.5" y="1324.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="model.giochi.Carte.Sabot" target="model.giochi.Carte.Carta" relationship="CREATE">
+      <point x="23.75" y="-14.0" />
+      <point x="1658.25" y="664.0" />
+      <point x="1650.0" y="664.0" />
+      <point x="1650.0" y="349.0" />
+      <point x="1590.0" y="349.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="controller.gestionale.ClientWelcomeController" target="model.gestionale.utenteEFigli.Cliente" relationship="TO_ONE">
+      <point x="-81.0" y="-14.0" />
+      <point x="170.5" y="1310.0" />
+      <point x="74.5" y="1310.0" />
+      <point x="74.5" y="1261.0" />
+      <point x="-6.0" y="1261.0" />
+      <point x="-6.0" y="717.0" />
+      <point x="417.5" y="717.0" />
+      <point x="417.5" y="339.0" />
+      <point x="790.0" y="339.0" />
+      <point x="790.0" y="300.0" />
+      <point x="837.5" y="300.0" />
+      <point x="-35.0" y="-14.0" />
+    </edge>
+    <edge source="controller.gestionale.WelcomeController" target="model.gestionale.utenteEFigli.Supervisore" relationship="CREATE">
+      <point x="49.5" y="-14.0" />
+      <point x="301.0" y="973.0" />
+      <point x="262.0" y="973.0" />
+      <point x="262.0" y="943.0" />
+      <point x="222.0" y="943.0" />
+      <point x="222.0" y="555.0" />
+      <point x="637.75" y="555.0" />
+      <point x="637.75" y="532.0" />
+      <point x="647.75" y="532.0" />
+      <point x="-35.75" y="14.0" />
+    </edge>
+    <edge source="gui.gestionale.WelcomePanel" target="gui.gestionale.MainMenuAdmin" relationship="CREATE">
+      <point x="41.0" y="-14.0" />
+      <point x="177.0" y="2270.0" />
+      <point x="497.5" y="2270.0" />
+      <point x="497.5" y="2256.0" />
+      <point x="1804.0" y="2256.0" />
+      <point x="1804.0" y="2086.0" />
+      <point x="1878.125" y="2086.0" />
+      <point x="1878.125" y="2008.0" />
+      <point x="1475.0" y="2008.0" />
+      <point x="1475.0" y="1955.0" />
+      <point x="1934.0" y="1955.0" />
+      <point x="45.0" y="-14.0" />
+    </edge>
+    <edge source="controller.gestionale.DipendenteWelcomeController" target="model.gestionale.utenteEFigli.Supervisore" relationship="CREATE">
+      <point x="96.0" y="-14.0" />
+      <point x="752.5" y="1227.0" />
+      <point x="1139.5" y="1227.0" />
+      <point x="1139.5" y="1036.0" />
+      <point x="1026.5" y="1036.0" />
+      <point x="1026.5" y="585.0" />
+      <point x="657.75" y="585.0" />
+      <point x="657.75" y="532.0" />
+      <point x="647.75" y="532.0" />
+      <point x="-35.75" y="14.0" />
+    </edge>
+    <edge source="model.gestionale.utenteEFigli.Dipendente" target="model.gestionale.utenteEFigli.Utente" relationship="GENERALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="377.5" y="77.0" />
+      <point x="315.25" y="77.0" />
+      <point x="25.5" y="14.0" />
+    </edge>
+    <edge source="gui.gestionale.DealerPanel" target="gui.gestionale.ForgotPassword" relationship="CREATE">
+      <point x="35.75" y="-14.0" />
+      <point x="2034.0" y="1935.0" />
+      <point x="555.5" y="1935.0" />
+      <point x="555.5" y="1855.0" />
+      <point x="763.0" y="1855.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="model.gestionale.utenteEFigli.Cliente" target="model.gestionale.Ban" relationship="TO_ONE">
+      <point x="-35.0" y="-14.0" />
+      <point x="837.5" y="242.0" />
+      <point x="833.0" y="242.0" />
+      <point x="-19.75" y="14.0" />
+    </edge>
+    <edge source="gui.gestionale.TabbedMenuPlayer" target="controller.gestionale.ClientWelcomeController" relationship="TO_ONE">
+      <point x="-48.25" y="-14.0" />
+      <point x="1458.5" y="2057.0" />
+      <point x="497.5" y="2057.0" />
+      <point x="497.5" y="1925.0" />
+      <point x="417.0" y="1925.0" />
+      <point x="417.0" y="1372.0" />
+      <point x="887.0" y="1372.0" />
+      <point x="887.0" y="1344.0" />
+      <point x="1180.0" y="1344.0" />
+      <point x="1180.0" y="1285.0" />
+      <point x="170.5" y="1285.0" />
+      <point x="-81.0" y="-14.0" />
+    </edge>
+    <edge source="gui.gestionale.SelezioneTavoloBlackJack" target="controller.TavoloController" relationship="CREATE">
+      <point x="63.25" y="-14.0" />
+      <point x="1987.5" y="1695.0" />
+      <point x="1998.25" y="1695.0" />
+      <point x="1998.25" y="1578.0" />
+      <point x="1712.5" y="1578.0" />
+      <point x="-44.5" y="-14.0" />
+    </edge>
+    <edge source="gui.gestionale.MainMenuAdmin" target="gui.gestionale.ForgotPassword" relationship="CREATE">
+      <point x="45.0" y="-14.0" />
+      <point x="1934.0" y="1945.0" />
+      <point x="659.0" y="1945.0" />
+      <point x="659.0" y="1925.0" />
+      <point x="555.5" y="1925.0" />
+      <point x="555.5" y="1855.0" />
+      <point x="763.0" y="1855.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="controller.blackjack.ControllerBlackJack" target="model.giochi.Carte.ManoBlackJack" relationship="TO_ONE">
+      <point x="67.66666666666666" y="-14.0" />
+      <point x="2072.6666666666665" y="1285.0" />
+      <point x="2084.5" y="1285.0" />
+      <point x="2084.5" y="513.0" />
+      <point x="2027.25" y="513.0" />
+      <point x="42.25" y="-14.0" />
+    </edge>
+    <edge source="model.gestionale.utenteEFigli.Cliente" target="model.gestionale.utenteEFigli.Utente" relationship="GENERALIZATION">
+      <point x="35.0" y="-14.0" />
+      <point x="907.5" y="290.0" />
+      <point x="907.25" y="290.0" />
+      <point x="907.25" y="87.0" />
+      <point x="377.5" y="87.0" />
+      <point x="377.5" y="77.0" />
+      <point x="315.25" y="77.0" />
+      <point x="25.5" y="14.0" />
+    </edge>
+    <edge source="gui.giochi.GUIPoker" target="controller.gestionale.ClientWelcomeController" relationship="TO_MANY">
+      <point x="-30.75" y="-14.0" />
+      <point x="1381.75" y="1437.0" />
+      <point x="396.5" y="1437.0" />
+      <point x="396.5" y="1412.0" />
+      <point x="907.0" y="1412.0" />
+      <point x="907.0" y="1372.0" />
+      <point x="887.0" y="1372.0" />
+      <point x="887.0" y="1344.0" />
+      <point x="1180.0" y="1344.0" />
+      <point x="1180.0" y="1285.0" />
+      <point x="170.5" y="1285.0" />
+      <point x="-81.0" y="-14.0" />
+    </edge>
+    <edge source="model.giochi.NonCarte.SlotMachine" target="model.giochi.NonCarte.Simboli" relationship="TO_MANY">
+      <point x="0.0" y="-14.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="gui.giochi.GUIBlackJack" target="controller.blackjack.ControllerBlackJack" relationship="CREATE">
+      <point x="38.75" y="-14.0" />
+      <point x="1965.0" y="1471.0" />
+      <point x="2056.5" y="1471.0" />
+      <point x="2056.5" y="1372.0" />
+      <point x="2121.5" y="1372.0" />
+      <point x="2121.5" y="1295.0" />
+      <point x="2005.0" y="1295.0" />
+      <point x="0.0" y="-14.0" />
+    </edge>
+    <edge source="controller.gestionale.DipendenteWelcomeController" target="model.gestionale.Tavolo" relationship="TO_MANY">
+      <point x="0.0" y="-14.0" />
+      <point x="656.5" y="1197.0" />
+      <point x="871.5" y="1197.0" />
+      <point x="871.5" y="625.0" />
+      <point x="1484.0" y="625.0" />
+      <point x="0.0" y="-14.0" />
+    </edge>
+    <edge source="model.giochi.Carte.ManoPoker" target="model.giochi.Carte.Mano" relationship="GENERALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="1901.0" y="571.0" />
+      <point x="1885.5" y="571.0" />
+      <point x="1885.5" y="436.0" />
+      <point x="1865.5" y="436.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="gui.gestionale.WelcomePanel" target="gui.gestionale.DealerPanel" relationship="CREATE">
+      <point x="41.0" y="-14.0" />
+      <point x="177.0" y="2270.0" />
+      <point x="497.5" y="2270.0" />
+      <point x="497.5" y="2256.0" />
+      <point x="1824.5" y="2256.0" />
+      <point x="1824.5" y="2018.0" />
+      <point x="2034.0" y="2018.0" />
+      <point x="35.75" y="-14.0" />
+    </edge>
+    <edge source="gui.gestionale.SelezioneTavoloBlackJack" target="gui.giochi.GUIBlackJack" relationship="CREATE">
+      <point x="63.25" y="-14.0" />
+      <point x="1987.5" y="1695.0" />
+      <point x="1998.25" y="1695.0" />
+      <point x="1998.25" y="1675.0" />
+      <point x="2018.25" y="1675.0" />
+      <point x="2018.25" y="1635.0" />
+      <point x="2018.75" y="1635.0" />
+      <point x="2018.75" y="1481.0" />
+      <point x="1965.0" y="1481.0" />
+      <point x="38.75" y="-14.0" />
+    </edge>
+    <edge source="model.giochi.Carte.Carta" target="model.giochi.Carte.Numero" relationship="TO_ONE">
+      <point x="0.0" y="-14.0" />
+      <point x="1590.0" y="126.0" />
+      <point x="1625.5" y="126.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="model.giochi.Carte.Carta" target="model.giochi.Carte.Seme" relationship="TO_ONE">
+      <point x="0.0" y="-14.0" />
+      <point x="1590.0" y="126.0" />
+      <point x="1554.5" y="126.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="gui.gestionale.MainMenuAdmin" target="gui.gestionale.RegistrationDipendente" relationship="CREATE">
+      <point x="45.0" y="-14.0" />
+      <point x="1934.0" y="1945.0" />
+      <point x="659.0" y="1945.0" />
+      <point x="659.0" y="1865.0" />
+      <point x="887.0" y="1865.0" />
+      <point x="887.0" y="1607.0" />
+      <point x="998.0" y="1607.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="controller.mazzo.ControllerMazzo" target="model.giochi.Carte.ManoPoker" relationship="CREATE">
+      <point x="44.5" y="-14.0" />
+      <point x="1826.0" y="1007.0" />
+      <point x="1901.0" y="1007.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="gui.gestionale.WelcomePanel" target="gui.gestionale.TabbedMenuPlayer" relationship="CREATE">
+      <point x="41.0" y="-14.0" />
+      <point x="177.0" y="2270.0" />
+      <point x="497.5" y="2270.0" />
+      <point x="497.5" y="2256.0" />
+      <point x="689.5" y="2256.0" />
+      <point x="689.5" y="2067.0" />
+      <point x="1555.0" y="2067.0" />
+      <point x="48.25" y="-14.0" />
+    </edge>
+    <edge source="gui.gestionale.MainMenuAdmin" target="gui.gestionale.VisualizzatoreSessioni" relationship="CREATE">
+      <point x="45.0" y="-14.0" />
+      <point x="1934.0" y="1945.0" />
+      <point x="659.0" y="1945.0" />
+      <point x="659.0" y="1865.0" />
+      <point x="1013.5" y="1865.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="controller.poker.ControllerPoker" target="model.gestionale.utenteEFigli.Cliente" relationship="CREATE">
+      <point x="-43.0" y="-14.0" />
+      <point x="1587.5" y="1148.0" />
+      <point x="1319.5" y="1148.0" />
+      <point x="1319.5" y="388.0" />
+      <point x="1259.5" y="388.0" />
+      <point x="1259.5" y="300.0" />
+      <point x="872.5" y="300.0" />
+      <point x="0.0" y="-14.0" />
+    </edge>
+    <edge source="controller.gestionale.DipendenteWelcomeController" target="model.gestionale.utenteEFigli.Dealer" relationship="CREATE">
+      <point x="96.0" y="-14.0" />
+      <point x="752.5" y="1227.0" />
+      <point x="1139.5" y="1227.0" />
+      <point x="1139.5" y="1197.0" />
+      <point x="1199.5" y="1197.0" />
+      <point x="1199.5" y="522.0" />
+      <point x="1442.0" y="522.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="controller.gestionale.DipendenteWelcomeController" target="model.gestionale.Sessione" relationship="CREATE">
+      <point x="96.0" y="-14.0" />
+      <point x="752.5" y="1227.0" />
+      <point x="1139.5" y="1227.0" />
+      <point x="1139.5" y="1197.0" />
+      <point x="1099.5" y="1197.0" />
+      <point x="1099.5" y="1147.0" />
+      <point x="523.0" y="1147.0" />
+      <point x="523.0" y="987.0" />
+      <point x="533.0" y="987.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="gui.gestionale.MainMenuAdmin" target="gui.gestionale.ChangePass" relationship="CREATE">
+      <point x="45.0" y="-14.0" />
+      <point x="1934.0" y="1945.0" />
+      <point x="659.0" y="1945.0" />
+      <point x="659.0" y="1905.0" />
+      <point x="1248.0" y="1905.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="model.giochi.Carte.ManoBlackJack" target="model.giochi.Carte.Mano" relationship="GENERALIZATION">
+      <point x="-42.25" y="-14.0" />
+      <point x="1942.75" y="518.0" />
+      <point x="1865.5" y="518.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="gui.gestionale.TabbedMenuPlayer" target="gui.gestionale.CancellaAccount" relationship="CREATE">
+      <point x="48.25" y="-14.0" />
+      <point x="1555.0" y="2057.0" />
+      <point x="1659.5" y="2057.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="model.gestionale.utenteEFigli.Cliente" target="model.gestionale.Ban" relationship="CREATE">
+      <point x="0.0" y="-14.0" />
+      <point x="19.75" y="14.0" />
+    </edge>
+    <edge source="gui.gestionale.TabbedMenuPlayer" target="gui.gestionale.ChangePass" relationship="CREATE">
+      <point x="48.25" y="-14.0" />
+      <point x="1555.0" y="2057.0" />
+      <point x="1535.0" y="2057.0" />
+      <point x="1535.0" y="1885.0" />
+      <point x="1248.0" y="1885.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="gui.gestionale.WelcomePanel" target="controller.gestionale.WelcomeController" relationship="TO_ONE">
+      <point x="-41.0" y="-14.0" />
+      <point x="95.0" y="1300.0" />
+      <point x="34.5" y="1300.0" />
+      <point x="34.5" y="1036.0" />
+      <point x="54.5" y="1036.0" />
+      <point x="54.5" y="1007.0" />
+      <point x="114.5" y="1007.0" />
+      <point x="114.5" y="968.0" />
+      <point x="202.0" y="968.0" />
+      <point x="-49.5" y="-14.0" />
+    </edge>
+    <edge source="controller.mazzo.ControllerMazzo" target="model.giochi.Carte.Sabot" relationship="TO_ONE">
+      <point x="-44.5" y="-14.0" />
+      <point x="1737.0" y="987.0" />
+      <point x="1697.0" y="987.0" />
+      <point x="1697.0" y="688.0" />
+      <point x="1610.75" y="688.0" />
+      <point x="-23.75" y="-14.0" />
+    </edge>
+    <edge source="model.giochi.Carte.Sabot" target="controller.blackjack.DeckOut" relationship="CREATE">
+      <point x="23.75" y="-14.0" />
+      <point x="1658.25" y="664.0" />
+      <point x="1686.75" y="664.0" />
+      <point x="1686.75" y="532.0" />
+      <point x="1723.5" y="532.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="controller.gestionale.WelcomeController" target="database.implementazioneDAO.ImpDAOop" relationship="CREATE">
+      <point x="49.5" y="-14.0" />
+      <point x="301.0" y="973.0" />
+      <point x="262.0" y="973.0" />
+      <point x="262.0" y="943.0" />
+      <point x="282.0" y="943.0" />
+      <point x="282.0" y="844.0" />
+      <point x="730.0" y="844.0" />
+      <point x="730.0" y="814.0" />
+      <point x="770.0" y="814.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="gui.gestionale.DealerPanel" target="gui.gestionale.ChangePass" relationship="CREATE">
+      <point x="35.75" y="-14.0" />
+      <point x="2034.0" y="1994.0" />
+      <point x="2014.0" y="1994.0" />
+      <point x="2014.0" y="1885.0" />
+      <point x="1248.0" y="1885.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="gui.giochi.GUIBlackJack" target="controller.gestionale.ClientWelcomeController" relationship="TO_ONE">
+      <point x="-38.75" y="-14.0" />
+      <point x="1887.5" y="1486.0" />
+      <point x="1867.5" y="1486.0" />
+      <point x="1867.5" y="1402.0" />
+      <point x="887.0" y="1402.0" />
+      <point x="887.0" y="1344.0" />
+      <point x="1180.0" y="1344.0" />
+      <point x="1180.0" y="1285.0" />
+      <point x="170.5" y="1285.0" />
+      <point x="-81.0" y="-14.0" />
+    </edge>
+    <edge source="database.implementazioneDAO.ImpDAOopd" target="database.DAO.DAOopd" relationship="REALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="controller.gestionale.DipendenteWelcomeController" target="database.implementazioneDAO.ImpDAOopd" relationship="CREATE">
+      <point x="96.0" y="-14.0" />
+      <point x="752.5" y="1227.0" />
+      <point x="1139.5" y="1227.0" />
+      <point x="1139.5" y="1197.0" />
+      <point x="1159.5" y="1197.0" />
+      <point x="1159.5" y="1026.0" />
+      <point x="1113.0" y="1026.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="controller.gestionale.ClientWelcomeController" target="model.gestionale.Sessione" relationship="TO_ONE">
+      <point x="-81.0" y="-14.0" />
+      <point x="170.5" y="1310.0" />
+      <point x="74.5" y="1310.0" />
+      <point x="74.5" y="1261.0" />
+      <point x="94.5" y="1261.0" />
+      <point x="94.5" y="953.0" />
+      <point x="302.0" y="953.0" />
+      <point x="302.0" y="904.0" />
+      <point x="533.0" y="904.0" />
+      <point x="0.0" y="-14.0" />
+    </edge>
+    <edge source="controller.gestionale.ClientWelcomeController" target="model.gestionale.Giocatore" relationship="CREATE">
+      <point x="81.0" y="-14.0" />
+      <point x="332.5" y="1295.0" />
+      <point x="457.5" y="1295.0" />
+      <point x="457.5" y="1275.0" />
+      <point x="397.0" y="1275.0" />
+      <point x="397.0" y="814.0" />
+      <point x="339.5" y="814.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="controller.gestionale.WelcomeController" target="model.gestionale.utenteEFigli.Dealer" relationship="CREATE">
+      <point x="49.5" y="-14.0" />
+      <point x="301.0" y="973.0" />
+      <point x="262.0" y="973.0" />
+      <point x="262.0" y="943.0" />
+      <point x="242.0" y="943.0" />
+      <point x="242.0" y="565.0" />
+      <point x="1219.5" y="565.0" />
+      <point x="1219.5" y="512.0" />
+      <point x="1422.0" y="512.0" />
+      <point x="1422.0" y="484.0" />
+      <point x="1442.0" y="484.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="controller.TavoloController" target="model.gestionale.Tavolo" relationship="CREATE">
+      <point x="-44.5" y="-14.0" />
+      <point x="1712.5" y="1568.0" />
+      <point x="1731.5" y="1568.0" />
+      <point x="1731.5" y="1138.0" />
+      <point x="1529.5" y="1138.0" />
+      <point x="1529.5" y="683.0" />
+      <point x="1484.0" y="683.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="gui.gestionale.ForgotPassword" target="controller.gestionale.WelcomeController" relationship="TO_ONE">
+      <point x="0.0" y="-14.0" />
+      <point x="763.0" y="1641.0" />
+      <point x="115.0" y="1641.0" />
+      <point x="115.0" y="1271.0" />
+      <point x="54.5" y="1271.0" />
+      <point x="54.5" y="1007.0" />
+      <point x="114.5" y="1007.0" />
+      <point x="114.5" y="968.0" />
+      <point x="202.0" y="968.0" />
+      <point x="-49.5" y="-14.0" />
+    </edge>
+    <edge source="controller.slotMachine.SlotMachineController" target="model.giochi.NonCarte.SlotMachine" relationship="TO_ONE">
+      <point x="55.5" y="-14.0" />
+      <point x="2345.0" y="1065.0" />
+      <point x="2234.0" y="1065.0" />
+      <point x="0.0" y="-14.0" />
+    </edge>
+    <edge source="model.giochi.Carte.Sabot" target="model.giochi.Carte.Carta" relationship="TO_MANY">
+      <point x="-23.75" y="-14.0" />
+      <point x="1610.75" y="678.0" />
+      <point x="1630.0" y="678.0" />
+      <point x="1630.0" y="203.0" />
+      <point x="1611.0" y="203.0" />
+      <point x="1611.0" y="189.0" />
+      <point x="1529.0" y="189.0" />
+      <point x="1529.0" y="136.0" />
+      <point x="1590.0" y="136.0" />
+      <point x="0.0" y="-14.0" />
+    </edge>
+    <edge source="model.gestionale.Sessione" target="model.gestionale.Giocatore" relationship="TO_ONE">
+      <point x="0.0" y="-14.0" />
+      <point x="533.0" y="894.0" />
+      <point x="709.0" y="894.0" />
+      <point x="709.0" y="834.0" />
+      <point x="417.0" y="834.0" />
+      <point x="417.0" y="747.0" />
+      <point x="339.5" y="747.0" />
+      <point x="0.0" y="-14.0" />
+    </edge>
+    <edge source="model.giochi.Carte.Mano" target="model.gestionale.Gioco" relationship="TO_ONE">
+      <point x="0.0" y="-14.0" />
+      <point x="1865.5" y="359.0" />
+      <point x="1609.5" y="359.0" />
+      <point x="1609.5" y="339.0" />
+      <point x="1570.0" y="339.0" />
+      <point x="1570.0" y="266.0" />
+      <point x="1528.0" y="266.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="controller.gestionale.DipendenteWelcomeController" target="database.implementazioneDAO.ImpDAOop" relationship="CREATE">
+      <point x="96.0" y="-14.0" />
+      <point x="752.5" y="1227.0" />
+      <point x="1139.5" y="1227.0" />
+      <point x="1139.5" y="1197.0" />
+      <point x="1119.5" y="1197.0" />
+      <point x="1119.5" y="1128.0" />
+      <point x="648.5" y="1128.0" />
+      <point x="648.5" y="874.0" />
+      <point x="770.0" y="874.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="gui.gestionale.MainMenuAdmin" target="gui.gestionale.CreaTavolo" relationship="CREATE">
+      <point x="45.0" y="-14.0" />
+      <point x="1934.0" y="1945.0" />
+      <point x="659.0" y="1945.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="controller.gestionale.ClientWelcomeController" target="database.implementazioneDAO.ImpDAOopc" relationship="CREATE">
+      <point x="81.0" y="-14.0" />
+      <point x="332.5" y="1295.0" />
+      <point x="457.5" y="1295.0" />
+      <point x="457.5" y="1275.0" />
+      <point x="497.5" y="1275.0" />
+      <point x="497.5" y="1177.0" />
+      <point x="977.5" y="1177.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="gui.gestionale.SelezioneTavoloBlackJack" target="controller.TavoloController" relationship="TO_ONE">
+      <point x="-63.25" y="-14.0" />
+      <point x="1861.0" y="1588.0" />
+      <point x="1801.5" y="1588.0" />
+      <point x="44.5" y="-14.0" />
+    </edge>
+    <edge source="controller.gestionale.DipendenteWelcomeController" target="model.gestionale.utenteEFigli.Dipendente" relationship="TO_MANY">
+      <point x="0.0" y="-14.0" />
+      <point x="656.5" y="1197.0" />
+      <point x="628.5" y="1197.0" />
+      <point x="628.5" y="864.0" />
+      <point x="688.5" y="864.0" />
+      <point x="688.5" y="522.0" />
+      <point x="377.5" y="522.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="controller.blackjack.ControllerBlackJack" target="controller.mazzo.ControllerMazzo" relationship="GENERALIZATION">
+      <point x="-67.66666666666666" y="-14.0" />
+      <point x="1937.3333333333335" y="1104.0" />
+      <point x="1781.5" y="1104.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="controller.gestionale.ClientWelcomeController" target="database.implementazioneDAO.ImpDAOop" relationship="CREATE">
+      <point x="81.0" y="-14.0" />
+      <point x="332.5" y="1295.0" />
+      <point x="457.5" y="1295.0" />
+      <point x="457.5" y="854.0" />
+      <point x="750.0" y="854.0" />
+      <point x="750.0" y="814.0" />
+      <point x="770.0" y="814.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="gui.gestionale.TabbedMenuPlayer" target="gui.gestionale.SelezioneTavoloSlotMachine" relationship="CREATE">
+      <point x="48.25" y="-14.0" />
+      <point x="1555.0" y="2057.0" />
+      <point x="1784.0" y="2057.0" />
+      <point x="1784.0" y="1925.0" />
+      <point x="1784.5" y="1925.0" />
+      <point x="1784.5" y="1787.0" />
+      <point x="2221.75" y="1787.0" />
+      <point x="67.75" y="-14.0" />
+    </edge>
+    <edge source="gui.gestionale.DealerPanel" target="gui.gestionale.ChangeUsername" relationship="CREATE">
+      <point x="35.75" y="-14.0" />
+      <point x="2034.0" y="1994.0" />
+      <point x="2054.0" y="1994.0" />
+      <point x="2054.0" y="1875.0" />
+      <point x="597.5" y="1875.0" />
+      <point x="597.5" y="1845.0" />
+      <point x="1445.5" y="1845.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="gui.gestionale.WelcomePanel" target="controller.gestionale.WelcomeController" relationship="CREATE">
+      <point x="41.0" y="-14.0" />
+      <point x="177.0" y="2270.0" />
+      <point x="497.5" y="2270.0" />
+      <point x="497.5" y="2256.0" />
+      <point x="457.5" y="2256.0" />
+      <point x="457.5" y="2188.0" />
+      <point x="14.5" y="2188.0" />
+      <point x="14.5" y="1026.0" />
+      <point x="365.5" y="1026.0" />
+      <point x="365.5" y="963.0" />
+      <point x="301.0" y="963.0" />
+      <point x="49.5" y="-14.0" />
+    </edge>
+    <edge source="model.giochi.Carte.ManoBlackJack" target="model.giochi.Carte.HandStateBJ" relationship="TO_ONE">
+      <point x="42.25" y="-14.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="gui.gestionale.SelezioneTavoloSlotMachine" target="controller.TavoloController" relationship="TO_ONE">
+      <point x="-67.75" y="-14.0" />
+      <point x="2086.25" y="1655.0" />
+      <point x="1861.0" y="1655.0" />
+      <point x="1861.0" y="1588.0" />
+      <point x="1801.5" y="1588.0" />
+      <point x="44.5" y="-14.0" />
+    </edge>
+    <edge source="model.gestionale.Tavolo" target="model.gestionale.utenteEFigli.Supervisore" relationship="TO_MANY">
+      <point x="0.0" y="-14.0" />
+      <point x="1484.0" y="615.0" />
+      <point x="1487.5" y="615.0" />
+      <point x="1487.5" y="532.0" />
+      <point x="719.25" y="532.0" />
+      <point x="35.75" y="14.0" />
+    </edge>
+    <edge source="controller.gestionale.DipendenteWelcomeController" target="model.gestionale.utenteEFigli.Cliente" relationship="CREATE">
+      <point x="96.0" y="-14.0" />
+      <point x="752.5" y="1227.0" />
+      <point x="1139.5" y="1227.0" />
+      <point x="1139.5" y="1197.0" />
+      <point x="1259.5" y="1197.0" />
+      <point x="1259.5" y="300.0" />
+      <point x="872.5" y="300.0" />
+      <point x="0.0" y="-14.0" />
+    </edge>
+    <edge source="model.giochi.Carte.Sabot" target="model.gestionale.Gioco" relationship="TO_ONE">
+      <point x="-23.75" y="-14.0" />
+      <point x="1610.75" y="678.0" />
+      <point x="1550.0" y="678.0" />
+      <point x="1550.0" y="266.0" />
+      <point x="1528.0" y="266.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="gui.gestionale.MainMenuAdmin" target="gui.gestionale.AssegnaDipendentiTavolo" relationship="CREATE">
+      <point x="45.0" y="-14.0" />
+      <point x="1934.0" y="1945.0" />
+      <point x="659.0" y="1945.0" />
+      <point x="659.0" y="1865.0" />
+      <point x="276.0" y="1865.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="controller.poker.ControllerPoker" target="controller.mazzo.ControllerMazzo" relationship="GENERALIZATION">
+      <point x="43.0" y="-14.0" />
+      <point x="1673.5" y="1163.0" />
+      <point x="1761.5" y="1163.0" />
+      <point x="1761.5" y="1084.0" />
+      <point x="1781.5" y="1084.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="gui.giochi.GUIPoker" target="controller.gestionale.ClientWelcomeController" relationship="CREATE">
+      <point x="30.75" y="-14.0" />
+      <point x="1443.25" y="1422.0" />
+      <point x="1530.0" y="1422.0" />
+      <point x="1530.0" y="1392.0" />
+      <point x="388.0" y="1392.0" />
+      <point x="388.0" y="1305.0" />
+      <point x="332.5" y="1305.0" />
+      <point x="81.0" y="-14.0" />
+    </edge>
+    <edge source="model.gestionale.utenteEFigli.Dealer" target="model.gestionale.Gioco" relationship="TO_MANY">
+      <point x="25.25" y="-14.0" />
+      <point x="1467.25" y="266.0" />
+      <point x="1528.0" y="266.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="controller.gestionale.ClientWelcomeController" target="model.gestionale.Sessione" relationship="CREATE">
+      <point x="81.0" y="-14.0" />
+      <point x="332.5" y="1295.0" />
+      <point x="457.5" y="1295.0" />
+      <point x="457.5" y="1275.0" />
+      <point x="477.5" y="1275.0" />
+      <point x="477.5" y="1157.0" />
+      <point x="543.0" y="1157.0" />
+      <point x="543.0" y="987.0" />
+      <point x="533.0" y="987.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="gui.giochi.GUIBlackJack" target="controller.blackjack.ControllerBlackJack" relationship="TO_ONE">
+      <point x="-38.75" y="-14.0" />
+      <point x="1887.5" y="1305.0" />
+      <point x="2072.6666666666665" y="1305.0" />
+      <point x="67.66666666666666" y="-14.0" />
+    </edge>
+    <edge source="controller.TavoloController" target="model.gestionale.Tavolo" relationship="TO_MANY">
+      <point x="44.5" y="-14.0" />
+      <point x="1801.5" y="1128.0" />
+      <point x="1279.5" y="1128.0" />
+      <point x="1279.5" y="973.0" />
+      <point x="891.5" y="973.0" />
+      <point x="891.5" y="717.0" />
+      <point x="871.5" y="717.0" />
+      <point x="871.5" y="625.0" />
+      <point x="1484.0" y="625.0" />
+      <point x="0.0" y="-14.0" />
+    </edge>
+    <edge source="database.implementazioneDAO.ImpDAOop" target="database.DAO.DAOop" relationship="REALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="controller.blackjack.ControllerBlackJack" target="model.giochi.Carte.Sabot" relationship="CREATE">
+      <point x="0.0" y="-14.0" />
+      <point x="2005.0" y="977.0" />
+      <point x="1737.0" y="977.0" />
+      <point x="1737.0" y="698.0" />
+      <point x="1658.25" y="698.0" />
+      <point x="23.75" y="-14.0" />
+    </edge>
+    <edge source="gui.giochi.GUISlotMachine" target="controller.slotMachine.SlotMachineController" relationship="CREATE">
+      <point x="43.25" y="-14.0" />
+      <point x="2163.5" y="1353.0" />
+      <point x="2234.0" y="1353.0" />
+      <point x="-55.5" y="-14.0" />
+    </edge>
+    <edge source="gui.gestionale.WelcomePanel" target="gui.gestionale.RegistrationForm" relationship="CREATE">
+      <point x="41.0" y="-14.0" />
+      <point x="177.0" y="2270.0" />
+      <point x="497.5" y="2270.0" />
+      <point x="497.5" y="2256.0" />
+      <point x="437.5" y="2256.0" />
+      <point x="437.5" y="2178.0" />
+      <point x="583.5" y="2178.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="controller.gestionale.WelcomeController" target="model.gestionale.utenteEFigli.Cliente" relationship="CREATE">
+      <point x="49.5" y="-14.0" />
+      <point x="301.0" y="973.0" />
+      <point x="262.0" y="973.0" />
+      <point x="262.0" y="575.0" />
+      <point x="1239.5" y="575.0" />
+      <point x="1239.5" y="388.0" />
+      <point x="1259.5" y="388.0" />
+      <point x="1259.5" y="300.0" />
+      <point x="872.5" y="300.0" />
+      <point x="0.0" y="-14.0" />
+    </edge>
+    <edge source="model.gestionale.utenteEFigli.Supervisore" target="model.gestionale.utenteEFigli.Dipendente" relationship="GENERALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="683.5" y="184.0" />
+      <point x="377.5" y="184.0" />
+      <point x="0.0" y="-14.0" />
+    </edge>
+    <edge source="controller.gestionale.ClientWelcomeController" target="controller.gestionale.WelcomeController" relationship="GENERALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="gui.gestionale.SelezioneTavoloPoker" target="gui.giochi.GUIPoker" relationship="CREATE">
+      <point x="-55.5" y="-14.0" />
+      <point x="1601.25" y="1680.0" />
+      <point x="1489.0" y="1680.0" />
+      <point x="1489.0" y="1432.0" />
+      <point x="1443.25" y="1432.0" />
+      <point x="30.75" y="-14.0" />
+    </edge>
+    <edge source="gui.giochi.GUIPoker" target="controller.poker.ControllerPoker" relationship="CREATE">
+      <point x="30.75" y="-14.0" />
+      <point x="1443.25" y="1422.0" />
+      <point x="1530.0" y="1422.0" />
+      <point x="1530.0" y="1392.0" />
+      <point x="1651.5" y="1392.0" />
+      <point x="1651.5" y="1241.0" />
+      <point x="1529.5" y="1241.0" />
+      <point x="1529.5" y="1158.0" />
+      <point x="1587.5" y="1158.0" />
+      <point x="-43.0" y="-14.0" />
+    </edge>
+    <edge source="controller.blackjack.ControllerBlackJack" target="model.giochi.Carte.ManoBlackJack" relationship="CREATE">
+      <point x="0.0" y="-14.0" />
+      <point x="2005.0" y="1285.0" />
+      <point x="2025.0" y="1285.0" />
+      <point x="2025.0" y="571.0" />
+      <point x="1985.0" y="571.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="gui.gestionale.WelcomePanel" target="controller.gestionale.ClientWelcomeController" relationship="CREATE">
+      <point x="41.0" y="-14.0" />
+      <point x="177.0" y="2270.0" />
+      <point x="497.5" y="2270.0" />
+      <point x="497.5" y="2168.0" />
+      <point x="135.0" y="2168.0" />
+      <point x="135.0" y="1372.0" />
+      <point x="388.0" y="1372.0" />
+      <point x="388.0" y="1305.0" />
+      <point x="332.5" y="1305.0" />
+      <point x="81.0" y="-14.0" />
+    </edge>
+    <edge source="controller.gestionale.DipendenteWelcomeController" target="controller.gestionale.WelcomeController" relationship="GENERALIZATION">
+      <point x="-96.0" y="-14.0" />
+      <point x="560.5" y="1227.0" />
+      <point x="588.5" y="1227.0" />
+      <point x="588.5" y="1167.0" />
+      <point x="271.5" y="1167.0" />
+      <point x="271.5" y="1036.0" />
+      <point x="251.5" y="1036.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="gui.gestionale.SelezioneTavoloPoker" target="controller.TavoloController" relationship="TO_ONE">
+      <point x="55.5" y="-14.0" />
+      <point x="1712.25" y="1655.0" />
+      <point x="1861.0" y="1655.0" />
+      <point x="1861.0" y="1588.0" />
+      <point x="1801.5" y="1588.0" />
+      <point x="44.5" y="-14.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.8606212408472803" showDependencies="true" x="1609.1966480712167" y="463.5776" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>public</VISIBILITY>
+</Diagram>
+

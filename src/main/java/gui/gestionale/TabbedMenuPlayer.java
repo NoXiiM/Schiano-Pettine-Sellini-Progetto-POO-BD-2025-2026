@@ -96,9 +96,10 @@ public class TabbedMenuPlayer {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                String input = JOptionPane.showInputDialog(null, "Inserisci un valore:", "Deposita", JOptionPane.QUESTION_MESSAGE);
 
                 if(!controller.isBanned()) {
+
+                    String input = JOptionPane.showInputDialog(null, "Inserisci un valore:", "Deposita", JOptionPane.QUESTION_MESSAGE);
 
                     if (input != null) {
 
@@ -125,9 +126,10 @@ public class TabbedMenuPlayer {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                String input = JOptionPane.showInputDialog(null, "Inserisci un valore:", "Preleva", JOptionPane.QUESTION_MESSAGE);
 
                 if(!controller.isBanned()) {
+
+                    String input = JOptionPane.showInputDialog(null, "Inserisci un valore:", "Preleva", JOptionPane.QUESTION_MESSAGE);
 
                     if (input != null) {
 
@@ -175,11 +177,13 @@ public class TabbedMenuPlayer {
         cambiaUsernameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ArrayList<JLabel> labels = new ArrayList<>();
-                labels.add(userFieldGamePanel);
-                labels.add(userFieldSaldoPanel);
-                new ChangeUsername(thisFrame, controller, labels);
-                thisFrame.setVisible(false);
+                if(!controller.isBanned()) {
+                    ArrayList<JLabel> labels = new ArrayList<>();
+                    labels.add(userFieldGamePanel);
+                    labels.add(userFieldSaldoPanel);
+                    new ChangeUsername(thisFrame, controller, labels);
+                    thisFrame.setVisible(false);
+                }
             }
         });
 
@@ -194,8 +198,13 @@ public class TabbedMenuPlayer {
         cancellaAccountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new CancellaAccount(controller, thisFrame, frameChiamante);
-                thisFrame.setVisible(false);
+                if(!controller.isBanned()){
+                    new CancellaAccount(controller, thisFrame, frameChiamante);
+                    thisFrame.setVisible(false);
+
+                } else{
+                    JOptionPane.showMessageDialog(null, "Sei stato bannato !", "Errore", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
         //collegamento

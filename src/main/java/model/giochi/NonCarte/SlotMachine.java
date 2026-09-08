@@ -39,13 +39,12 @@ public class SlotMachine {
         collegamentoSimboli.put(zero, "/IconeSlotmachin/ZeroIcon.png");
 
         numeroSimboli = simboli.size();
-
     }
 
     /**
-     * Get simbolo casuale simboli.
      * Tramite questa funzione restituiamo un simbolo randomicamente
-     * @return the simboli
+     *
+     * @return simbolo casuale
      */
     public Simboli getSimboloCasuale(){
         Random random = new Random();
@@ -53,13 +52,13 @@ public class SlotMachine {
     }
 
     /**
-     * Getsaldopartita int.
+     * Funzione che in base alla puntata e ai simboli ottenuti calcola la vincita
      *
      * @param s1    simbolo 1
      * @param s2    simbolo 2
      * @param s3    simbolo 3
-     * @param saldo il saldo inserito e restituito
-     * @return the int
+     * @param saldo puntata
+     * @return vincita
      */
     public int getsaldopartita(Simboli s1, Simboli s2, Simboli s3, int saldo){
         if(s1==s2 && s2==s3){// la proprietà transitiva dell'uguale garantisce in questo modo che siano tutti e 3 uguali

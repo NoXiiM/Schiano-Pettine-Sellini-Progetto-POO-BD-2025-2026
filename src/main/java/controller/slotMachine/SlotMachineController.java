@@ -22,9 +22,10 @@ public class SlotMachineController {
 
     /**
      * Get collegamento string.
-     * permette  di recuperare i path dele foto dei simbolo dell'array list
-     * @param s the s
-     * @return the string
+     * Permette di recuperare il path della foto del simbolo s
+     *
+     * @param s simbolo
+     * @return path
      */
     public String getCollegamento(Simboli s){
         return slotMachine.getCollegamentoSimboli().get(s);
@@ -32,7 +33,7 @@ public class SlotMachineController {
 
     /**
      * Get simbolo casuale simboli.
-     * Funzione di collegamento  tra model e gui
+     * Funzione di collegamento tra model e gui
      * @return the simboli
      */
     public  Simboli getSimboloCasuale(){
@@ -54,7 +55,7 @@ public class SlotMachineController {
 
     /**
      * Get path sette string.
-     * Restituisce direttamente il path del sette, viene usato al primo avvio per avere sette come simbolo displyato
+     * Restituisce direttamente il path del sette, viene usato al primo avvio per avere sette come simbolo displayato
      * @return the string
      */
     public String getPathSette(){

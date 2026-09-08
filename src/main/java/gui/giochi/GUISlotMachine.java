@@ -18,8 +18,8 @@ import java.util.Objects;
  *  Gui slot machine emula il funzionamento di una classica slot con diamanti e frutta come simboli.
  *  In alto a sinistra sono presenti i simboli restituiti dalla slot (Al primo avvio saranno sempre 3 sette);
  *  Al di sotto dei simboli sono presenti le possibili puntate che si possono inserire nella slot;
- *  In alto a destra è presente il saldo del giocatore che solo se è raggiunge una delle puntate minime, è possibile giocare;
- *  Sotto il saldo è presente il guadagno / perdita del giocatore che si aggiorna a ogni spoin;
+ *  In alto a destra è presente il saldo del giocatore;
+ *  Sotto il saldo è presente il guadagno / perdita del giocatore che si aggiorna a ogni spin;
  *  Il pulsante spin fa iniziare lo spin della macchina.
  */
 public class GUISlotMachine {
@@ -42,10 +42,8 @@ public class GUISlotMachine {
     private JButton tornaIndietroButton;
 
     private final SlotMachineController controller;
+    //TODO saldo giocatore può essere potenzialmente eliminato
     private float saldoGiocatore;
-
-    //comunicazione tra frame
-    private static JFrame thisFrame;
 
     /**
      * Instantiates a new Gui slot machine.
@@ -56,7 +54,7 @@ public class GUISlotMachine {
     public GUISlotMachine(JFrame frameChiamante, ClientWelcomeController sessioneCorrente) {
         //settaggio frame
 
-        thisFrame = new JFrame("GUISlotMachine");
+        JFrame thisFrame = new JFrame("GUISlotMachine");
         thisFrame.setContentPane(slotMachinePanel);
         thisFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         thisFrame.pack();

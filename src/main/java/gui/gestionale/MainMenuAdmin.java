@@ -510,6 +510,7 @@ public class MainMenuAdmin {
 
                 if (temp != null) {
                     if(temp instanceof Dealer || (temp instanceof Supervisore && controller.getUserUtente().equals("root"))){
+
                         JPasswordField passwordField = new JPasswordField();
 
                         Object[] messaggio = {

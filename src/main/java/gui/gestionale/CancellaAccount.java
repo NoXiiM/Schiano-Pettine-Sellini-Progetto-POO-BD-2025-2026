@@ -46,23 +46,34 @@ public class CancellaAccount {
                     String pass= new String(passwordField.getPassword());
                     String conferma= confirmField.getText();
 
-                    if(controller.deleteUser(user, pass, conferma)){
-                        JOptionPane.showMessageDialog(null, "Account eliminato !");
+                    int risposta = JOptionPane.showConfirmDialog(
+                            null,
+                            "Sei sicuro di voler eliminare DEFINITIVAMENTE il tuo account ? \nATTENZIONE: Il saldo non prelevato andrà perso",
+                            "Conferma eliminazione account",
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.WARNING_MESSAGE
+                    );
 
-                        thisFrame.setVisible(false);
-                        thisFrame.dispose();
-                        frameChiamante.setVisible(false);
-                        frameChiamante.dispose();
-                        loginFrame.setVisible(true);
+                    if(risposta == JOptionPane.YES_OPTION) {
 
-                    } else{
-                        JOptionPane.showMessageDialog(null, "I campi non corrispondono !", "Errore", JOptionPane.ERROR_MESSAGE);
+                        if (controller.deleteUser(user, pass, conferma)) {
+                            JOptionPane.showMessageDialog(null, "Account eliminato !");
 
+                            thisFrame.setVisible(false);
+                            thisFrame.dispose();
+                            frameChiamante.setVisible(false);
+                            frameChiamante.dispose();
+                            loginFrame.setVisible(true);
+
+                        } else {
+                            JOptionPane.showMessageDialog(null, "I campi non corrispondono !", "Errore", JOptionPane.ERROR_MESSAGE);
+
+                        }
+
+                        userField.setText("");
+                        passwordField.setText("");
+                        confirmField.setText("");
                     }
-
-                    userField.setText("");
-                    passwordField.setText("");
-                    confirmField.setText("");
 
                 } catch(RuntimeException | SQLException e1){
                     JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);

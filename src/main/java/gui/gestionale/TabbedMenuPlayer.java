@@ -98,18 +98,23 @@ public class TabbedMenuPlayer {
 
                 String input = JOptionPane.showInputDialog(null, "Inserisci un valore:", "Deposita", JOptionPane.QUESTION_MESSAGE);
 
-                if (input != null) {
+                if(!controller.isBanned()) {
 
-                    try {
-                        int valore_deposito = Integer.parseInt(input);
-                        controller.depositaSaldoCliente(valore_deposito);
+                    if (input != null) {
 
-                        aggiornaSaldo();
+                        try {
+                            int valore_deposito = Integer.parseInt(input);
+                            controller.depositaSaldoCliente(valore_deposito);
 
-                    } catch (NumberFormatException exValDepo) {
-                        JOptionPane.showMessageDialog(null, "Inserisci un numero intero valido.", "Errore", JOptionPane.ERROR_MESSAGE);
-                    }catch (RuntimeException exNegativo){
-                        JOptionPane.showMessageDialog(null, exNegativo.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+                            aggiornaSaldo();
+
+                        } catch (NumberFormatException exValDepo) {
+                            JOptionPane.showMessageDialog(null, "Inserisci un numero intero valido.", "Errore", JOptionPane.ERROR_MESSAGE);
+                        } catch (RuntimeException exNegativo) {
+                            JOptionPane.showMessageDialog(null, exNegativo.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+                        }
+                    } else{
+                        JOptionPane.showMessageDialog(null, "Sei stato bannato !", "Errore", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
@@ -121,20 +126,26 @@ public class TabbedMenuPlayer {
 
                 String input = JOptionPane.showInputDialog(null, "Inserisci un valore:", "Preleva", JOptionPane.QUESTION_MESSAGE);
 
-                if(input != null){
-                    try {
-                        int valore_prelievo = Integer.parseInt(input);
-                        if(!controller.prelevaSaldoCliente(valore_prelievo)){
-                            JOptionPane.showMessageDialog(null, "Saldo insufficiente !", "Errore", JOptionPane.ERROR_MESSAGE);
+                if(!controller.isBanned()) {
+
+                    if (input != null) {
+
+                        try {
+                            int valore_prelievo = Integer.parseInt(input);
+                            if (!controller.prelevaSaldoCliente(valore_prelievo)) {
+                                JOptionPane.showMessageDialog(null, "Saldo insufficiente !", "Errore", JOptionPane.ERROR_MESSAGE);
+                            }
+
+                            aggiornaSaldo();
+
+                        } catch (NumberFormatException ex_val_depo) {
+                            JOptionPane.showMessageDialog(null, "Inserisci un numero intero valido.", "Errore", JOptionPane.ERROR_MESSAGE);
+                        } catch (RuntimeException exNegativo) {
+                            JOptionPane.showMessageDialog(null, exNegativo.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                         }
-
-                        aggiornaSaldo();
-
-                    } catch (NumberFormatException ex_val_depo) {
-                        JOptionPane.showMessageDialog(null, "Inserisci un numero intero valido.", "Errore", JOptionPane.ERROR_MESSAGE);
-                    }catch (RuntimeException exNegativo){
-                        JOptionPane.showMessageDialog(null, exNegativo.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                     }
+                } else{
+                    JOptionPane.showMessageDialog(null, "Sei stato bannato !", "Errore", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

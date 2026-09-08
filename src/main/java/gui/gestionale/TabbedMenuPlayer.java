@@ -113,9 +113,10 @@ public class TabbedMenuPlayer {
                         } catch (RuntimeException exNegativo) {
                             JOptionPane.showMessageDialog(null, exNegativo.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                         }
-                    } else{
-                        JOptionPane.showMessageDialog(null, "Sei stato bannato !", "Errore", JOptionPane.ERROR_MESSAGE);
                     }
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Sei stato bannato !", "Errore", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

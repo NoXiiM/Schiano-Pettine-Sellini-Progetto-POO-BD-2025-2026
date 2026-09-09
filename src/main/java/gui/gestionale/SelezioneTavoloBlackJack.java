@@ -14,6 +14,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Interfaccia di selezione per tavoli da BlackJack.
@@ -49,6 +50,9 @@ public class SelezioneTavoloBlackJack
         thisFrame.setVisible(true);
         Dimension minDim = new Dimension(700, 200);
         thisFrame.setMinimumSize(minDim);
+        //Setting icon
+        ImageIcon iconaFrame = new ImageIcon(Objects.requireNonNull(getClass().getResource("/icone/LogoCasinò.png")));
+        thisFrame.setIconImage(iconaFrame.getImage().getScaledInstance(1783, 1113, Image.SCALE_SMOOTH));
 
         informazioniTavolo.setEditable(false);
         informazioniTavolo.setFocusable(false);

@@ -16,6 +16,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Interfaccia di selezione per le slot machines.
@@ -51,6 +52,9 @@ public class SelezioneTavoloSlotMachine {
         Dimension dimensioniMinime = new Dimension(700,200);
         thisFrame.setMinimumSize(dimensioniMinime);
         thisFrame.setLocationRelativeTo(null);
+        //Setting icon
+        ImageIcon iconaFrame = new ImageIcon(Objects.requireNonNull(getClass().getResource("/icone/LogoCasinò.png")));
+        thisFrame.setIconImage(iconaFrame.getImage().getScaledInstance(1783, 1113, Image.SCALE_SMOOTH));
 
         controller = new TavoloController();
 

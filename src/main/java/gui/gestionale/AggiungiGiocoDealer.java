@@ -5,12 +5,14 @@ import model.gestionale.Gioco;
 import model.gestionale.utenteEFigli.Dealer;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * GUI che permette al supervisore di selezionare quali giochi aggiungere a un dealer
@@ -43,6 +45,9 @@ public class AggiungiGiocoDealer {
         thisFrame.setContentPane(aggiungiGiocoPanel);
         thisFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         thisFrame.pack();
+        //Setting icon
+        ImageIcon iconaFrame = new ImageIcon(Objects.requireNonNull(getClass().getResource("/icone/LogoCasinò.png")));
+        thisFrame.setIconImage(iconaFrame.getImage().getScaledInstance(1783, 1113, Image.SCALE_SMOOTH));
 
         if (giochiMancanti.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Il dealer conosce già tutti i giochi", "Errore", JOptionPane.ERROR_MESSAGE);

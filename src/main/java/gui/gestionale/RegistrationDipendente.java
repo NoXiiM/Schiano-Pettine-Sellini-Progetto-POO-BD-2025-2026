@@ -4,12 +4,14 @@ import controller.gestionale.DipendenteWelcomeController;
 import model.gestionale.Gioco;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Form per l'aggiunta di un nuovo dipendente (solo un supervisore può aggiungere un nuovo dipendente).
@@ -48,6 +50,9 @@ public class RegistrationDipendente {
         frameChiamato.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frameChiamato.pack();
         frameChiamato.setVisible(true);
+        //Setting icon
+        ImageIcon iconaFrame = new ImageIcon(Objects.requireNonNull(getClass().getResource("/icone/LogoCasinò.png")));
+        frameChiamato.setIconImage(iconaFrame.getImage().getScaledInstance(1783, 1113, Image.SCALE_SMOOTH));
 
         controller.aggiornaUsernames();
         inizializzaComboboxData();

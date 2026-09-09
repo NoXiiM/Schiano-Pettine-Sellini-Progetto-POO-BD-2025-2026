@@ -8,9 +8,11 @@ import model.gestionale.utenteEFigli.Supervisore;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * GUI che permette al supervisore di assegnare o rimuovere dei dipendenti a un tavolo
@@ -48,6 +50,9 @@ public class AssegnaDipendentiTavolo {
         thisFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         thisFrame.pack();
         thisFrame.setVisible(true);
+        //Setting icon
+        ImageIcon iconaFrame = new ImageIcon(Objects.requireNonNull(getClass().getResource("/icone/LogoCasinò.png")));
+        thisFrame.setIconImage(iconaFrame.getImage().getScaledInstance(1783, 1113, Image.SCALE_SMOOTH));
 
         ArrayList<Dealer> dealers = new ArrayList<>();
         ArrayList<Supervisore> supervisori = new ArrayList<>();

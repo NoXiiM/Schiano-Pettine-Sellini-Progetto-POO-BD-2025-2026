@@ -38,8 +38,8 @@ public class WelcomePanel {
         welcomeController= new WelcomeController();
 
         //Setting icon
-        ImageIcon iconaWelcomePanel = new ImageIcon(Objects.requireNonNull(getClass().getResource("/IconeSlotmachin/ssp_casino_welcome_v2.png")));
-        mainframe.setIconImage(iconaWelcomePanel.getImage().getScaledInstance(2156, 1531, Image.SCALE_SMOOTH));
+        ImageIcon iconaFrame = new ImageIcon(Objects.requireNonNull(getClass().getResource("/icone/LogoCasinò.png")));
+        mainframe.setIconImage(iconaFrame.getImage().getScaledInstance(1783, 1113, Image.SCALE_SMOOTH));
 
         accediButton.addActionListener(new ActionListener() {
             @Override

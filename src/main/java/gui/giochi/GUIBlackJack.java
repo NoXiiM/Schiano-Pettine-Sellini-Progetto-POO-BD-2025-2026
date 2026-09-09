@@ -220,7 +220,7 @@ public class GUIBlackJack {
                 if(!decrementa(input)) return;
 
                 controller.getMano(currentHand).setPuntata(input);
-                currentHand ++;
+                currentHand++;
 
                 if(currentHand == mani)
                 {
@@ -744,6 +744,10 @@ public class GUIBlackJack {
                 {
                     assicuraButton.setVisible(true);
                     rifiutaButton.setVisible(true);
+                }
+                else
+                {
+                    setVisibilityPulsantiNormali(true);
                 }
                 break;
             case bj:

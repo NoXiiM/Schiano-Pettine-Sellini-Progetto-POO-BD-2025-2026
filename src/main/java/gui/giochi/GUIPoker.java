@@ -267,7 +267,7 @@ public class GUIPoker {
         //uscita se rimane solo un giocatore che può giocare
         if(sessioniCorrenti.size() == 1)
         {
-            JOptionPane.showMessageDialog(null, "il giocatore " + sessioneCorrente.getClienteUsername() +
+            JOptionPane.showMessageDialog(null, "il giocatore " + sessioniCorrenti.getFirst().getClienteUsername() +
                     " è l'unico rimasto al tavolo, la sessione è stata chiusa");
             try {
                 sessioneCorrente.terminaSessione();

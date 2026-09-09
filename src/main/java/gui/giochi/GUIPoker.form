@@ -189,13 +189,16 @@
         </constraints>
         <properties>
           <background color="-15923680"/>
+          <enabled value="false"/>
         </properties>
       </component>
       <scrollpane id="2c160">
         <constraints>
           <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
-        <properties/>
+        <properties>
+          <background color="-15923680"/>
+        </properties>
         <border type="none"/>
         <children>
           <component id="29eb4" class="javax.swing.JTextArea" binding="logAvvenimenti">

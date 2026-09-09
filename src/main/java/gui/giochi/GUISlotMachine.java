@@ -42,8 +42,6 @@ public class GUISlotMachine {
     private JButton tornaIndietroButton;
 
     private final SlotMachineController controller;
-    //TODO saldo giocatore può essere potenzialmente eliminato
-    private float saldoGiocatore;
 
     /**
      * Instantiates a new Gui slot machine.
@@ -106,8 +104,7 @@ public class GUISlotMachine {
         simbolo3.setText("");
 
         // recupero saldo giocatore
-        saldoGiocatore= sessioneCorrente.getSaldoGiocatore();
-        saldoGiocatoreNumber.setText("Il saldo del giocatore è: "+saldoGiocatore);
+        saldoGiocatoreNumber.setText("Il saldo del giocatore è: "+sessioneCorrente.getSaldoGiocatore());
 
         //default di guadagno
         guadagnatoText.setText("");
@@ -119,7 +116,6 @@ public class GUISlotMachine {
                 try{
                     //Cancella dal cliente e a schermo quanto puntato
                     sessioneCorrente.decrementaSaldoGiocatore(Integer.parseInt(puntate.getSelection().getActionCommand()));
-                    saldoGiocatore = saldoGiocatore - Integer.parseInt(puntate.getSelection().getActionCommand());
 
                     int creditoRisultato;
                     Simboli colonna1, colonna2, colonna3;
@@ -155,16 +151,15 @@ public class GUISlotMachine {
                     //Aggiorniamo il saldo giocatore
 
                     if(creditoRisultato>0){
-                        saldoGiocatore = saldoGiocatore+creditoRisultato;
                         sessioneCorrente.incrementaSaldoGiocatore(creditoRisultato);
                         sessioneCorrente.aggiornaVincitaPercentuale(true);
                         guadagnatoText.setText("Hai vinto: "+creditoRisultato+"!");
-                        saldoGiocatoreNumber.setText("Il saldo del giocatore è: "+saldoGiocatore);
+                        saldoGiocatoreNumber.setText("Il saldo del giocatore è: "+sessioneCorrente.getSaldoGiocatore());
                     }
                     else{
                         guadagnatoText.setText("oh no hai perso! ");
                         sessioneCorrente.aggiornaVincitaPercentuale(false);
-                        saldoGiocatoreNumber.setText("Il saldo del giocatore è: "+saldoGiocatore);
+                        saldoGiocatoreNumber.setText("Il saldo del giocatore è: "+sessioneCorrente.getSaldoGiocatore());
                     }
 
 

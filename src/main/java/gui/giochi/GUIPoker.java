@@ -168,7 +168,10 @@ public class GUIPoker {
                         }
                         else
                         {
-                            if(cliente.getSaldo() > ante)
+                            if(cliente.getBan() != null) JOptionPane.showMessageDialog(null,
+                                    "il giocatore è bannato",
+                                    "errore", JOptionPane.ERROR_MESSAGE);
+                            else if(cliente.getSaldo() > ante)
                             {
                                 sessioniCorrenti.add(new ClientWelcomeController(cliente));
                                 sessioniCorrenti.getLast().creaNuovaSessioneDiGioco(sessioneCorrente.getTavoloCorrente());

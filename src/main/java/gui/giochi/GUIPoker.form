@@ -190,6 +190,7 @@
         <properties>
           <background color="-15923680"/>
           <enabled value="false"/>
+          <foreground color="-6935"/>
         </properties>
       </component>
       <scrollpane id="2c160">

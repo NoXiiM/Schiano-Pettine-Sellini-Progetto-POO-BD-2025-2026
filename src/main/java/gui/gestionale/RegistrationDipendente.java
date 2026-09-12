@@ -77,7 +77,7 @@ public class RegistrationDipendente {
 
                     ArrayList<Gioco> giochi = null;
 
-                    if(ruolo.equals("Dealer"))
+                    if(ruolo != null && ruolo.equals("Dealer"))
                     {
                         giochi = new ArrayList<>();
                         if(pokerCheckBox.isSelected()) giochi.add(Gioco.Poker);
@@ -125,7 +125,7 @@ public class RegistrationDipendente {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if((ruoloComboBox.getSelectedItem()).equals("Dealer")){
+                if(ruoloComboBox.getSelectedItem() != null && (ruoloComboBox.getSelectedItem()).equals("Dealer")){
                     giochiLabel.setVisible(true);
                     pokerCheckBox.setVisible(true);
                     blackJackCheckBox.setVisible(true);

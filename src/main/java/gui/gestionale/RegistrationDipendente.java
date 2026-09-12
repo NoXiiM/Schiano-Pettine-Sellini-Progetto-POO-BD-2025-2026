@@ -88,7 +88,8 @@ public class RegistrationDipendente {
                         controller.registraDipendente(usernameRegField.getText(), nameRegField.getText(),
                                 surnameRegField.getText(), codFisRegField.getText(), dataNascita, password, ruolo, giochi);
                     } catch (SQLException ex) {
-                        JOptionPane.showMessageDialog(null, ex.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "codice fiscale già preso", "errore", JOptionPane.ERROR_MESSAGE);
+                        return;
                     }
                     JOptionPane.showMessageDialog(null, "Registrazione completata con successo");
 

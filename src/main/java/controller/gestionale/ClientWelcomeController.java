@@ -81,7 +81,7 @@ public class ClientWelcomeController extends WelcomeController {
                     dataNascita, password, importo);
         } catch (SQLException e) {
             aggiornaUsernames();
-            throw new RuntimeException(e);
+            throw new RuntimeException("codice fiscale già preso");
         }
 
         pulisciUsernames();

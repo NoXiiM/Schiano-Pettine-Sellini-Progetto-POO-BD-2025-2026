@@ -238,11 +238,11 @@ public class WelcomeController {
         String numero = String.format("%03d", random.nextInt(0, 1000));
         int taglio = random.nextInt(0, username.length());
 
-        String prefissoDipendente= "";
+        String prefissoGenerale = "";
 
-        if(currentUser instanceof Dealer) prefissoDipendente= "DE";
-        if(currentUser instanceof Supervisore) prefissoDipendente= "SU";
+        if(currentUser instanceof Dealer) prefissoGenerale= "DE";
+        if(currentUser instanceof Supervisore) prefissoGenerale= "SU";
 
-        return prefissoDipendente + username.substring(0, taglio) + numero + username.substring(taglio);
+        return prefissoGenerale + username.substring(0, taglio) + numero + username.substring(taglio);
     }
 }

@@ -491,7 +491,7 @@ public class GUIPoker {
      * un giocatore è in allin e altri giocatori continuano a puntare, giustamente il giocatore in allin non potrà aspirare
      * al piatto completo, ma a solo una sua parte equivalente alla somma delle puntate di tutti i giocatori a patto che non
      * superino i soldi che effettivamente il giocatore in allin ha puntato in tutto il match corrente. Questo comporta che
-     * oltre al piatto principali si possano formare più sidepot da gestire per giocatori in allin che hanno pareggiato e
+     * oltre al piatto principale si possano formare più sidepot da gestire per giocatori in allin che hanno pareggiato e
      * bisogna gestire anche questi casi limite, pure se è quasi impossibile che avvengano.
      * 2) Se si arriva a questa funzione da [1] o [3] per fold: non succede nulla visto che il premio per il giocatore rimasto
      * è gestito stesso in 'vittoriaPerFold', viene cambiata giusto la visibilità di alcuni pulsanti.
@@ -1005,7 +1005,7 @@ public class GUIPoker {
         // essere disabilitata se finisce la partita)
         controller.setAlmenoUnGiro(false);
 
-        if(controller.isHandAllIn(indexVincitore)) sessioneCorrente.incrementaSaldoGiocatore(controller.getPot());
+        sessioneCorrente.incrementaSaldoGiocatore(controller.getPot());
         infoTextPane.setText(null);
 
         JOptionPane.showMessageDialog(null, "il giocatore " + sessioneCorrente.getClienteUsername() +

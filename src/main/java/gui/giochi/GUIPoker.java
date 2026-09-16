@@ -1079,10 +1079,10 @@ public class GUIPoker {
 
                 displayComboName();
 
-                //se puntata attuale > del saldo: min = saldo e viceversa
-                int min = controller.puntataSpinnerValue(sessioneCorrente.getSaldoGiocatore());
+                //se puntata attuale > del saldo + la puntata: min = saldo e viceversa
+                int min = controller.puntataSpinnerValue(sessioneCorrente.getSaldoGiocatore() + controller.getMano(currentHand).getPuntata());
                 SpinnerNumberModel modelloSpinnerPuntata = new SpinnerNumberModel(min,
-                        min, sessioneCorrente.getSaldoGiocatore(), 1);
+                        min, sessioneCorrente.getSaldoGiocatore() + controller.getMano(currentHand).getPuntata(), 1);
                 //((JSpinner.DefaultEditor) spinnerPuntata.getEditor()).getTextField().setEditable(false);
                 spinnerPuntata.setModel(modelloSpinnerPuntata);
             }
@@ -1102,13 +1102,15 @@ public class GUIPoker {
                 int input = ((int) spinnerPuntata.getValue()) - controller.getMano(currentHand).getPuntata();
                 if(!decrementa(input, currentHand)) return;
 
+                int puntataPrec = controller.getPuntataAttuale();
+
                 controller.getMano(currentHand).incrementaPuntata(input);
                 aggiornaPot(input);
                 //si segna nel controller la puntata più alta
                 controller.setPuntataAttuale((int) spinnerPuntata.getValue());
 
                 //in base a se è avvenuta una puntata o rilancio si scrive un messaggio diverso nel log
-                if(controller.getPuntataAttuale() == input)
+                if(puntataPrec == 0)
                     displayBettingEvents(EventiPoker.bet);
                 else displayBettingEvents(EventiPoker.raise);
 
@@ -1121,8 +1123,8 @@ public class GUIPoker {
             public void actionPerformed(ActionEvent e) {
                 int tettoMax;
                 //il solito controllo per il massimo della puntata (caso dei giocatori allin)
-                if(controller.getPuntataAttuale() > sessioneCorrente.getSaldoGiocatore())
-                    tettoMax = sessioneCorrente.getSaldoGiocatore();
+                if(controller.getPuntataAttuale() > sessioneCorrente.getSaldoGiocatore() + controller.getMano(currentHand).getPuntata())
+                    tettoMax = sessioneCorrente.getSaldoGiocatore() + controller.getMano(currentHand).getPuntata();
                 else tettoMax = controller.getPuntataAttuale();
 
                 int input = tettoMax - controller.getMano(currentHand).getPuntata();

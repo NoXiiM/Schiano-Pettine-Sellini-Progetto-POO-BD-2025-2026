@@ -546,6 +546,7 @@ public class DipendenteWelcomeController extends WelcomeController {
             if(i.getIdTavolo() == idTavolo)
             {
                 i.setGioco(gioco);
+                if(i.getDealer() != null && !i.getDealer().getGiochiDealer().contains(gioco)) i.setDealer(null);
             }
         }
     }

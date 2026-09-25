@@ -12,8 +12,10 @@
         <maven.compiler.source>25</maven.compiler.source>
         <maven.compiler.target>25</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <start-class>
+            gui.gestionale.WelcomePanel
+        </start-class>
     </properties>
-
 
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->

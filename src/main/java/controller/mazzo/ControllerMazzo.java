@@ -129,7 +129,7 @@ public abstract class ControllerMazzo
 //funzione display card per giocatori
     public String displayCard(int imano, int icarta)
     {
-        String path = "/Carte2/";
+        String path = "/carte2/";
         int num = 0;
 
         Carta carta = listaMani.get(imano).getCarta(icarta);

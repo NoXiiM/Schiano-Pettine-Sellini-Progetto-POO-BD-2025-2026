@@ -134,7 +134,7 @@ public class ControllerBlackJack extends ControllerMazzo
 //come la display card per il giocatore ma per il dealer
     public String displayCardDealer(int icarta)
     {
-        String path = "/Carte2/";
+        String path = "/carte2/";
         int num;
 
         Carta carta = banco.getCarta(icarta);
